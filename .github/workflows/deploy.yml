@@ -32,11 +32,11 @@ jobs:
 
       - name: Deploy
         run: |
-          # Delete all files except for public/
-          mkdir to-delete/
-          mv * to-delete/
+          shopt -s extglob
+          rm !public
+          
           mv public/* .
-          rm -r to-delete/
+          rm -r public/
 
           git add .
           git config user.name 'ZanSara'
