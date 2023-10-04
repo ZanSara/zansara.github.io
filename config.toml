@@ -40,9 +40,9 @@ style = "github-dark"
   # customSCSS = ["scss/custom.scss"]
   # customJS = ["js/custom.js"]
 
-[taxonomies]
-  posts = "posts"
-  about = "about"
+# [taxonomies]
+#   posts = "posts"
+#   about = "about"
 
 
 # Social links
@@ -89,14 +89,14 @@ style = "github-dark"
 
 # Menu links
 [[menu.main]]
-  name = "Blog"
+  name = "Posts"
   weight = 1
   url  = "posts/"
+[[menu.main]]
+  name = "About"
+  weight = 2
+  url = "about"
 [[menu.main]]
   name = "GitHub"
   weight = 1
   url  = "https://github.com/ZanSara"
-[[menu.main]]
-  name = "About"
-  weight = 2
-  url = "about/"
