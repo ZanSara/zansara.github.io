@@ -30,7 +30,6 @@ jobs:
       - name: Deploy
         run: |
           mv public/ docs/
-          touch docs/.nojekyll
           git add docs/
           git config user.name 'ZanSara'
           git config user.email 'sarazanzo94@gmail.com'
