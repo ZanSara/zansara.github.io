@@ -28,7 +28,7 @@ jobs:
 
       - name: Deploy
         run: |
-          rm docs/
+          rm -r docs/|| true
           mv public/ docs/
           touch docs/.nojekyll
           git add .
