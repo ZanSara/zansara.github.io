@@ -21,7 +21,7 @@ jobs:
           ref: gh-pages
 
       - name: Get changes
-        run: git merge main
+        run: git merge origin/main
     
       - name: Setup Hugo
         run: sudo snap install hugo
