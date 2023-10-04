@@ -1,0 +1,103 @@
+baseurl = "zansara.github.io"
+title = "Sara Zan"
+theme = "hugo-coder"
+languagecode = "en"
+defaultcontentlanguage = "en"
+
+paginate = 20
+
+[markup.highlight]
+style = "github-dark"
+
+[params]
+  navbar = "Home"
+  author = "Sara Zan"
+  info = """
+  Python and LLMs specialist, 
+  [#1 contributor](https://github.com/deepset-ai/haystack/graphs/contributors) of [Haystack](https://haystack.deepset.ai/), 
+  former [CERN](https://home.cern/) employee.
+
+  I'm also an opinionated sci-fi fanatic, hiker and somewhat polyglot. Currently busy trying to learn Portuguese and Hungarian at the same time.
+  """
+  description = "Sara Zan's Personal Website"
+  keywords = "blog,developer,personal"
+  avatarurl = "/me/avatar.jpeg"
+  
+  #gravatar = "john.doe@example.com"
+
+  faviconSVG = "/img/favicon.svg"
+  favicon_32 = "/img/favicon-32x32.png"
+  favicon_16 = "/img/favicon-16x16.png"
+
+  since = 2023
+
+  enableTwemoji = true
+
+  colorScheme = "auto"
+  hidecolorschemetoggle = false
+
+  # customCSS = ["css/custom.css"]
+  # customSCSS = ["scss/custom.scss"]
+  # customJS = ["js/custom.js"]
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+  author = "authors"
+
+# Social links
+[[params.social]]
+  name = "Github"
+  icon = "fa fa-github fa-2x"
+  weight = 1
+  url = "https://github.com/ZanSara/"
+[[params.social]]
+  name = "Linkedin"
+  icon = "fa fa-linkedin fa-2x"
+  weight = 1
+  url = "www.linkedin.com/in/sarazanzottera"
+[[params.social]]
+  name = "Twitter"
+  icon = "fa fa-twitter fa-2x"
+  weight = 1
+  url = "#"
+[[params.social]]
+  name = "Mastodon"
+  icon = "fa fa-brands fa-mastodon fa-2x"
+  weight = 1
+  url = "https://mastodon.social/@zansara"
+[[params.social]]
+  name = "Discord"
+  icon = "fa fa-brands fa-discord fa-2x"
+  weight = 1
+  url = "https://discord.gg/haystack"
+[[params.social]]
+  name = "Stackoverflow"
+  icon = "fa fa-stack-overflow fa-2x"
+  weight = 1
+  url = "#"
+[[params.social]]
+  name = "Email"
+  icon = "fa fa-envelope fa-2x"
+  weight = 1
+  url = "mailto:sara@zanzohegyi.com"
+[[params.social]]
+  name = "RSS"
+  icon = "fa fa-rss fa-2x"
+  weight = 3
+  url = "/index.xml"
+
+# Menu links
+[[menu.main]]
+  name = "Blog"
+  weight = 1
+  url  = "posts/"
+[[menu.main]]
+  name = "GitHub"
+  weight = 1
+  url  = "https://github.com/ZanSara"
+[[menu.main]]
+  name = "About"
+  weight = 2
+  url = "about/"
