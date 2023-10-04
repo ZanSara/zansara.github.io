@@ -33,7 +33,7 @@ jobs:
       - name: Deploy
         run: |
           shopt -s extglob
-          rm !public
+          rm -r !(public)
           
           mv public/* .
           rm -r public/
