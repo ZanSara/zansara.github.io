@@ -15,14 +15,7 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
         with:
-          ref: gh-pages
           fetch-depth: 0
-    
-      - name: Get changes
-        run: |
-          git config user.name 'ZanSara'
-          git config user.email 'sarazanzo94@gmail.com'
-          git merge origin/main
     
       - name: Setup Hugo
         run: sudo snap install hugo
@@ -32,6 +25,9 @@ jobs:
 
       - name: Deploy
         run: |
+          git branch -D gh-pages
+          git checkout -b gh-pages
+
           shopt -s extglob
           rm -r !(public)
           
@@ -41,5 +37,5 @@ jobs:
           git add .
           git config user.name 'ZanSara'
           git config user.email 'sarazanzo94@gmail.com'
-          git commit -m 'update' || true
-          git push || true
+          git commit -m 'deploy' || true
+          git push -u origin gh-pages --force || true
