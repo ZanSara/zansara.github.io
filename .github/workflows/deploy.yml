@@ -36,5 +36,5 @@ jobs:
           git add docs/
           git config user.name 'ZanSara'
           git config user.email 'sarazanzo94@gmail.com'
-          git commit -m 'update'
-          git push
+          git commit -m 'update' || true
+          git push || true
