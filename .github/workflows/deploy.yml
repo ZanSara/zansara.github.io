@@ -19,7 +19,10 @@ jobs:
           fetch-depth: 0
     
       - name: Get changes
-        run: git merge origin/main
+        run: |
+          git config user.name 'ZanSara'
+          git config user.email 'sarazanzo94@gmail.com'
+          git merge origin/main
     
       - name: Setup Hugo
         run: sudo snap install hugo
