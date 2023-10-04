@@ -36,10 +36,6 @@ style = "github-dark"
   colorScheme = "auto"
   hidecolorschemetoggle = false
 
-  # customCSS = ["css/custom.css"]
-  # customSCSS = ["scss/custom.scss"]
-  # customJS = ["js/custom.js"]
-
 # Social links
 [[params.social]]
   name = "Github"
@@ -55,7 +51,7 @@ style = "github-dark"
   name = "Twitter"
   icon = "fa fa-twitter fa-2x"
   weight = 1
-  url = "#"
+  url = "https://twitter.com/zansara_dev"
 [[params.social]]
   name = "Mastodon"
   icon = "fa fa-brands fa-mastodon fa-2x"
