@@ -33,10 +33,10 @@ jobs:
       - name: Deploy
         run: |
           # Delete all files except for public/
-          find . -type d -not -name 'public' -print0 | xargs -0 rm -r --
-
+          mkdir to-delete/
+          mv * to-delete/
           mv public/* .
-          rm -r public/
+          rm -r to-delete/
 
           git add .
           git config user.name 'ZanSara'
