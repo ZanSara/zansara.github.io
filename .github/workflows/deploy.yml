@@ -32,7 +32,7 @@ jobs:
 
       - name: Deploy
         run: |
-          mv public/ docs/
+          mv public/* .
           git add .
           git config user.name 'ZanSara'
           git config user.email 'sarazanzo94@gmail.com'
