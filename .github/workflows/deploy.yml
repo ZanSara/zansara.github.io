@@ -33,7 +33,7 @@ jobs:
       - name: Deploy
         run: |
           # Delete all files except for public/
-          find . -type d -not -name 'public' -print0 | xargs -0 rm --
+          find . -type d -not -name 'public' -print0 | xargs -0 rm -r --
 
           mv public/* .
           rm -r public/
