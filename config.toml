@@ -1,4 +1,4 @@
-baseurl = "zansara.github.io"
+baseurl = ""
 title = "Sara Zan"
 theme = "hugo-coder"
 languagecode = "en"
