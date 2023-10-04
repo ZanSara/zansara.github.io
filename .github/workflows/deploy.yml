@@ -33,6 +33,7 @@ jobs:
         run: |
           rm docs/
           mv public/ docs/
+          touch docs/.nojekyll
           git add .
           git config user.name 'ZanSara'
           git config user.email 'sarazanzo94@gmail.com'
