@@ -1,4 +1,4 @@
-baseurl = ""
+baseurl = "zansara.github.io"
 title = "Sara Zan"
 theme = "hugo-coder"
 languagecode = "en"
@@ -41,10 +41,9 @@ style = "github-dark"
   # customJS = ["js/custom.js"]
 
 [taxonomies]
-  category = "categories"
-  series = "series"
-  tag = "tags"
-  author = "authors"
+  posts = "posts"
+  about = "about"
+
 
 # Social links
 [[params.social]]
