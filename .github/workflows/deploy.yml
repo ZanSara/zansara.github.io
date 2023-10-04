@@ -1,0 +1,40 @@
+
+
+name: Publish
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout source
+        uses: actions/checkout@v3
+    
+      - name: Checkout destination
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+
+      - name: Get changes
+        run: git merge main
+    
+      - name: Setup Hugo
+        run: sudo snap install hugo
+
+      - name: Build
+        run: hugo
+
+      - name: Deploy
+        run: |
+          rm docs/
+          mv public/ docs/
+          git add .
+          git config user.name 'ZanSara'
+          git config user.email 'sarazanzo94@gmail.com'
+          git commit -m 'update'
+          git push
