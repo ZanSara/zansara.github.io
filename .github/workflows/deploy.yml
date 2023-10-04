@@ -28,10 +28,9 @@ jobs:
 
       - name: Deploy
         run: |
-          rm -r docs/|| true
           mv public/ docs/
           touch docs/.nojekyll
-          git add .
+          git add docs/
           git config user.name 'ZanSara'
           git config user.email 'sarazanzo94@gmail.com'
           git commit -m 'update'
