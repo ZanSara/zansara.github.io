@@ -17,10 +17,10 @@ style = "github-dark"
   [#1 contributor](https://github.com/deepset-ai/haystack/graphs/contributors) of [Haystack](https://haystack.deepset.ai/), 
   former [CERN](https://home.cern/) employee.
 
-  I'm also an opinionated sci-fi fanatic, hiker and somewhat polyglot. Currently busy trying to learn Portuguese and Hungarian at the same time.
+  I'm also an opinionated sci-fi reader, hiker, tinkerer and somewhat polyglot. Currently busy trying to learn Portuguese and Hungarian at the same time.
   """
   description = "Sara Zan's Personal Website"
-  keywords = "blog,developer,personal"
+  keywords = "blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source"
   avatarurl = "/me/avatar.jpeg"
   
   #gravatar = "john.doe@example.com"
@@ -78,16 +78,31 @@ style = "github-dark"
   weight = 3
   url = "/index.xml"
 
+[taxonomies]
+  tag = "tags"
+
 # Menu links
-[[menu.main]]
-  name = "Posts"
-  weight = 1
-  url  = "posts/"
 [[menu.main]]
   name = "About"
   weight = 1
   url = "about"
 [[menu.main]]
-  name = "GitHub"
-  weight = 1
-  url  = "https://github.com/ZanSara"
+  name = "Projects"
+  weight = 2
+  url  = "projects/"
+[[menu.main]]
+  name = "Posts"
+  weight = 3
+  url  = "posts/"
+[[menu.main]]
+  name = "Publications"
+  weight = 4
+  url  = "publications/"
+[[menu.main]]
+  name = "Talks"
+  weight = 5
+  url  = "talks/"
+[[menu.main]]
+  name = "Tags"
+  weight = 6
+  url  = "tags/"
