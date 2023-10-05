@@ -2,7 +2,7 @@
 title: "ZanzoCam: An open-source alpine web camera"
 date: 2021-05-24
 author: "ZanSara"
-tags: [zanzocam, python, hiking, web, cai]
+tags: [zanzocam, python, hiking, web, cai, raspberrypi]
 featuredImage: "/talks/zanzocam-pavia.png"
 ---
 
