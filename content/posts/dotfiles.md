@@ -3,7 +3,7 @@ title: "My Dotfiles"
 date: 2021-12-11
 author: "ZanSara"
 tags: [linux]
-featuredImage: "https://raw.githubusercontent.com/ZanSara/dotfiles/main/screenshot/screenshot.png"
+featuredImage: "/posts/dotfiles.png"
 ---
 
 GitHub Repo: https://github.com/ZanSara/dotfiles
