@@ -10,7 +10,7 @@ PyPI package: https://pypi.org/project/verbix-sdk/
 
 GitHub Repo: https://github.com/ZanSara/verbix-sdk
 
-Minimal docs here: https://github.com/ZanSara/verbix-sdk/blob/main/README.md
+Minimal Docs: https://github.com/ZanSara/verbix-sdk/blob/main/README.md
 
 ---
 

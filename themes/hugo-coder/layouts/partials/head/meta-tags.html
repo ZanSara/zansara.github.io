@@ -13,3 +13,8 @@
 
 {{ template "_internal/twitter_cards.html" . }}
 {{ template "_internal/opengraph.html" . }}
+
+{{ with .featuredImage }}
+<meta name="image" content="{{ .featuredImage }}">
+<meta name="og:image" content="{{ .featuredImage }}">
+{{ end }}
