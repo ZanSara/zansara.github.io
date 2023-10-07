@@ -30,7 +30,7 @@ jobs:
           git checkout -b gh-pages
 
           shopt -s extglob
-          rm -r !(public)
+          rm -r !(public|CNAME)
           
           mv public/* .
           rm -r public/
