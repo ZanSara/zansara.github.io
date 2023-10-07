@@ -4,7 +4,12 @@
 <head>
   <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
   {{ partial "head.html" . }}
-  <script async data-id="101429014" src="//static.getclicky.com/js"></script>
+
+  {{ with .Params.featuredImage }}
+  <meta name="image" content="{{ . }}">
+  <meta name="og:image" content="{{ . }}">
+  {{ end }}
+
 </head>
 
 {{ $csClass := "colorscheme-light" }}
