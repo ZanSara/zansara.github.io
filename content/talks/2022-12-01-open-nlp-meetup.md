@@ -1,12 +1,12 @@
 ---
 title: "A Practical Introduction to Image Retrieval"
-date: 2021-12-01
+date: 2022-12-01
 author: "ZanSara"
-tags: [haystack, llm, retrieval, nlp, image, colab, python, multimodality, ai, image-to-text]
-featuredImage: "/talks/open-nlp-meetup-01-12-2022.png"
+tags: [haystack, llm, retrieval, nlp, image, colab, python, multimodality, ai, image-to-text, open-nlp-meetup]
+featuredImage: "/talks/2022-12-01-open-nlp-meetup.png"
 ---
 
-Youtube: [Open NLP meetup #7: Ethics in NLP & A Practical Introduction to Image Retrieval](https://www.youtube.com/watch?v=7Idjl3OR0FY) ([Backup]())
+Youtube: [Open NLP meetup #7](https://www.youtube.com/watch?v=7Idjl3OR0FY)
 
 Slides: [A Practical Introduction to Image Retrieval](https://gist.github.com/ZanSara/dc4b22e7ffe2a56647e0afba7537c46b)
 
@@ -24,7 +24,7 @@ Search should not be limited to text only. Recently, Transformers-based NLP mode
 
 ---
 
-For the 7th OpenNLP meetup I presented the topic of Image Retrieval, a feature that I've recently added to Haystack in the form of a MultiModal Retriever.
+For the 7th [OpenNLP meetup](https://www.meetup.com/open-nlp-meetup/) I presented the topic of Image Retrieval, a feature that I've recently added to Haystack in the form of a [MultiModal Retriever](https://docs.haystack.deepset.ai/docs/retriever#multimodal-retrieval) (see the [Tutorial](https://haystack.deepset.ai/tutorials/19_text_to_image_search_pipeline_with_multimodal_retriever)).
 
 The talk consists of 5 parts:
 
