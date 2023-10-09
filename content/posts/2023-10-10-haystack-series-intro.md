@@ -5,6 +5,7 @@ author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-10-haystack-series-intro.png"
+draft: true
 ---
 
 December is finally approaching. and with it is approaching the release of a Haystack 2.0. At [deepset](https://www.deepset.ai/) we've been talking about it for months, we've been iterating on the core concepts what feels like a million times, and it looks like we're getting finally ready for the approaching deadline.
