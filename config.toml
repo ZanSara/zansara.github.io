@@ -80,6 +80,7 @@ style = "github-dark"
 
 [taxonomies]
   tag = "tags"
+  series = "series"
 
 # Menu links
 [[menu.main]]
