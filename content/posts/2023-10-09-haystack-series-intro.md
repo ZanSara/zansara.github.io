@@ -2,15 +2,16 @@
 title: "Haystack 2.0 - What is it?"
 date: 2023-10-09
 author: "ZanSara"
-tags: ["Haystack 2.0", haystack, llm, nlp, python, ai, roadmap]
+tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI]
 featuredImage: "/posts/2023-09-10-haystack-series-intro.png"
+draft: true
 ---
 
 December is finally approaching and with it, the release of a Haystack 2.0. At [deepset](https://www.deepset.ai/) we've been talking about it for months, we've been iterating on the core concepts what feels like a million times, and it looks like we're getting finally ready for the approaching deadline.
 
 But what is it that makes this release so special? 
 
-In short, Haystack 2.0 is a *complete rewrite*. A huge, big-bang style change. Almost no code survived the migration unmodified: we've been across the entire 100.000+ lines of the codebase and redone *everything* in under a year. For our small team, it is a huge accomplishment.
+In short, Haystack 2.0 is a *complete rewrite*. A huge, big-bang style change. Almost no code survived the migration unmodified: we've been across the entire 100.000+ lines of the codebase and redone *everything* in under a year. For our small team this is a huge accomplishment.
 
 In this series I'm going to explain how Haystack 2 looks like: what makes the new Pipeline so different from the old one, how to use new components and features, how these compare with the equivalent in Haystack 1 (when possible), the principles that led the redesign, the processes we followed. I had the pleasure (and sometimes the burden) to be involved in nearly all the aspects of this process from the requirements definition to the release, and I drove many of them through several iterations: so you can expect a mix of technical details and some diversions on the rationale behind each decision in these posts.
 
