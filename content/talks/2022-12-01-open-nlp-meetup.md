@@ -12,7 +12,7 @@ Slides: [A Practical Introduction to Image Retrieval](https://gist.github.com/Za
 
 Colab: [MultiModalRetriever - Live coding](https://gist.github.com/ZanSara/9e8557830cc866fcf43a2c5623688c74)
 
-All the material can also be found [here](https://drive.google.com/drive/folders/1_8vO8O5wcvqYyjDkt2NGbwF5X6aSWgV1?usp=drive_link).
+All the material can also be found [here](https://drive.google.com/drive/folders/1_3b8PsvykHeM0jSHsMUWQ-4h_VADutcX?usp=drive_link).
 
 ---
 
