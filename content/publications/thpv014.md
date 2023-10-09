@@ -2,7 +2,7 @@
 title: "Adopting PyQt For Beam Instrumentation GUI Development At CERN"
 date: 2022-03-01
 author: "ZanSara"
-tags: [cern, physics, python, gui, qt, pyqt, javafx]
+tags: [CERN, Physics, Python, GUI, Qt, PyQt, JavaFX]
 featuredImage: "/publications/thpv014.png"
 ---
 

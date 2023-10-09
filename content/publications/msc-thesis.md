@@ -2,7 +2,7 @@
 title: "Evaluation of Qt as GUI Framework for Accelerator Controls"
 date: 2018-12-20
 author: "ZanSara"
-tags: [cern, physics, python, gui, qt, pyqt, javafx]
+tags: [CERN, Physics, Python, GUI, Qt, PyQt, JavaFX]
 featuredImage: "/publications/msc-thesis.png"
 ---
 

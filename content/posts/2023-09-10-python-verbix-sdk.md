@@ -3,7 +3,7 @@ title: "An (unofficial) Python SDK for Verbix"
 date: 2023-09-10
 author: "ZanSara"
 tags: [linux, languages, verbix, conjugations, flashcards, python, api]
-featuredImage: "/posts/python-verbix-sdk.png"
+featuredImage: "/posts/2023-09-10-python-verbix-sdk.png"
 ---
 
 PyPI package: https://pypi.org/project/verbix-sdk/
