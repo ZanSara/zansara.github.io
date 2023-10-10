@@ -23,7 +23,7 @@ Stay tuned!
 
 ---
 
-*Next: [Haystack 2.0 - Why rewriting Haystack?!](/posts/2023-10-10-haystack-series-why)*
+*Next: Soon!*
 
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
 
