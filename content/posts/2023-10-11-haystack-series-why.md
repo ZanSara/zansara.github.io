@@ -1,0 +1,47 @@
+---
+title: "Haystack 2.0 - Why rewriting Haystack?!"
+date: 2023-10-11
+author: "ZanSara"
+tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI]
+series: ["Haystack 2.0 Series"]
+featuredImage: "/posts/2023-10-11-haystack-series-why.png"
+draft: true
+---
+
+Before even starting to dive into what Haystack 2.0 is, how was it build, and how it works, let's spend a few words about the why.
+
+Why on Earth did we decide to rewrite Haystack from the ground up?!
+
+### The Context
+
+Let's put this decision into some context first. It was around February 2023. ChatGPT came out a few months earlier and the world was still discovering the full potential of LLMs. LangChain was picking up steam, and the pressure on existing frameworks like ours was off the charts. From one month to the next all deepset's potential customers didn't need any explanation about what Large Language Models could do, and the topic wasn't an obscure, research-bound topic any longer. And the competition went from absent to cut-throat over the arc of a few weeks and the only choice in our space was to either adapt or slide very quickly into irrelevance.
+
+Luckily for us, Haystack was not in a terrible place. Thanks to the efforts of [Vladimir Blagojevic](https://twitter.com/vladblagoje), a few weeks after ChatGPT became a sensation we added some decent support for LLMs in the form of [PromptNode](https://github.com/deepset-ai/haystack/pull/3665), and our SaaS team could quickly start to demo some generative QA usecases to our customers. But what was next? 
+
+### New Usecases
+
+Agents where a topic that was gaining steam: LLMs that not only reply to the users, but that are also able to reason about a topic, use tools, remember the past conversation. Agents were only beginning to take shape, but one thing was clear: supporting them not as "simple" as supporting text generation with LLMs has been. Agents required a whole new level of flexibility into connecting components together. Something that Haystack, so highly optimized toward the concept of Query and Indexing pipeline pairs, was not able to provide.
+
+This itself was not a blocking issue. Soon after realizing that our Haystack Pipelines were not up to the task of supporting Agents, we decided to introduce them [as a standalone concept](https://github.com/deepset-ai/haystack/pull/3925) in the framework: a decision that helped us immensely to stay relevant in rollercoaster run that was ahead of us.
+
+### A New Pipeline
+
+This discussion lead to the realization that our pipelines were *rigid*. 
+
+Haystack Pipelines were very easy to use for the usecases we met most often (extractive QA), but they were hard to bend to any other usecase. The discussion around how to best implement Agents surfaced a river of feedback about how Pipelines were very unruly outside of the most common usecases: PromptNode required extensive hacking of Pipeline's parameters, Tuana almost failed to implement a summarization demo a few weeks earlier, batch processing was very brittle and close to unusable, and implementing a pipeline with branches and joins was a task full of pitfalls and obscure bugs. Developer Experience in these scenarios was miserable: the idea that Retrieval Augmented Generation ([RAG](https://www.deepset.ai/blog/llms-retrieval-augmentation)) would become one of our most common usecases was dire, considering how difficult it was to make it work.
+
+Surely we could do better than this!
+
+### The Rewrite
+
+The timing seemed quite right. It was time to either get onto the train of Generative AI or to stay behind. So we chose to take the risk, set aside some time and resources and start to understand what a new Pipeline  would look like, one that was flexible enough for the times ahead.
+
+In the next post I'm going to go more into the details of what this new Pipeline ended up being. I am going to compare the typical traits of a Pipeline 1.x, its strenghts and its limitations, and then compare it with the features of Pipelines in Haystack 2.
+
+---
+
+*Next: [Haystack 2.0 - Pipelines and Canals](/posts/2023-10-10-haystack-series-intro)*
+
+*Previous: [Haystack 2.0 - What is it?](/posts/2023-10-10-haystack-series-intro)*
+
+*See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
