@@ -9,6 +9,11 @@ paginate = 20
 [markup.highlight]
 style = "github-dark"
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [params]
   navbar = "Home"
   author = "Sara Zan"
