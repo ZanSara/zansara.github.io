@@ -7,7 +7,7 @@ series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-10-haystack-series-intro.png"
 ---
 
-December is finally approaching, and with it the release of a Haystack 2.0. At [deepset](https://www.deepset.ai/), we’ve been talking about it for months, we’ve been iterating on the core concepts what feels like a million times, and it looks like we’re finally getting ready for the approaching deadline.
+December is finally approaching, and with it the release of a [Haystack](https://github.com/deepset-ai/haystack) 2.0. At [deepset](https://www.deepset.ai/), we’ve been talking about it for months, we’ve been iterating on the core concepts what feels like a million times, and it looks like we’re finally getting ready for the approaching deadline.
 
 But what is it that makes this release so special?
 
