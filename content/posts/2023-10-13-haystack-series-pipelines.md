@@ -34,8 +34,8 @@ In the next post I'm going to go more into the details of what this new Pipeline
 
 ---
 
-*Next: [Haystack 2.0 - Pipelines and Canals](/posts/2023-10-10-haystack-series-intro)*
+*Next: Soon!*
 
-*Previous: [Haystack 2.0 - What is it?](/posts/2023-10-10-haystack-series-intro)*
+*Previous: [Haystack 2.0 - Why rewriting Haystack?!](/posts/2023-10-10-haystack-series-why)*
 
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
