@@ -3,7 +3,7 @@ title: "Office Hours: Haystack 2.0"
 date: 2023-08-03
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI, "Office Hours"]
-featuredImage: "/talks/2023-08-03-office-hours.png"
+featuredImage: "/talks/2023-08-03-office-hours-haystack-2.0-status.png"
 ---
 
 Recording: [Haystack v2 - Office Hours](https://drive.google.com/file/d/1PyAlvJ22Z6o1bls07Do5kx2WMTdotsM7/view?usp=drive_link)
