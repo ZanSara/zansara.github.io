@@ -1,5 +1,5 @@
 ---
-title: "Haystack 2.0 - Why rewriting Haystack?!"
+title: "Why rewriting Haystack?!"
 date: 2023-10-11
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI]
@@ -74,6 +74,6 @@ In the next post, I will explore the technical side of Haystack 2.0 and delve de
 
 *Next: Soon!*
 
-*Previous: [Haystack 2.0 - What is it?](/posts/2023-10-10-haystack-series-intro)*
+*Previous: [Haystack 2.0: What is it?](/posts/2023-10-10-haystack-series-intro)*
 
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*

@@ -1,8 +1,8 @@
 ---
-title: "Haystack 2.0 - The Pipeline"
+title: "Haystack's Pipeline"
 date: 2023-10-13
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, NLP, Python, Canals, Pipeline, DAG, graph, "API Design", "Semantic Search"]
+tags: ["Haystack 2.0", Haystack, NLP, Python, Pipeline, DAG, graph, "API Design", "Semantic Search", "Hybrid Retrieval"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-13-haystack-series-pipeline.png"
 draft: true
@@ -14,7 +14,7 @@ However, the Pipeline abstraction is by no means an obvious choice when it comes
 
 In this post I am going to go into all the details of how Pipelines work in Haystack now, why they work this way, and what are its strenghts and weaknesses. This deep dive into the current state of the framework is also a premise to for my next post, where I am going to explain how Haystack 2.0 addresses this version's shortcomings.
 
-And if you think you already know how Haystack Pipelines works, give this post a chance: I might manage to change your mind.
+If you think you already know how Haystack Pipelines work, give this post a chance: I might manage to change your mind.
 
 ## A Bit Of History
 
@@ -53,17 +53,17 @@ This fact is reflected by the documentation of the various components as well. F
 
 ![Ranker Documentation](/posts/2023-10-13-haystack-series-pipeline-ranker-docs.png)
 
-Note how the very first information given about this component is *where to place it*. Right after, it does specify what are its inputs and outputs (more on this later), and then lists which specific classes can cover the role of a Ranker. 
+Note how the very first information given about this component is *where to place it*. Right after, it does specify what are its inputs and outputs, even though it's not immediately clear why we need this information, and then lists which specific classes can cover the role of a Ranker. 
 
 The message is clear: all Ranker classes are functionally interchangeable and, as long as you place them correctly in the pipeline, they are going to fulfill the function of Ranker as you expect them to. Users don't need to understand what distinguishes `CohereRanker` from `RecentnessReranker` unless they want to: the documentation promises that you can swap them safely, and thanks to the Pipeline abstraction, this statement holds true for the majority of cases.
 
 ## Ready-made Pipelines
 
-There is only one issue with this model. How can the users know which sort of graph they have to build?
+But how can the users know which sort of graph they have to build?
 
-Most NLP applications are made by a fairly limited number of high-level components: Retriever, Readers, Rankers, plus the occasional filter, translator, summarizer or query classifier. Systems requiring more than five components used to be really rare, at least when talking about "query" pipelines (more on this later).
+Most NLP applications are made by a fairly limited number of high-level components: Retriever, Readers, Rankers, plus the occasional filter, translator, summarizer or query classifier. Systems requiring more than these components used to be really rare, at least when talking about "query" pipelines (more on this later).
 
-Therefore, at this level of abstraction there are just a few graph topologies possible, and better yet, they could each be mapped to a high-level usecases, such as semantic search, language-agnostic document search, hybrid retrieval, and so on
+Therefore, at this level of abstraction there are just a few graph topologies possible, and better yet, they could each be mapped to a high-level usecases such as semantic search, language-agnostic document search, hybrid retrieval, and so on
 
 But the most important point is that, in most cases, tailoring the application did not require any changes to the graph's shape. Users only need to identify their usecase, find an example or a tutorial defining the shape of the pipeline they need, and then swap the single components until they find the combination that works the best for their exact requirements.
 
@@ -81,19 +81,19 @@ is enough to get your Extractive QA applications ready to answer your questions.
 answers = pipeline.run(query="What did Einstein work on?")
 ```
 
-## Flexibility powered by DAGs
+## "Flexibility powered by DAGs"
 
 This abstraction is extremely powerful for the usecases that it was designed for. There are a few layers of ease of use versus customization the user can choose from depending on their expertise, which help them progress from a simple ready-made Pipeline to fully custom graphs. 
 
 However, the focus was oriented so much on the initial stages of the user's journey that the needs of power-users were sometimes forgotten. Such issues didn't show immediately, but quickly added friction as soon as the users tried to customize their system beyond the examples contained in the tutorials and in the documentation.
 
-For one simple example of these issues, let's talk about pipelines with branches. As an example, here are two apparently very similar pipelines.
+For an example of these issues, let's talk about pipelines with branches. Here are two small, apparently very similar pipelines.
 
 ![Query Classification vs Hybrid Retrieval](/posts/2023-10-13-haystack-series-pipeline-branching-query-pipelines.png)
 
-The first pipeline represents the Hybrid Retrieval usecase we've met with before. Here, the Query node sends its outputs to both Retrievers and they both produce some documents. Therefore, in order for the Reader to make sense of this data, we need to have a Join node which merges the two lists into one, and then a Ranker which takes the lists, sorts them again by similarity to the query, and sends the re-arranged list to the Reader.
+The first pipeline represents the Hybrid Retrieval usecase we've met with before. Here, the Query node sends its outputs to both retrievers and they both produce some output. Therefore, in order for the reader to make sense of this data, we need to have a Join node which merges the two lists into one, and then a ranker which takes the lists, sorts them again by similarity to the query, and sends the re-arranged list to the reader.
 
-The second pipeline instead performs a simpler form of Hybrid Retrieval. Here the Query node sends its outputs to a Query Classifier, which then triggers only one of the two Retrievers. The Retriever that run then sends its output directly to Reader, which doesn't need to be aware of which Retriever the data comes from. 
+The second pipeline instead performs a simpler form of Hybrid Retrieval. Here the Query node sends its outputs to a Query Classifier, which then triggers only one of the two retrievers, the one that is expected to perform better on it. The triggered retriever that run then sends its output directly to reader, which doesn't need to be aware of which retriever the data comes from. So in this case we don't need the Join node.
 
 The two pipelines are both built in the way you would expect, with a bunch of `add_node` calls, and running them is done with the same identical code, which is in fact the same code needed for every other pipeline we've seen so far.
 
@@ -123,7 +123,7 @@ Now, let's take the first pipeline and customize it further.
 
 After we made sure our demo works well for English documents, we decide to expand language support to French. The dense retriever has no issues handling several languages, as long as we select a multilingual model; however, the sparse retriever needs the keywords to match, so we surely need to translate the queries to English if we want to find some relevant documents in our English-only knowledge base.
 
-Here is how the Pipeline ends up looking like.
+Here is how the Pipeline ends up looking like. Language Classifier sends all French queries over `output_1`, and all English queries over `output_2`. In this way, they queries will pass throught the Translator node only if it was written in French.
 
 ![Multilingual Hybrid Retrieval](/posts/2023-10-13-haystack-series-pipeline-multilingual-hybrid-retrieval.png)
 
@@ -138,21 +138,19 @@ pipeline.add_node(component=rerank, name="Ranker", inputs=["JoinDocuments"])
 pipeline.add_node(component=reader, name="Reader", inputs=["Ranker"])
 ```
 
-In this pipeline, Language Classifier sends all French queries over `output_1`, and all English queries over `output_2`. In this way, they queries will pass throught the Translator node only if it was written in French.
+But... wait. Let's look again at the graph, and at the code. DenseRetriever should be receiving *two* inputs from Language Classifier: both `output_1` and `output_2`, because it can handle both languages. Whats going on? Is this a bug in `draw()`?
 
-But... wait. Let's look again at the graph, and at the code. DenseRetriever should be receiving *two* inputs: both `output_1` and `output_2`. That's what the code says, and what I need for the system to work. Is this a bug in `draw()`?
-
-Thanks to the `debug=True` parameter of `Pipeline.run()`, we start inspecting what each node saw during the execution, and we realize quickly that our worst fears are true: this is a bug in the Pipeline implementation. The underlying library powering the pipeline's graphs takes the definition of Directed Acyclic Graphs very seriously, and does not allow two nodes to be connected by more than one edge, while in this case we are trying to draw two between the classifier and the dense retriever. There are, of course, other graph classes supporting this case, but Haystack happens to use the wrong one.
-
-> Trivia
-
-> This issue was discovered by our own Solutions Engineering team which, unsurprisingly, was building a Pipeline a bit more complex than the tutorials'. [Their pipeline](/posts/2023-10-13-haystack-series-pipeline-miriam-bug-report.png) simply tried to pass `output_1` to a node and both `output_2` and `output_3` to another. The same Pipeline managed to surface an incredible amount of other corner cases: we eventually opened three complex issues from the pipeline in question.
+Thanks to the `debug=True` parameter of `Pipeline.run()`, we start inspecting what each node saw during the execution, and we realize quickly that our worst fears are true: this is a bug in the Pipeline implementation. The underlying library powering the pipeline's graphs takes the definition of Directed Acyclic Graphs very seriously, and does not allow two nodes to be connected by more than one edge. There are, of course, other graph classes supporting this case, but Haystack happens to use the wrong one.
 
 Interestingly, Pipeline doesn't even notice there is a problem and does not fail. It does run, exactly as the drawing suggests: when the query happens to be in French, only the sparse retriever would process it.
 
+> Trivia
+
+> This issue was discovered by our own Solutions Engineering team which, unsurprisingly, was building a Pipeline a bit more complex than the tutorials'. [Their pipeline](/posts/2023-10-13-haystack-series-pipeline-miriam-bug-report.png) simply tried to pass `output_1` to a node and both `output_2` and `output_3` to another. For some reason, we never saw any contributor report this issue on GitHub, even if the bug has been there since the inception of Pipeline.
+
 Clearly this is not good for us.
 
-Well, let's open an issue on Github and look for a workaround. Given that we're Haystack power-users by now, we realize that we can use a Join node with a single input as a no-op node: if we put it along one of the edges, the bug can be solved.
+Well, let's look for a workaround. Given that we're Haystack power-users by now, we realize that we can use a Join node with a single input as a "no-op" node: if we put it along one of the edges, that edge won't be connecting Language Classifier and Dense Retriever directly, so the bug should be solved.
 
 So here is our current Pipeline:
 
@@ -170,27 +168,39 @@ pipeline.add_node(component=rerank, name="Ranker", inputs=["JoinDocuments"])
 pipeline.add_node(component=reader, name="Reader", inputs=["Ranker"])
 ```
 
-Great news: the pipeline now runs as we expect! Trying for English queries shows exactly the same performance as before. However, in the moment when we run a French query, the results seems to be still much worse.
+Great news: the pipeline now runs as we expect! However, in the moment when we run a French query, the results are a bit better, but still are still quite bad.
 
-What now? Is the dense retriever still not running?!
+What now? Is the dense retriever still not running? Is the Translation node doing a poor job?
 
-Some debugging later we figure that now the Retrievers are not at fault. We forgot another piece of the puzzle: Ranker needs the query to be in the same language as the documents to work properly. It needs the query to be in English, just like the sparse retriever does.
+Some debugging later we realize that the Translator is amazingly good and the Retrievers are both running. But we forgot another piece of the puzzle: Ranker needs the query to be in the same language as the documents to work properly. It needs the query to be in English, just like the sparse retriever does. Right now is receiving the original French query, and that's the reason for the lack of performance. We soon realize that this is very important also for the Reader.
 
-But... how does the Pipeline passes the query down to the Ranker?
+So... how does the Pipeline passes the query down to the Ranker?
 
-Up until this point we didn't need to know anything about how exactly values are passed from one component to the next. We didn't need to care about their inputs and outputs at all: Pipeline was doing all this dirty work for us. All of a sudden we are in the weird situation where we need to control this process and explicitly tell the pipeline which query to pass to the Ranker, and we have no idea of how to do that.
+Up until this point we didn't need to know anything about how exactly values are passed from one component to the next. We didn't need to care about their inputs and outputs at all: Pipeline was doing all this dirty work for us. All of a sudden we are in the weird situation where we need to control this process, to explicitly tell the pipeline which query to pass to the Ranker, and we have no idea of how to do that.
 
 Worse yet. There is *no way* to reliably do that. 
 
-The documentation seems to blissfully ignore the topic, docstrings gives us no pointers, and looking at [the routing code of Pipeline](https://github.com/deepset-ai/haystack/blob/aaee03aee87e96acd8791b9eff999055a8203237/haystack/pipelines/base.py#L483) we quickly get dizzy and cut the chase. We scour the Pipeline API in all details until we're certain that there's nothing that can help.
+The documentation seems to blissfully ignore the topic, docstrings gives us no pointers, and looking at [the routing code of Pipeline](https://github.com/deepset-ai/haystack/blob/aaee03aee87e96acd8791b9eff999055a8203237/haystack/pipelines/base.py#L483) we quickly get dizzy and cut the chase. We dig through the Pipeline API several times until we're certain that there's nothing that can help.
 
-Well, there must be at least some workaround. Maybe we can forget about this issue by rearranging the nodes?
+Well, there must be at least some workaround. Maybe we can forget about this issue by rearranging the nodes.
 
-One easy way out is that we could translate the query for both retrievers instead of doing so only for the sparse one. This solution also gets rid of the NoOpJoin node, so it doesn't sound too bad.
+One easy way out is that we could translate the query for both retrievers instead of doing so only for the sparse one. This solution also gets rid of the NoOpJoin node we introduced earlier, so it doesn't sound too bad.
 
 The pipeline looks like this now.
 
 ![Multilingual Hybrid Retrieval with two Translators](/posts/2023-10-13-haystack-series-pipeline-multilingual-hybrid-retrieval-two-translators.png)
+
+```python
+pipeline = Pipeline()
+pipeline.add_node(component=language_classifier, name="LanguageClassifier", inputs=["Query"])
+pipeline.add_node(component=translator, name="Translator", inputs=["LanguageClassifier.output_1"])
+pipeline.add_node(component=sparse_retriever, name="SparseRetriever", inputs=["Translator", "LanguageClassifier.output_2"])
+pipeline.add_node(component=translator_2, name="Translator2", inputs=["LanguageClassifier.output_1"])
+pipeline.add_node(component=dense_retriever, name="DenseRetriever", inputs=["Translator2", "LanguageClassifier.output_2"])
+pipeline.add_node(component=join_documents, name="JoinDocuments", inputs=["SparseRetriever", "DenseRetriever"])
+pipeline.add_node(component=rerank, name="Ranker", inputs=["JoinDocuments"])
+pipeline.add_node(component=reader, name="Reader", inputs=["Ranker"])
+```
 
 We happen to have two nodes now that contain identical translator components. Given that they are stateless, surely I can place the same instance in both places, with different names, and avoid doubling its memory footprint just to workaround a couple of Pipeline bugs. After all, Translator nodes use relatively heavy models for machine translation.
 
@@ -218,11 +228,19 @@ pipeline.add_node(component=rerank, name="Ranker", inputs=["JoinDocuments"])
 pipeline.add_node(component=reader, name="Reader", inputs=["Ranker"])
 ```
 
-Nothing. The query is still in French, untranslated. Having wasted far too much time on this relatively simple pipeline, we throw the towel, go to Haystack's Discord server and cry for help.
+Looks neat, but nothing has changed. The query received by Ranker is still in French, untranslated. Shuffling the order of the `add_node` calls and the names of the components in the `inputs` parameters seems to have no effect on the graph. We even try to connect directly Translator with Ranker in a desperate attempt to forward the correct value, but Pipeline at this point starts throwing obscure, apparently meaningless error messages like:
 
-As with most community questions regarding "advanced" Pipelines, I would normally be summoned to reply, and I would promise you a workaround asap.
+```
+BaseRanker.run() missing 1 required positional argument: 'documents'
+```
 
-The workaround, in fact, exists. But it's not pretty.
+Isn't Ranker receiving the documents from JoinDocuments? Where did they go?
+
+Having wasted far too much time on this relatively simple pipeline, we throw the towel, go to Haystack's Discord server and ask for help.
+
+Soon enough one of the maintainers would show up, promising a workaround asap. You're skeptical at this point, but the workaround, in fact, exists. 
+
+It's just not very pretty.
 
 ![Multilingual Hybrid Retrieval, working version](/posts/2023-10-13-haystack-series-pipeline-multilingual-hybrid-retrieval-workaround.png)
 
@@ -263,9 +281,11 @@ class JoinQueryWorkaround(JoinNode):
 
 ```
 
-Wanna see this beauty in action? Have a look at this notebook.
+Wanna play with this pipeline yourself? [Colab](https://drive.google.com/file/d/18Gqfd0O828T71Gc-IHeU4v7OXwaPk7Fc/view?usp=sharing), [gist](https://gist.github.com/ZanSara/33020a980f2f535e2529df4ca4e8f08a).
 
-Having learned only that it's better not to try to implement too complicated branching patterns with Haystack unless you work with them 8 hours a day, let's now turn to the indexing side of your application. We'll try to stick to the basics this time.
+Along with this beautiful code, we also receive an explanation about how the JoinQueryWorkaround will work only for this specific pipeline and is pretty hard to generalize, which is the reason why it's not present in Haystack right now. I'll now spare you the details: you will have an idea why by the end of this journey.
+
+Having learned only that it's better not to try to implement unusual branching patterns with Haystack unless you're ready for a fight, let's now turn to the indexing side of your application. We'll stick to the basics this time.
 
 ## Indexing Pipelines
 
@@ -287,7 +307,7 @@ pipeline.add_node(component=document_store, name="DocumentStore", inputs=["Prepr
 
 pipeline.run(file_paths=paths)
 ```
-No big surprises: there's a File starting node instead of Query, which seems totally logical given that this pipeline expects a list of files, not a query. All very intuitive.
+No surprising stuff here. The starting node is File instead of Query, which seems totally logical given that this pipeline expects a list of files, not a query. All very intuitive.
 
 Indexing pipelines are run by giving them a list of paths that points to the files to convert. As we know that in this scenario more than one Converter may run, there is a Join node before the PreProcessor to make sense of the merge. We make sure that the directory contains only files that we can convert, in this case .txt, .pdf and .docx, and then we run the code above.
 
@@ -297,52 +317,36 @@ The code, however, fails.
 ValueError: Multiple non-default file types are not allowed at once.
 ```
 
+The more we look at the error, the less it makes sense. What are non-default file types? Why are they not allowed at once, and and what can I do to fix that?
 
+We head for the documentation, were we find an interesting lead.
 
-.
+![`FileTypeClassifier documentation`](/posts/2023-10-13-haystack-series-pipeline-filetypeclassifier-docs.png)
 
-.
+So it seems like the File Classifier can only process the files if they're all of the same type.
 
-.
+After all we've been through with the Hybrid Retrieval pipelines, this sounds wrong. We know that Pipeline can run two branches at the same time, we've been doing it all the time just a moment ago. Why FileTypeClassifier can't send data to two different converters just like LanguageClassifier was sending data to two different retrievers?
 
-.
+Turns out, this is *not* the same thing. 
 
-.
+Let's compare the three pipelines side by side and try to spot the difference.
 
-.
+![All branching pipelines, side by side](/posts/2023-10-13-haystack-series-pipeline-all-branching-pipelines.png)
 
-.
+In the first case, Query sends the same identical value to both Retrievers. So from the component's perspective, there's a single output being produced: the Pipeline takes care of copying it for all nodes that are connected to it.
 
+In the second case, QueryClassifier can send the query to either Retriever, but never to both of them. So the component can produce two different outputs, but at every point in time it will always produce just one of them.
 
+In the third case, FileTypeClassifier may need to return two different outputs in the same time, for example one with a list of TXT files, and one with a list of PDF. And it turns out this can't be done. This is, unfortunately, a well-known limitation of the Pipeline/BaseComponent API design. 
+The output of a component is defined as a tuple, `(output values, output_edge)`, and nodes can't produce a list of these tuples to send different values to different nodes. 
 
+That's the end of the story. This time, there is just no workaround: you need to pass the files one by one, or forget about using a Pipeline for this task.
 
+## Validation
 
+On top of these challenges there are other interesting tradeoffs that needed to be made in order for the API to look so simple at a first impact. One of this is connections validation.
 
-
-
-This is where the magic starts to kick in.
-
-If you observe the two pipelines carefully you'll notice that they seem to behave differently. We need a Join node in the first case, but we don't need it in the second. It seems like the Pipeline knows already that in the first both Retrievers will run, while in the second only one will. But how does it know it?
-
-In code there is no evident lead. We did not communicate to the first Pipeline that both Retriever have to run, neither we specified that in the second only one will. It seems like Pipeline just *knows*.
-
-
-.
-
-.
-
-.
-
-
-
-
-## Connecting New Components
-
-This abstraction is extremely powerful for the usecases that it was designed for. There are a few layers of ease of use versus customization the user can choose from depending on their expertise, which help them progress from a simple ready-made Pipeline to fully custom graphs. 
-
-However, the focus was oriented so much on the initial stages of the user's journey that the needs of power-users were often forgotten. Such issues didn't show immediately for users that stick to simple ready-made pipelines and well-known use cases, but quickly added friction as soon as they tried to customize their system further.
-
-For example, let's imagine we put together this non-sensical Pipeline.
+Let's imagine we quickly skimmed through a tutorial and got one bit of information wrong: we mistakenly believe that in an Extractive QA Pipeline, you need to place a Reader in front of a Retriever. So we sit down and write this.
 
 ```python
 p = Pipeline()
@@ -350,90 +354,88 @@ p.add_node(component=reader, name="Reader", inputs=["Query"])
 p.add_node(component=retriever, name="Retriever", inputs=["Reader"])
 ```
 
-A user that knows what the two components do sees immediately that this Pipeline is meaningless. However, Haystack won't raise any exception when this is done, and the code runs successfully. You can even `draw()` it.
+Up to this point, running the script raises no error. Haystack is happy to connect these two in this order. You can even `draw()` this Pipeline just fine.
 
 ![Swapper Retriever/Reader Pipeline](/posts/2023-10-13-haystack-series-pipeline-swapped-retriever-reader.png)
 
-Alright, so what happens when we run it? It must fail, right?
+Alright, so what happens when we run it?
 
 ```python
 res = p.run(query="What did Einstein work on?")
 ```
+```
+BaseReader.run() missing 1 required positional argument: 'documents'
+```
+
+This is the same error we've seen in the translating hybrid retrieval pipeline from before, but fear not! Here we can simply obey the error message by doing:
+
+```python
+res = p.run(query="What did Einstein work on?", documents=document_store.get_all_documents())
+```
+
+And to our surprise, this pipeline doesn't crash. It just hangs there, showing an insanely slow progress bar assuring us that some inference is in progress. A few hours later, we kill the process and consider switching to another framework, because this one is clearly dog slow.
+
+What happened?
+
+The cause of this issue is the same that makes connecting Haystack components in a Pipeline so effortless, and it's related to the way components and Pipeline communicate. If you check `Pipeline.run()`'s signature, you'll see that it looks like:
 
 
+```python
+def run(
+    self,
+    query: Optional[str] = None,
+    file_paths: Optional[List[str]] = None,
+    labels: Optional[MultiLabel] = None,
+    documents: Optional[List[Document]] = None,
+    meta: Optional[Union[dict, List[dict]]] = None,
+    params: Optional[dict] = None,
+    debug: Optional[bool] = None,
+):
+```
 
-.
+which mirrors almost exactly `BaseComponent`'s, the base class nodes have to inherit from.
 
-- Example about flipping reader and retriever
+```python
+@abstractmethod
+def run(
+    self,
+    query: Optional[str] = None,
+    file_paths: Optional[List[str]] = None,
+    labels: Optional[MultiLabel] = None,
+    documents: Optional[List[Document]] = None,
+    meta: Optional[dict] = None,
+) -> Tuple[Dict, str]:
+```
 
-- Explain why it works
+This match means two things:
 
-- Explain why it can't be fixed easily
+- Every component can be connected to every other, because the inputs of all of them look exactly the same.
 
-- Mention other cracks like lack of parallel branch execution
+- It's impossible to tell if it makes sense to connect two components, because their interfaces match regardless.
 
+Take this with a grain of salt: the actual implementation is far more nuanced that what I just showed you, but the problem is fundamentally this: that components are trying to be as compatible as possible to all others and they have no way to signal, to the Pipeline or to the users, that they're meant to be connected only to some nodes and not to others.
 
-## New Use Cases
+Components also often take inputs that they don't use. A Ranker only needs documents, so all the other inputs required by the run method signature go unused. What do components do with the values? It depends: 
 
-- GenAI requires even wilder graphs
+- Some have them in the signature, and forward them unchanged.
+- Some have them in the signature, and don't forward them.
+- Some don't have them in the signature, breaking the inheritance pattern, and Pipeline reacts by just assuming that they should be added unchanged to the output dictionary.
 
-- Example with web retrieval
-
-- Agents would need loops if they're implemented as pipelines
-
-- DAGs are not sufficient
-
-- We start to desperately need validation and clear IO definitions
-
-## Enter Canals
-
-- Explain the key differences
-
-- Explain the key difficulties and how we plan to address them.
+If you check closely the two workaround nodes for the Hybrid Retrieval pipeline we tried to build before, you'll notice the fix entirely focuses on altering the routing of the unused parameters `query` and `documents` to make the pipeline behave in the way the user expects. However, this behavior does not generalize: a different pipeline would require a different behavior, which is the reason why the components behave differently to begin with.
 
 
-## Bonus: do we *really* need the Pipeline tho?
+## Wrapping up
 
-- Mention how close a Canals pipeline is to a simple Python script
+Along this journey into the guts of Haystack Pipelines we've seen at the same time some really beautiful API and the ugly consequences of their implementation. As always, there's no free lunch: trying to over-simplify the interface is going to bite as soon as the usecases become non trivial.
 
-- Name the advantages (drawing, serialization, evaluation, high-level abstraction of component, flatter API surface)
+However, we believe that this concept has a huge potential, and that this version of Pipeline can be improved a lot before the impact on the API becomes too heavy. In Haystack 2.0, armed with the experience we gained working with this implementation of Pipeline, we re-implemented it in a fundamentally different way, while striving to keep its API close to the ones of its predecessor.
 
-- Clarify that the real value comes from the components and not from the way you orchestrate them.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-Agents where a topic that was gaining steam: LLMs that not only reply to the users, but that are also able to reason about a topic, use tools, remember the past conversation. Agents were only beginning to take shape, but one thing was clear: supporting them not as "simple" as supporting text generation with LLMs has been. Agents required a whole new level of flexibility into connecting components together. Something that Haystack, so highly optimized toward the concept of Query and Indexing pipeline pairs, was not able to provide.
-
-This itself was not a blocking issue. Soon after realizing that our Haystack Pipelines were not up to the task of supporting Agents, we decided to introduce them [as a standalone concept](https://github.com/deepset-ai/haystack/pull/3925) in the framework: a decision that helped us immensely to stay relevant in rollercoaster run that was ahead of us.
-
-### A New Pipeline
-
-This discussion lead to the realization that our pipelines were *rigid*. 
-
-Haystack Pipelines were very easy to use for the usecases we met most often (extractive QA), but they were hard to bend to any other usecase. The discussion around how to best implement Agents surfaced a river of feedback about how Pipelines were very unruly outside of the most common usecases: PromptNode required extensive hacking of Pipeline's parameters, Tuana almost failed to implement a summarization demo a few weeks earlier, batch processing was very brittle and close to unusable, and implementing a pipeline with branches and joins was a task full of pitfalls and obscure bugs. Developer Experience in these scenarios was miserable: the idea that Retrieval Augmented Generation ([RAG](https://www.deepset.ai/blog/llms-retrieval-augmentation)) would become one of our most common usecases was dire, considering how difficult it was to make it work.
-
-Surely we could do better than this!
-
-### The Rewrite
-
-The timing seemed quite right. It was time to either get onto the train of Generative AI or to stay behind. So we chose to take the risk, set aside some time and resources and start to understand what a new Pipeline  would look like, one that was flexible enough for the times ahead.
-
-In the next post I'm going to go more into the details of what this new Pipeline ended up being. I am going to compare the typical traits of a Pipeline 1.x, its strenghts and its limitations, and then compare it with the features of Pipelines in Haystack 2.
+In the next post we're going to see how.
 
 ---
 
 *Next: Soon!*
 
-*Previous: [Haystack 2.0 - Why rewriting Haystack?!](/posts/2023-10-10-haystack-series-why)*
+*Previous: [Why rewriting Haystack?!](/posts/2023-10-11-haystack-series-why)*
 
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
