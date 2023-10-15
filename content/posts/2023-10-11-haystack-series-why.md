@@ -4,7 +4,7 @@ date: 2023-10-11
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI]
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-11-haystack-series-why.png"
+featuredImage: "/posts/2023-10-11-haystack-series-why/cover.png"
 ---
 
 Before even diving into what Haystack 2.0 is, how it was built, and how it works, let's spend a few words about the whats and the whys.
@@ -44,7 +44,7 @@ That's because no one even realized that Haystack, the semantic search framework
 
 And semantic search was going down *fast*.
 
-![Reader Models downloads graph](/posts/2023-10-11-haystack-series-why-reader-model-downloads.png)
+![Reader Models downloads graph](/posts/2023-10-11-haystack-series-why/reader-model-downloads.png)
 
 The image above shows today's monthly downloads for one of deepset's most successful models on HuggingFace, 
 [deepset/roberta-base-squad2](https://huggingface.co/deepset/roberta-base-squad2). This model performs [extractive Question Answering](https://huggingface.co/tasks/question-answering), our former primary use case before the release of ChatGPT. Even with more than one and a half million downloads monthly, this model is experiencing a disastrous collapse in popularity, and in the current landscape, it is unlikely to ever recover.
@@ -72,7 +72,7 @@ In the next post, I will explore the technical side of Haystack 2.0 and delve de
 
 ---
 
-*Next: Soon!*
+*Next: [Haystack's Pipeline](/posts/2023-10-15-haystack-series-pipeline)*
 
 *Previous: [Haystack 2.0: What is it?](/posts/2023-10-10-haystack-series-intro)*
 

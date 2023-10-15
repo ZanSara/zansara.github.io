@@ -1,10 +1,10 @@
 ---
 title: "Canals"
-date: 2023-10-13
+date: 2023-10-20
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, Canals, Pipeline, DAG, graph, "API Design", "Semantic Search"]
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-13-haystack-series-canals.png"
+featuredImage: "/posts/2023-10-20-haystack-series-canals/cover.png"
 draft: true
 ---
 
