@@ -1,11 +1,12 @@
 ---
-title: "Canals"
+title: "Canals: a new concept of Pipeline"
 date: 2023-10-20
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, Canals, Pipeline, DAG, graph, "API Design", "Semantic Search"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-20-haystack-series-canals/cover.png"
 draft: true
+# canonicalUrl: https://haystack.deepset.ai/blog/canals-a-new-concept-of-pipeline
 ---
 
 As we have seen in [the previous episode of this series](/posts/2023-10-15-haystack-series-pipeline), Haystack's Pipelines are a very powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, Pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.
