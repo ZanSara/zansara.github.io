@@ -1,10 +1,10 @@
 ---
 title: "Canals: a new concept of Pipeline"
-date: 2023-10-20
+date: 2023-10-26
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, NLP, Python, Canals, Pipeline, DAG, graph, "API Design", "Semantic Search"]
+tags: ["Haystack 2.0", Haystack, Python, Canals, Pipeline, DAG, graph, "API Design"]
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-20-haystack-series-canals/cover.png"
+featuredImage: "/posts/2023-10-26-haystack-series-canals/cover.png"
 draft: true
 # canonicalUrl: https://haystack.deepset.ai/blog/canals-a-new-concept-of-pipeline
 ---
@@ -47,7 +47,7 @@ One of Haystack's primary use cases have been [Extractive Question Answering](ht
 
 By replacing a Reader model with an LLM, we get a Retrieval Augmented Generation Pipeline. Easy!
 
-![Generative vs Extractive QA Pipeline Graph](/posts/2023-10-20-haystack-series-canals/gen-vs-ext-qa-pipeline.png)
+![Generative vs Extractive QA Pipeline Graph](/posts/2023-10-26-haystack-series-canals/gen-vs-ext-qa-pipeline.png)
 
 So far, all checks out. Supporting RAG with Haystack feels not only possible, but natural. So let's take this simple example one step forward: what if, instead of getting the data from a document store, I want to retrieve data from the Internet?
 
@@ -55,15 +55,15 @@ So far, all checks out. Supporting RAG with Haystack feels not only possible, bu
 
 At first impact the task may not seem daunting. We surely need a special Retriever, that instead of searching through a DB searches through the Internet using a search engine. But the core concepts stays the same, and so, we assume, should the Pipeline's graph. The end result should be something like this:
 
-![Initial Web RAG Pipeline Graph](/posts/2023-10-20-haystack-series-canals/initial-web-rag-pipeline.png)
+![Initial Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/initial-web-rag-pipeline.png)
 
 However, the problem doesn't end there. Search engines return links, which need to be accessed, and the content of the webpage downloaded. Such pages may be really long and noisy, so the resulting text needs to be cleaned, reduced into paragraphs, embedded by a retrieval model, ranked against the original query, and only the top few resulting pieces of text need to be passed over to the LLM. Just by including this minimal requirements, our pipeline already looks like this:
 
-![Linear Web RAG Pipeline Graph](/posts/2023-10-20-haystack-series-canals/linear-web-rag-pipeline.png)
+![Linear Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/linear-web-rag-pipeline.png)
 
 And we haven't yet considered that URLs may reference not HTML pages, but PDFs, videos, zip files, and so on. We are going to need file converters, zip extractors, audio transcribers...
 
-![Multiple File Type Web RAG Pipeline Graph](/posts/2023-10-20-haystack-series-canals/multifile-web-rag-pipeline.png)
+![Multiple File Type Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/multifile-web-rag-pipeline.png)
 
 If you remember the previous post on Pipeline, you'll notice how this usecase moved very quickly from looking like a simple query pipeline into a strange overlap of a query and an indexing pipeline. However, as we've learned from the previous post, indexing pipelines have their own set of idiosyncrasies, one of which is that they can't process files of different types simultaneously. On the other hand, we can't expect the Search Engine to limit itself to only HTML files, or only PDFs, unless we filter them out on purpose, which makes the pipeline less powerful. In fact, the pipeline above can't really be made to work reliably.
 
@@ -77,7 +77,7 @@ When we went back to the drawing board to address these concerns, one of the mai
 
 The problem, as it turned out, is that Haystack Pipelines treats each component as a locomotive treats its wagons. They all look the same from the Pipeline's perspective, they can all be connected in any order, and they all go from A to B rolling over the same pair of rails, passing all through the same stations.
 
-![Cargo Train](/posts/2023-10-20-haystack-series-canals/train.png)
+![Cargo Train](/posts/2023-10-26-haystack-series-canals/train.png)
 
 In Haystack 1.x, components are designed to serve the Pipeline's needs. A good Component, in this case, is a Component that does not stand out in any way from the others, provides the exact interface Pipeline expects from all of them, and can be connected to any other, in any order. On their own, the components are awkward to use due to the same `run()` method that makes Pipeline so ergonomic. Why a Ranker, that clearly needs only a query and a list of Documents, should also accepts `file_paths` and `meta` in its `run()` method? It does so uniquely to satisfy the Pipeline's requirements, which in turn exist only to make all components forcefully compatible with each other.
 
@@ -89,7 +89,7 @@ When seen in this light, the core of the issue is easier to spot: Pipeline is th
 
 Therefore, the rewrite of Pipeline focused on one core principle: in Haystack 2.0, the Components define and drive the execution process. There is no locomotive anymore: Component will need to find their way, such as grabbing the data they need from the producers and send their results to whoever needs them by declaring the proper connections. In the railway methaphor it's like putting wheels under each container: what we get is a truck, and the resulting system looks very much like a highway.
 
-![Highway](/posts/2023-10-20-haystack-series-canals/highway.png)
+![Highway](/posts/2023-10-26-haystack-series-canals/highway.png)
 
 Just as railways are excellent at going from A to B when you only need to take that single route and never another, highways requires every car to have a driver, but are unbeatable at reaching every possible destination with the same effort. A "highway" Pipeline requires more work from the Components' side, but it frees them to go wherever they need to with a precision that a "railway" Pipeline just cannot accomplish.
 
@@ -159,7 +159,7 @@ Next, after components are connected together, the resulting Pipeline can be dra
 
 The Pipeline above draws the following image:
 
-![A Pipeline making two additions](/posts/2023-10-20-haystack-series-canals/two_additions_pipeline.png)
+![A Pipeline making two additions](/posts/2023-10-26-haystack-series-canals/two_additions_pipeline.png)
 
 You can see how now the component class, their inputs from the pipeline and from other components are both named and typed, and how they both seem to have some Optional inputs as well!
 
@@ -243,7 +243,7 @@ class Double:
         return value * 2
 ```
 
-For `Double`, this is a legitimate doubt. However, let's make an example with a simple component called `CheckParity`: if a component is even it send it over the `even` output, while if it's odd, it will send it over the `odd` output. The following clearly doesn't work: there's no place where to specify when the returned value is even or odd.
+For `Double`, this is a legitimate doubt. However, let's make an example with a simple component called `CheckParity`: if a component's input value is even it sends it over the `even` output, while if it's odd, it will send it over the `odd` output. The following clearly doesn't work: there's no place where to specify when the returned value is even or odd.
 
 ```python
 @component
@@ -267,7 +267,7 @@ class CheckParity:
         return {"odd": value}
 ```
 
-This approach seems to carry all the information required: but note how such information is only available at runtime. Unless we parse the method to discover all return statements and their keys (which is not always possible), Pipeline cannot know all the possible keys that the return dictionary may have, and so it can't validate that the connections are valid when `Pipeline.connect()` runs.
+This approach seems to carry all the information required: but note how such information is only available at runtime. Unless we parse the method to discover all return statements and their keys (which is not always possible), Pipeline cannot know all the possible keys that the return dictionary may have, and so it can't validate that the connections when `Pipeline.connect()` is called.
 
 The decorator bridges the gap by allowing the class to declare in advance what outputs it will produce and of which type. Pipeline trusts this information to be correct and validates the connections accordingly.
 
@@ -335,7 +335,7 @@ class Sum:
         return {"total": sum(v for v in values if v is not None)}
 ```
 
-in this case, we used the special Canals type `Variadic` to tell Canals that the `values` input can receive from multiple producers, instead of just one. Therefore, `values` is going to be a list type, but it can be connected to single `int` outputs, making it a valuable aggregator.
+In this case, we used the special Canals type `Variadic` to tell Canals that the `values` input can receive from multiple producers, instead of just one. Therefore, `values` is going to be a list type, but it can be connected to single `int` outputs, making it a valuable aggregator.
 
 ## Serialization
 
