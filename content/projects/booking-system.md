@@ -9,8 +9,6 @@ featuredImage: "/projects/camerini.png"
 
 Main website: https://www.caisovico.it
 
-Reservations system: https://www.caisovico.it/prenota-gestori/calendario.php
-
 ---
 
 Since my bachelor studies I have maintained the IT infrastructure of an alpine hut, [Rifugio M. Del Grande - R. Camerini](https://maps.app.goo.gl/PwdVC82VHwdPZJDE6). I count this as one of my first important projects, one that people, mostly older and not very tech savvy, depended on to run a real business.
