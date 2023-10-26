@@ -5,7 +5,6 @@ author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, Python, Canals, Pipeline, DAG, graph, "API Design"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-26-haystack-series-canals/cover.png"
-draft: true
 # canonicalUrl: https://haystack.deepset.ai/blog/canals-a-new-concept-of-pipeline
 ---
 

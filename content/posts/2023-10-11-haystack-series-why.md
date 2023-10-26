@@ -73,7 +73,7 @@ In the next post, I will explore the technical side of Haystack 2.0 and delve de
 
 ---
 
-*Next: [Haystack's Pipeline](/posts/2023-10-15-haystack-series-pipeline)*
+*Next: [Haystack's Pipeline - A Deep Dive](/posts/2023-10-15-haystack-series-pipeline)*
 
 *Previous: [Haystack 2.0: What is it?](/posts/2023-10-10-haystack-series-intro)*
 

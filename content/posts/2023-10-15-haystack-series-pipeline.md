@@ -431,7 +431,7 @@ In the next post, we're going to see how.
 
 ---
 
-*Next: Soon!*
+*Next: [Canals: a new concept of Pipeline](/posts/2023-10-26-haystack-series-canals)*
 
 *Previous: [Why rewriting Haystack?!](/posts/2023-10-11-haystack-series-why)*
 
