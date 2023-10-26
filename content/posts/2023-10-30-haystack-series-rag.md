@@ -1,5 +1,5 @@
 ---
-title: "RAG Pipelines, of all shapes and forms"
+title: "RAG Pipelines of all shapes and forms"
 date: 2023-10-30
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, "Retrieval Augmentation", RAG, "Semantic Search"]

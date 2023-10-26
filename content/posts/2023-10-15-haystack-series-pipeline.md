@@ -1,5 +1,5 @@
 ---
-title: "Haystack's Pipeline"
+title: "Haystack's Pipeline - A Deep Dive"
 date: 2023-10-15
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, Pipeline, DAG, graph, "API Design", "Semantic Search", "Hybrid Retrieval"]
