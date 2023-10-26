@@ -29,6 +29,5 @@ I'm studying Hungarian for family reasons, and Portuguese because I currently li
 I still can understand some Russian and I have a very basic understanding
 of Chinese, both from my teenage and university years.
 
-You can find my latest CV [here](/curriculum/sara_zanzottera_cv.pdf).
-
-Check out my [projects](/projects), my [publications](/publications) and my [talks](/talks).
+You can find my latest CV [here](/curriculum/sara_zanzottera_cv.pdf). Check out also my 
+[projects](/projects), my [publications](/publications) and my [talks](/talks).
