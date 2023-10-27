@@ -1,5 +1,5 @@
 ---
-title: "RAG Pipelines of all shapes and forms"
+title: "RAG Pipelines from scratch to production"
 date: 2023-10-30
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search"]
@@ -15,7 +15,7 @@ Since the start of this series one use case that I constantly brought up is Retr
 
 RAG is quickly becoming a key technique to make LLMs more reliable and effective at answering any sort of question, regardless how specific, so it's crucial for Haystack to enable it.
 
-Let's see how to build such applications with Haystack 2.0, starting from a very basic call to an LLM to a fully fledged, production-ready RAG pipeline that scales. We are going to end up with a RAG application that can answers all your questions about countries of the world.
+Let's see how to build such applications with Haystack 2.0, starting from a very basic call to an LLM to a fully fledged, production-ready RAG pipeline that scales. We are going to end up with a RAG application that can answers all your questions about all countries in the world, present and past, with the latest information.
 
 # What is RAG?
 
@@ -32,9 +32,15 @@ RAG solves these issues of "grounding" the LLM to reality by providing some rele
 
 As you can see in the image above (taken directly from the original paper), a system such as RAG is made of two parts: one that finds text snippets that are relevant to the question asked by the user, and a generative model, usually an LLM, that rephrases the snippets into a coherent answer for the question.
 
-Let's build one of these with Haystack 2.0! 
+Let's build one of these with Haystack 2.0!
 
-{{< notice info >}} *All these code snippets were tested against `haystack-ai==0.105.0`. Haystack 2.0 is still unstable, so later versions of this package might introduce breaking change without any notice until Haystack 2.0 is officially released.* {{< /notice >}}
+{{< notice info >}}
+
+*Do you want to see this code in action? Check out the Colab notebook [here](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*
+
+*Keep in mind that this code was run against `haystack-ai==0.88.0`. Haystack 2.0 is still unstable, so later versions of this package might introduce breaking change without any notice until Haystack 2.0 is officially released.*
+
+{{< /notice >}}
 
 # Generators: Haystack's LLM components
 
@@ -116,7 +122,7 @@ pipe.run({"prompt_builder": {"country": "the Republic of Rose Island"}})
 # }
 ```
 
-The answer is an educated guess, but is not accurate: although it was located just outside of Italy's territorial waters, the official language of this short-lived [micronation](https://en.wikipedia.org/wiki/Republic_of_Rose_Island) was Esperanto.
+The answer is an educated guess, but is not accurate: although it was located just outside of Italy's territorial waters, acording to [Wikipedia](https://en.wikipedia.org/wiki/Republic_of_Rose_Island) the official language of this short-lived micronation was Esperanto.
 
 How can we get ChatGPT to reply to such a question properly? One way is to make it "cheat" by providing the answer as part of the question. In fact, `PromptBuilder` is designed to serve exactly this usecase.
 
@@ -315,20 +321,100 @@ pipe.run({
 
 ![BM25 RAG Pipeline](/posts/2023-10-30-haystack-series-rag/bm25-rag-pipeline.png)
 
-Congratulations! We've just built our first, true-to-its-name RAG Pipeline. Swap out `InMemoryDocumentStore` and `InMemoryBM25Retriever` with their Elasticsearch counterparts, which offer nearly identical API, and you have a system ready to scale up to real production workloads.
-
-# Searching the web
-
-A pipeline like this is very convenient if you need to perform RAG onto private data only. However, in many cases you may want to get data from the Internet as well, for example from news outlets, from documentation pages, and so on. To accomplish this goal, rather than a Retriever we need a Search Engine.
-
-Haystack 2.0 already provides a search engine component called `SerperDevWebSearch`. It uses [SerperDev's API](https://serper.dev/) to query popular search engines and return two types of data: a list of text snippets, coming from the serach engine's preview boxes, and a list of links, which point to the top search results.
+Congratulations! We've just built our first, true-to-its-name RAG Pipeline. 
 
 
+# Scaling up
 
+So, we now have our running prototype. What does it take to scale this system up for production workloads?
 
+Of course scaling up a system to production-readyness is no simple task that can be addressed in a paragraph, but we can get started on this journey with one of the most obvious components of our system that can be improved: the document store. 
 
+`InMemoryDocumentStore` is clearly a toy implementation: Haystack however offers much more serious document store integrations, such as [Elasticsearch](https://haystack.deepset.ai/integrations/elasticsearch-document-store), [ChromaDB](https://haystack.deepset.ai/integrations/chroma-documentstore) and [Marqo](https://haystack.deepset.ai/integrations/marqo-document-store). Given that we have tested this system with a BM25 retriever, let's select Elasticsearch as our production-ready document store of choice.
 
+{{< notice warning >}}*At the time of writing, Elasticsearch support for Haystack 2.0 is still [highly experimental](https://github.com/deepset-ai/haystack-core-integrations/pull/41). Keep an eye on the [integrations repository](https://github.com/deepset-ai/haystack-core-integrations) for updates about its upcoming release. To know how to make it work today, check out [the Colab notebook](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*{{< /notice >}}
 
+How do we use Elasticsearch on our pipeline? All it takes is mostly swapping out `InMemoryDocumentStore` and `InMemoryBM25Retriever` with their Elasticsearch counterparts, which offer nearly identical API.
+
+First, let's create the document store: we will need a bit more configuration, because we need to connect to the Elasticearch backend. In this example we're using Elasticsearch version 8.8.0, but every Elasticsearch 8 version should work.
+
+```python
+from elasticsearch_haystack.document_store import ElasticsearchDocumentStore
+
+host = os.environ.get("ELASTICSEARCH_HOST", "https://localhost:9200")
+user = "elastic"
+pwd = os.environ["ELASTICSEARCH_PASSWORD"]  # You need to provide this value
+
+docstore = ElasticsearchDocumentStore(
+    hosts=[host], 
+    basic_auth=(user, pwd), 
+    ca_certs="/content/elasticsearch-8.8.0/config/certs/http_ca.crt"
+)
+```
+
+Now, let's write again our four documents into the store. In this case we specify the duplicate policy, so if the documents were already present, they will be overwritten.
+
+```python
+from haystack.preview.document_stores import DuplicatePolicy
+documents = [
+    Document(text="German is the the official language of Germany."), 
+    Document(text="The capital of France is Paris, and its official language is French."),
+    Document(text="Italy recognizes a few official languages, but the most widespread one is Italian."),
+    Document(text="Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea.")
+]
+docstore.write_documents(documents=documents, policy=DuplicatePolicy.OVERWRITE)
+```
+
+Once this is done, we are ready to build the same pipeline as before, but using `ElasticsearchBM25Retriever`.
+
+```python
+from elasticsearch_haystack.bm25_retriever import ElasticsearchBM25Retriever
+
+template = """
+Given the following information, answer the question.
+
+Context: 
+{% for document in documents %}
+    {{ document.text }}
+{% endfor %}
+
+Question: What's the official language of {{ country }}?
+"""
+
+pipe = Pipeline()
+pipe.add_component("retriever", ElasticsearchBM25Retriever(document_store=docstore))
+pipe.add_component("prompt_builder", PromptBuilder(template=template))
+pipe.add_component("llm", GPTGenerator(api_key=api_key))
+pipe.connect("retriever", "prompt_builder.documents")
+pipe.connect("prompt_builder", "llm")
+
+pipe.draw("elasticsearch-rag-pipeline.png")
+
+country = "the Republic of Rose Island"
+pipe.run({
+    "retriever": {"query": country},
+    "prompt_builder": {"country": country}
+})
+# returns {
+#     "llm": {
+#         "replies": [
+#             'The official language of the Republic of Rose Island is Esperanto.'
+#         ]
+#     }
+# }
+```
+
+![Elasticsearch RAG Pipeline](/posts/2023-10-30-haystack-series-rag/elasticsearch-rag-pipeline.png)
+
+That's it! We're now running the same pipeline over a production-ready Elasticsearch instance.
+
+# Wrapping up
+
+In this post we've seen in details some of the fundamental components that make RAG applications possible with Haystack: Generators, PromptBuilder, and Retrievers. We've seen how can they all be used in isolation and how you can make Pipelines out of them to achieve the same goal. Last, we've experimented with some of the (very early!) features that will make Haystack 2.0 applications production-ready and easy to scale up with minimal changes.
+
+However, this is just the start of our journey into RAG. In the next post I am going to walk you through a more advanced type of retrieval augmented generation: one that uses the Web as its data source.
+
+Stay tuned!
 
 ---
 
