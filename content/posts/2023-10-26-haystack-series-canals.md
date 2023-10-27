@@ -104,6 +104,8 @@ Canals brings two core elements to the table:
 
 Let's explore these two concepts one by one.
 
+{{< notice info >}} *All these code snippets were tested against the [main branch](https://github.com/deepset-ai/canals) of Canals. Version `0.10.0` should contain all the features highlighted in this post and you will be soon able to install it with `pip install canals==0.10.0`.* {{< /notice >}}
+
 ## The Pipeline API
 
 The `Pipeline` object may remind vaguely of Haystack's original pipeline, and using one should feel familiar. For example, this is how you assemble a simple Canals Pipeline that performs a few additions.
