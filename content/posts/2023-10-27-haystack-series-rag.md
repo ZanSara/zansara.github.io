@@ -281,6 +281,8 @@ We see that `InMemoryBM25Retriever` accepts a few parameters. `query` is the que
 
 `top_k` controls the number of documents returned. We can see that in the first example, only one document is returned, the correct one. In the second, where `top_k = 3`, the retriever is forced to return three documents even if just one is relevant, so it picks the other two randomly. Although the behavior is not optimal, BM25 guarantees that if there is a document that is relevant to the query, it will be in the first position, so for now, we can use it with `top_k=1`.
 
+Retrievers also accepts a `filters` parameter, which lets you pre-filter the documents before retrieval. This is a powerful technique that comes useful in complex applications, but for now we have no use for it. I will talk more in detail about this topic, called metadata filtering, in a later post.
+
 Let's now make use of this new component in our Pipeline. 
 
 # Our first RAG Pipeline
