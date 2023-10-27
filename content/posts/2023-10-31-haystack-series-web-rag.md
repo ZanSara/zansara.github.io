@@ -29,6 +29,6 @@ Haystack 2.0 already provides a search engine component called `SerperDevWebSear
 
 *Next: Soon!*
 
-*Previous: [RAG Pipelines from scratch to production](/posts/2023-10-30-haystack-series-rag)*
+*Previous: [RAG Pipelines, from scratch](/posts/2023-10-27-haystack-series-rag)*
 
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*

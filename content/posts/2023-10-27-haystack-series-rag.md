@@ -1,12 +1,11 @@
 ---
-title: "RAG Pipelines from scratch to production"
-date: 2023-10-30
+title: "RAG Pipelines, from scratch"
+date: 2023-10-27
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search"]
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-30-haystack-series-rag/cover.png"
-draft: true
-# canonicalUrl: https://haystack.deepset.ai/blog/rag-pipelines-from-scratch-to-production
+featuredImage: "/posts/2023-10-27-haystack-series-rag/cover.png"
+# canonicalUrl: https://haystack.deepset.ai/blog/rag-pipelines-from-scratch
 ---
 <small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/File:Isoladellerose.jpg)*</small>
 
@@ -15,6 +14,12 @@ Since the start of this series, one use case that I constantly brought up is Ret
 RAG is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today's NLP landscape, Haystack must enable it.
 
 Let's see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales. At the end of this post, we will have an application that can answer questions about world countries based on data stored in a private database. At that point, the knowledge of the LLM will be only limited by the content of our data store, and all of this can be accomplished without fine-tuning language models.
+
+{{< notice info >}}
+
+💡 *I recently gave a talk about RAG applications in Haystack 2.0, so if you prefer videos to blog posts, you can find the recording [here](http://localhost:1313/talks/2023-10-12-office-hours-rag-pipelines/). Keep in mind that the code might be slightly outdated.*
+
+{{< /notice >}}
 
 # What is RAG?
 
@@ -27,7 +32,7 @@ The idea of Retrieval Augmented Generation was first defined in a [paper](https:
 
 RAG solves these issues of "grounding" the LLM to reality by providing some relevant, up-to-date, and trusted information to the model together with the question. In this way, the LLM doesn't need to draw information from its internal knowledge, but it can base its replies on the snippets provided by the user.
 
-![RAG Paper diagram](/posts/2023-10-30-haystack-series-rag/rag-paper-image.png)
+![RAG Paper diagram](/posts/2023-10-27-haystack-series-rag/rag-paper-image.png)
 
 As you can see in the image above (taken directly from the original paper), a system such as RAG is made of two parts: one that finds text snippets that are relevant to the question asked by the user and a generative model, usually an LLM, that rephrases the snippets into a coherent answer for the question.
 
@@ -35,9 +40,14 @@ Let's build one of these with Haystack 2.0!
 
 {{< notice info >}}
 
-*Do you want to see this code in action? Check out the Colab notebook [here](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*
+💡 *Do you want to see this code in action? Check out the Colab notebook [here](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).
 
-*Keep in mind that this code was run against `haystack-ai==0.88.0`. Haystack 2.0 is still unstable, so later versions of this package might introduce breaking changes without notice until Haystack 2.0 is officially released.*
+{{< /notice >}}
+
+
+{{< notice warning >}}
+
+<i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==0.88.0`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components however stay the same.*
 
 {{< /notice >}}
 
@@ -101,7 +111,7 @@ pipe.run({"prompt_builder": {"country": "France"}})
 
 Here is the pipeline graph:
 
-![Simple LLM pipeline](/posts/2023-10-30-haystack-series-rag/simple-llm-pipeline.png)
+![Simple LLM pipeline](/posts/2023-10-27-haystack-series-rag/simple-llm-pipeline.png)
 
 # Make the LLM cheat
 
@@ -163,7 +173,7 @@ pipe.run({
 ```
 Let's look at the graph of our Pipeline:
 
-![Double PromptBuilder pipeline](/posts/2023-10-30-haystack-series-rag/double-promptbuilder-pipeline.png)
+![Double PromptBuilder pipeline](/posts/2023-10-27-haystack-series-rag/double-promptbuilder-pipeline.png)
 
 The beauty of `PromptBuilder` lies in its flexibility. It allows users to chain instances together to assemble complex prompts from simpler schemas: for example, we used the output of the first `PromptBuilder` as the value of `question` in the second prompt.
 
@@ -203,7 +213,7 @@ pipe.run({
 # }
 ```
 
-![PromptBuilder with two inputs pipeline](/posts/2023-10-30-haystack-series-rag/double-variable-promptbuilder-pipeline.png)
+![PromptBuilder with two inputs pipeline](/posts/2023-10-27-haystack-series-rag/double-variable-promptbuilder-pipeline.png)
 
 
 # Retrieving the context
@@ -327,12 +337,12 @@ pipe.run({
 # }
 ```
 
-![BM25 RAG Pipeline](/posts/2023-10-30-haystack-series-rag/bm25-rag-pipeline.png)
+![BM25 RAG Pipeline](/posts/2023-10-27-haystack-series-rag/bm25-rag-pipeline.png)
 
 Congratulations! We've just built our first, true-to-its-name RAG Pipeline. 
 
 
-# Scaling up
+# Scaling up: Elasticsearch
 
 So, we now have our running prototype. What does it take to scale this system up for production workloads?
 
@@ -342,7 +352,7 @@ Of course, scaling up a system to production readiness is no simple task that ca
 
 {{< notice warning >}}
 
-*At the time of writing, Elasticsearch support for Haystack 2.0 is still [highly experimental](https://github.com/deepset-ai/haystack-core-integrations/pull/41). Keep an eye on the [integrations repository](https://github.com/deepset-ai/haystack-core-integrations) for updates about its upcoming release. To know how to make it work today, check out [the Colab notebook](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*
+<i>⚠️ **Warning:**</i> *at the time of writing, Elasticsearch support for Haystack 2.0 is still [unstable](https://github.com/deepset-ai/haystack-core-integrations/pull/41). Keep an eye on the [integrations repository](https://github.com/deepset-ai/haystack-core-integrations) for updates about its upcoming release. To know how to make it work today, check out [the Colab notebook](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*
 
 {{< /notice >}}
 
@@ -416,7 +426,7 @@ pipe.run({
 # }
 ```
 
-![Elasticsearch RAG Pipeline](/posts/2023-10-30-haystack-series-rag/elasticsearch-rag-pipeline.png)
+![Elasticsearch RAG Pipeline](/posts/2023-10-27-haystack-series-rag/elasticsearch-rag-pipeline.png)
 
 That's it! We're now running the same pipeline over a production-ready Elasticsearch instance.
 
