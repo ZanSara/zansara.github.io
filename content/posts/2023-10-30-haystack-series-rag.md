@@ -6,31 +6,30 @@ tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation"
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-30-haystack-series-rag/cover.png"
 draft: true
-# canonicalUrl: https://haystack.deepset.ai/blog/rag-pipelines-of-all-shapes-and-forms
+# canonicalUrl: https://haystack.deepset.ai/blog/rag-pipelines-from-scratch-to-production
 ---
 <small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/File:Isoladellerose.jpg)*</small>
 
+Since the start of this series, one use case that I constantly brought up is Retrieval Augmented Generation, or RAG for short.
 
-Since the start of this series one use case that I constantly brought up is Retrieval Augmented Generation, or RAG for short.
+RAG is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today's NLP landscape, Haystack must enable it.
 
-RAG is quickly becoming a key technique to make LLMs more reliable and effective at answering any sort of question, regardless how specific, so it's crucial for Haystack to enable it.
-
-Let's see how to build such applications with Haystack 2.0, starting from a very basic call to an LLM to a fully fledged, production-ready RAG pipeline that scales. We are going to end up with a RAG application that can answers all your questions about all countries in the world, present and past, with the latest information.
+Let's see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales. At the end of this post, we will have an application that can answer questions about world countries based on data stored in a private database. At that point, the knowledge of the LLM will be only limited by the content of our data store, and all of this can be accomplished without fine-tuning language models.
 
 # What is RAG?
 
 The idea of Retrieval Augmented Generation was first defined in a [paper](https://arxiv.org/abs/2005.11401) by Meta in 2020. It was designed to solve a few of the inherent limitations of seq2seq models (language models that, given a sentence, can finish writing it for you), such as:
 
-- Their internal knowledge, for as vast as it may be, will always be limited and at least slightly out of date.
-- They work best on generic topics, rather than niche and specific areas, unless they're fine-tuned on purpose, which is a very expensive and slow process.
-- Even when they have subject-matter expertise, they tend to "hallucinate": they confidently produce false statements backed by apparently solid reasoning.
-- They cannot reliably cite their sources or tell where their knowledge comes from, which makes fact-checking their replies non trivial.
+- Their internal knowledge, as vast as it may be, will always be limited and at least slightly out of date.
+- They work best on generic topics rather than niche and specific areas unless they're fine-tuned on purpose, which is a costly and slow process.
+- All models, even those with subject-matter expertise, tend to "hallucinate": they confidently produce false statements backed by apparently solid reasoning.
+- They cannot reliably cite their sources or tell where their knowledge comes from, which makes fact-checking their replies nontrivial.
 
-RAG solves these issues of "grounding" the LLM to reality by providing some relevant, up-to-date and trusted information to the model together with the question. In this way the LLM doesn't need to draw information from its internal knowledge, but it can base its replies on the snippets provided by the user.
+RAG solves these issues of "grounding" the LLM to reality by providing some relevant, up-to-date, and trusted information to the model together with the question. In this way, the LLM doesn't need to draw information from its internal knowledge, but it can base its replies on the snippets provided by the user.
 
 ![RAG Paper diagram](/posts/2023-10-30-haystack-series-rag/rag-paper-image.png)
 
-As you can see in the image above (taken directly from the original paper), a system such as RAG is made of two parts: one that finds text snippets that are relevant to the question asked by the user, and a generative model, usually an LLM, that rephrases the snippets into a coherent answer for the question.
+As you can see in the image above (taken directly from the original paper), a system such as RAG is made of two parts: one that finds text snippets that are relevant to the question asked by the user and a generative model, usually an LLM, that rephrases the snippets into a coherent answer for the question.
 
 Let's build one of these with Haystack 2.0!
 
@@ -38,15 +37,15 @@ Let's build one of these with Haystack 2.0!
 
 *Do you want to see this code in action? Check out the Colab notebook [here](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*
 
-*Keep in mind that this code was run against `haystack-ai==0.88.0`. Haystack 2.0 is still unstable, so later versions of this package might introduce breaking change without any notice until Haystack 2.0 is officially released.*
+*Keep in mind that this code was run against `haystack-ai==0.88.0`. Haystack 2.0 is still unstable, so later versions of this package might introduce breaking changes without notice until Haystack 2.0 is officially released.*
 
 {{< /notice >}}
 
 # Generators: Haystack's LLM components
 
-As every NLP framework that deserves its name, Haystack supports LLMs in different ways. The easiest way to query an LLM in Haystack 2.0 is through a Generator component: depending on which LLM and the way you intend to query it (chat, text completion, etc...) you should pick the appropriate class.
+As every NLP framework that deserves its name, Haystack supports LLMs in different ways. The easiest way to query an LLM in Haystack 2.0 is through a Generator component: depending on which LLM and how you intend to query it (chat, text completion, etc...), you should pick the appropriate class.
 
-We're going to use ChatGPT for these examples, so the component we need is [`GPTGenerator`](https://github.com/deepset-ai/haystack/blob/main/haystack/preview/components/generators/openai/gpt.py). Here is all the code needed to use it to query OpenAI's ChatGPT:
+We're going to use ChatGPT for these examples, so the component we need is [`GPTGenerator`](https://github.com/deepset-ai/haystack/blob/main/haystack/preview/components/generators/openai/gpt.py). Here is all the code required to use it to query OpenAI's ChatGPT:
 
 ```python
 from haystack.preview.components.generators.openai.gpt import GPTGenerator
@@ -55,20 +54,20 @@ generator = GPTGenerator(api_key=api_key)
 generator.run(prompt="What's the official language of France?")
 # returns {"replies": ['The official language of France is French.']}
 ```
-You can select your favourite OpenAI model by specifying a `model_name` at initialization, for example `gpt-4`. It also supports specifying an `api_base_url`, for private deployments, a `streaming_callback` if you want to see the output generated live in the terminal, and optional `kwargs` to let you pass whatever other parameter the model understands, such as the number of answers (`n`), the temperature (`temperature`), etc.
+You can select your favorite OpenAI model by specifying a `model_name` at initialization, for example, `gpt-4`. It also supports setting an `api_base_url` for private deployments, a `streaming_callback` if you want to see the output generated live in the terminal, and optional `kwargs` to let you pass whatever other parameter the model understands, such as the number of answers (`n`), the temperature (`temperature`), etc.
 
-Note that in this case we're passing the API key to the component's constructor. This is unnecessary: `GPTGenerator` is able to read the value from the `OPENAI_API_KEY` environment veriable, and also from the `api_key` module variable of [`openai`'s SDK](https://github.com/openai/openai-python#usage).
+Note that in this case, we're passing the API key to the component's constructor. This is unnecessary: `GPTGenerator` can read the value from the `OPENAI_API_KEY` environment variable and also from the `api_key` module variable of [`openai`'s SDK](https://github.com/openai/openai-python#usage).
 
-Right now Haystack supports HuggingFace models through the [`HuggingFaceLocalGenerator`](https://github.com/deepset-ai/haystack/blob/f76fc04ed05df7b941c658ba85adbf1f87723153/haystack/preview/components/generators/hugging_face/hugging_face_local.py#L65) component, and many more LLMs are coming soon.
+Right now, Haystack supports HuggingFace models through the [`HuggingFaceLocalGenerator`](https://github.com/deepset-ai/haystack/blob/f76fc04ed05df7b941c658ba85adbf1f87723153/haystack/preview/components/generators/hugging_face/hugging_face_local.py#L65) component, and many more LLMs are coming soon.
 
 
 # PromptBuilder: structured prompts from templates
 
-Let's imagine that our LLM-powered chatbot comes also with a set of pre-defined questions that the user can just select instead of typing in full. For example, instead of asking them to type `What's the official language of France?`, we let them select `Tell me the official languages` from a list, and they simply need to type "France" (or "Wakanda", for a change - our chatbot needs some challenges too).
+Let's imagine that our LLM-powered chatbot also comes with some pre-defined questions that the user can select instead of typing in full. For example, instead of asking them to type `What's the official language of France?`, we let them select `Tell me the official languages` from a list, and they simply need to type "France" (or "Wakanda" for a change - our chatbot needs some challenges too).
 
-In this scenario we have two pieces of the prompt: a variable (the country name, like "France") and a prompt template, which in this case is `"What's the official language of {{ country }}?"`
+In this scenario, we have two pieces of the prompt: a variable (the country name, like "France") and a prompt template, which in this case is `"What's the official language of {{ country }}?"`
 
-Haystack offers a component that is able to render variables into prompt templates: it's called [`PromptBuilder`](https://github.com/deepset-ai/haystack/blob/main/haystack/preview/components/builders/prompt_builder.py). As the generators we've seen before, also `PromptBuilder` is nearly trivial to initialize and use.
+Haystack offers a component that can render variables into prompt templates: it's called [`PromptBuilder`](https://github.com/deepset-ai/haystack/blob/main/haystack/preview/components/builders/prompt_builder.py). As the generators we've seen before, also `PromptBuilder` is nearly trivial to initialize and use.
 
 ```python
 from haystack.preview.components.builders.prompt_builder import PromptBuilder
@@ -78,14 +77,13 @@ prompt_builder.run(country="France")
 # returns {'prompt': "What's the official language of France?"}
 ```
 
-Note how we defined a variable, `country`, by wrapping its name in double curly brackets. PromptBuilder lets you define any input variable by just wrapping it that way: if the prompt template was `"What's the official language of {{ nation }}?"`, the `run()` method of `PromptBuilder` would have expected a `nation` input.
+Note how we defined a variable, `country`, by wrapping its name in double curly brackets. PromptBuilder lets you define any input variable that way: if the prompt template was `"What's the official language of {{ nation }}?"`, the `run()` method of `PromptBuilder` would have expected a `nation` input.
 
-
-This syntax comes from [Jinja2](https://jinja.palletsprojects.com/en/3.0.x/intro/), a popular templating library for Python. If you used Flask, Django, or Ansible, you will feel at home with `PromptBuilder`. If instead you never heard of any of these libraries before, you can check out the [syntax](https://jinja.palletsprojects.com/en/3.0.x/templates/) on Jinja's documentation. Jinja is extremely powerful and offers way more features than you'll ever need in prompt templates, ranging from simple if statements and for loops to object access through dot notation, full nesting of templates, variables manipulation, macros, and more.
+This syntax comes from [Jinja2](https://jinja.palletsprojects.com/en/3.0.x/intro/), a popular templating library for Python. If you have ever used Flask, Django, or Ansible, you will feel at home with `PromptBuilder`. Instead, if you never heard of any of these libraries, you can check out the [syntax](https://jinja.palletsprojects.com/en/3.0.x/templates/) on Jinja's documentation. Jinja has a powerful templating language and offers way more features than you'll ever need in prompt templates, ranging from simple if statements and for loops to object access through dot notation, nesting of templates, variables manipulation, macros, full-fledged import and encapsulation of templates, and more.
 
 # A Simple Generative Pipeline
 
-With these two components we can already assemble a minimal Pipeline, to see how they work together. Connecting them is trivial: `PromptBuilder` generates a `prompt` output, and `GPTGenerator` expects an input with the exact same name and type.
+With these two components, we can assemble a minimal pipeline to see how they work together. Connecting them is trivial: `PromptBuilder` generates a `prompt` output, and `GPTGenerator` expects an input with the same name and type.
 
 ```python
 from haystack.preview import Pipeline
@@ -107,9 +105,9 @@ Here is the pipeline graph:
 
 # Make the LLM cheat
 
-Building the Generative part of a RAG application was very simple! However, so far we only provided the question to the LLM, but no information to base its answers from. Nowadays LLMs possess a lot of general knowledge, so questions about famous countries such as France or Germany are easy for them to reply correctly. However, some users may be interested in knowing more about obscure or defunct microstates which don't exist anymore: in this case, ChatGPT is unlikely to answer correctly.
+Building the Generative part of a RAG application was very simple! So far, we only provided the question to the LLM, but no information to base its answers on. Nowadays, LLMs possess a lot of general knowledge, so questions about famous countries such as France or Germany are easy for them to reply to correctly. However, when using an app about world countries, some users may be interested in knowing more about obscure or defunct microstates that don't exist anymore. In this case, ChatGPT is unlikely to provide the correct answer without any help.
 
-For example, let's ask our Pipeline something *really* obscure.
+For example, let's ask our pipeline something *really* obscure.
 
 ```python
 pipe.run({"prompt_builder": {"country": "the Republic of Rose Island"}})
@@ -122,9 +120,9 @@ pipe.run({"prompt_builder": {"country": "the Republic of Rose Island"}})
 # }
 ```
 
-The answer is an educated guess, but is not accurate: although it was located just outside of Italy's territorial waters, acording to [Wikipedia](https://en.wikipedia.org/wiki/Republic_of_Rose_Island) the official language of this short-lived micronation was Esperanto.
+The answer is an educated guess but is not accurate: although it was located just outside of Italy's territorial waters, according to [Wikipedia](https://en.wikipedia.org/wiki/Republic_of_Rose_Island) the official language of this short-lived micronation was Esperanto.
 
-How can we get ChatGPT to reply to such a question properly? One way is to make it "cheat" by providing the answer as part of the question. In fact, `PromptBuilder` is designed to serve exactly this usecase.
+How can we get ChatGPT to reply to such a question correctly? One way is to make it "cheat" by providing the answer as part of the question. In fact, `PromptBuilder` is designed to serve precisely this use case.
 
 Here is our new, more advanced prompt:
 
@@ -167,9 +165,9 @@ Let's look at the graph of our Pipeline:
 
 ![Double PromptBuilder pipeline](/posts/2023-10-30-haystack-series-rag/double-promptbuilder-pipeline.png)
 
-The beauty of `PromptBuilder` lays in its flexibility: they allow users to chain instances together to assemble complex prompts from simpler schemas: for example, here we use the output of the first `PromptBuilder` as the value of `question` in the second prompt.
+The beauty of `PromptBuilder` lies in its flexibility. It allows users to chain instances together to assemble complex prompts from simpler schemas: for example, we used the output of the first `PromptBuilder` as the value of `question` in the second prompt.
 
-However, in this specific scenario we can build a simpler system by merging the two prompts into a single one.
+However, in this specific scenario, we can build a simpler system by merging the two prompts into one.
 
 ```text
 Given the following information, answer the question.
@@ -177,7 +175,7 @@ Context: {{ context }}
 Question: What's the official language of {{ country }}?
 ```
 
-If we use this prompt, the resulting system becomes again really straightforward.
+Using this new prompt, the resulting pipeline becomes again very similar to our first.
 
 ```python
 template = """
@@ -210,11 +208,19 @@ pipe.run({
 
 # Retrieving the context
 
-For now we've been playing with prompts, but the fundamental question remains unanswered: where do we get the correct text snippet for the question the user is asking? We can't expect such information as part of the input: we need our system to be able to fetch this information independently, based uniquely on the query. Thankfully, retrieving relevant information from large [corpora](https://en.wikipedia.org/wiki/Text_corpus) (a technical term for large collections of data, usually text) is a task that Haystack excels at since its inception.
+For now, we've been playing with prompts, but the fundamental question remains unanswered: where do we get the correct text snippet for the question the user is asking? We can't expect such information as part of the input: we need our system to be able to fetch this information independently, based uniquely on the query. 
 
-The components that perform this task is called a [Retriever](https://docs.haystack.deepset.ai/docs/retriever) (watch out: at the time of writing, the documentation still refers to Haystack 1.x components). Retrieval can be performed on different data sources: to begin, let's assume we're searching for data into a local database, which is the use case that most Retrievers are geared towards.
+Thankfully, retrieving relevant information from large [corpora](https://en.wikipedia.org/wiki/Text_corpus) (a technical term for extensive collections of data, usually text) is a task that Haystack excels at since its inception: the components that perform this task are called [Retrievers](https://docs.haystack.deepset.ai/docs/retriever).
+ 
+{{< notice warning >}}
 
-So, to begin with, let's create a small local database where we are going to store a bunch of information about some European countries. Haystack offers a neat toy object for these small scale demos: `InMemoryDocumentStore`. This document store is little more than a Python dictionary under the hood, but provides the same exact API as much more powerful data stores and vector stores, such as [Elasticsearch](https://github.com/deepset-ai/haystack-core-integrations/pull/41) or [ChromaDB](https://haystack.deepset.ai/integrations/chroma-documentstore). Keep in mind that the object is called "Document Store", and not simply "datastore", because what it stores is Haystack's Document objects: a small dataclass that helps other components make sense of the data that they receive.
+*At the time of writing, the [documentation](https://docs.haystack.deepset.ai/docs/retriever) still refers to the Haystack 1.x component. The high-level concepts are unchanged, but the code is very different.*
+
+{{< /notice >}}
+
+Retrieval can be performed on different data sources: to begin, let's assume we're searching for data in a local database, which is the use case that most Retrievers are geared towards.
+
+Let's create a small local database to store information about some European countries. Haystack offers a neat object for these small-scale demos: `InMemoryDocumentStore`. This document store is little more than a Python dictionary under the hood but provides the same exact API as much more powerful data stores and vector stores, such as [Elasticsearch](https://github.com/deepset-ai/haystack-core-integrations/pull/41) or [ChromaDB](https://haystack.deepset.ai/integrations/chroma-documentstore). Keep in mind that the object is called "Document Store" and not simply "datastore" because what it stores is Haystack's Document objects: a small dataclass that helps other components make sense of the data that they receive.
 
 So, let's initialize an `InMemoryDocumentStore` and write some `Documents` into it.
 
@@ -240,9 +246,9 @@ docstore.filter_documents()
 # ]
 ```
 
-Once the Document Store is set up, we can initialize a Retriever. In Haystack 2.0 each Document Store comes with its own set of highly optimized Retrievers: `InMemoryDocumentStore` offers two, one based on BM25 ranking, and one based on embedding similarity.
+Once the document store is set up, we can initialize a retriever. In Haystack 2.0, each document store comes with its own set of highly optimized retrievers: `InMemoryDocumentStore` offers two, one based on BM25 ranking and one based on embedding similarity.
 
-Let's start from the BM25-based retriever, which is slightly easier to set up. Let's first try to use it on its own, to see how it behaves.
+Let's start with the BM25-based retriever, which is slightly easier to set up. Let's first use it in isolation to see how it behaves.
 
 ```python
 from haystack.preview.components.retrievers.memory_bm25_retriever import MemoryBM25Retriever
@@ -261,15 +267,17 @@ retriever.run(query="Rose Island", top_k=3)
 # ]
 ```
 
-We see that `InMemoryBM25Retriever` accepts a few parameters. `query` is the question we want to find relevant documents for. In the case of BM25, the algorithm focuses entirely on keyword metching, so it cannot make sense of synonims and descriptions, but only exact words. It makes it very fast, but it doesn't fail gracefully when the keywords are not present in any document.
+We see that `InMemoryBM25Retriever` accepts a few parameters. `query` is the question we want to find relevant documents for. In the case of BM25, the algorithm only searches for exact word matches. The resulting retriever is very fast, but it doesn't fail gracefully: it can't handle spelling mistakes, synonyms, or descriptions of an entity. For example, documents containing the word "cat" would be considered irrelevant against a query such as "felines".
 
-`top_k` instead controls the number of documents returned. We can see that in the first example, the correct document is returned, while in the second, once the Retriever ran out of relevant documents (i.e., documents that contain any keyword from the question), it just starts returning random ones until it reaches the required `top_k`. Although the behavior is not optimal, BM25 guarantees that if there was a documents that is relevant and with matching keyword, it will be in the first position, so for now we can use it.
+`top_k` controls the number of documents returned. We can see that in the first example, only one document is returned, the correct one. In the second, where `top_k = 3`, the retriever is forced to return three documents even if just one is relevant, so it picks the other two randomly. Although the behavior is not optimal, BM25 guarantees that if there is a document that is relevant to the query, it will be in the first position, so for now, we can use it with `top_k=1`.
 
 Let's now make use of this new component in our Pipeline. 
 
 # Our first RAG Pipeline
 
-The Retriever does not return a single string, but a list of Documents: it's time to use Jinja's powerful syntax to do some unpacking on our behalf:
+The retriever does not return a single string but a list of Documents. How do we put the content of these objects into our prompt template?
+
+It's time to use Jinja's powerful syntax to do some unpacking on our behalf.
 
 ```text
 Given the following information, answer the question.
@@ -282,9 +290,9 @@ Context:
 Question: What's the official language of {{ country }}?
 ```
 
-Notice how, despite the slightly alien syntax for a Python programmer, what the template does is fairly evident: it iterates over the documents and, for each of them, renders their `text` field.
+Notice how, despite the slightly alien syntax for a Python programmer, what the template does is reasonably evident: it iterates over the documents and, for each of them, renders their `text` field.
 
-With all these pieces set up, we can finally put them all together:
+With all these pieces set up, we can finally put them all together.
 
 ```python
 template = """
@@ -328,15 +336,19 @@ Congratulations! We've just built our first, true-to-its-name RAG Pipeline.
 
 So, we now have our running prototype. What does it take to scale this system up for production workloads?
 
-Of course scaling up a system to production-readyness is no simple task that can be addressed in a paragraph, but we can get started on this journey with one of the most obvious components of our system that can be improved: the document store. 
+Of course, scaling up a system to production readiness is no simple task that can be addressed in a paragraph. Still, we can start this journey with one component that can readily be improved: the document store. 
 
-`InMemoryDocumentStore` is clearly a toy implementation: Haystack however offers much more serious document store integrations, such as [Elasticsearch](https://haystack.deepset.ai/integrations/elasticsearch-document-store), [ChromaDB](https://haystack.deepset.ai/integrations/chroma-documentstore) and [Marqo](https://haystack.deepset.ai/integrations/marqo-document-store). Given that we have tested this system with a BM25 retriever, let's select Elasticsearch as our production-ready document store of choice.
+`InMemoryDocumentStore` is clearly a toy implementation: Haystack supports much more performant document stores such as [Elasticsearch](https://haystack.deepset.ai/integrations/elasticsearch-document-store), [ChromaDB](https://haystack.deepset.ai/integrations/chroma-documentstore) and [Marqo](https://haystack.deepset.ai/integrations/marqo-document-store). Since we have built our app with a BM25 retriever, let's select Elasticsearch as our production-ready document store of choice.
 
-{{< notice warning >}}*At the time of writing, Elasticsearch support for Haystack 2.0 is still [highly experimental](https://github.com/deepset-ai/haystack-core-integrations/pull/41). Keep an eye on the [integrations repository](https://github.com/deepset-ai/haystack-core-integrations) for updates about its upcoming release. To know how to make it work today, check out [the Colab notebook](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*{{< /notice >}}
+{{< notice warning >}}
 
-How do we use Elasticsearch on our pipeline? All it takes is mostly swapping out `InMemoryDocumentStore` and `InMemoryBM25Retriever` with their Elasticsearch counterparts, which offer nearly identical API.
+*At the time of writing, Elasticsearch support for Haystack 2.0 is still [highly experimental](https://github.com/deepset-ai/haystack-core-integrations/pull/41). Keep an eye on the [integrations repository](https://github.com/deepset-ai/haystack-core-integrations) for updates about its upcoming release. To know how to make it work today, check out [the Colab notebook](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*
 
-First, let's create the document store: we will need a bit more configuration, because we need to connect to the Elasticearch backend. In this example we're using Elasticsearch version 8.8.0, but every Elasticsearch 8 version should work.
+{{< /notice >}}
+
+How do we use Elasticsearch on our pipeline? All it takes is to swap out `InMemoryDocumentStore` and `InMemoryBM25Retriever` with their Elasticsearch counterparts, which offer nearly identical APIs.
+
+First, let's create the document store: we will need a slightly more complex setup to connect to the Elasticearch backend. In this example, we use Elasticsearch version 8.8.0, but every Elasticsearch 8 version should work.
 
 ```python
 from elasticsearch_haystack.document_store import ElasticsearchDocumentStore
@@ -352,7 +364,7 @@ docstore = ElasticsearchDocumentStore(
 )
 ```
 
-Now, let's write again our four documents into the store. In this case we specify the duplicate policy, so if the documents were already present, they will be overwritten.
+Now, let's write again our four documents into the store. In this case, we specify the duplicate policy, so if the documents were already present, they would be overwritten. All Haystack document stores offer three policies to handle duplicates: `FAIL` (the default), `SKIP`, and `OVERWRITE`.
 
 ```python
 from haystack.preview.document_stores import DuplicatePolicy
@@ -410,9 +422,9 @@ That's it! We're now running the same pipeline over a production-ready Elasticse
 
 # Wrapping up
 
-In this post we've seen in details some of the fundamental components that make RAG applications possible with Haystack: Generators, PromptBuilder, and Retrievers. We've seen how can they all be used in isolation and how you can make Pipelines out of them to achieve the same goal. Last, we've experimented with some of the (very early!) features that will make Haystack 2.0 applications production-ready and easy to scale up with minimal changes.
+In this post, we've detailed some fundamental components that make RAG applications possible with Haystack: Generators, the PromptBuilder, and Retrievers. We've seen how they can all be used in isolation and how you can make Pipelines out of them to achieve the same goal. Last, we've experimented with some of the (very early!) features that make Haystack 2.0 production-ready and easy to scale up from a simple demo with minimal changes.
 
-However, this is just the start of our journey into RAG. In the next post I am going to walk you through a more advanced type of retrieval augmented generation: one that uses the Web as its data source.
+This is just the start of our journey into RAG. In the next post, I will walk you through a more advanced type of retrieval augmented generation: one that uses the Web as its data source.
 
 Stay tuned!
 

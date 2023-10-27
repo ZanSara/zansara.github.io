@@ -6,7 +6,7 @@ tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation"
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-31-haystack-series-web-rag/cover.jpeg"
 draft: true
-# canonicalUrl: https://haystack.deepset.ai/blog/rag-pipelines-of-all-shapes-and-forms
+# canonicalUrl: https://haystack.deepset.ai/blog/chatgpt-google-web-rag
 ---
 <small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/File:Isoladellerose.jpg)*</small>
 
