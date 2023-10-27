@@ -411,7 +411,7 @@ In the following posts, I will explore the world of Haystack components, startin
 
 ---
 
-*Next: [RAG Pipelines, from scratch](/posts/2023-10-27-haystack-series-rag)*
+*Next: [RAG Pipelines from scratch](/posts/2023-10-27-haystack-series-rag)*
 
 *Previous: [Haystack's Pipeline](/posts/2023-10-13-haystack-series-pipeline)*
 

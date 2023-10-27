@@ -1,5 +1,5 @@
 ---
-title: "RAG Pipelines, from scratch"
+title: "RAG Pipelines from scratch"
 date: 2023-10-27
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search"]
