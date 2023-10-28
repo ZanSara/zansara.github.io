@@ -436,9 +436,7 @@ That's it! We're now running the same pipeline over a production-ready Elasticse
 
 In this post, we've detailed some fundamental components that make RAG applications possible with Haystack: Generators, the PromptBuilder, and Retrievers. We've seen how they can all be used in isolation and how you can make Pipelines out of them to achieve the same goal. Last, we've experimented with some of the (very early!) features that make Haystack 2.0 production-ready and easy to scale up from a simple demo with minimal changes.
 
-This is just the start of our journey into RAG. In the next post, I will walk you through a more advanced type of retrieval augmented generation: one that uses the Web as its data source.
-
-Stay tuned!
+However, this is just the start of our journey into RAG. Stay tuned!
 
 ---
 
