@@ -1,5 +1,5 @@
 ---
-title: "The World of Web RAG"
+title: "[DRAFT] The World of Web RAG"
 date: 2023-10-30
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search"]
@@ -8,7 +8,7 @@ featuredImage: "/posts/2023-10-31-haystack-series-web-rag/cover.jpeg"
 draft: true
 # canonicalUrl: https://haystack.deepset.ai/blog/chatgpt-google-web-rag
 ---
-<small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/File:Isoladellerose.jpg)*</small>
+<small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/Isola_delle_Rose#/media/File:Isola_delle_Rose_1968.jpg)*</small>
 
 
 In the previous post of the Haystack 2.0 series we've seen how to build RAG pipelines using a generator, a prompt builder and a retriever with its document store. An application like that is great if you have a large data store and you need to perform RAG onto private data only. However, in many cases you may want to get data from the Internet as well, for example from news outlets, from documentation pages, and so on. 
