@@ -17,7 +17,7 @@ Let's see how to build such applications with Haystack 2.0, from a direct call t
 
 {{< notice info >}}
 
-💡 *I recently gave a talk about RAG applications in Haystack 2.0, so if you prefer videos to blog posts, you can find the recording [here](http://localhost:1313/talks/2023-10-12-office-hours-rag-pipelines/). Keep in mind that the code might be slightly outdated.*
+💡 *I recently gave a talk about RAG applications in Haystack 2.0, so if you prefer videos to blog posts, you can find the recording [here](http://zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/). Keep in mind that the code might be slightly outdated.*
 
 {{< /notice >}}
 
