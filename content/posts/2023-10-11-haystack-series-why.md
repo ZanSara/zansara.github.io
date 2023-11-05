@@ -5,7 +5,7 @@ author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-11-haystack-series-why/cover.png"
-# canonicalUrl: https://haystack.deepset.ai/blog/why-rewriting-haystack
+canonicalUrl: https://haystack.deepset.ai/blog/haystack-rewrite-why
 ---
 
 Before even diving into what Haystack 2.0 is, how it was built, and how it works, let's spend a few words about the whats and the whys.
