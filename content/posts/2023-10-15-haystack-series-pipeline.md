@@ -5,9 +5,9 @@ author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, Pipeline, DAG, graph, "API Design", "Semantic Search", "Hybrid Retrieval"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-15-haystack-series-pipeline/cover.png"
-# canonicalUrl: https://haystack.deepset.ai/blog/haystack-s-pipeline
+canonicalUrl: https://haystack.deepset.ai/blog/haystack-pipeline-a-deep-dive
 ---
-If you've ever looked at Haystack before, you must have come across the concept of Pipeline, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us? 
+If you've ever looked at Haystack before, you must have come across the [Pipeline](https://docs.haystack.deepset.ai/docs/pipelines), one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us? 
 
 In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses. This deep dive into the current state of the framework is also a premise for the next episode, where I will explain how Haystack 2.0 addresses this version's shortcomings.
 
@@ -75,7 +75,7 @@ pipeline = ExtractiveQAPipeline(reader, retriever)
 is enough to get your Extractive QA applications ready to answer your questions. And you can do so with just another line.
 
 ```python
-answers = Pipeline.run(query="What did Einstein work on?")
+answers = pipeline.run(query="What did Einstein work on?")
 ```
 
 ## "Flexibility powered by DAGs"

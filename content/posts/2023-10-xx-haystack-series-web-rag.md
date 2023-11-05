@@ -4,7 +4,7 @@ date: 2023-10-30
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search"]
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-31-haystack-series-web-rag/cover.jpeg"
+featuredImage: "/posts/2023-10-xx-haystack-series-web-rag/cover.jpeg"
 draft: true
 # canonicalUrl: https://haystack.deepset.ai/blog/chatgpt-google-web-rag
 ---

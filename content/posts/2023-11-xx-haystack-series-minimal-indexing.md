@@ -4,9 +4,9 @@ date: 2023-10-29
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, "Retrieval Augmentation", RAG, "indexing", "Document Store", Embeddings]
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-xx-haystack-series-indexing/cover.png"
+featuredImage: "/posts/2023-11-xx-haystack-series-minimal-indexing/cover.png"
 draft: true
-# canonicalUrl: https://haystack.deepset.ai/blog/indexing-data-for-rag-applications
+# canonicalUrl: https://haystack.deepset.ai/blog/....
 ---
 <small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/Isola_delle_Rose)*</small>
 
@@ -17,7 +17,7 @@ In this post I will show you a few ways to use Haystack 2.0 to populate a docume
 
 {{< notice info >}}
 
-💡 *Do you want to see the code in action? Check out the [Colab notebook](#) or the [gist](#).*
+💡 *Do you want to see the code in action? Check out the [Colab notebook](https://colab.research.google.com/drive/1gmdQem6f0RBYBb0HeBDPZwbb7_JU3-Us?usp=sharing) or the [gist](#).*
 
 {{< /notice >}}
 
@@ -369,7 +369,7 @@ pipeline.run({
 })
 ```
 
-![Indexing Pipeline](/posts/2023-10-xx-haystack-series-indexing/indexing-pipeline.png)
+![Indexing Pipeline](/posts/2023-11-xx-haystack-series-minimal-indexing/indexing-pipeline.png)
 
 .
 
