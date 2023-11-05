@@ -7,7 +7,6 @@ series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-27-haystack-series-rag/cover.png"
 # canonicalUrl: https://haystack.deepset.ai/blog/rag-pipelines-from-scratch
 ---
-<small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/File:Isoladellerose.jpg)*</small>
 
 Since the start of this series, one use case that I constantly brought up is Retrieval Augmented Generation, or RAG for short.
 
@@ -40,7 +39,7 @@ Let's build one of these with Haystack 2.0!
 
 {{< notice info >}}
 
-💡 *Do you want to see this code in action? Check out the Colab notebook [here](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).
+💡 *Do you want to see this code in action? Check out the Colab notebook [here](https://colab.research.google.com/drive/1vX_2WIRuqsXmoPMsJbqE45SYn21yuDjf?usp=drive_link) or the [gist](https://gist.github.com/ZanSara/cad6f772d3a894058db34f566e2c4042).*
 
 {{< /notice >}}
 
@@ -445,3 +444,5 @@ However, this is just the start of our journey into RAG. Stay tuned!
 *Previous: [Canals: a new concept of Pipeline](/posts/2023-10-26-haystack-series-canals)*
 
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
+
+<small>*Cover image from [Wikipedia](https://it.wikipedia.org/wiki/File:Isoladellerose.jpg)*</small>

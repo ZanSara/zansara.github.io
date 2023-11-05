@@ -1,29 +1,28 @@
 ---
-title: "Indexing data for RAG applications"
+title: "[DRAFT] Embedding Retrieval"
 date: 2023-10-29
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, "Retrieval Augmentation", RAG, "indexing", "Document Store", Embeddings]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-11-xx-haystack-series-minimal-indexing/cover.png"
 draft: true
-# canonicalUrl: https://haystack.deepset.ai/blog/indexing-data-for-rag-applications
+# canonicalUrl: https://haystack.deepset.ai/blog/....
 ---
 <small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/Isola_delle_Rose)*</small>
 
-
 In the previous post of the Haystack 2.0 series we've seen how to build RAG pipelines using a generator, a prompt builder and a retriever with its document store. However, the content of our document store wasn't exactly extensive, and populating one with clean, properly formatted data may seem like a daunting task.
 
-In this post I will show you a few ways to use Haystack 2.0 to populate a document store that you can then use for retrieval.
+In this post I will show you how to use Haystack 2.0 to populate a document store that you can then use for retrieval.
 
 {{< notice info >}}
 
-💡 *Do you want to see the code in action? Check out the [Colab notebook](https://colab.research.google.com/drive/1gmdQem6f0RBYBb0HeBDPZwbb7_JU3-Us?usp=sharing) or the [gist](#).*
+💡 *Do you want to see the code in action? Check out the [Colab notebook](https://drive.google.com/file/d/1cM1M61VBIWcIkulCpM9uTdObid2Vj47G/view?usp=sharing) or the [gist](#).*
 
 {{< /notice >}}
 
 {{< notice warning >}}
 
-<i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==0.105.0`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components however stay the same.*
+<i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==0.117.0`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components however stay the same.*
 
 {{< /notice >}}
 
@@ -48,7 +47,9 @@ So you'll end up with a list that looks more like this:
 - A document embedder
 - A document writer
 
-Sounds like a lot of work! Let's explore this pipeline one component at a time.
+Sounds like a lot of work! 
+
+In this post we will focus on the preprocessing part of the pipeline, so on cleaning, splitting, embedding and writing of documents. Later I am going to make another post focusing on all the converters that Haystack offers and how to build more "multimodal" indexing Pipelines.
 
 # Converting files
 
@@ -61,36 +62,11 @@ One of the most important tasks of this pipeline is to convert files into Docume
 - Audio files, doing transcription with Whisper either locally (`LocalWhisperTranscriber`) or remotely using OpenAI's hosted models (`RemoteWhisperTranscriber`)
 - A ton of [other formats](https://tika.apache.org/2.9.1/formats.html), such as Microsoft's Office formats, thanks to [Apache Tika](https://tika.apache.org/) (`TikaDocumentConverter`)
 
-For the sake of making the example easy to run on Colab, I'll skip Tika, Azure and the local Whisper component. We are left with four converters for text files, web pages, PDFs and audio files. Let's check them out!
-
-## Text files
-
-`TextFileToDocument` is a rather basic converter that reads the content of a text file and dumps it into a Document object. It's perfect for raw text files, code files, and for now it's also very handy for Markdown and other human-readable markup formats, like Wikipedia dumps. We are [already working](https://github.com/deepset-ai/haystack/pull/6159) to introduce dedicated converters to extract more information from markup formats, but `TextFileToDocument` will always be a quick-and-dirty option as well.
-
-Here is how you can use it to convert some files.
-
-```python
-from haystack.preview.components.file_converters.txt import TextFileToDocument
-
-path = "Republic_of_Rose_Island.txt"
-
-converter = TextFileToDocument()
-converter.run(paths=[path])
-
-# returns {"documents": [Document(text="The '''Republic of Rose Isla...")]}
-```
-
-Note that for each input path you will get a Document out. As we passed the path to a single file, `TextFileToDocument` produced a single, large Document as a result.
-
-The behavior of `TextFileToDocument` can be customized to support some different usecases. For example, you can select the text encoding to expect (such as `utf-8`, `latin-1`, and so on) through the `encoding` parameter, but you can also make it filter out text in unexpected languages using the `valid_languages` parameter, which uses `langdetect` under the hood. 
-
-Another advanced feature is the removal of numerical lines: `remove_numeric_tables` can be set to `True` to make the converter try to spot numerical tables and automatically remove them from the text, while `numeric_row_threshold` sets the maximum percentage of numerical characters that can be present in a line before it's considered to be a numerical table and filtered out. This cleanup step is disabled by default.
-
-## Web pages
+In this post we are going to use only webpages, so our converter of choice is `HTMLToDocument`.
 
 `HTMLToDocument` is a converter that understands HTML and to extract only meaningful text from it, filtering all the markup away. Keep in mind that this is a file converter, not a URL fetcher: it can only process local files, such as a website crawl. Haystack provides some components to fetch webpages, but we are going to see them in a later post.
 
-Here is how you use this converter on a local file.
+Here is how you use this converter on a local file:
 
 ```python
 from haystack.preview.components.file_converters.html import HTMLToDocument
@@ -103,115 +79,18 @@ converter.run(sources=[path])
 # returns {"documents": [Document(text="The Republic of Rose Isla...")]}
 ```
 
-`HTMLToDocument` is even simpler than the text converter, and for now offers close to no parameters to customize its behavior. One interesting feature though its the input types it accepts: it can take paths to local files in the form of strings or `Path` objects, but it also accepts `ByteStream` objects.
+`HTMLToDocument` is a very simple component that offers close to no parameters to customize its behavior. One interesting feature is the input types it accepts: it can take paths to local files in the form of strings or `Path` objects, but it also accepts `ByteStream` objects.
 
-`ByteStream` is a handy Haystack abstraction that makes handling binary streams easier. So components that are retrieving large files from the Internet, or otherwise producing them on the fly, can "pipe" them directly into this component without saving the data to diks first.
-
-## PDFs
-
-`PyPDFToDocument`, as the name implies, uses the `pypdf` Python library to extract text from PDF files. Note that PyPDF can extract everything that is stored as text in the PDF, but it cannot recognise text stored in pictures. For that you need an OCR-capable converter, such as `AzureOCRDocumentConverter`, which needs an Azure API key.
-
-Let's convert some files with `PyPDFToDocument`:
-
-```python
-from haystack.preview.components.file_converters.pypdf import PyPDFToDocument
-
-path = "Republic_of_Rose_Island.pdf"
-
-converter = PyPDFToDocument()
-pdf_documents = converter.run(sources=[path])
-
-# returns {"documents": [Document(text="The Republic of Rose Isla...")]}
-```
-
-`PyPDFToDocument` is also very simple and offers no parameters to customize its behavior for now. Just as `HTMLToDocument`, it also accepts as input strings, paths, and `ByteStream` objects, which will come handy when we will see how to retrieve documents from the Internet.
-
-## Audio files
-
-Last but not least, Haystack provides transcriber components based on [Whisper](https://openai.com/research/whisper) that can be used to convert audio files into text Documents. Whisper is open source, but is also available as an API from OpenAI: as a consequence, there are two transcribers available:
-
-- `LocalWhisperTranscriber`: it downloads the selected Whisper model from HuggingFace and performs the transcription locally.
-- `RemoteWhisperTranscriber`: it uses OpenAI API to run inference remotely, which may be faster, but required an API key.
-
-For the sake of this example we will use the remote transcriber, but the local one is nearly identical. Here is how you use them:
-
-```python
-from haystack.preview.components.audio.whisper_remote import RemoteWhisperTranscriber
-
-path = "/content/Republic_of_Rose_Island.mp3"
-
-converter = RemoteWhisperTranscriber(api_key=api_key)
-converter.run(audio_files=[path])
-
-# returns {"documents": [Document(text="The Republic of Rose Isla...")]}
-```
-
-This converter lets you pass any parameter that the Whisper model understand as kwargs, so if the API changes, the component will keep working. Other than that, it offers no other specific parameters.
-
-
-# Routing files
-
-Now that we're familiar with the simple API offered by the file converters, let's track back one step: in a list of files, how to send the appropriate file to the correct converter?
-
-This step is especially important for Pipelines, so Haystack offers a small component that is fit for the purpose: `FileTypeRouter`. This component routes the files by mime type, and expects a list of all the possible mimetypes the pipeline can handle at init time. 
-
-Given that our pipeline can handle text files, HTML files, PDFs and audios, the supported mime types in our case are `["text/plain", "text/html", "audio/mpeg", "application/pdf"]`. If you don't know which mime types match your file types, check out [this list](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types) with the most common types, and in turn links to the [official spec](https://www.iana.org/assignments/media-types/media-types.xhtml). To be really accurate we could add other text and audio types to the list and route all of them to `TextFileToDocument` and `RemoteWhisperTranscriber`, but for this example this is going to be sufficient.
-
-Here is how it's used:
-
-```python
-from haystack.preview.components.routers.file_type_router import FileTypeRouter
-
-router = FileTypeRouter(
-    mime_types=["text/plain", "text/html", "audio/mpeg", "application/pdf"]
-)
-router.run(
-    sources=[
-        "Republic_of_Rose_Island.txt", 
-        "Republic_of_Rose_Island.html", 
-        "Republic_of_Rose_Island.pdf", 
-        "Republic_of_Rose_Island.mp3"
-    ]
-)
-# returns {
-#    'text/plain': [PosixPath('Republic_of_Rose_Island.txt')],
-#    'text/html': [PosixPath('Republic_of_Rose_Island.html')],
-#    'application/pdf': [PosixPath('Republic_of_Rose_Island.pdf')],
-#    'audio/mpeg': [PosixPath('Republic_of_Rose_Island.mp3')],
-# }
-```
-Note how, just as the HTML and PDF converters, also `FileTypeRouter` expects `sources` as input, meaning that it knows how to deal with `ByteStream` objects. 
-
-However, what happens if we add a file of a mime type that is not included in the list above, or a path to a file that doesn't exist at all?
-
-```python
-router.run(
-    sources=[ 
-        "Republic_of_Rose_Island.png",
-        "Republic_of_Rose_Island.mp3",
-        "I_do_not_even_exist_and_I_have_no_extension"
-    ]
-)
-# returns {
-#    'audio/mpeg': [PosixPath('Republic_of_Rose_Island.mp3')],
-#    'unclassified': [
-#        PosixPath('Republic_of_Rose_Island.png'),
-#        PosixPath('I_do_not_even_exist_and_I_have_no_extension')
-#    ],
-# }
-```
-
-This is one powerful feature of `FileTypeRouter`: it can not only route files each to their own converter, but it can also filter out files that we have no use for.
-
+`ByteStream` is a handy Haystack abstraction that makes handling binary streams easier. So components that are retrieving large files from the Internet, or otherwise producing them on the fly, can "pipe" them directly into this component without saving the data to disk first.
 
 # Cleaning the text
 
-So we now have a way to classify the files by type and we can convert them all into a bunch of large Document objects. The converters normally do a good job, but it's rarely parfect: so Haystack offers a component called `DocumentCleaner` that can help remove some noise from the text of the resulting documents.
+We've seen how to take whole web pages and convert them into large Document objects. The converters normally do a good job, but it's rarely parfect: so Haystack offers a component called `DocumentCleaner` that can help remove some noise from the text of the resulting documents.
 
 Just as any other component, `DocumentCleaner` is rather straightforward to use.
 
 ```python
-from haystack.preview.components.preprocessors.text_document_cleaner import DocumentCleaner
+from haystack.preview.components.preprocessors.document_cleaner import DocumentCleaner
 
 cleaner = DocumentCleaner()
 cleaner.run(documents=documents)
@@ -222,11 +101,11 @@ The effectiveness of `DocumentCleaner` depends a lot on the type of converter yo
 
 Other parameters, like `remove_substrings` or `remove_regex` work very well but need manual inspection and iteration from a human to get right. For example, for Wikipedia pages we could use them to remove all instances of the word `"Wikipedia"`, which are undoubtedly many and irrelevant.
 
-Finally, `remove_repeated_substrings` is a convenient method that removed headers and footers from long text, for example books and articles, but in fact it works only for PDFs and to a limited degree for text files, because it relies on the presence of form feed characters (`\f`).
+Finally, `remove_repeated_substrings` is a convenient method that removed headers and footers from long text, for example books and articles, but in fact it works only for PDFs and to a limited degree for text files, because it relies on the presence of form feed characters (`\f`), which are rarely present in web pages.
 
 # Splitting the text
 
-Now that the text is cleaned up, we can mov onto a more interesting process: text splitting.
+Now that the text is cleaned up, we can move onto a more interesting process: text splitting.
 
 So far, each Document stored the content of an entire file. If a file was a whole book with hundreds of pages, a single Document would contain hundreds of thousands of words, which is clearly too much for an LLM to make sense of (for now). Such a large Document is also very hard for Retrievers to understand, because it contains so much text that it ends up looking relevant for every possible question. To populate our document store with data that can be used effectively by a RAG pipeline, we need to chunk this data into much smaller Documents. 
 
@@ -332,50 +211,26 @@ from haystack.preview import Pipeline
 document_store = InMemoryDocumentStore()
 
 pipeline = Pipeline()
-pipeline.add_component("router", FileTypeRouter(mime_types=["text/plain", "text/html", "application/pdf", "audio/mpeg"]))
-pipeline.add_component("text_converter", TextFileToDocument())
-pipeline.add_component("html_converter", HTMLToDocument())
-pipeline.add_component("pdf_converter", PyPDFToDocument())
-pipeline.add_component("mp3_converter", RemoteWhisperTranscriber(api_key=api_key))
-pipeline.add_component("join", DocumentsJoiner())
+pipeline.add_component("converter", HTMLToDocument())
 pipeline.add_component("cleaner", DocumentCleaner())
 pipeline.add_component("splitter", TextDocumentSplitter(split_by="sentence", split_length=5))
 pipeline.add_component("embedder", OpenAIDocumentEmbedder(api_key=api_key))
 pipeline.add_component("writer", DocumentWriter(document_store=document_store))
-pipeline.connect("router.text/plain", "text_converter")
-pipeline.connect("router.text/html", "html_converter")
-pipeline.connect("router.application/pdf", "pdf_converter")
-pipeline.connect("router.audio/mpeg", "mp3_converter")
-
-pipeline.connect("text_converter", "join.text")
-pipeline.connect("html_converter", "join.html")
-pipeline.connect("pdf_converter", "join.pdf")
-pipeline.connect("mp3_converter", "join.mp3")
-
-pipeline.connect("join", "cleaner")
+pipeline.connect("converter", "cleaner")
 pipeline.connect("cleaner", "splitter")
 pipeline.connect("splitter", "embedder")
 pipeline.connect("embedder", "writer")
 
-pipeline.run({
-    "router": {
-        "sources": [
-            "Republic_of_Rose_Island.txt",
-            "Republic_of_Rose_Island.pdf",
-            "Republic_of_Rose_Island.html",
-            "Republic_of_Rose_Island.mp3",
-        ]
-    }
-})
+pipeline.draw("simple-indexing-pipeline.png")
+
+pipeline.run({"converter": {"sources": file_names}})
 ```
 
-![Indexing Pipeline](/posts/2023-11-xx-haystack-series-minimal-indexing/indexing-pipeline.png)
+![Indexing Pipeline](/posts/2023-11-xx-haystack-series-minimal-indexing/simple-indexing-pipeline.png)
 
-.
+That's it! We now have a fully functional indexing pipeline that can take a web page and convert them into Documents that our RAG pipeline can use. As long as the RAG pipeline reads from the store we are writing the Documents too, we can add as many Documents as we need to keep the chatbot's answers up to date without having to touch the RAG pipeline at all.
 
-.
-
-.
+However, it doesn't end here. This pipeline is very simple: Haystack offers many more facilities to extend what's possible with indexing pipelines much further, like doing web searches, downloading files from the web, processing many other file types, and so on. We will see how soon, so make sure to check out the next posts.
 
 ---
 
