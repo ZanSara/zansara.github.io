@@ -1,6 +1,6 @@
 ---
 title: "[DRAFT] Unusual Haystack: chatbots with a script"
-date: 2023-11-30
+date: 2023-11-xx
 author: "ZanSara"
 tags: [Haystack, "Haystack 2.0", "Canals", "Chatbots", "DAG", LLMs]
 featuredImage: "/posts/2023-11-xx-haystack-chatbots-with-script/cover.png"

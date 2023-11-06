@@ -1,6 +1,6 @@
 ---
 title: "[DRAFT] Indexing any type of file"
-date: 2023-10-29
+date: 2023-11-xx
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, "Retrieval Augmentation", RAG, "indexing", "Document Store", Embeddings]
 series: ["Haystack 2.0 Series"]

@@ -1,15 +1,12 @@
 ---
 title: "[DRAFT] The World of Web RAG"
-date: 2023-10-30
+date: 2023-11-30
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search"]
+tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search", Web]
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-xx-haystack-series-web-rag/cover.jpeg"
+featuredImage: "/posts/2023-11-xx-haystack-series-simple-web-rag/cover.jpeg"
 draft: true
-# canonicalUrl: https://haystack.deepset.ai/blog/chatgpt-google-web-rag
 ---
-<small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/Isola_delle_Rose#/media/File:Isola_delle_Rose_1968.jpg)*</small>
-
 
 In the previous post of the Haystack 2.0 series we've seen how to build RAG pipelines using a generator, a prompt builder and a retriever with its document store. An application like that is great if you have a large data store and you need to perform RAG onto private data only. However, in many cases you may want to get data from the Internet as well, for example from news outlets, from documentation pages, and so on. 
 
@@ -38,6 +35,8 @@ Haystack 2.0 already provides a search engine component called `SerperDevWebSear
 
 *Next: Soon!*
 
-*Previous: [RAG Pipelines from scratch](/posts/2023-10-27-haystack-series-rag)*
+*Previous: [Indexing data for RAG applications](/posts/2023-11-05-haystack-series-minimal-indexing)*
 
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
+
+<small>*Cover image from [Wikipedia](https://commons.wikimedia.org/wiki/File:Isola_delle_Rose_1968.jpg)*</small>

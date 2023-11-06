@@ -439,7 +439,7 @@ However, this is just the start of our journey into RAG. Stay tuned!
 
 ---
 
-*Next: Soon!*
+*Next: [Indexing data for RAG applications](/posts/2023-11-05-haystack-series-minimal-indexing)*
 
 *Previous: [Canals: a new concept of Pipeline](/posts/2023-10-26-haystack-series-canals)*
 
