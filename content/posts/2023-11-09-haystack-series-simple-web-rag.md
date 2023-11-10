@@ -208,7 +208,11 @@ ranker.run(
     documents=documents,
     top_k=1
   )
-# return {"documents": [...]}
+# returns {
+#     'documents': [
+#         Document(content="Island under construction\nRepublic of Rose Island\nThe Republic of Rose Island ( Esperanto : Respubliko de la Insulo de la Rozoj; Italian : Repubblica dell'Isola delle Rose) was a short-lived micronation on a man-made platform in the Adriatic Sea , 11 kilometres (6.8\xa0mi) off the coast of the province of Rimini , Italy, built by Italian engineer Giorgio Rosa, who made himself its president and declared it an independent state on 1 May 1968. [1] [2] Rose Island had its own government, currency, post office, and commercial establishments, and the official language was Esperanto .", meta={'source_id': '03bfe5f7b7a7ec623e854d2bc5eb36ba3cdf06e1e2771b3a529eeb7e669431b6'}, score=7.594357490539551)
+#     ]
+# }
 ```
 
 This component has a feature we haven't encountered before: the `warm_up()` method.
@@ -255,6 +259,14 @@ pipe.run({
     "ranker": {"query": question},
     "prompt_builder": {"question": question}
 })
+# returns {
+#     'llm': {
+#         'replies': [
+#             'The official language of the Republic of Rose Island was Esperanto.'
+#         ],
+#         'metadata': [...]
+#     }
+# }
 ```
 
 ![Unfiltered Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/unfiltered-web-rag-pipeline.png)
@@ -328,6 +340,14 @@ pipe.run({
     "ranker": {"query": question},
     "prompt_builder": {"question": question}
 })
+# returns {
+#     'llm': {
+#         'replies': [
+#             'The official language of the Republic of Rose Island was Esperanto.'
+#         ],
+#         'metadata': [...]
+#     }
+# }
 ```
 
 ![HTML-only Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/html-web-rag-pipeline.png)
