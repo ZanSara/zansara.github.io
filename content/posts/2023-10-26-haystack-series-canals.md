@@ -5,7 +5,6 @@ author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, Python, Canals, Pipeline, DAG, "API Design"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-26-haystack-series-canals/cover.png"
-# canonicalUrl: https://haystack.deepset.ai/blog/canals-a-new-concept-of-pipeline
 ---
 
 As we have seen in [the previous episode of this series](/posts/2023-10-15-haystack-series-pipeline), Haystack's Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.

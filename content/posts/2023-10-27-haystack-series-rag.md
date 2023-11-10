@@ -5,7 +5,6 @@ author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-27-haystack-series-rag/cover.png"
-# canonicalUrl: https://haystack.deepset.ai/blog/rag-pipelines-from-scratch
 ---
 
 Since the start of this series, one use case that I constantly brought up is Retrieval Augmented Generation, or RAG for short.
