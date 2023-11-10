@@ -2,7 +2,7 @@
 title: "The World of Web RAG"
 date: 2023-11-09
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search", Web]
+tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, Web, indexing]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-11-09-haystack-series-simple-web-rag/cover.jpeg"
 ---
@@ -274,7 +274,7 @@ pipe.run({
 
 Note how the ranker needs to know the question to compare the documents, just like the search and prompt builder components do. So, we need to pass the value to the pipeline's `run()` call.
 
-# FIltering file types
+# Filtering file types
 
 The pipeline we just built works great in most cases. However, it may occasionally fail if the search component happens to return some URL that does not point to a web page but, for example, directly to a video, a PDF, or a PPTX.
 
