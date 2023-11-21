@@ -1,4 +1,4 @@
-baseurl = ""
+baseurl = "https://www.zansara.dev"
 title = "Sara Zan"
 theme = "hugo-coder"
 languagecode = "en"
