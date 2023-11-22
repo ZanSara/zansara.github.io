@@ -7,7 +7,9 @@ series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-27-haystack-series-rag/cover.png"
 ---
 
-*Last updated: 21/11/2023*
+*Last updated: 21/11/2023 - Read it on the [Haystack Blog](https://haystack.deepset.ai/blog/rag-pipelines-from-scratch).*
+
+---
 
 Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today's NLP landscape, Haystack must enable it.
 
