@@ -14,7 +14,7 @@ Minimal Docs: https://github.com/ZanSara/verbix-sdk/blob/main/README.md
 
 ---
 
-As part of a larger side project which is still in the works, these days I found myself looking for some decent API for verbs conjugations in different languages. My requirements were "simple":
+As part of a larger side project which is still in the works ([Ebisu Flashcards](https://github.com/ebisu-flashcards)), these days I found myself looking for some decent API for verbs conjugations in different languages. My requirements were "simple":
 
 - Supports many languages, including Italian, Portuguese and Hungarian
 - Conjugates irregulars properly

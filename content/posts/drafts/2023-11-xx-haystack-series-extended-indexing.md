@@ -1,12 +1,11 @@
 ---
 title: "[DRAFT] Indexing any type of file"
-date: 2023-11-xx
+date: 2023-11-24
 author: "ZanSara"
 tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, "Retrieval Augmentation", RAG, "indexing", "Document Store", Embeddings]
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-11-xx-haystack-series-extended-indexing/cover.png"
+featuredImage: "/posts/2023-11-24-haystack-series-extended-indexing/cover.png"
 draft: true
-# canonicalUrl: https://haystack.deepset.ai/blog/indexing-data-for-rag-applications
 ---
 <small>*[The Republic of Rose Island, Wikipedia](https://it.wikipedia.org/wiki/Isola_delle_Rose)*</small>
 
