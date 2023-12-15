@@ -17,3 +17,8 @@ After a brief introduction to Haystack, I show in practice how to use Haystack 2
 I also mention how to use and implement custom Haystack components, and share a lot of resources on the topic of RAG and Haystack 2.0.
 
 This was my most popular talk to date, with over a hundred attendees watching live and several questions.
+
+Other resources mentioned in the talk are:
+- [Blog post about custom components](https://haystack.deepset.ai/blog/customizing-rag-to-summarize-hacker-news-posts-with-haystack2?utm_campaign=developer-relations&utm_source=data-hour-event&utm_medium=webinar)
+- [LLM structured output example](https://haystack.deepset.ai/tutorials/28_structured_output_with_loop?utm_campaign=developer-relations&utm_source=data-hour-event&utm_medium=webinar)
+- [Advent of Haystack](https://haystack.deepset.ai/advent-of-haystack?utm_campaign=developer-relations&utm_source=data-hour-event&utm_medium=webinar)
