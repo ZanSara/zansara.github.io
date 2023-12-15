@@ -37,3 +37,5 @@ The talk consists of 5 parts:
 Towards the end I mention briefly an even more advanced version of this image retrieval system, which I had no time to implement live. However, I later built a notebook implementing such system and you can find it here: [Cheetah.ipynb](https://gist.github.com/ZanSara/31ed3fc8252bb74b1952f2d0fe253ed0)
 
 The slides were generated from the linked Jupyter notebook with `jupyter nbconvert Dec_1st_OpenNLP_Meetup.ipynb --to slides --post serve`.
+
+This was my most popular talk to date, with almost a hundred attendees watching live.
