@@ -413,6 +413,6 @@ In the following posts, I will explore the world of Haystack components, startin
 
 *Next: [RAG Pipelines from scratch](/posts/2023-10-27-haystack-series-rag)*
 
-*Previous: [Haystack's Pipeline](/posts/2023-10-13-haystack-series-pipeline)*
+*Previous: [Haystack's Pipeline](/posts/2023-10-15-haystack-series-pipeline)*
 
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
