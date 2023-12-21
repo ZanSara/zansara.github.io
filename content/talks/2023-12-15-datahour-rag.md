@@ -6,7 +6,7 @@ tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI, RAG, "DataHour"]
 featuredImage: "/talks/2023-12-15-datahour-rag.png"
 ---
 
-Recording (*soon*), [slides](https://drive.google.com/file/d/1n1tbiUW2wZPGC49WK9pYEIZlZuCER-hu/view?usp=sharing), [Colab](https://drive.google.com/file/d/17FXuS7X70UF02IYmOr-yEDQYg_gp9cFv/view?usp=sharing), [gist](https://gist.github.com/ZanSara/6075d418c1494e780f7098db32bc6cf6). All the material can also be found [here](https://drive.google.com/drive/folders/1KwCEDTCsm9hrRaFUPHpzdTpVsOJSnvGk?usp=drive_link).
+Recording (*soon*), [slides](https://drive.google.com/file/d/1n1tbiUW2wZPGC49WK9pYEIZlZuCER-hu/view?usp=sharing), [Colab](https://drive.google.com/file/d/17FXuS7X70UF02IYmOr-yEDQYg_gp9cFv/view?usp=sharing), [gist](https://gist.github.com/ZanSara/6075d418c1494e780f7098db32bc6cf6). All the material can also be found on [Analytics Vidhya's community](https://community.analyticsvidhya.com/c/datahour/optimizing-llms-with-retrieval-augmented-generation-and-haystack-2-0) and on [my backup](https://drive.google.com/drive/folders/1KwCEDTCsm9hrRaFUPHpzdTpVsOJSnvGk?usp=drive_link).
 
 ---
 
