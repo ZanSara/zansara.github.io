@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verbix on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/verbix/</link>
+    <description>Recent content in Verbix on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 10 Sep 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/verbix/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An (unofficial) Python SDK for Verbix</title>
+      <link>https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/</link>
+      <pubDate>Sun, 10 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/</guid>
+      <description>PyPI package: https://pypi.org/project/verbix-sdk/&#xA;GitHub Repo: https://github.com/ZanSara/verbix-sdk&#xA;Minimal Docs: https://github.com/ZanSara/verbix-sdk/blob/main/README.md&#xA;As part of a larger side project which is still in the works (Ebisu Flashcards), these days I found myself looking for some decent API for verbs conjugations in different languages. My requirements were &amp;ldquo;simple&amp;rdquo;:&#xA;Supports many languages, including Italian, Portuguese and Hungarian Conjugates irregulars properly Offers an API access to the conjugation tables Refuses to conjugate anything except for known verbs (Optional) Highlights the irregularities in some way Surprisingly these seem to be a shortage of good alternatives in this field.</description>
+    </item>
+  </channel>
+</rss>

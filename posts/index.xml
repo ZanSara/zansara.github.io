@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Sara Zan</title>
+    <link>https://www.zansara.dev/posts/</link>
+    <description>Recent content in Posts on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 06 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Headless WiFi setup on Raspberry Pi OS &#34;Bookworm&#34; without the Raspberry Pi Imager</title>
+      <link>https://www.zansara.dev/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/</link>
+      <pubDate>Sat, 06 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/</guid>
+      <description>Setting up a Raspberry Pi headless without the Raspberry Pi Imager used to be a fairly simple process for the average Linux user, to the point where a how-to and a few searches on the Raspberry Pi forums would sort the process out. After flashing the image with dd, creating ssh in the boot partition and populating wpa_supplicant.conf was normally enough to get started.&#xA;However with the recently released Raspberry Pi OS 12 &amp;ldquo;Bookworm&amp;rdquo; this second step doesn&amp;rsquo;t work anymore and the only recommendation that users receive is to &amp;ldquo;just use the Raspberry Pi Imager&amp;rdquo; (like here).</description>
+    </item>
+    <item>
+      <title>The World of Web RAG</title>
+      <link>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</link>
+      <pubDate>Thu, 09 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</guid>
+      <description>In an earlier post of the Haystack 2.0 series, we&amp;rsquo;ve seen how to build RAG and indexing pipelines. An application that uses these two pipelines is practical if you have an extensive, private collection of documents and need to perform RAG on such data only. However, in many cases, you may want to get data from the Internet: from news outlets, documentation pages, and so on.&#xA;In this post, we will see how to build a Web RAG application: a RAG pipeline that can search the Web for the information needed to answer your questions.</description>
+    </item>
+    <item>
+      <title>Indexing data for RAG applications</title>
+      <link>https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/</link>
+      <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/</guid>
+      <description>In the previous post of the Haystack 2.0 series, we saw how to build RAG pipelines using a generator, a prompt builder, and a retriever with its document store. However, the content of our document store wasn&amp;rsquo;t extensive, and populating one with clean, properly formatted data is not an easy task. How can we approach this problem?&#xA;In this post, I will show you how to use Haystack 2.0 to create large amounts of documents from a few web pages and write them a document store that you can then use for retrieval.</description>
+    </item>
+    <item>
+      <title>RAG Pipelines from scratch</title>
+      <link>https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/</link>
+      <pubDate>Fri, 27 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/</guid>
+      <description>Last updated: 21/11/2023 - Read it on the Haystack Blog.&#xA;Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today&amp;rsquo;s NLP landscape, Haystack must enable it.&#xA;Let&amp;rsquo;s see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales.</description>
+    </item>
+    <item>
+      <title>A New Approach to Haystack Pipelines</title>
+      <link>https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/</link>
+      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/</guid>
+      <description>Updated on 21/12/2023&#xA;As we have seen in the previous episode of this series, Haystack&amp;rsquo;s Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.&#xA;What does this mean in practice? Let&amp;rsquo;s look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1.</description>
+    </item>
+    <item>
+      <title>Haystack&#39;s Pipeline - A Deep Dive</title>
+      <link>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</link>
+      <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</guid>
+      <description>If you&amp;rsquo;ve ever looked at Haystack before, you must have come across the Pipeline, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?&#xA;In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses.</description>
+    </item>
+    <item>
+      <title>Why rewriting Haystack?!</title>
+      <link>https://www.zansara.dev/posts/2023-10-11-haystack-series-why/</link>
+      <pubDate>Wed, 11 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-11-haystack-series-why/</guid>
+      <description>Before even diving into what Haystack 2.0 is, how it was built, and how it works, let&amp;rsquo;s spend a few words about the whats and the whys.&#xA;First of all, what is Haystack?&#xA;And next, why on Earth did we decide to rewrite it from the ground up?&#xA;A Pioneer Framework Link to heading Haystack is a relatively young framework, its initial release dating back to November 28th, 2019. Back then, Natural Language Processing was a field that had just started moving its first step outside of research labs, and Haystack was one of the first libraries that promised enterprise-grade, production-ready NLP features.</description>
+    </item>
+    <item>
+      <title>Haystack 2.0: What is it?</title>
+      <link>https://www.zansara.dev/posts/2023-10-10-haystack-series-intro/</link>
+      <pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-10-haystack-series-intro/</guid>
+      <description>December is finally approaching, and with it the release of a Haystack 2.0. At deepset, we’ve been talking about it for months, we’ve been iterating on the core concepts what feels like a million times, and it looks like we’re finally getting ready for the approaching deadline.&#xA;But what is it that makes this release so special?&#xA;In short, Haystack 2.0 is a complete rewrite. A huge, big-bang style change. Almost no code survived the migration unmodified: we’ve been across the entire 100,000+ lines of the codebase and redone everything in under a year.</description>
+    </item>
+    <item>
+      <title>An (unofficial) Python SDK for Verbix</title>
+      <link>https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/</link>
+      <pubDate>Sun, 10 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/</guid>
+      <description>PyPI package: https://pypi.org/project/verbix-sdk/&#xA;GitHub Repo: https://github.com/ZanSara/verbix-sdk&#xA;Minimal Docs: https://github.com/ZanSara/verbix-sdk/blob/main/README.md&#xA;As part of a larger side project which is still in the works (Ebisu Flashcards), these days I found myself looking for some decent API for verbs conjugations in different languages. My requirements were &amp;ldquo;simple&amp;rdquo;:&#xA;Supports many languages, including Italian, Portuguese and Hungarian Conjugates irregulars properly Offers an API access to the conjugation tables Refuses to conjugate anything except for known verbs (Optional) Highlights the irregularities in some way Surprisingly these seem to be a shortage of good alternatives in this field.</description>
+    </item>
+    <item>
+      <title>My Dotfiles</title>
+      <link>https://www.zansara.dev/posts/2021-12-11-dotfiles/</link>
+      <pubDate>Sat, 11 Dec 2021 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2021-12-11-dotfiles/</guid>
+      <description>GitHub Repo: https://github.com/ZanSara/dotfiles&#xA;What Linux developer would I be if I didn&amp;rsquo;t also have my very own dotfiles repo?&#xA;After many years of iterations I finally found a combination that lasted quite a while, so I figured it&amp;rsquo;s time to treat them as a real project. It was originally optimized for my laptop, but then I realized it works quite well on my three-monitor desk setup as well without major issues.</description>
+    </item>
+  </channel>
+</rss>

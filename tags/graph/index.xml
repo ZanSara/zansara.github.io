@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>graph on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/graph/</link>
+    <description>Recent content in graph on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 15 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/graph/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Haystack&#39;s Pipeline - A Deep Dive</title>
+      <link>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</link>
+      <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</guid>
+      <description>If you&amp;rsquo;ve ever looked at Haystack before, you must have come across the Pipeline, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?&#xA;In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Haystack on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/haystack/</link>
+    <description>Recent content in Haystack on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 15 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/haystack/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DataHour: Optimizing LLMs with Retrieval Augmented Generation and Haystack 2.0</title>
+      <link>https://www.zansara.dev/talks/2023-12-15-datahour-rag/</link>
+      <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-12-15-datahour-rag/</guid>
+      <description>Recording, slides, Colab, gist. All the material can also be found on Analytics Vidhya&amp;rsquo;s community and on my backup.&#xA;In this hour-long workshop organized by Analytics Vidhya I give an overview of what RAG is, what problems it solves, and how it works.&#xA;After a brief introduction to Haystack, I show in practice how to use Haystack 2.0 to assemble a Pipeline that performs RAG on a local database and then on the Web with a simple change.</description>
+    </item>
+    <item>
+      <title>Pointer[183]: Haystack, creare LLM Applications in modo facile</title>
+      <link>https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/</link>
+      <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/</guid>
+      <description>Website: https://pointerpodcast.it/p/pointer183-haystack-creare-llm-applications-in-modo-facile-con-stefano-fiorucci-e-sara-zanzottera&#xA;The podcast was recorded in Italian for PointerPodcast with Luca Corbucci, Eugenio Paluello and Stefano Fiorucci.&#xA;Per concludere in grande stile il 2023, in questa puntata ci occupiamo delle LLM che sono state un argomento centrale della scena tech dell&amp;rsquo;anno che sta per terminare. Abbiamo invitato due esperti del settore, Sara Zanzottera e Stefano Fiorucci.&#xA;Entrambi i nostri ospiti lavorano per deepset come NLP Engineer. Deepset è l&amp;rsquo;azienda produttrice di Haystack uno dei framework opensource per LLM più noti, che ha da poco raggiunto la versione 2.</description>
+    </item>
+    <item>
+      <title>The World of Web RAG</title>
+      <link>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</link>
+      <pubDate>Thu, 09 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</guid>
+      <description>In an earlier post of the Haystack 2.0 series, we&amp;rsquo;ve seen how to build RAG and indexing pipelines. An application that uses these two pipelines is practical if you have an extensive, private collection of documents and need to perform RAG on such data only. However, in many cases, you may want to get data from the Internet: from news outlets, documentation pages, and so on.&#xA;In this post, we will see how to build a Web RAG application: a RAG pipeline that can search the Web for the information needed to answer your questions.</description>
+    </item>
+    <item>
+      <title>Indexing data for RAG applications</title>
+      <link>https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/</link>
+      <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/</guid>
+      <description>In the previous post of the Haystack 2.0 series, we saw how to build RAG pipelines using a generator, a prompt builder, and a retriever with its document store. However, the content of our document store wasn&amp;rsquo;t extensive, and populating one with clean, properly formatted data is not an easy task. How can we approach this problem?&#xA;In this post, I will show you how to use Haystack 2.0 to create large amounts of documents from a few web pages and write them a document store that you can then use for retrieval.</description>
+    </item>
+    <item>
+      <title>RAG Pipelines from scratch</title>
+      <link>https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/</link>
+      <pubDate>Fri, 27 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/</guid>
+      <description>Last updated: 21/11/2023 - Read it on the Haystack Blog.&#xA;Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today&amp;rsquo;s NLP landscape, Haystack must enable it.&#xA;Let&amp;rsquo;s see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales.</description>
+    </item>
+    <item>
+      <title>A New Approach to Haystack Pipelines</title>
+      <link>https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/</link>
+      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/</guid>
+      <description>Updated on 21/12/2023&#xA;As we have seen in the previous episode of this series, Haystack&amp;rsquo;s Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.&#xA;What does this mean in practice? Let&amp;rsquo;s look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1.</description>
+    </item>
+    <item>
+      <title>Haystack&#39;s Pipeline - A Deep Dive</title>
+      <link>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</link>
+      <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</guid>
+      <description>If you&amp;rsquo;ve ever looked at Haystack before, you must have come across the Pipeline, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?&#xA;In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses.</description>
+    </item>
+    <item>
+      <title>Office Hours: RAG Pipelines</title>
+      <link>https://www.zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/</link>
+      <pubDate>Thu, 12 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/</guid>
+      <description>Recording: Office Hours - RAG Pipelines&#xA;Notebook: RAG_Pipelines.ipynb&#xA;All the material can also be found here.&#xA;In this Office Hours I walk through the LLM support offered by Haystack 2.0 to this date: Generator, PromptBuilder, and how to connect them to different types of Retrievers to build Retrieval Augmented Generation (RAG) applications.&#xA;In under 40 minutes we start from a simple query to ChatGPT up to a full pipeline that retrieves documents from the Internet, splits them into chunks and feeds them to an LLM to ground its replies.</description>
+    </item>
+    <item>
+      <title>Why rewriting Haystack?!</title>
+      <link>https://www.zansara.dev/posts/2023-10-11-haystack-series-why/</link>
+      <pubDate>Wed, 11 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-11-haystack-series-why/</guid>
+      <description>Before even diving into what Haystack 2.0 is, how it was built, and how it works, let&amp;rsquo;s spend a few words about the whats and the whys.&#xA;First of all, what is Haystack?&#xA;And next, why on Earth did we decide to rewrite it from the ground up?&#xA;A Pioneer Framework Link to heading Haystack is a relatively young framework, its initial release dating back to November 28th, 2019. Back then, Natural Language Processing was a field that had just started moving its first step outside of research labs, and Haystack was one of the first libraries that promised enterprise-grade, production-ready NLP features.</description>
+    </item>
+    <item>
+      <title>Haystack 2.0: What is it?</title>
+      <link>https://www.zansara.dev/posts/2023-10-10-haystack-series-intro/</link>
+      <pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-10-haystack-series-intro/</guid>
+      <description>December is finally approaching, and with it the release of a Haystack 2.0. At deepset, we’ve been talking about it for months, we’ve been iterating on the core concepts what feels like a million times, and it looks like we’re finally getting ready for the approaching deadline.&#xA;But what is it that makes this release so special?&#xA;In short, Haystack 2.0 is a complete rewrite. A huge, big-bang style change. Almost no code survived the migration unmodified: we’ve been across the entire 100,000+ lines of the codebase and redone everything in under a year.</description>
+    </item>
+    <item>
+      <title>Office Hours: Haystack 2.0</title>
+      <link>https://www.zansara.dev/talks/2023-08-03-office-hours-haystack-2.0-status/</link>
+      <pubDate>Thu, 03 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-08-03-office-hours-haystack-2.0-status/</guid>
+      <description>Recording: Haystack v2 - Office Hours&#xA;Slides: Haystack v2 - Status Update&#xA;All the material can also be found here.&#xA;In this Office Hours I&amp;rsquo;ve presented for the first time to our Discord community a preview of the upcoming 2.0 release of Haystack, which has been in the works since the start of the year. As rumors started to arise at the presence of a preview module in the latest Haystack 1.</description>
+    </item>
+    <item>
+      <title>A Practical Introduction to Image Retrieval</title>
+      <link>https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/</link>
+      <pubDate>Thu, 01 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/</guid>
+      <description>Youtube: Open NLP meetup #7&#xA;Slides: A Practical Introduction to Image Retrieval&#xA;Colab: MultiModalRetriever - Live coding&#xA;All the material can also be found here.&#xA;A Practical Introduction to Image Retrieval Link to heading by Sara Zanzottera from deepset&#xA;Search should not be limited to text only. Recently, Transformers-based NLP models started crossing the boundaries of text data and exploring the possibilities of other modalities, like tabular data, images, audio files, and more.</description>
+    </item>
+  </channel>
+</rss>

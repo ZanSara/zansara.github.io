@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Italiano on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/italiano/</link>
+    <description>Recent content in Italiano on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 15 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/italiano/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pointer[183]: Haystack, creare LLM Applications in modo facile</title>
+      <link>https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/</link>
+      <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/</guid>
+      <description>Website: https://pointerpodcast.it/p/pointer183-haystack-creare-llm-applications-in-modo-facile-con-stefano-fiorucci-e-sara-zanzottera&#xA;The podcast was recorded in Italian for PointerPodcast with Luca Corbucci, Eugenio Paluello and Stefano Fiorucci.&#xA;Per concludere in grande stile il 2023, in questa puntata ci occupiamo delle LLM che sono state un argomento centrale della scena tech dell&amp;rsquo;anno che sta per terminare. Abbiamo invitato due esperti del settore, Sara Zanzottera e Stefano Fiorucci.&#xA;Entrambi i nostri ospiti lavorano per deepset come NLP Engineer. Deepset è l&amp;rsquo;azienda produttrice di Haystack uno dei framework opensource per LLM più noti, che ha da poco raggiunto la versione 2.</description>
+    </item>
+  </channel>
+</rss>

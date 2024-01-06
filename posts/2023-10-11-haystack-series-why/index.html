@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Why rewriting Haystack?! · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="Before even diving into what Haystack 2.0 is, how it was built, and how it works, let&rsquo;s spend a few words about the whats and the whys.
+First of all, what is Haystack?
+And next, why on Earth did we decide to rewrite it from the ground up?
+A Pioneer Framework Link to heading Haystack is a relatively young framework, its initial release dating back to November 28th, 2019. Back then, Natural Language Processing was a field that had just started moving its first step outside of research labs, and Haystack was one of the first libraries that promised enterprise-grade, production-ready NLP features.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source">
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Why rewriting Haystack?!"/>
+<meta name="twitter:description" content="Before even diving into what Haystack 2.0 is, how it was built, and how it works, let&rsquo;s spend a few words about the whats and the whys.
+First of all, what is Haystack?
+And next, why on Earth did we decide to rewrite it from the ground up?
+A Pioneer Framework Link to heading Haystack is a relatively young framework, its initial release dating back to November 28th, 2019. Back then, Natural Language Processing was a field that had just started moving its first step outside of research labs, and Haystack was one of the first libraries that promised enterprise-grade, production-ready NLP features."/>
+
+<meta property="og:title" content="Why rewriting Haystack?!" />
+<meta property="og:description" content="Before even diving into what Haystack 2.0 is, how it was built, and how it works, let&rsquo;s spend a few words about the whats and the whys.
+First of all, what is Haystack?
+And next, why on Earth did we decide to rewrite it from the ground up?
+A Pioneer Framework Link to heading Haystack is a relatively young framework, its initial release dating back to November 28th, 2019. Back then, Natural Language Processing was a field that had just started moving its first step outside of research labs, and Haystack was one of the first libraries that promised enterprise-grade, production-ready NLP features." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.zansara.dev/posts/2023-10-11-haystack-series-why/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-10-11T00:00:00+00:00" />
+<meta property="og:see_also" content="https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/" /><meta property="og:see_also" content="https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/" /><meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/" /><meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/" /><meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/" />
+
+
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2023-10-11-haystack-series-why/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.610348c09e525384da3565602b203c3a844dd0ad5a877e04601e9f20cae5466e.css" integrity="sha256-YQNIwJ5SU4TaNWVgKyA8OoRN0K1ah34EYB6fIMrlRm4=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.444027263620296e25d16bc7d683df544ee56a148dafabbd903f464d823a1248.css" integrity="sha256-REAnJjYgKW4l0WvH1oPfVE7lahSNr6u9kD9GTYI6Ekg=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/favicon.png" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2023-10-11-haystack-series-why/cover.png">
+  <meta name="og:image" content="/posts/2023-10-11-haystack-series-why/cover.png">
+  <meta name="twitter:image" content="/posts/2023-10-11-haystack-series-why/cover.png">
+  
+
+  <script async data-id="101429875" src="//static.getclicky.com/js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/tags/">Tags</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2023-10-11-haystack-series-why/">
+              Why rewriting Haystack?!
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2023-10-11T00:00:00Z">
+                October 11, 2023
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          <div class="tags">
+  <i class="fa fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/haystack-2.0/">Haystack 2.0</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/haystack/">Haystack</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/llm/">LLM</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/nlp/">NLP</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/python/">Python</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/ai/">AI</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2023-10-11-haystack-series-why/cover.png" alt="Featured image"/>
+        
+        <p>Before even diving into what Haystack 2.0 is, how it was built, and how it works, let&rsquo;s spend a few words about the whats and the whys.</p>
+<p>First of all, <em>what is</em> Haystack?</p>
+<p>And next, why on Earth did we decide to rewrite it from the ground up?</p>
+<h3 id="a-pioneer-framework">
+  A Pioneer Framework
+  <a class="heading-link" href="#a-pioneer-framework">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Haystack is a relatively young framework, its initial release dating back to <a href="https://github.com/deepset-ai/haystack/releases/tag/0.1.0"  class="external-link" target="_blank" rel="noopener">November 28th, 2019</a>. Back then, Natural Language Processing was a field that had just started moving its first step outside of research labs, and Haystack was one of the first libraries that promised enterprise-grade, production-ready NLP features. We were proud to enable use cases such as <a href="https://medium.com/deepset-ai/what-semantic-search-can-do-for-you-ea5b1e8dfa7f"  class="external-link" target="_blank" rel="noopener">semantic search</a>, <a href="https://medium.com/deepset-ai/semantic-faq-search-with-haystack-6a03b1e13053"  class="external-link" target="_blank" rel="noopener">FAQ matching</a>, document similarity, document summarization, machine translation, language-agnostic search, and so on.</p>
+<p>The field was niche but constantly moving, and research was lively. <a href="https://arxiv.org/abs/1810.04805"  class="external-link" target="_blank" rel="noopener">The BERT paper</a> had been published a few months before Haystack&rsquo;s first release, unlocking a small revolution. In the shade of much larger research labs, <a href="https://www.deepset.ai/"  class="external-link" target="_blank" rel="noopener">deepset</a>, then just a pre-seed stage startup, was also pouring effort into <a href="https://arxiv.org/abs/2104.12741"  class="external-link" target="_blank" rel="noopener">research</a> and <a href="https://huggingface.co/deepset"  class="external-link" target="_blank" rel="noopener">model training</a>.</p>
+<p>In those times, competition was close to non-existent. The field was still quite technical, and most people didn&rsquo;t fully understand its potential. We were free to explore features and use cases at our own pace and set the direction for our product. This allowed us to decide what to work on, what to double down on, and what to deprioritize, postpone, or ignore. Haystack was nurturing its own garden in what was fundamentally a green field.</p>
+<h3 id="chatgpt">
+  ChatGPT
+  <a class="heading-link" href="#chatgpt">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>This rather idyllic situation came to an end all too abruptly at the end of November 2022, when <a href="https://openai.com/blog/chatgpt"  class="external-link" target="_blank" rel="noopener">ChatGPT was released</a>.</p>
+<p>For us in the NLP field, everything seemed to change overnight. Day by day. For <em>months</em>.</p>
+<p>The speed of progress went from lively to faster-than-light all at once. Every company with the budget to train an LLM seemed to be doing so, and researchers kept releasing new models just as quickly. Open-source contributors pushed to reduce the hardware requirements for inference lower and lower. My best memory of those times is the drama of <a href="https://github.com/facebookresearch/llama/pull/73"  class="external-link" target="_blank" rel="noopener">LlaMa&rsquo;s first &ldquo;release&rdquo;</a>: I remember betting on March 2nd that within a week I would be running LlaMa models on my laptop, and I wasn&rsquo;t even surprised when my prediction <a href="https://news.ycombinator.com/item?id=35100086"  class="external-link" target="_blank" rel="noopener">turned out true</a> with the release of <a href="https://github.com/ggerganov/llama.cpp"  class="external-link" target="_blank" rel="noopener">llama.cpp</a> on March 10th.</p>
+<p>Of course, keeping up with this situation was far beyond us. Competitors started to spawn like mushrooms, and our space was quickly crowded with new startups, far more agile and aggressive than us. We suddenly needed to compete and realized we weren&rsquo;t used to it.</p>
+<h3 id="promptnode-vs-farmreader">
+  PromptNode vs FARMReader
+  <a class="heading-link" href="#promptnode-vs-farmreader">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Luckily, Haystack seemed capable of keeping up, at least for a while. Thanks to the efforts of <a href="https://twitter.com/vladblagoje"  class="external-link" target="_blank" rel="noopener">Vladimir Blagojevic</a>, a few weeks after ChatGPT became a sensation, we added some decent support for LLMs in the form of <a href="https://github.com/deepset-ai/haystack/pull/3665"  class="external-link" target="_blank" rel="noopener">PromptNode</a>. Our SaaS team could soon bring new LLM-powered features to our customers. We even managed to add support for <a href="https://github.com/deepset-ai/haystack/pull/3925"  class="external-link" target="_blank" rel="noopener">Agents</a>, another hot topic in the wake of ChatGPT.</p>
+<p>However, the go-to library for LLMs was not Haystack in the mind of most developers. It was <a href="https://docs.langchain.com/docs/"  class="external-link" target="_blank" rel="noopener">LangChain</a>, and for a long time, it seemed like we would never be able to challenge their status and popularity. Everyone was talking about it, everyone was building demos, products, and startups on it, its development speed was unbelievable and, in the day-to-day discourse of the newly born LLM community, Haystack was nowhere to be found.</p>
+<p>Why?</p>
+<p>That&rsquo;s because no one even realized that Haystack, the semantic search framework from 2019, also supported LLMs. All our documentation, tutorials, blog posts, research efforts, models on HuggingFace, <em>everything</em> was pointing towards semantic search. LLMs were nowhere to be seen.</p>
+<p>And semantic search was going down <em>fast</em>.</p>
+<p><img src="/posts/2023-10-11-haystack-series-why/reader-model-downloads.png" alt="Reader Models downloads graph"></p>
+<p>The image above shows today&rsquo;s monthly downloads for one of deepset&rsquo;s most successful models on HuggingFace,
+<a href="https://huggingface.co/deepset/roberta-base-squad2"  class="external-link" target="_blank" rel="noopener">deepset/roberta-base-squad2</a>. This model performs <a href="https://huggingface.co/tasks/question-answering"  class="external-link" target="_blank" rel="noopener">extractive Question Answering</a>, our former primary use case before the release of ChatGPT. Even with more than one and a half million downloads monthly, this model is experiencing a disastrous collapse in popularity, and in the current landscape, it is unlikely to ever recover.</p>
+<h3 id="a-sort-of-pivot">
+  A (Sort Of) Pivot
+  <a class="heading-link" href="#a-sort-of-pivot">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>In this context, around February 2023, we decided to bet on the rise of LLMs and committed to focus all our efforts towards becoming the #1 framework powering production-grade LLM applications.</p>
+<p>As we quickly realized, this was by far not an easy proposition. Extractive QA was not only ingrained deeply in our public image but in our codebase as well: implementing and maintaining PromptNode was proving more and more painful by the day, and when we tried to fit the concept of Agents into Haystack, it felt uncomfortably like trying to force a square peg into a round hole.</p>
+<p>Haystack pipelines made extractive QA straightforward for the users and were highly optimized for this use case. But supporting LLMs was nothing like enabling extractive QA. Using Haystack for LLMs was quite a painful experience, and at the same time, modifying the Pipeline class to accommodate them seemed like the best way to mess with all the users that relied on the current Pipeline for their existing, value-generating applications. Making mistakes with Pipeline could ruin us.</p>
+<p>With this realization in mind, we took what seemed the best option for the future of Haystack: a rewrite. The knowledge and experience we gained while working on Haystack 1 could fuel the design of Haystack 2 and act as a reference frame for it. Unlike our competitors, we already knew a lot about how to make NLP work at scale. We made many mistakes we would avoid in our next iteration. We knew that focusing on the best possible developer experience fueled the growth of Haystack 1 in the early days, and we were committed to doing the same for the next version of it.</p>
+<p>So, the redesign of Haystack started, and it started from the concept of Pipeline.</p>
+<h3 id="fast-forward">
+  Fast-forward
+  <a class="heading-link" href="#fast-forward">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Haystack 2.0 hasn&rsquo;t been released yet, but for now, it seems that we have made the right decision at the start of the year.</p>
+<p>Haystack&rsquo;s name is starting to appear more often in discussions around LLMs. The general tone of the community is steadily shifting, and scaling up, rather than experimenting, is now the focus. Competitors are re-orienting themselves toward production-readiness, something we&rsquo;re visibly more experienced with. At the same time, LangChain is becoming a victim of its own success, collecting more and more criticism for its lack of documentation, leaky abstractions, and confusing architecture. Other competitors are gaining steam, but the overall landscape no longer feels as hostile.</p>
+<p>In the next post, I will explore the technical side of Haystack 2.0 and delve deeper into the concept of Pipelines: what they are, how to use them, how they evolved from Haystack 1 to Haystack 2, and why.</p>
+<hr>
+<p><em>Next: <a href="/posts/2023-10-15-haystack-series-pipeline" >Haystack&rsquo;s Pipeline - A Deep Dive</a></em></p>
+<p><em>Previous: <a href="/posts/2023-10-10-haystack-series-intro" >Haystack 2.0: What is it?</a></em></p>
+<p><em>See the entire series here: <a href="/series/haystack-2.0-series/" >Haystack 2.0 series</a></em></p>
+
+      </div>
+
+
+      <footer>
+        
+
+<section class="see-also">
+  
+    
+    
+    
+  
+</section>
+
+
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2024
+     Sara Zan 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

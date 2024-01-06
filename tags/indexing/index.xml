@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>indexing on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/indexing/</link>
+    <description>Recent content in indexing on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 09 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/indexing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The World of Web RAG</title>
+      <link>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</link>
+      <pubDate>Thu, 09 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</guid>
+      <description>In an earlier post of the Haystack 2.0 series, we&amp;rsquo;ve seen how to build RAG and indexing pipelines. An application that uses these two pipelines is practical if you have an extensive, private collection of documents and need to perform RAG on such data only. However, in many cases, you may want to get data from the Internet: from news outlets, documentation pages, and so on.&#xA;In this post, we will see how to build a Web RAG application: a RAG pipeline that can search the Web for the information needed to answer your questions.</description>
+    </item>
+    <item>
+      <title>Indexing data for RAG applications</title>
+      <link>https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/</link>
+      <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/</guid>
+      <description>In the previous post of the Haystack 2.0 series, we saw how to build RAG pipelines using a generator, a prompt builder, and a retriever with its document store. However, the content of our document store wasn&amp;rsquo;t extensive, and populating one with clean, properly formatted data is not an easy task. How can we approach this problem?&#xA;In this post, I will show you how to use Haystack 2.0 to create large amounts of documents from a few web pages and write them a document store that you can then use for retrieval.</description>
+    </item>
+  </channel>
+</rss>
