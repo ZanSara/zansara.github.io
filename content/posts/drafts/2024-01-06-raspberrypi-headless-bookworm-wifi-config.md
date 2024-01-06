@@ -4,7 +4,6 @@ date: 2024-01-06
 author: "ZanSara"
 tags: ["Raspberry Pi", "Bookworm", "WiFi", "Network Manager", "Raspberry Pi OS", "Bash", "Raspberry Pi Imager"]
 featuredImage: "/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/cover.png"
-draft: true
 ---
 
 Setting up a Raspberry Pi headless without the Raspberry Pi Imager used to be a fairly simple process for the average Linux user, to the point where a how-to and a few searches on the Raspberry Pi forums would sort the process out. After flashing the image with `dd`, creating `ssh` in the boot partition and populating `wpa_supplicant.conf` was normally enough to get started.
