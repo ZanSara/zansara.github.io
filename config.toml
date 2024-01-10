@@ -113,4 +113,7 @@ style = "github-dark"
   name = "Tags"
   weight = 6
   url  = "tags/"
-
+[[menu.main]]
+  name = "Stats"
+  weight = 7
+  url  = "https://zansaradev.goatcounter.com"
