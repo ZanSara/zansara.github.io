@@ -7,6 +7,10 @@ series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-11-09-haystack-series-simple-web-rag/cover.jpeg"
 ---
 
+*Last updated: 18/01/2023*
+
+---
+
 In an earlier post of the Haystack 2.0 series, we've seen how to build RAG and indexing pipelines. An application that uses these two pipelines is practical if you have an extensive, private collection of documents and need to perform RAG on such data only. However, in many cases, you may want to get data from the Internet: from news outlets, documentation pages, and so on.
 
 In this post, we will see how to build a Web RAG application: a RAG pipeline that can search the Web for the information needed to answer your questions.
@@ -19,7 +23,7 @@ In this post, we will see how to build a Web RAG application: a RAG pipeline tha
 
 {{< notice warning >}}
 
-<i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==0.130.0`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.*
+<i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.*
 
 {{< /notice >}}
 
@@ -37,7 +41,7 @@ Haystack 2.0 already provides a search engine component called `SerperDevWebSear
 To begin, let's see how to use this component in isolation.
 
 ```python
-from haystack.preview.components.websearch import SerperDevWebSearch
+from haystack.components.websearch import SerperDevWebSearch
 
 question = "What's the official language of the Republic of Rose Island?"
 
@@ -72,9 +76,9 @@ Other than expecting an API key as an init parameter and `top_k` to control the 
 This is the result:
 
 ```python
-from haystack.preview import Pipeline
-from haystack.preview.components.builders import PromptBuilder
-from haystack.preview.components.generators import GPTGenerator
+from haystack import Pipeline
+from haystack.components.builders import PromptBuilder
+from haystack.components.generators import OpenAIGenerator
 
 template = """
 Question: {{ question }}
@@ -91,7 +95,7 @@ pipe = Pipeline()
 
 pipe.add_component("search", SerperDevWebSearch(api_key=serperdev_api_key))
 pipe.add_component("prompt_builder", PromptBuilder(template=template))
-pipe.add_component("llm", GPTGenerator(api_key=api_key))
+pipe.add_component("llm", OpenAIGenerator(api_key=api_key))
 pipe.connect("search.documents", "prompt_builder.documents")
 pipe.connect("prompt_builder", "llm")
 
@@ -121,7 +125,7 @@ However, there are situations in which this approach is not sufficient. For exam
 Haystack offers components to read the content of a URL: it's `LinkContentFetcher`. Let's see this component in action.
 
 ```python
-from haystack.preview.components.fetchers.link_content import LinkContentFetcher
+from haystack.components.fetchers import LinkContentFetcher
 
 fetcher = LinkContentFetcher()
 fetcher.run(urls=["https://en.wikipedia.org/wiki/Republic_of_Rose_Island"])
@@ -161,7 +165,7 @@ pipe.add_component("converter", HTMLToDocument())
 pipe.add_component("cleaner", DocumentCleaner())
 pipe.add_component("splitter", DocumentSplitter(split_by="sentence", split_length=3))
 pipe.add_component("prompt_builder", PromptBuilder(template=template))
-pipe.add_component("llm", GPTGenerator(api_key=api_key))
+pipe.add_component("llm", OpenAIGenerator(api_key=api_key))
 pipe.connect("search.links", "fetcher")
 pipe.connect("fetcher", "converter")
 pipe.connect("converter", "cleaner")
@@ -199,7 +203,7 @@ These components are called rankers. One example of such a component is `Transfo
 Let's see how it works:
 
 ```python
-from haystack.preview.components.rankers.transformers_similarity import TransformersSimilarityRanker
+from haystack.components.rankers import TransformersSimilarityRanker
 
 ranker = TransformersSimilarityRanker()
 ranker.warm_up()
@@ -243,7 +247,7 @@ pipe.add_component("cleaner", DocumentCleaner())
 pipe.add_component("splitter", DocumentSplitter(split_by="sentence", split_length=3))
 pipe.add_component("ranker", TransformersSimilarityRanker())
 pipe.add_component("prompt_builder", PromptBuilder(template=template))
-pipe.add_component("llm", GPTGenerator(api_key=api_key))
+pipe.add_component("llm", OpenAIGenerator(api_key=api_key))
 pipe.connect("search.links", "fetcher")
 pipe.connect("fetcher", "converter")
 pipe.connect("converter", "cleaner")
@@ -287,7 +291,7 @@ This task could be approached with Haystack in several ways, but the simplest in
 However, we can also conveniently use this component as a filter. Let's see how!
 
 ```python
-from haystack.preview.components.routers.file_type_router import FileTypeRouter
+from haystack.components.routers import FileTypeRouter
 
 router = FileTypeRouter(mime_types=["text/html"])
 router.run(sources=["Republic_of_Rose_Island.txt", "Republic_of_Rose_Island.html"])
@@ -323,7 +327,7 @@ pipe.add_component("cleaner", DocumentCleaner())
 pipe.add_component("splitter", DocumentSplitter(split_by="sentence", split_length=3))
 pipe.add_component("ranker", TransformersSimilarityRanker())
 pipe.add_component("prompt_builder", PromptBuilder(template=template))
-pipe.add_component("llm", GPTGenerator(api_key=api_key))
+pipe.add_component("llm", OpenAIGenerator(api_key=api_key))
 pipe.connect("search.links", "fetcher")
 pipe.connect("fetcher", "filter")
 pipe.connect("filter.text/html", "converter")
@@ -361,8 +365,6 @@ Web RAG is a use case that can be expanded to cover many use cases, resulting in
 In one of our next posts, we will see how to cover such use cases while keeping the resulting complexity as low as possible.
 
 ---
-
-*Next: Soon!*
 
 *Previous: [Indexing data for RAG applications](/posts/2023-11-05-haystack-series-minimal-indexing)*
 
