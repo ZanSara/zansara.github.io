@@ -7,6 +7,10 @@ series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-11-05-haystack-series-minimal-indexing/cover.png"
 ---
 
+*Last updated: 18/01/2023*
+
+---
+
 In the [previous post](/posts/2023-10-27-haystack-series-rag) of the Haystack 2.0 series, we saw how to build RAG pipelines using a generator, a prompt builder, and a retriever with its document store. However, the content of our document store wasn't extensive, and populating one with clean, properly formatted data is not an easy task. How can we approach this problem?
 
 In this post, I will show you how to use Haystack 2.0 to create large amounts of documents from a few web pages and write them a document store that you can then use for retrieval.
@@ -19,7 +23,7 @@ In this post, I will show you how to use Haystack 2.0 to create large amounts of
 
 {{< notice warning >}}
 
-<i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==0.117.0`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.*
+<i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.*
 
 {{< /notice >}}
 
@@ -52,7 +56,7 @@ In this case, our converter of choice is `HTMLToDocument`. `HTMLToDocument` is a
 Here is how you can use this converter:
 
 ```python
-from haystack.preview.components.file_converters.html import HTMLToDocument
+from haystack.components.converters import HTMLToDocument
 
 path = "Republic_of_Rose_Island.html"
 
@@ -73,7 +77,7 @@ With `HTMLToDocument`, we can convert whole web pages into large Document object
 Just like any other component, `DocumentCleaner` is straightforward to use:
 
 ```python
-from haystack.preview.components.preprocessors.document_cleaner import DocumentCleaner
+from haystack.components.preprocessors import DocumentCleaner
 
 cleaner = DocumentCleaner()
 cleaner.run(documents=documents)
@@ -92,7 +96,7 @@ Now that the text is cleaned up, we can move onto a more exciting step: text spl
 
 So far, each Document stored the content of an entire file. If a file was a whole book with hundreds of pages, a single Document would contain hundreds of thousands of words, which is clearly too much for an LLM to make sense of. Such a large Document is also challenging for Retrievers to understand because it contains so much text that it looks relevant to every possible question. To populate our document store with data that can be used effectively by a RAG pipeline, we need to chunk this data into much smaller Documents.
 
-That's where `TextDocumentSplitter` comes into play.
+That's where `DocumentSplitter` comes into play.
 
 {{< notice info >}}
 
@@ -107,15 +111,15 @@ That's where `TextDocumentSplitter` comes into play.
 How is it used?
 
 ```python
-from haystack.preview.components.preprocessors.text_document_splitter import TextDocumentSplitter
+from haystack.components.preprocessors.text_document_splitter import DocumentSplitter
 
-text_splitter = TextDocumentSplitter(split_by="sentence", split_length=5)
+text_splitter = DocumentSplitter(split_by="sentence", split_length=5)
 text_splitter.run(documents=documents)
 
 # returns {"documents": [Document(content=...), Document(content=...), ...]}
 ```
 
-`TextDocumentSplitter` lets you configure the approximate size of the chunks you want to generate with three parameters: `split_by`, `split_length`, and `split_overlap`.
+`DocumentSplitter` lets you configure the approximate size of the chunks you want to generate with three parameters: `split_by`, `split_length`, and `split_overlap`.
 
 `split_by` defines the unit to use when splitting some text. For now, the options are `word`, `sentence`, and `passage` (paragraph), but we will soon add other options.
 
@@ -128,7 +132,7 @@ text_splitter.run(documents=documents)
 Once all of this is done, we can finally move on to the last step of our journey: writing the Documents into our document store. We first create the document store:
 
 ```python
-from haystack.preview.document_stores import InMemoryDocumentStore
+from haystack.document_stores.in_memory import InMemoryDocumentStore
 
 document_store = InMemoryDocumentStore()
 ```
@@ -137,7 +141,7 @@ and then use `DocumentWriter` to actually write the documents in:
 
 
 ```python
-from haystack.preview.components.writers import DocumentWriter
+from haystack.components.writers import DocumentWriter
 
 writer = DocumentWriter(document_store=document_store)
 writer.run(documents=documents_with_embeddings)
@@ -153,14 +157,14 @@ In fact, the two methods are fully equivalent: `DocumentWriter` does nothing mor
 We finally have all the components we need to go from a list of web pages to a document store populated with clean and short Document objects. Let's build a Pipeline to sum up this process:
 
 ```python
-from haystack.preview import Pipeline
+from haystack import Pipeline
 
 document_store = InMemoryDocumentStore()
 
 pipeline = Pipeline()
 pipeline.add_component("converter", HTMLToDocument())
 pipeline.add_component("cleaner", DocumentCleaner())
-pipeline.add_component("splitter", TextDocumentSplitter(split_by="sentence", split_length=5))
+pipeline.add_component("splitter", DocumentSplitter(split_by="sentence", split_length=5))
 pipeline.add_component("writer", DocumentWriter(document_store=document_store))
 pipeline.connect("converter", "cleaner")
 pipeline.connect("cleaner", "splitter")
@@ -178,9 +182,9 @@ That's it! We now have a fully functional indexing pipeline that can take a list
 To try it out, we only need to take the RAG pipeline we built in [my previous post](/posts/2023-10-27-haystack-series-rag) and connect it to the same document store we just populated:
 
 ```python
-from haystack.preview.components.generators.openai.gpt import GPTGenerator
-from haystack.preview.components.builders.prompt_builder import PromptBuilder
-from haystack.preview.components.retrievers.in_memory_bm25_retriever import InMemoryBM25Retriever
+from haystack.components.generators import OpenAIGenerator
+from haystack.components.builders.prompt_builder import PromptBuilder
+from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 
 template = """
 Given the following information, answer the question: {{ question }}
@@ -193,7 +197,7 @@ pipe = Pipeline()
 
 pipe.add_component("retriever", InMemoryBM25Retriever(document_store=document_store))
 pipe.add_component("prompt_builder", PromptBuilder(template=template))
-pipe.add_component("llm", GPTGenerator(api_key=api_key))
+pipe.add_component("llm", OpenAIGenerator(api_key=api_key))
 pipe.connect("retriever", "prompt_builder.documents")
 pipe.connect("prompt_builder", "llm")
 
