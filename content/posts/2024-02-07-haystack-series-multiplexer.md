@@ -337,7 +337,7 @@ results = pipeline.run({
 # >> ValueError: Multiplexer expects only one input, but 2 were received.
 ```
 
-![Multiplexer limitation](/posts/2024-02-07-haystack-series-multiplexer/warning_pipeline.jpeg)
+![Multiplexer limitation](/posts/2024-02-07-haystack-series-multiplexer/warning_pipeline.png)
 
 
 
