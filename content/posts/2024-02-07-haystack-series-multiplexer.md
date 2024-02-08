@@ -8,18 +8,30 @@ featuredImage: "/posts/2024-02-07-haystack-series-multiplexer/cover.jpeg"
 draft: true
 ---
 
-Building Pipelines is not always easy and fun. When Pipelines start including several components, branches, loops and so on, connecting everything together if often a complex task. Sometimes it even looks impossible without writing your own components!
+*This post assumes some basic knowledge of the Haystack framework. If you're new to Haystack, start [here](https://haystack.deepset.ai/) or check out my [Haystack 2.0 series](/series/haystack-2.0-series/).*
 
-Haystack provides a component that makes complex pipelines easier to build and reduces the amount of custom components you need: it's called [`Multiplexer`](https://docs.haystack.deepset.ai/v2.0/docs/multiplexer), and we're going to see how to use it to cover two common usecases:
+---
 
-1. Inputs proliferation
-2. Loops
+Building Haystack Pipelines is not always easy and fun. When Pipelines start including several components, branches, loops and so on, connecting everything together if often a complex task. Sometimes it even looks impossible without writing your own components!
 
-# Inputs proliferation
+In this blog post we will explore a small component that often flies under the radar of even expert Haystack 2.0 users, a component that can help a lot building complex pipelines without wrappers and custom components. This component is the [`Multiplexer`](https://docs.haystack.deepset.ai/v2.0/docs/multiplexer).
 
-If you've ever build a Haystack pipeline with more than 3-4 components, you probably came across this problem. New components take some of their input from the other components of a pipeline, but many of them also require additional input from the user. As a result, the dictionary input of `pipeline.run()` grows and grows until it becomes very repetitive.
+Specifically, we will see how to use it to deal with two common scenarios:
 
-One common example is **hybrid search pipelines**, like this one:
+1. [Managing inputs](#managing-inputs)
+2. [Closing loops](#closing-loops)
+
+{{< notice info >}}
+
+💡 *Do you want to see the code in action? Check out the [Colab notebook](#) or the [gist](#).*
+
+{{< /notice >}}
+
+## Managing inputs
+
+If you've ever build a Haystack pipeline with more than 3-4 components, you probably noticed an annoying problem: the number of inputs to pass to the `run()` method of the pipeline seems to grow endlessly. New components take some of their input from the other components of a pipeline, but many of them also require additional input from the user. As a result, the dictionary input of `pipeline.run()` grows and grows until it becomes very repetitive.
+
+One common example of this problem is **hybrid search pipelines**, like this one:
 
 ```python
 from haystack import Pipeline
@@ -41,14 +53,14 @@ Given these documents, answer the question.\nDocuments:
 """
 pipe = Pipeline()
 
-pipe.add_component(instance=OpenAITextEmbedder(), name="query_embedder")
-pipe.add_component(instance=InMemoryEmbeddingRetriever(document_store=document_store), name="embedding_retriever")
-pipe.add_component(instance=InMemoryBM25Retriever(document_store=document_store), name="bm25_retriever")
-pipe.add_component(instance=DocumentJoiner(sort_by_score=False), name="doc_joiner")
-pipe.add_component(instance=TransformersSimilarityRanker(model="intfloat/simlm-msmarco-reranker", top_k=10), name="ranker")
-pipe.add_component(instance=PromptBuilder(template=prompt_template), name="prompt_builder")
-pipe.add_component(instance=OpenAIGenerator(), name="llm")
-pipe.add_component(instance=AnswerBuilder(), name="answer_builder")
+pipe.add_component("query_embedder", OpenAITextEmbedder())
+pipe.add_component("embedding_retriever", InMemoryEmbeddingRetriever(document_store=document_store))
+pipe.add_component("bm25_retriever", InMemoryBM25Retriever(document_store=document_store))
+pipe.add_component("doc_joiner", DocumentJoiner(sort_by_score=False))
+pipe.add_component("ranker", TransformersSimilarityRanker(model="intfloat/simlm-msmarco-reranker", top_k=10))
+pipe.add_component("prompt_builder", PromptBuilder(template=prompt_template))
+pipe.add_component("llm", OpenAIGenerator())
+pipe.add_component("answer_builder", AnswerBuilder())
 
 pipe.connect("query_embedder", "embedding_retriever.query_embedding")
 pipe.connect("embedding_retriever", "doc_joiner.documents")
@@ -61,9 +73,9 @@ pipe.connect("llm.meta", "answer_builder.meta")
 pipe.connect("doc_joiner", "answer_builder.documents")
 ```
 
-<< IMMAGINE >>
+![Hybrid search pipeline without a Multiplexer](/posts/2024-02-07-haystack-series-multiplexer/hybrid_search_no_multiplexer.jpeg)
 
-In this pipeline, there are several component that need the value of `query` to operate. They are:
+In this pipeline there are several component that need the value of `query` to operate:
 
 - the Query Embeddder
 - the BM25 Retriever
@@ -71,10 +83,10 @@ In this pipeline, there are several component that need the value of `query` to 
 - the Prompt Builder
 - the Answer Builder
 
-Five components that need the same identical input, directly from the user! This means that the pipeline.run() call is going to be huge and extremely repetitive.
+Five components that need the same identical input, directly from the user! This means that the `run()` call is going to be huge and repetitive.
 
 ```python
-question = "Where does Mark live?"
+question = "What's the capital of France?"
 
 result = pipe.run(
     {
@@ -85,13 +97,13 @@ result = pipe.run(
         "answer_builder": {"query": question},
     }
 )
-
-print(result["answer_builder"]["answers"][0].data)
 ```
 
-This approach clearly doesn't scale!
+This approach clearly doesn't scale. However, this is exactly where Multiplexer can help. 
 
-You can solve this problem by putting a Multiplexer at the top of the pipeline, and connect all the components that need `query` to it.
+By putting a Multiplexer at the top of the pipeline and connecting all the components that need `query` to it, the `run()` method can be drastically simplified.
+
+Let's see how to modify the pipeline.
 
 ```python
 from haystack.components.others import Multiplexer
@@ -99,16 +111,18 @@ from haystack.components.others import Multiplexer
 pipe = Pipeline()
 
 # Add a Multiplexer to the pipeline
-pipe.add_component(instance=Multiplexer(str), name="multiplexer")
+# Note that you have to initialize the Multiplexer with the type of input to
+# expect (in this case `str`) to enable validation of connections.
+pipe.add_component("multiplexer", Multiplexer(str))
 
-pipe.add_component(instance=OpenAITextEmbedder(), name="query_embedder")
-pipe.add_component(instance=InMemoryEmbeddingRetriever(document_store=document_store), name="embedding_retriever")
-pipe.add_component(instance=InMemoryBM25Retriever(document_store=document_store), name="bm25_retriever")
-pipe.add_component(instance=DocumentJoiner(sort_by_score=False), name="doc_joiner")
-pipe.add_component(instance=TransformersSimilarityRanker(model="intfloat/simlm-msmarco-reranker", top_k=10), name="ranker")
-pipe.add_component(instance=PromptBuilder(template=prompt_template), name="prompt_builder")
-pipe.add_component(instance=OpenAIGenerator(), name="llm")
-pipe.add_component(instance=AnswerBuilder(), name="answer_builder")
+pipe.add_component("query_embedder", OpenAITextEmbedder())
+pipe.add_component("embedding_retriever", InMemoryEmbeddingRetriever(document_store=document_store))
+pipe.add_component("bm25_retriever", InMemoryBM25Retriever(document_store=document_store))
+pipe.add_component("doc_joiner", DocumentJoiner(sort_by_score=False))
+pipe.add_component("ranker", TransformersSimilarityRanker(model="intfloat/simlm-msmarco-reranker", top_k=10))
+pipe.add_component("prompt_builder", PromptBuilder(template=prompt_template))
+pipe.add_component("llm", OpenAIGenerator())
+pipe.add_component("answer_builder", AnswerBuilder())
 
 # Connect the Multiplexer to all the components that need the query
 pipe.connect("multiplexer.value", "query_embedder.text")
@@ -128,176 +142,177 @@ pipe.connect("llm.meta", "answer_builder.meta")
 pipe.connect("doc_joiner", "answer_builder.documents")
 ```
 
-<< IMMAGINE >>
+![Hybrid search pipeline with a Multiplexer](/posts/2024-02-07-haystack-series-multiplexer/hybrid_search_with_multiplexer.jpeg)
 
-With this setup, only Multiplexer expects any input from the user. This makes the `run()` statement very straightforward once again."""
+With this setup, only the Multiplexer expects an input from the user. This makes the `run()` statement very straightforward once again.
 
 ```python
-result = pipe.run({"multiplexer": {"value": "Where does Mark live?"}})
-
-print(result["answer_builder"]["answers"][0].data)
+result = pipe.run({"multiplexer": {"value": "What's the capital of France?"}})
 ```
 
-# Loops
+## Closing Loops
 
-When your pipeline loops, there is often one component that needs to receive input from several sources: at first by the user, that sets off the loop, and subsequently from other components, when the loop comes around and needs to start again.
+When your pipeline loops, there is often one component that needs to receive input from several sources: at first by the user, who sets off the loop, and later from other components, when the loop comes around and needs to start again.
 
-An example of a this use case is a **self-correcting generative pipeline**. Such pipeline takes unstructured text as input, and uses the information contained in the text to extract structured data in JSON format.
+An example of a looping pipeline is a **self-correcting RAG pipeline**. It's like a basic RAG pipeline with a Retriever, a PromptBuilder and a Generator, plus an additional component at the end that checks whether the answer given by the LLM really relates with the content of at least one of the documents that were returned by the Retriever. If the check fails, the reply is likely to be a hallucination, so the pipeline loops back and asks the LLM to try again.
 
-While LLMs can address this task on their own most of the time, they don't always output valid JSON, or the JSON they produce doesn't always respect the schema we expect. So we can add a validation component after the generator that checks that the output respects our constraints. If the output is invalid, it creates a new prompt with the wrong JSON, the error message, and asks the LLM to fix its mistakes.
+Haystack 2.0 doesn't have such component yet, but we can take inspiration from a similar component that was available for Haystack 1, called [`EntailmentChecker`](https://haystack.deepset.ai/integrations/entailment-checker).
 
-Let's see how such a pipeline might look like.
+I'm going to create a similar component for Haystack 2.0, which we will call `HallucinationChecker`. If you're interested in the exact implementation of this component, you can check it out own here, but given that custom components are not the focus of this post, I won't describe the process. If you're interested, check out [this guide](https://docs.haystack.deepset.ai/v2.0/docs/custom-components) on the topic.
 
-*Note: this example is a modified version of Tutorial 28, which you can find [here](https://colab.research.google.com/github/deepset-ai/haystack-tutorials/blob/main/tutorials/28_Structured_Output_With_Loop.ipynb#scrollTo=RZJg6YHId300).*
+<details>
 
-## Define the JSON schema with Pydantic
-
-Let's assume we're extracting basic facts about world cities. Pydantic is a great choice to define JSON schemas, as it provides all the tools to define and handle such structures in a Pythonic way.
+<summary>HallucinationChecker</summary>
 
 ```python
-import pydantic
 from typing import List
 
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, AutoConfig
+import torch
 
-class City(pydantic.BaseModel):
-    name: str
-    country: str
-    population: int
-
-
-class CitiesData(pydantic.BaseModel):
-    cities: List[City]
-```
-
-## Define the validation component
-
-Haystack doesnt have a JSON validation component yet, so let's build one from scratch. If you want to learn more about how to build custom components with Haystack 2.0, check out [this guide](https://docs.haystack.deepset.ai/v2.0/docs/custom-components).
-
-```python
-import json
-from typing import Optional
 from haystack import component
-
+from haystack.dataclasses import Document
 
 @component
-class OutputValidator:
-    def __init__(self, pydantic_model: pydantic.BaseModel):
-        self.pydantic_model = pydantic_model  # The model to check out JSON agains
+class HallucinationChecker:
 
-    @component.output_types(valid_replies=List[str], invalid_replies=Optional[List[str]], error_message=Optional[str])
-    def run(self, replies: List[str]):
-        # Try to parse the LLM's reply
-        # If the LLM's reply is a valid JSON that respects the schema, return `"valid_replies"`
-        try:
-            output_dict = json.loads(replies[0])
-            self.pydantic_model.parse_obj(output_dict)
-            return {"valid_replies": replies}
+    def __init__(self, model: str = "roberta-large-mnli", entailment_threshold: float = 0.5):
+        self.model_name_or_path = model
+        self.entailment_threshold = entailment_threshold
 
-        # If the LLM's reply is corrupted or not valid, return "invalid_replies" and the "error_message" for LLM to try again
-        except (ValueError, pydantic.ValidationError) as e:
-            return {"invalid_replies": replies, "error_message": str(e)}
+    def warm_up(self):
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name_or_path)
+        self.model = AutoModelForSequenceClassification.from_pretrained(pretrained_model_name_or_path=self.model_name_or_path)
+        self.model.to("cuda")
+        id2label = AutoConfig.from_pretrained(self.model_name_or_path).id2label
+        self.labels = [id2label[k].lower() for k in sorted(id2label)]
+
+    @component.output_types(statement=str, supporting_documents=List[Document], hallucination=str, contraddicting_documents=List[Document])
+    def run(self, statement: str, documents: List[Document]):
+        print(f"Checking the statement: '{statement}' against these documents: " + " | ".join([d.content for d in documents]))
+        scores, agg_con, agg_neu, agg_ent = 0, 0, 0, 0
+        entailment_info_batch = self.get_entailment_batch(
+            premise_batch=[doc.content for doc in documents], 
+            hypothesis_batch=[statement] * len(documents)
+        )
+        agg_ent = 0
+        entailing_docs = []
+        contraddicting_docs = []
+        for i, (doc, entailment_info) in enumerate(zip(documents, entailment_info_batch)):
+            if entailment_info["entailment"] > entailment_info["contradiction"]:
+                agg_ent += entailment_info["entailment"]
+                entailing_docs.append(doc)
+                if agg_ent / len(entailing_docs) > self.entailment_threshold:
+                    print("The statement is not a hallucination")
+                    return {"statement": statement, "supporting_documents": entailing_docs}
+            elif entailment_info["contradiction"] > entailment_info["neutral"]:
+                contraddicting_docs.append(doc)
+
+        print("The statement is a hallucination")
+        return {"hallucination": statement, "contraddicting_documents": contraddicting_docs}
+
+    def get_entailment_batch(self, premise_batch: List[str], hypothesis_batch: List[str]):
+        formatted_texts = [
+            f"{premise}{self.tokenizer.sep_token}{hypothesis}"
+            for premise, hypothesis in zip(premise_batch, hypothesis_batch)
+        ]
+        with torch.inference_mode():
+            inputs = self.tokenizer(formatted_texts, return_tensors="pt", padding=True, truncation=True).to("cuda")
+            out = self.model(**inputs)
+            probs_batch = torch.nn.functional.softmax(out.logits, dim=-1).detach().cpu().numpy()
+        return [{k.lower(): v for k, v in zip(self.labels, probs)} for probs in probs_batch]
 ```
 
-Now let's build the pipeline. Keep in mind that we will need two PromptBuilders:
-- one that takes the user's text and the JSON schema and makes the LLM try from scratch
-- another one that takes the text, the schema, the wrong output and the error message and asks the LLM to retry.
+</details>
 
-So we should end up with a pipeline that should look like this:
+With this new component ready we can now start to build the pipeline. 
 
-<< IMAGE >>
+Our first attempt may look like this:
 
-Let's write it in code:
+![Self correcting pipeline without Multiplexer](/posts/2024-02-07-haystack-series-multiplexer/auto_correction_loop_no_multiplexer.png)
+
+Let's try to write it in code:
 
 ```python
-from haystack import Pipeline
-from haystack.components.builders import PromptBuilder
+# Tip: when your pipeline has loops is always a good idea to set a low number
+# for the max_loops_allowed parameter. The default is 100.
+pipe = Pipeline(max_loops_allowed=5)
 
-initial_prompt_template = """
-Create a JSON object from the information present in this passage: {{passage}}.
-Only use information that is present in the passage. Follow this JSON schema,
-but only return the actual instances without any additional schema definition:
-{{schema}}
-Make sure your response is a dict and not a list.
-"""
+template = """
+Given these documents, answer the question.
+Documents:
+{% for doc in documents %}
+    {{ doc.content }}
+{% endfor %}
+Question: {{question}}
+""" 
 
-error_correction_prompt_template = """
-Fix the following JSON file to respect the given schema, making sure that the
-content of the JSON reflects the reference text's content.
-The JSON is invalid or incorrect: use the error message to help yourself.
+correction_template = """
+Given these documents, rewrite the statement to make it correct.
+Documents:
+{% for doc in documents %}
+    {{ doc.content }}
+{% endfor %}
+Statement: {{ hallucination }}
+""" 
 
-Invalid JSON:
-{{ invalid_replies }}
+pipe.add_component("retriever", InMemoryBM25Retriever(document_store=document_store))
+pipe.add_component("prompt_builder", PromptBuilder(template=template))
+pipe.add_component("llm", OpenAIGenerator())
+pipe.add_component("unwrapper", PromptBuilder("{% for reply in replies %}{{ reply }} {% endfor %}"))
+pipe.add_component("checker", HallucinationChecker())
+pipe.add_component("correction_prompt_builder", PromptBuilder(template=correction_template))
 
-Error message:
-{{ error_message }}
+pipe.connect("retriever", "prompt_builder")
+pipe.connect("prompt_builder", "llm")
+pipe.connect("llm.replies", "unwrapper.replies")
+pipe.connect("unwrapper.prompt", "checker.statement")
+pipe.connect("retriever", "checker.documents")
+pipe.connect("checker.hallucination", "correction_prompt_builder.hallucination")
+pipe.connect("checker.contraddicting_documents", "correction_prompt_builder.documents")
 
-Reference text:
-{{ passage }}
+# This connection will fail!
+pipe.connect("correction_prompt_builder", "llm")  
 
-JSON Schema:
-{{ schema }}
-
-Make sure your response is a dict and not a list.
-"""
-
-pipeline = Pipeline(max_loops_allowed=5)
-
-# Add components to your pipeline
-pipeline.add_component(instance=PromptBuilder(template=initial_prompt_template), name="initial_prompt_builder")
-pipeline.add_component(instance=PromptBuilder(template=error_correction_prompt_template), name="error_correction_prompt_builder")
-pipeline.add_component(instance=OpenAIGenerator(), name="llm")
-pipeline.add_component(instance=OutputValidator(pydantic_model=CitiesData), name="output_validator")
-
-# Now, connect the components to each other
-pipeline.connect("initial_prompt_builder", "llm")
-pipeline.connect("llm", "output_validator")
-pipeline.connect("output_validator.invalid_replies", "error_correction_prompt_builder.invalid_replies")
-pipeline.connect("output_validator.error_message", "error_correction_prompt_builder.error_message")
-#pipeline.connect("error_correction_prompt_builder", "llm")  # This connection will fail!
-
-# >> PipelineConnectError: Cannot connect 'error_correction_prompt_builder.prompt' with 'llm.prompt': llm.prompt is already connected to ['initial_prompt_builder'].
+# >> PipelineConnectError: Cannot connect 'correction_prompt_builder.prompt' 
+#    with 'llm.prompt': llm.prompt is already connected to ['prompt_builder'].
 ```
 
-## Introduce Multiplexer
+The error message is reasonable: the LLM is already receiving a prompt from another PromptBuilder and it does not expect more than one. How can we close this loop?
 
-The error message is reasonable: the LLM is already receiving a query, and it does not expect more than one. How can we close this loop?
+In these cases, a Multiplexer needs to be placed in front of the prompt input of the Generator. Multiplexer has a variadic input, which means that you can connect any number of components to it as long as the type is correct. Multiplexer then makes sure that the Generator always receives only one prompt at a time, so it can run effectively.
 
-In these cases, a Multiplexer needs to be placed in front of the `prompt` input of the Generator. Multiplexer has a Variadic input, which means that you can connect any number of components to it as long as the type is correct. Multiplexer will make sure that the Generator always receives only one prompt at a time, so it can run effectively.
+Here is how the pipeline looks like with a Multiplexer:
+
+![Self correcting pipeline with Multiplexer](/posts/2024-02-07-haystack-series-multiplexer/auto_correction_loop_with_multiplexer.jpeg)
 
 ```python
-pipeline = Pipeline(max_loops_allowed=5)
+pipe = Pipeline(max_loops_allowed=5)
 
-# Add components to your pipeline
-pipeline.add_component(instance=PromptBuilder(template=initial_prompt_template), name="initial_prompt_builder")
-pipeline.add_component(instance=PromptBuilder(template=error_correction_prompt_template), name="error_correction_prompt_builder")
-pipeline.add_component(instance=OpenAIGenerator(), name="llm")
-pipeline.add_component(instance=OutputValidator(pydantic_model=CitiesData), name="output_validator")
-pipeline.add_component(instance=Multiplexer(str), name="multiplexer")
+pipe.add_component("retriever", InMemoryBM25Retriever(document_store=document_store, top_k=3))
+pipe.add_component("prompt_builder", PromptBuilder(template=template))
+pipe.add_component("llm", OpenAIGenerator())
+pipe.add_component("unwrapper", PromptBuilder("{% for reply in replies %}{{ reply }} {% endfor %}"))
+pipe.add_component("checker", HallucinationChecker())
+pipe.add_component("correction_prompt_builder", PromptBuilder(template=correction_template))
+pipe.add_component("multiplexer", Multiplexer(str))
 
-# Now, connect the components to each other
-pipeline.connect("initial_prompt_builder", "multiplexer")
-pipeline.connect("multiplexer", "llm")
-pipeline.connect("llm", "output_validator")
-pipeline.connect("output_validator.invalid_replies", "error_correction_prompt_builder.invalid_replies")
-pipeline.connect("output_validator.error_message", "error_correction_prompt_builder.error_message")
-pipeline.connect("error_correction_prompt_builder", "multiplexer")
+pipe.connect("retriever", "prompt_builder")
+pipe.connect("prompt_builder", "multiplexer")
+pipe.connect("multiplexer", "llm")
+pipe.connect("llm.replies", "unwrapper.replies")
+pipe.connect("unwrapper.prompt", "checker.statement")
+pipe.connect("retriever", "checker.documents")
+pipe.connect("checker.hallucination", "correction_prompt_builder.hallucination")
+pipe.connect("checker.contraddicting_documents", "correction_prompt_builder.documents")
+pipe.connect("correction_prompt_builder", "multiplexer")
 
-passage = """
-Berlin is the capital of Germany. It has a population of 3,850,809.
-Paris, France's capital, has 2.161 million residents.
-Lisbon is the capital and the largest city of Portugal with the population of 504,718.
-"""
-result = pipeline.run({
-    "initial_prompt_builder": {"passage": passage, "schema": CitiesData.schema_json(indent=2)},
-    "error_correction_prompt_builder": {"passage": passage, "schema": CitiesData.schema_json(indent=2)}
-})
-
-print(result["output_validator"]["valid_replies"][0])
+result = pipe.run({"retriever": {"query": "Where does Giorgio live?"}})
 ```
 
-## Watch out!
+## A gotcha
 
-In this pipeline is impossible for Multiplexer to ever receive more than one value at a time. However, if your pipeline gets more complex, you have to make sure this assumption is correct, because Multiplexer will throw an exception if it receives multiple values at the same time.
+In either of these pipelines is impossible for Multiplexer to ever receive more than one value at a time. However, if your pipeline gets more complex, you have to make sure this assumption is correct, because Multiplexer will throw an exception if it receives multiple values at the same time.
 
 For example, this (meaningless) pipeline accepts all the connections, but will fail at runtime:
 
@@ -322,8 +337,18 @@ results = pipeline.run({
 # >> ValueError: Multiplexer expects only one input, but 2 were received.
 ```
 
+![Multiplexer limitation](/posts/2024-02-07-haystack-series-multiplexer/warning_pipeline.jpeg)
+
+
+
 # Conclusions
 
 `Multiplexer` is a very versatile component that enhances the capabilities of Pipeline in different ways, and helps you connecting components into non-trivial ways.
 
 To learn more about it, check its official documentation as well: [Multiplexer](https://docs.haystack.deepset.ai/v2.0/docs/multiplexer).
+
+---
+
+*Previous: [The World of Web RAG](/posts/2023-11-09-haystack-series-simple-web-rag)*
+
+*See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
