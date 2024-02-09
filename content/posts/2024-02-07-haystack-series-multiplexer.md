@@ -319,15 +319,15 @@ For example, this (meaningless) pipeline accepts all the connections, but will f
 ```python
 pipeline = Pipeline()
 
-pipeline.add_component("prompt_builder_a", PromptBuilder("Question A: {{ question }}"))
-pipeline.add_component("prompt_builder_b", PromptBuilder("Question B: {{ question }}"))
+pipeline.add_component("retriever", InMemoryBM25Retriever(document_store=InMemoryDocumentStore()))
+pipeline.add_component("prompt_builder_a", PromptBuilder("Docs A: {{ docs }}"))
+pipeline.add_component("prompt_builder_b", PromptBuilder("Docs B: {{ docs }}"))
 pipeline.add_component("multiplexer", Multiplexer(str))
 
+pipeline.connect("retriever", "prompt_builder_a")
+pipeline.connect("retriever", "prompt_builder_b")
 pipeline.connect("prompt_builder_a", "multiplexer")
 pipeline.connect("prompt_builder_b", "multiplexer")
-
-pipeline.draw("warning-pipeline.png")
-Image('warning-pipeline.png')
 
 results = pipeline.run({
     "prompt_builder_a": {"question": "a?"},
@@ -337,7 +337,7 @@ results = pipeline.run({
 # >> ValueError: Multiplexer expects only one input, but 2 were received.
 ```
 
-![Multiplexer limitation](/posts/2024-02-07-haystack-series-multiplexer/warning_pipeline.png)
+![Multiplexer limitation](/posts/2024-02-07-haystack-series-multiplexer/broken_pipeline.png)
 
 
 
