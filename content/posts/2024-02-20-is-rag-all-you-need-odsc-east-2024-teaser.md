@@ -7,7 +7,7 @@ featuredImage: "/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cove
 canonicalUrl: https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/
 ---
 
-*This blogpost is a teaser for [my upcoming talk](https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/) at ODSC East 2024 in Boston, April 22-26. It is published on the ODSC blog [at this link](https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/).*
+*This blogpost is a teaser for [my upcoming talk](https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/) at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog [at this link](https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/).*
 
 ---
 
