@@ -21,13 +21,13 @@ Specifically, we will see how to use it to deal with two common scenarios:
 1. [Managing inputs](#managing-inputs)
 2. [Closing loops](#closing-loops)
 
+## Managing inputs
+
 {{< notice info >}}
 
 💡 *Do you want to see the code in action? Check out the [Colab notebook](#) or the [gist](#).*
 
 {{< /notice >}}
-
-## Managing inputs
 
 If you've ever build a Haystack pipeline with more than 3-4 components, you probably noticed an annoying problem: the number of inputs to pass to the `run()` method of the pipeline seems to grow endlessly. New components take some of their input from the other components of a pipeline, but many of them also require additional input from the user. As a result, the dictionary input of `pipeline.run()` grows and grows until it becomes very repetitive.
 
@@ -151,6 +151,12 @@ result = pipe.run({"multiplexer": {"value": "What's the capital of France?"}})
 ```
 
 ## Closing Loops
+
+{{< notice info >}}
+
+💡 *Do you want to see the code in action? Check out the [Colab notebook](#) or the [gist](#).*
+
+{{< /notice >}}
 
 When your pipeline loops, there is often one component that needs to receive input from several sources: at first by the user, who sets off the loop, and later from other components, when the loop comes around and needs to start again.
 
