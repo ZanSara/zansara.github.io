@@ -7,7 +7,7 @@ author: "ZanSara"
 
 I am a Python and LLMs specialist currently working for [deepset](https://www.deepset.ai/), 
 a German startup working on NLP [since "before it was cool"](https://www.deepset.ai/about). 
-At the moment I'm the [#1 contributor](https://github.com/deepset-ai/haystack/graphs/contributors) 
+At the moment I'm the [main contributor](https://github.com/deepset-ai/haystack/graphs/contributors) 
 of [Haystack](https://haystack.deepset.ai/), their open-source framework for building highly
 customizable, production-ready NLP and LLM applications.
 
