@@ -7,23 +7,23 @@ featuredImage: "/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.
 draft: true
 ---
 
-As everyone who has been serious about studying with Anki knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
+As everyone who has been serious about studying with [Anki](https://apps.ankiweb.net/) knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
 
 What can we do to make this process less tedious?
 
 # Write simple cards
 
-Rivers have been written about the best way to create Anki cards. However, as a [HackerNews commenter](https://news.ycombinator.com/item?id=39002138) once said:
+[A lot](https://www.reddit.com/r/Anki/) has been written about the best way to create Anki cards. However, as a [HackerNews commenter](https://news.ycombinator.com/item?id=39002138) once said:
 
 > One massively overlooked way to improve spaced repetition is to make easier cards.
 
-Cards can hardly be too simple to be effective. You don't need to write complicated tricky questions to make sure you are making the most of your reviews. On the contrary, even a long sentence where the word you need to study is highlighted is often enough to make the review worthwhile.
+Cards can hardly be [too simple to be effective](https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge). You don't need to write complicated tricky questions to make sure you are making the most of your reviews. On the contrary, even a long sentence where the word you need to study is highlighted is often enough to make the review worthwhile.
 
-In the case of language learning, if you're an advanced learner one of the easiest way to create such cards is to copy-paste a sentence with your target word into a card and write the translation of that word (or sentence) on the back. But if you're a beginner, even these cards can be complicated both to write and to review: what if the sentence where you found the new word is quite complex? You'll need to write a brand new sentence. But what if you write an incorrect sentence? And so on.
+In the case of language learning, if you're an advanced learner one of the easiest way to create such cards is to [copy-paste a sentence](https://www.supermemo.com/en/blog/learn-whole-phrases-supertip-4) with your target word into a card and write the translation of that word (or sentence) on the back. But if you're a beginner, even these cards can be complicated both to write and to review. What if the sentence where you found the new word is too complex? You'll need to write a brand new sentence. But what if you write an incorrect sentence? And so on.
 
 # Automating the process
 
-Automated card generation has been often compared to the usage of pre-made decks, because the students don't see the content of the cards they're adding to their decks before doing so. However, this depends a lot on how much the automation is hiding from the user.
+Automated card generation has been often compared to the usage of [pre-made decks](https://www.reddit.com/r/languagelearning/comments/6ysx7g/is_there_value_in_making_your_own_anki_deck_or/), because the students don't see the content of the cards they're adding to their decks before doing so. However, this depends a lot on how much the automation is hiding from the user.
 
 In my family we're currently learning Portuguese, so we end up creating a lot of cards with Portuguese vocabulary. Given that many useful words are hard to make sense of without context, having cards with sample sentences helps me massively to remember them. But our sample sentences often sound unnatural in Portuguese, even when they're correct. It would be great if we could have a "sample sentence generator" that creates such sample sentences for me in more colloquial Portuguese!
 
