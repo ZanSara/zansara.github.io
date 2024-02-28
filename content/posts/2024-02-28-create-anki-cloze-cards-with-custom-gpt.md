@@ -4,7 +4,6 @@ date: 2024-02-28
 author: "ZanSara"
 tags: [Python, LLM, GPT, Generation, "Language Learning", Anki, Clozes, GPTs, "Prompt Engineering"]
 featuredImage: "/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png"
-draft: true
 ---
 
 As everyone who has been serious about studying with [Anki](https://apps.ankiweb.net/) knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
@@ -35,7 +34,7 @@ A [quick experiment](https://chat.openai.com/share/89c821b8-6048-45f3-9fc1-c3875
 
 # Custom GPTs
 
-The natural next step is to store that set of instructions into a custom prompt, or as they're called now, a [custom GPT](https://help.openai.com/en/articles/8554407-gpts-faq#h_40756527ce). Making these small wrapper is [really easy](https://help.openai.com/en/articles/8554397-creating-a-gpt): it requires no coding, only a nicely crafter prompt and a catchy name. So we called our new GPT "ClozeGPT" and started off with a prompt like this:
+The natural next step is to store that set of instructions into a custom prompt, or as they're called now, a [custom GPT](https://help.openai.com/en/articles/8554407-gpts-faq#h_40756527ce). Making these small wrapper is [really easy](https://help.openai.com/en/articles/8554397-creating-a-gpt): it requires no coding, only a well crafted prompt and a catchy name. So we called our new GPT "ClozeGPT" and started off with a prompt like this:
 
 
     Your job is to create Portuguese Anki cloze cards. 
