@@ -77,7 +77,7 @@ style = "github-dark"
   name = "Email"
   icon = "fa fa-envelope fa-2x"
   weight = 1
-  url = "mailto:blog@zanzohegyi.com"
+  url = "mailto:blog@zansara.dev"
 [[params.social]]
   name = "RSS"
   icon = "fa fa-rss fa-2x"
