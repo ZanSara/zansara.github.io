@@ -17,9 +17,9 @@ career. During my time there I had the privilege of driving one
 interface's software of the accelerator's control systems from Java to PyQt, 
 and then of helping a client department [migrate](/publications/thpv014/) to this stack.
 I have also worked on other infrastructure and data pipelines, some of which resulted in 
-[publication](publications/thpv042/).
+[publication](/publications/thpv042/).
 
-Outside of work I have too many [pet projects](projects/) to follow up with than the free time I 
+Outside of work I have too many [pet projects](/projects) to follow up with than the free time I 
 can dedicate to them.
 I love science fiction and space exploration, I enjoy challenging hikes in nature and learning
 languages, as much as such process can be enjoyed.
