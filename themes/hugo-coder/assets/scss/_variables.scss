@@ -1,29 +1,13 @@
-// @mixin font($font-family, $font-file, $font-weight, $font-style) {
-//     @font-face {
-//       font-family: $font-family;
-//       src: url($font-file+'.ttf') format('truetype');
-//       font-weight: $font-weight;
-//       font-style: $font-style;
-//     }
-//   }
-  
-// @include font('Libre Baskerville', '/fonts/Libre_Baskerville/LibreBaskerville-Regular', "regular", "regular");
-// @include font('Libre Baskerville-Bold', '/fonts/Libre_Baskerville/LibreBaskerville-Bold', "bold", "regular");
-// @include font('Libre Baskerville-Italic', '/fonts/Libre_Baskerville/LibreBaskerville-Italic', "regular", "italic");
-  
-
-// Fonts
-$font-family: baskerville,
-BlinkMacSystemFont,
-"Segoe UI",
-Cantarell,
-Helvetica,
-"游ゴシック",
-"PingFang SC",
-STXihei,"华文细黑",
-"Microsoft YaHei","微软雅黑",
-SimSun,"宋体",
-Heiti,"黑体",
+$font-family: 
+"Noto Serif Naskh Arabic",
+"Noto Serif Hebrew",
+"Noto Serif Thai",
+"Noto Serif",
+"Noto Serif KR",
+"Noto Serif JP",
+"Noto Serif HK",
+"Noto Serif SC",
+"Noto Serif TC",
 sans-serif;
 
 $code-font-family: SFMono-Regular,
