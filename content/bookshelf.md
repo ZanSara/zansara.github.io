@@ -6,205 +6,409 @@ author: "ZanSara"
 
 ### Books
 
-- [_"Renaissance"_](https://openlibrary.org/works/OL15345911W), by [A. E. van Vogt](https://openlibrary.org/authors/OL24708A) (IT: _"Le lenti del potere"_)
-- [_"Island"_](https://openlibrary.org/works/OL64462W), by [Aldous Huxley](https://openlibrary.org/authors/OL19767A/Aldous_Huxley) (IT: _"L'isola"_)
-- [_"Brave New World"_](https://openlibrary.org/works/OL64468W), by [Aldous Huxley](https://openlibrary.org/authors/OL19767A/Aldous_Huxley)  (IT: _"Brave New World"_)
-- [_"The Martian"_](https://openlibrary.org/works/OL17091839W), by [Andy Weir](https://openlibrary.org/authors/OL7234434A)  (IT: _"L'uomo di Marte'"_)
-- [_"Roadside Picnic"_](https://openlibrary.org/works/OL7967812W), by [Arkady](https://openlibrary.org/authors/OL182660A/%D0%90%D1%80%D0%BA%D0%B0%D0%B4%D0%B8%D0%B9_%D0%9D%D0%B0%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_%D0%A1%D1%82%D1%80%D1%83%D0%B3%D0%B0%D1%86%D0%BA%D0%B8%D0%B9) and [Boris Strugatsky](https://openlibrary.org/authors/OL3121035A/%D0%91%D0%BE%D1%80%D0%B8%D1%81_%D0%9D%D0%B0%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_%D0%A1%D1%82%D1%80%D1%83%D0%B3%D0%B0%D1%86%D0%BA%D0%B8%D0%B9)  (EN and RU: _"Пикник на обочине"_)
-- [_"2001: A Space Odyssey"_](https://openlibrary.org/works/OL17365W), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke) (IT: _"2001: Odissea nello Spazio"_)
-- [_"Venus"_](https://openlibrary.org/works/OL15814W), by [Ben Bova](https://openlibrary.org/authors/OL23121A) (EN)
+- [_"Renaissance"_](https://openlibrary.org/works/OL15345911W), by [A. E. van Vogt](https://openlibrary.org/authors/OL24708A)
+   - IT: _"Le lenti del potere"_
+- [_"Island"_](https://openlibrary.org/works/OL64462W), by [Aldous Huxley](https://openlibrary.org/authors/OL19767A/Aldous_Huxley)
+   - IT: _"L'isola"_
+- [_"Brave New World"_](https://openlibrary.org/works/OL64468W), by [Aldous Huxley](https://openlibrary.org/authors/OL19767A/Aldous_Huxley) 
+   - IT: _"Brave New World"_
+- [_"The Martian"_](https://openlibrary.org/works/OL17091839W), by [Andy Weir](https://openlibrary.org/authors/OL7234434A) 
+   - IT: _"L'uomo di Marte'"_
+- [_"Пикник на обочине"_](https://openlibrary.org/works/OL7967812W), by [Arkady](https://openlibrary.org/authors/OL182660A/%D0%90%D1%80%D0%BA%D0%B0%D0%B4%D0%B8%D0%B9_%D0%9D%D0%B0%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_%D0%A1%D1%82%D1%80%D1%83%D0%B3%D0%B0%D1%86%D0%BA%D0%B8%D0%B9) and [Boris Strugatsky](https://openlibrary.org/authors/OL3121035A/%D0%91%D0%BE%D1%80%D0%B8%D1%81_%D0%9D%D0%B0%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_%D0%A1%D1%82%D1%80%D1%83%D0%B3%D0%B0%D1%86%D0%BA%D0%B8%D0%B9)
+   - EN: _"Roadside Picnic"_
+   - RU
+- [_"2001: A Space Odyssey"_](https://openlibrary.org/works/OL17365W), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
+   - IT: _"2001: Odissea nello Spazio"_
+- [_"Venus"_](https://openlibrary.org/works/OL15814W), by [Ben Bova](https://openlibrary.org/authors/OL23121A)
+   - EN
 - [_"Perils of Perception"_](https://openlibrary.org/works/OL21190280W), by [Bobby Duffy](https://openlibrary.org/authors/OL5612854A/Bobby_Duffy) (IT)
-- [_"Out of the Silent Planet"_](https://openlibrary.org/works/OL71166W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A) (EN)
-- [_"Perelandra"_](https://openlibrary.org/works/OL71163W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A) (EN)
-- [_"That hideous strength"_](https://openlibrary.org/works/OL71165W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A) (EN)
-- [_"The Chronicles of Narnia"_](https://openlibrary.org/works/OL70988W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A) (IT: _"Le cronache di Narnia"_):
-   - [_"The Magician's Nephew"_](https://openlibrary.org/works/OL71042W) (IT: _"Il nipote del mago"_)
-   - [_"The Lion, the Witch and the Wardrobe"_](https://openlibrary.org/works/OL71175W) (IT: _"Il leone, la strega e l'armadio"_)
-   - [_"The Horse and His Boy"_](https://openlibrary.org/works/OL71058W) (IT: _"Il cavallo e il ragazzo"_)
-   - [_"Prince Caspian"_](https://openlibrary.org/works/OL71069W?) (IT: _"Il principe Caspian"_)
-   - [_"The Voyage of the Dawn Treader"_](https://openlibrary.org/works/OL71132W) (IT: _"Il viaggio del veliero"_)
-   - [_"The Silver Chair"_](https://openlibrary.org/works/OL71078W) (IT: _"La sedia d'argento"_)
-   - [_"The Last Battle"_](https://openlibrary.org/works/OL71078W) (IT: _"L'ultima battaglia"_)
-- [_"Eragon"_](https://openlibrary.org/works/OL5819895W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini) (IT)
-- [_"Eldest"_](https://openlibrary.org/works/OL5819886W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini) (IT)
-- [_"Brisingr"_](https://openlibrary.org/works/OL5819884W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini) (IT)
-- [_"Inheritance"_](https://openlibrary.org/works/OL16175854W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini) (IT)
-- [_"The three-body problem"_](https://openlibrary.org/works/OL17267881W), by [Cixin Liu](https://openlibrary.org/authors/OL7044246A) (IT: _"Il problema dei tre corpi"_)
-- [_"The Dark Forest"_](https://openlibrary.org/works/OL16314245W), by [Cixin Liu](https://openlibrary.org/authors/OL7044246A) (IT: _"La materia del cosmo"_)
-- [_"Death's End"_](https://openlibrary.org/works/OL17610507W), by [Cixin Liu](https://openlibrary.org/authors/OL7044246A) (IT: _"Nella quarta dimensione"_)
-- [_"Orbit Twenty"_](https://openlibrary.org/works/OL27448026W), by [Damon Knight](https://openlibrary.org/authors/OL2628836A) (EN):
-    - ...
-- [_"Flowers for Algernon"_](https://openlibrary.org/works/OL515754W), (novel) by [Daniel Keyes](https://openlibrary.org/authors/OL35895A) (EN and IT: _"Fiori per Algernon"_)
-- [_"The Hitch Hiker's Guide to the Galaxy"_](https://openlibrary.org/works/OL2163649W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams) (IT: _"Guida Galattica Per Autostoppisti"_)
-- [_"The Restaurant at the End of the Universe"_](https://openlibrary.org/works/OL2163655W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams) (IT: _"Il ristorante al termine dell'universo"_)
-- [_"Life, the Universe and Everything"_](https://openlibrary.org/works/OL2163623W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams) (IT: _"La vita, l'universo e tutto quanto"_)
-- [_"So long, and thanks for all the fish"_](https://openlibrary.org/works/OL2163719W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams) (IT: _"Addio e grazie per tutto il pesce"_)
-- [_"Mostly Harmless"_](https://openlibrary.org/works/OL2163638W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams) (IT: _"Praticamente innocuo"_)
-- [_"The Meaning of Human Existence"_](https://openlibrary.org/works/OL17634954W), by [Edward Osborne Wilson](https://openlibrary.org/authors/OL141176A) (IT: _"Il significato dell'esistenza umana"_)
-- [_"Flatland"_](https://openlibrary.org/works/OL118388W), by [Edwin Abbott Abbott](https://openlibrary.org/authors/OL20585A) (IT: _"Flatlandia"_)
-- [_"Ready Player One"_](https://openlibrary.org/works/OL15936512W), by [Ernest Cline](https://openlibrary.org/authors/OL6941868A) (EN)
-- [_"The Old Man and the Sea"_](https://openlibrary.org/works/OL63073W), by [Ernest Hemingway](https://openlibrary.org/authors/OL13640A/Ernest_Hemingway), (IT: _"Il vecchio e il mare"_)
-- [_"L'impero di Cindia"_](https://openlibrary.org/works/OL20906273W), by [Federico Rampini](https://openlibrary.org/authors/OL411047A/Federico_Rampini) (IT)
-- [_"Dune"_](https://openlibrary.org/works/OL893415W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A) (IT)
-- [_"Dune Messiah"_](https://openlibrary.org/works/OL893526W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A) (IT: _"Il messia di Dune"_)
-- [_"Children of Dune"_](https://openlibrary.org/works/OL893516W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A) (IT: _"I figli di Dune"_)
-- [_"God Emperor of Dune"_](https://openlibrary.org/works/OL893515W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A) (IT: _"L'imperatore-dio di Dune"_)
-- [_"Heretics of Dune"_](https://openlibrary.org/works/OL893502W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A) (IT: _"Gli eretici di Dune"_)
-- [_"Chapterhouse, Dune"_](https://openlibrary.org/works/OL893508W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A) (IT: _"La rifondazione di Dune"_)
-- [_"The Trial"_](https://openlibrary.org/works/OL498463W), by [Franz Kafka](https://openlibrary.org/authors/OL33146A) (IT: _"Il processo"_)
-- [_"Romulus der Große"_](https://openlibrary.org/works/OL37988590W), by [Friedrich Dürenmatt](https://openlibrary.org/authors/OL3915797A/Friedrich_D%C3%BCrenmatt) (IT: _"Romolo il Grande"_)
-- [_"Animal Farm"_](https://openlibrary.org/works/OL1168007W), by [George Orwell](https://openlibrary.org/authors/OL118077A/George_Orwell) (IT: _"La fattoria degli animali"_)
-- [_"Nineteen Eighty-Four"_](https://openlibrary.org/works/OL1168083W), by [George Orwell](https://openlibrary.org/authors/OL118077A/George_Orwell) (IT: _"1984"_)
-- [_"Nightflyers"_](https://openlibrary.org/works/OL1955942W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A) (FR: _"Les volcryn"_)
-- [_"The Hedge Knight"_](https://openlibrary.org/works/OL1955916W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A) (IT: _"Il cavaliere errante"_)
-- [_"Sandkings"_](https://openlibrary.org/works/OL1955943W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A) (IT: _"I re di sabbia_)
-- [_"Windhaven"_](https://openlibrary.org/works/OL11369800W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A) and [Lisa Tuttle](https://openlibrary.org/authors/OL1126548A) (IT: _"Il pianeta dei venti"_)
-- [_"The Ice Dragon"_](https://openlibrary.org/works/OL257944W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A) and [Luis Royo](https://openlibrary.org/authors/OL46819A) (IT: _"Il drago di ghiaccio"_)
-- [_"The Time Machine"_](https://openlibrary.org/works/OL52267W), by [H. G. Wells](https://openlibrary.org/authors/OL13066A) (IT: _"La macchina del tempo"_)
-- [_"The War of the Worlds"_](https://openlibrary.org/works/OL52114W), by [H. G. Wells](https://openlibrary.org/authors/OL13066A) (EN)
-- [_"She"_](https://openlibrary.org/works/OL17453W), by [H. Rider Haggard](https://openlibrary.org/authors/OL23326A) (IT: _"La donna eterna"_)
-- [_"A wild sheep chase"_](https://openlibrary.org/works/OL31304402W), by [Haruki Murakami](https://openlibrary.org/authors/OL382524A) (IT: "Nel segno della pecora")
-- [_"Siddhartha"_](https://openlibrary.org/works/OL872932W), by [Hermann Hesse](https://openlibrary.org/authors/OL76437A) (IT)
-- [_"Consider Phlebas"_](https://openlibrary.org/works/OL8368432W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A) (IT: _"Considera Fleba"_)
-- [_"The player of games"_](https://openlibrary.org/works/OL100779W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A) (IT: _"L'impero di Azad"_)
-- [_"Use of Weapons"_](https://openlibrary.org/works/OL8339333W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A) (IT: _"La guerra di Zakalwe"_)
-- [_"The State of the Art"_](https://openlibrary.org/works/OL8368448W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A) (IT: _"Lo stato dell'arte"_)
-- [_"Look to windward"_](https://openlibrary.org/works/OL100773W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A)  (IT: _"Volgi lo sguardo al vento"_)
-- [_"Excession"_](https://openlibrary.org/works/OL8368435W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A)  (IT: _"L'altro universo"_)
-- [_"Great Science Fiction Stories By The World's Greatest Scientists"_](https://openlibrary.org/works/OL264006W/Great_Science_Fiction_Stories_by_the_World%27s_Greatest_Scientists?edition=key%3A/books/OL8339979M), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov) (IT: _"Fantascienza. I migliori racconti di famosi scienziati"_)
-     - ...
-- [_"Foundation"_](https://openlibrary.org/works/OL46125W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov) (IT: _"Fondazione"_)
-- [_"Foundation and Empire"_](https://openlibrary.org/works/OL46224W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov) (IT: _"Fondazione e Impero"_)
-- [_"Second Foundation"_](https://openlibrary.org/works/OL46309W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov) (IT: _"Seconda Fondazione"_)
-- [_"Foundation's Edge"_](https://openlibrary.org/works/OL46302W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov) (IT: _"L'orlo della Fondazione"_)
-- [_"Foundation and Earth"_](https://openlibrary.org/works/OL46347W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov) (IT: _"Fondazione e Terra"_)
-- [_"El reino del dragón de oro"_](https://openlibrary.org/works/OL1905349W), by [Isabel Allende](https://openlibrary.org/authors/OL228079A/Isabel_Allende) (IT: _"Il regno del drago d'oro"_)
-- [_"The Lord of the Rings"_](https://openlibrary.org/works/OL27448W), by [J.R.R. Tolkien](https://openlibrary.org/authors/OL26320A/J.R.R._Tolkien) (IT: _"Il signore degli anelli"_)
-   - [_"The Fellowship of the Ring"_](https://openlibrary.org/works/OL14933414W) (IT: _"La compagnia dell'anello"_)
-   - [_"The Two Towers"_](https://openlibrary.org/works/OL27479W) (IT: _"Le due torri"_)
-   - [_"The Return of the King"_](https://openlibrary.org/works/OL27516W) (IT: _"il ritorno del re"_)
-- [_"Trouble with Lichen"_](https://openlibrary.org/works/OL1911333W), by [John Wyndham](https://openlibrary.org/authors/OL228968A)
-- [_"The Day of the Triffids"_](https://openlibrary.org/works/OL1911336W), by [John Wyndham](https://openlibrary.org/authors/OL228968A) (IT: _"Il giorno dei trifidi"_)
-- [_"Libro de los seres imaginarios"_](https://openlibrary.org/works/OL110962W), by [Jorge Luis Borges](https://openlibrary.org/authors/OL18928A/Jorge_Luis_Borges) (IT: _"Il libro degli esseri immaginari"_)
-- [_"El Aleph"_](https://openlibrary.org/works/OL110969W), by [Jorge Luis Borges](https://openlibrary.org/authors/OL18928A/Jorge_Luis_Borges) (IT: _"L'Aleph"_)
-- [_"Ficciones"_](https://openlibrary.org/works/OL110971W), by [Jorge Luis Borges](https://openlibrary.org/authors/OL18928A/Jorge_Luis_Borges) (IT: _"Finzioni"_)
-- [_"Typhoon"_](https://openlibrary.org/works/OL38876W), by [Joseph Conrad](https://openlibrary.org/authors/OL19441A/Joseph_Conrad) (IT: _"Tifone"_)
-- [_"La rebelión de las masas"_](https://openlibrary.org/works/OL504349W), by [José Ortega y Gasset](https://openlibrary.org/authors/OL3941062A/Jos%C3%A9_Ortega_y_Gasset)  (IT: _"La ribellione delle masse"_)
-- [_"Under the streets of Nice"_](https://openlibrary.org/works/OL4476294W), by [Ken Follett](https://openlibrary.org/authors/OL229268A/Ken_Follett) (IT: _"La grande rapina di Nizza"_)
-- [_"Code to zero"_](https://openlibrary.org/works/OL1914074W), by [Ken Follett](https://openlibrary.org/authors/OL229268A/Ken_Follett) (IT: _"Codice a zero"_)
-- [_"On Wings of Eagles"_](https://openlibrary.org/works/OL1914089W), by [Ken Follett](https://openlibrary.org/authors/OL229268A/Ken_Follett) (IT: _"Sulle ali delle aquile"_)
-- [_"Broken Stars"_](https://openlibrary.org/works/OL19794391W), by [Ken Liu](https://openlibrary.org/authors/OL4094327A/Ken_Liu) (EN)
-   - ... 
-- [_"Romance of the three kingdoms"_](https://openlibrary.org/works/OL1961811W), by [Luo Guanzhong](https://openlibrary.org/authors/OL235478A) (IT: _"Il romanzo dei tre regni"_)
-- [_"Cani, camosci, cuculi (e un corvo)"_](https://openlibrary.org/works/OL11808901W), by [Mauro Corona](https://openlibrary.org/authors/OL5037108A/Mauro_Corona) (IT)
-- [_"The End We Start From"_](https://openlibrary.org/works/OL20873102W), by [Megan Hunter](https://openlibrary.org/authors/OL7489502A/Megan_Hunter) (IT: _"La fine da cui partiamo"_)
-- [_"The Andromeda Strain"_](https://openlibrary.org/works/OL46900W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A) (IT: _"Andromeda"_)
-- [_"Jurassic Park"_](https://openlibrary.org/works/OL46917W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A) (IT)
-- [_"Sphere"_](https://openlibrary.org/works/OL46917W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A) (IT: _"Sfera"_)
-- [_"Prey"_](https://openlibrary.org/works/OL46883W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A) (IT: _"Preda"_)
-- [_"Timeline"_](https://openlibrary.org/works/OL46884W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A) (IT: _"Ai confini del tempo"_)
-- [_"Master and Margarita"_](https://openlibrary.org/works/OL676009W), by [Mikhail Afanasyevich Bulgakov](https://openlibrary.org/authors/OL52940A/%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB_%D0%90%D1%84%D0%B0%D0%BD%D0%B0%D1%81%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%91%D1%83%D0%BB%D0%B3%D0%B0%D0%BA%D0%BE%D0%B2) (IT: _"Il Maestro e Margherita"_)
-- [_"Sanshirō"_](https://openlibrary.org/works/OL10339194W), by [Natsume Sōseki](https://openlibrary.org/authors/OL2688998A) (IT)
-- [_"Snow Crash"_](https://openlibrary.org/works/OL38501W), by [Neal Stephenson](https://openlibrary.org/authors/OL19430A) (EN)
-- [_"Coraline"_](https://openlibrary.org/works/OL679358W), by [Neil Gaiman](https://openlibrary.org/authors/OL53305A/Neil_Gaiman) (IT)
-- [_"American Gods"_](https://openlibrary.org/works/OL679360W), by [Neil Gaiman](https://openlibrary.org/authors/OL53305A/Neil_Gaiman) (IT)
-- [_"Quatermass"_](https://openlibrary.org/works/OL6468819W), by [Nigel Kneale](https://openlibrary.org/authors/OL1716427A) (IT)
-- [_"Xenocide"_](https://openlibrary.org/works/OL49604W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card) (EN)
-- [_"Speaker for the Dead"_](https://openlibrary.org/works/OL49580W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card) (EN)
-- [_"Ender's Game"_](https://openlibrary.org/works/OL49488W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card) (EN, IT: _"Il gioco di Ender"_, FR: _"La Stratégie Ender"_)
-- [_"Breakfast at Twilight"_](https://openlibrary.org/works/OL26517819W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (IT: _"Colazione al crepuscolo"_)
-- [_"The Turning Wheel"_](https://openlibrary.org/works/OL19292731W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (IT: _"La ruota cosmica"_)
-- [_"Shell Game"_](https://openlibrary.org/works/OL26517824W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (IT: _"Rivolta contro la Terra"_)
-- [_"The defenders"_](https://openlibrary.org/works/OL16963912W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (IT: _"I difensori della Terra"_)
-- [_"Minority Report"_](https://openlibrary.org/works/OL2172414W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (EN)
-    - [_"Minority Report"_](https://openlibrary.org/works/OL2172414W)
-    - _"Imposter"_
-    - [_"Second Variety"_](https://openlibrary.org/works/OL2172434W?edition=key%3A/books/OL2409390M)
-    - _"War Game"_
-    - _"What the Dead Man Say"_
-    - _"Oh, to be a Blobel!"_
-    - _"The electric ant"_
-    - _"Faith of our Fathers"_
-    - [_"We can remember it for you wholesale"_](https://openlibrary.org/works/OL10570232W)
-- [_"Eye in the sky"_](https://openlibrary.org/works/OL2172504W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (IT: _"L'occhio nel cielo"_)
-- [_"Ubik"_](https://openlibrary.org/works/OL2172454W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (EN)
-- [_"The Man in the High Castle"_](https://openlibrary.org/works/OL2172403W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (IT: _"La svastica sul sole"_)
-- [_"Do Androids Dream of Electric Sheep?"_](https://openlibrary.org/works/OL2172356W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick) (EN and IT: _"Il cacciatore di androidi"_)
-- [_"Now and Forever"_](https://openlibrary.org/works/OL103138W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) (IT: _"Ora e per sempre"_)
-- [_"Long After Midnight"_](https://openlibrary.org/works/OL103183W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) (IT: _"Molto dopo mezzanotte"_)
-   - _"The Blue Bottle"_
-   - _"One Timeless Spring"_
-   - _"The Parrot Who Met Papa"_
-   - _"The Burning Man"_
-   - _"A Piece of Wood"_
-   - _"The Messiah"_
-   - _"G.B.S.-Mark V"_
-   - _"The Utterly Perfect Murder"_
-   - _"Punishment Without Crime"_
-   - _"Getting Through Sunday Somehow"_
-   - _"Drink Entire: Against the Madness of Crowds"_
-   - _"Interval in Sunlight"_
-   - _"A Story of Love"_
-   - _"The Wish"_
-   - _"Forever and the Earth"_
-   - _"The Better Part of Wisdom"_
-   - _"Darling Adolf"_
-   - _"The Miracles of Jamie"_
-   - _"The October Game"_
-   - _"The Pumpernickel"_
-   - _"Long After Midnight"_
-   - _"Have I Got a Chocolate Bar for You!"_
-- [_"Dandelion Wine"_](https://openlibrary.org/works/OL103118W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) (EN)
-- [_"Something Wicked This Way Comes"_](https://openlibrary.org/works/OL103194W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) (IT)
-- [_"Fahrenheit 451"_](https://openlibrary.org/works/OL103123W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) (IT)
-- [_"The Martian Chronicles"_](https://openlibrary.org/works/OL103134W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) (IT: _"Le cronache marziane"_)
+- [_"Out of the Silent Planet"_](https://openlibrary.org/works/OL71166W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A)
+   - EN
+- [_"Perelandra"_](https://openlibrary.org/works/OL71163W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A)
+   - EN
+- [_"That hideous strength"_](https://openlibrary.org/works/OL71165W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A)
+   - EN
+- [_"The Chronicles of Narnia"_](https://openlibrary.org/works/OL70988W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A) 
+   - IT: _"Le cronache di Narnia"_
+   - Contains:
+      - [_"The Magician's Nephew"_](https://openlibrary.org/works/OL71042W)
+         - IT: _"Il nipote del mago"_
+      - [_"The Lion, the Witch and the Wardrobe"_](https://openlibrary.org/works/OL71175W)
+         - IT: _"Il leone, la strega e l'armadio"_
+      - [_"The Horse and His Boy"_](https://openlibrary.org/works/OL71058W)
+         - IT: _"Il cavallo e il ragazzo"_
+      - [_"Prince Caspian"_](https://openlibrary.org/works/OL71069W?)
+         - IT: _"Il principe Caspian"_
+      - [_"The Voyage of the Dawn Treader"_](https://openlibrary.org/works/OL71132W)
+         - IT: _"Il viaggio del veliero"_
+      - [_"The Silver Chair"_](https://openlibrary.org/works/OL71078W)
+         - IT: _"La sedia d'argento"_
+      - [_"The Last Battle"_](https://openlibrary.org/works/OL71078W)
+         - IT: _"L'ultima battaglia"_
+- [_"Eragon"_](https://openlibrary.org/works/OL5819895W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini)
+   - IT: _"Eragon"_
+- [_"Eldest"_](https://openlibrary.org/works/OL5819886W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini)
+   - IT: _"Eldest"_
+- [_"Brisingr"_](https://openlibrary.org/works/OL5819884W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini)
+   - IT: _"Brisingr"_
+- [_"Inheritance"_](https://openlibrary.org/works/OL16175854W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini)
+   - IT: _"Inheritance"_
+- [_"The three-body problem"_](https://openlibrary.org/works/OL17267881W), by [Cixin Liu](https://openlibrary.org/authors/OL7044246A)
+   - IT: _"Il problema dei tre corpi"_
+- [_"The Dark Forest"_](https://openlibrary.org/works/OL16314245W), by [Cixin Liu](https://openlibrary.org/authors/OL7044246A)
+   - IT: _"La materia del cosmo"_
+- [_"Death's End"_](https://openlibrary.org/works/OL17610507W), by [Cixin Liu](https://openlibrary.org/authors/OL7044246A)
+   - IT: _"Nella quarta dimensione"_
+- [_"Orbit Twenty"_](https://openlibrary.org/works/OL27448026W), by [Damon Knight](https://openlibrary.org/authors/OL2628836A):
    - ...
-- [_"The God Delusion"_](https://openlibrary.org/works/OL1966485W), by [Richard Dawkins](https://openlibrary.org/authors/OL236174A) (IT: _"L'illusione di Dio"_)
-- [_"A stir of echoes"_](https://openlibrary.org/works/OL64220W), by [Richard Matheson](https://openlibrary.org/authors/OL19731A) (IT: _"Io sono Helen Driscoll"_)
-- [_"I am Legend"_](https://openlibrary.org/works/OL11374287W), by [Richard Matheson](https://openlibrary.org/authors/OL19731A) (IT: _"Io sono Leggenda"_)
-- [_"Citizen of the Galaxy"_](https://openlibrary.org/works/OL59679W), by [Robert A. Heinlein](https://openlibrary.org/authors/OL28641A/Robert_A._Heinlein) (IT: _"Cittadino della Galassia"_)
-- [_"Starship Troopers"_](https://openlibrary.org/works/OL59740W), by [Robert A. Heinlein](https://openlibrary.org/authors/OL28641A/Robert_A._Heinlein) (IT: _"Fanteria dello spazio"_)
-- [_"Eden"_](https://openlibrary.org/works/OL109515W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem) (IT)
-- [_"Cyberiada"_](https://openlibrary.org/works/OL2683553W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem) (IT: _"Le Ciberiadi"_)
-- [_"Kongres futurologiczny"_](https://openlibrary.org/works/OL2683552W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem) (IT: _"Il congresso di futurologia"_)
-- [_"Solaris"_](https://openlibrary.org/works/OL109524W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem) (IT)
-- [_"Opowieści o pilocie Pirxie"_](https://openlibrary.org/works/OL9104526W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem) (IT: _"I racconti del pilota Pirx"_)
-  - ...
-- [_"Saltatempo"_](https://openlibrary.org/works/OL9138137W), by [Stefano Benni](https://openlibrary.org/authors/OL86259A) (IT)
-- [_"Hunger Games"_](https://openlibrary.org/works/OL21685791W), by [Suzanne Collins](https://openlibrary.org/authors/OL1394359A/Suzanne_Collins) (IT)
-- [_"Catching Fire"_](https://openlibrary.org/works/OL5735360W), by [Suzanne Collins](https://openlibrary.org/authors/OL1394359A/Suzanne_Collins) (IT: _"La ragazza di fuoco"_)
-- [_"The Jasmine Throne"_](https://openlibrary.org/works/OL24151326W), by [Tasha Suri](https://openlibrary.org/authors/OL7544796A) (EN)
-- [_"A Wizard of Earthsea"_](https://openlibrary.org/works/OL59798W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) (IT: _"Il mago di Earthsea"_)
-- [_"The Tombs of Atuan"_](https://openlibrary.org/works/OL59801W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) (IT: _"Le tombe di Atuan"_)
-- [_"The Farthest Shore"_](https://openlibrary.org/works/OL59855W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) (IT: _"La spiaggia più lontana"_)
-- [_"The Other Wind"_](https://openlibrary.org/works/OL59806W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)  (IT: _"I venti di Earthsea"_)
-- [_"Tehanu"_](https://openlibrary.org/works/OL20102714W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)  (IT)
-- [_"The Left Hand of Darkness"_](https://openlibrary.org/works/OL59800W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)  (IT: _"La mano sinistra delle tenebre"_)
-- [_"A Fire upon the Deep"_](https://openlibrary.org/works/OL1975714W), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge) (EN)
-- [_"The Green Leopard Plague"_](https://openlibrary.org/works/OL17546562W), by [Walter Jon Williams](https://openlibrary.org/authors/OL19039A/Walter_Jon_Williams) (IT: _"L'era del flagello"_)
-- [_"Neuromancer"_](https://openlibrary.org/works/OL27258W), by [William Gibson](https://openlibrary.org/authors/OL26283A) (IT: _"Neuromante"_)
-- [_"Count Zero"_](https://openlibrary.org/works/OL27256W), by [William Gibson](https://openlibrary.org/authors/OL26283A) (IT: _"Giù nel ciberspazio"_)
-- [_"Mona Lisa Overdrive"_](https://openlibrary.org/works/OL27253W), by [William Gibson](https://openlibrary.org/authors/OL26283A) (IT: _"Monna Lisa cyberpunk"_)
-- [_"The journey to the west"_](https://openlibrary.org/works/OL10498510W), by [Wu Cheng'en](https://openlibrary.org/authors/OL608235A/Wu_Cheng%27en) (IT: _"Il viaggio in Occidente"_)
-- [_"Cyber China"_](https://openlibrary.org/works/OL31194742W), by [Xiaolong Qiu](https://openlibrary.org/authors/OL1431656A/Qiu_Xiaolong) (IT)
-- [_"We"_](https://openlibrary.org/works/OL10215W), by [Yevgeny Ivanovich Zamyatin](https://openlibrary.org/authors/OL30241A/%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_%D0%97%D0%B0%D0%BC%D1%8F%D1%82%D0%B8%D0%BD) (IT: _"Noi"_)
+- [_"Flowers for Algernon"_](https://openlibrary.org/works/OL515754W), (novel) by [Daniel Keyes](https://openlibrary.org/authors/OL35895A)
+   - EN
+   - IT: _"Fiori per Algernon"_
+- [_"The Hitch Hiker's Guide to the Galaxy"_](https://openlibrary.org/works/OL2163649W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams)
+   - IT: _"Guida Galattica Per Autostoppisti"_
+- [_"The Restaurant at the End of the Universe"_](https://openlibrary.org/works/OL2163655W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams)
+   - IT: _"Il ristorante al termine dell'universo"_
+- [_"Life, the Universe and Everything"_](https://openlibrary.org/works/OL2163623W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams)
+   - IT: _"La vita, l'universo e tutto quanto"_
+- [_"So long, and thanks for all the fish"_](https://openlibrary.org/works/OL2163719W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams)
+   - IT: _"Addio e grazie per tutto il pesce"_
+- [_"Mostly Harmless"_](https://openlibrary.org/works/OL2163638W), by [Douglas Adams](https://openlibrary.org/authors/OL272947A/Douglas_Adams)
+   - IT: _"Praticamente innocuo"_
+- [_"The Meaning of Human Existence"_](https://openlibrary.org/works/OL17634954W), by [Edward Osborne Wilson](https://openlibrary.org/authors/OL141176A)
+   - IT: _"Il significato dell'esistenza umana"_
+- [_"Flatland"_](https://openlibrary.org/works/OL118388W), by [Edwin Abbott Abbott](https://openlibrary.org/authors/OL20585A)
+   - IT: _"Flatlandia"_
+- [_"Bit"_](https://www.goodreads.com/book/show/10023354-bit), by Ermanno Gallo
+   - IT
+- [_"Ready Player One"_](https://openlibrary.org/works/OL15936512W), by [Ernest Cline](https://openlibrary.org/authors/OL6941868A)
+   - EN
+- [_"The Old Man and the Sea"_](https://openlibrary.org/works/OL63073W), by [Ernest Hemingway](https://openlibrary.org/authors/OL13640A/Ernest_Hemingway),
+   - IT: _"Il vecchio e il mare"_
+- [_"L'impero di Cindia"_](https://openlibrary.org/works/OL20906273W), by [Federico Rampini](https://openlibrary.org/authors/OL411047A/Federico_Rampini)
+   - IT
+- [_"Dune"_](https://openlibrary.org/works/OL893415W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A)
+    - IT: _"Dune"_
+- [_"Dune Messiah"_](https://openlibrary.org/works/OL893526W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A)
+   - IT: _"Il messia di Dune"_
+- [_"Children of Dune"_](https://openlibrary.org/works/OL893516W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A)
+   - IT: _"I figli di Dune"_
+- [_"God Emperor of Dune"_](https://openlibrary.org/works/OL893515W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A)
+   - IT: _"L'imperatore-dio di Dune"_
+- [_"Heretics of Dune"_](https://openlibrary.org/works/OL893502W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A)
+   - IT: _"Gli eretici di Dune"_
+- [_"Chapterhouse, Dune"_](https://openlibrary.org/works/OL893508W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A)
+   - IT: _"La rifondazione di Dune"_
+- [_"The Trial"_](https://openlibrary.org/works/OL498463W), by [Franz Kafka](https://openlibrary.org/authors/OL33146A)
+   - IT: _"Il processo"_
+- [_"Romulus der Große"_](https://openlibrary.org/works/OL37988590W), by [Friedrich Dürenmatt](https://openlibrary.org/authors/OL3915797A/Friedrich_D%C3%BCrenmatt)
+   - IT: _"Romolo il Grande"_
+- [_"Animal Farm"_](https://openlibrary.org/works/OL1168007W), by [George Orwell](https://openlibrary.org/authors/OL118077A/George_Orwell)
+   - IT: _"La fattoria degli animali"_
+- [_"Nineteen Eighty-Four"_](https://openlibrary.org/works/OL1168083W), by [George Orwell](https://openlibrary.org/authors/OL118077A/George_Orwell)
+   - IT: _"1984"_
+- [_"Nightflyers"_](https://openlibrary.org/works/OL1955942W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A)
+   - FR: _"Les volcryn"_
+- [_"The Hedge Knight"_](https://openlibrary.org/works/OL1955916W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A)
+   - IT: _"Il cavaliere errante"_
+- [_"Sandkings"_](https://openlibrary.org/works/OL1955943W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A)
+   - IT: _"I re di sabbia_
+- [_"Windhaven"_](https://openlibrary.org/works/OL11369800W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A) and [Lisa Tuttle](https://openlibrary.org/authors/OL1126548A)
+   - IT: _"Il pianeta dei venti"_
+- [_"The Ice Dragon"_](https://openlibrary.org/works/OL257944W), by [George R. R. Martin](https://openlibrary.org/authors/OL234664A) and [Luis Royo](https://openlibrary.org/authors/OL46819A)
+   - IT: _"Il drago di ghiaccio"_
+- [_"The Time Machine"_](https://openlibrary.org/works/OL52267W), by [H. G. Wells](https://openlibrary.org/authors/OL13066A)
+   - IT: _"La macchina del tempo"_
+- [_"The War of the Worlds"_](https://openlibrary.org/works/OL52114W), by [H. G. Wells](https://openlibrary.org/authors/OL13066A)
+   - EN
+- [_"She"_](https://openlibrary.org/works/OL17453W), by [H. Rider Haggard](https://openlibrary.org/authors/OL23326A)
+   - IT: _"La donna eterna"_
+- [_"A wild sheep chase"_](https://openlibrary.org/works/OL31304402W), by [Haruki Murakami](https://openlibrary.org/authors/OL382524A)
+   - IT: "Nel segno della pecora"
+- [_"Siddhartha"_](https://openlibrary.org/works/OL872932W), by [Hermann Hesse](https://openlibrary.org/authors/OL76437A)
+   - IT: _"Siddhartha"_
+- [_"Consider Phlebas"_](https://openlibrary.org/works/OL8368432W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A)
+   - IT: _"Considera Fleba"_
+- [_"The player of games"_](https://openlibrary.org/works/OL100779W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A)
+   - IT: _"L'impero di Azad"_
+- [_"Use of Weapons"_](https://openlibrary.org/works/OL8339333W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A)
+   - IT: _"La guerra di Zakalwe"_
+- [_"The State of the Art"_](https://openlibrary.org/works/OL8368448W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A)
+   - IT: _"Lo stato dell'arte"_
+- [_"Look to windward"_](https://openlibrary.org/works/OL100773W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A) 
+   - IT: _"Volgi lo sguardo al vento"_
+- [_"Excession"_](https://openlibrary.org/works/OL8368435W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A) 
+   - IT: _"L'altro universo"_
+- [_"Great Science Fiction Stories By The World's Greatest Scientists"_](https://openlibrary.org/works/OL264006W/Great_Science_Fiction_Stories_by_the_World%27s_Greatest_Scientists?edition=key%3A/books/OL8339979M), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
+   - IT: _"Fantascienza. I migliori racconti di famosi scienziati"_
+    - ...
+- [_"Foundation"_](https://openlibrary.org/works/OL46125W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
+   - IT: _"Fondazione"_
+- [_"Foundation and Empire"_](https://openlibrary.org/works/OL46224W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
+   - IT: _"Fondazione e Impero"_
+- [_"Second Foundation"_](https://openlibrary.org/works/OL46309W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
+   - IT: _"Seconda Fondazione"_
+- [_"Foundation's Edge"_](https://openlibrary.org/works/OL46302W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
+   - IT: _"L'orlo della Fondazione"_
+- [_"Foundation and Earth"_](https://openlibrary.org/works/OL46347W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
+   - IT: _"Fondazione e Terra"_
+- [_"El reino del dragón de oro"_](https://openlibrary.org/works/OL1905349W), by [Isabel Allende](https://openlibrary.org/authors/OL228079A/Isabel_Allende)
+   - IT: _"Il regno del drago d'oro"_
+- [_"Harry Potter and the Philosopher's Stone"_](https://openlibrary.org/works/OL82563W/), by [J. K. Rowling](https://openlibrary.org/authors/OL23919A/J._K._Rowling)
+   - IT: _"Harry Potter e la pietra filosofale"_
+- [_"Harry Potter and the Chamber of Secrets"_](https://openlibrary.org/works/OL82537W), by [J. K. Rowling](https://openlibrary.org/authors/OL23919A/J._K._Rowling)
+   - IT: _"Harry Potter e la camera dei segreti"_
+- [_"Harry Potter and the Prisoner of Azkaban"_](https://openlibrary.org/works/OL82536W), by [J. K. Rowling](https://openlibrary.org/authors/OL23919A/J._K._Rowling)
+   - IT: _"Harry Potter e il prigioniero di Azkaban"_
+- [_"Harry Potter and the Goblet of Fire"_](https://openlibrary.org/works/OL82560W), by [J. K. Rowling](https://openlibrary.org/authors/OL23919A/J._K._Rowling)
+   - IT: _"Harry Potter e il calice di fuoco"_
+- [_"Harry Potter and the Order of the Phoenix"_](https://openlibrary.org/works/OL82548W), by [J. K. Rowling](https://openlibrary.org/authors/OL23919A/J._K._Rowling)
+   - IT: _"Harry Potter e l'ordine della fenice"_
+- [_"Harry Potter and the Half Blood Prince"_](https://openlibrary.org/works/OL82565W), by [J. K. Rowling](https://openlibrary.org/authors/OL23919A/J._K._Rowling)
+   - IT: _"Harry Potter e il principe mezzosangue"_
+- [_"Harry Potter and the Deadly Hallows"_](https://openlibrary.org/works/OL82586W?edition=key%3A/books/OL39794425M), by [J. K. Rowling](https://openlibrary.org/authors/OL23919A/J._K._Rowling) 
+   - IT: _"Harry Potter e i doni della morte"_
+- [_"The Lord of the Rings"_](https://openlibrary.org/works/OL27448W), by [J.R.R. Tolkien](https://openlibrary.org/authors/OL26320A/J.R.R._Tolkien)
+   - IT: _"Il signore degli anelli"_
+   - Contains:
+      - [_"The Fellowship of the Ring"_](https://openlibrary.org/works/OL14933414W)
+         - IT: _"La compagnia dell'anello"_
+      - [_"The Two Towers"_](https://openlibrary.org/works/OL27479W)
+         - IT: _"Le due torri"_
+      - [_"The Return of the King"_](https://openlibrary.org/works/OL27516W)
+         - IT: _"il ritorno del re"_
+- [_"Trouble with Lichen"_](https://openlibrary.org/works/OL1911333W), by [John Wyndham](https://openlibrary.org/authors/OL228968A)
+- [_"The Day of the Triffids"_](https://openlibrary.org/works/OL1911336W), by [John Wyndham](https://openlibrary.org/authors/OL228968A)
+   - IT: _"Il giorno dei trifidi"_
+- [_"Libro de los seres imaginarios"_](https://openlibrary.org/works/OL110962W), by [Jorge Luis Borges](https://openlibrary.org/authors/OL18928A/Jorge_Luis_Borges)
+   - IT: _"Il libro degli esseri immaginari"_
+- [_"El Aleph"_](https://openlibrary.org/works/OL110969W), by [Jorge Luis Borges](https://openlibrary.org/authors/OL18928A/Jorge_Luis_Borges)
+   - IT: _"L'Aleph"_
+- [_"Ficciones"_](https://openlibrary.org/works/OL110971W), by [Jorge Luis Borges](https://openlibrary.org/authors/OL18928A/Jorge_Luis_Borges)
+   - IT: _"Finzioni"_
+- [_"Typhoon"_](https://openlibrary.org/works/OL38876W), by [Joseph Conrad](https://openlibrary.org/authors/OL19441A/Joseph_Conrad)
+   - IT: _"Tifone"_
+- [_"La rebelión de las masas"_](https://openlibrary.org/works/OL504349W), by [José Ortega y Gasset](https://openlibrary.org/authors/OL3941062A/Jos%C3%A9_Ortega_y_Gasset) 
+   - IT: _"La ribellione delle masse"_
+- [_"The Kite Runner"_](https://openlibrary.org/works/OL5781992W/The_Kite_Runner), by [Khaled Hosseini](https://openlibrary.org/authors/OL1412764A/Khaled_Hosseini)
+   - IT: _"Il cacciatore di aquiloni"_
+- [_"Under the streets of Nice"_](https://openlibrary.org/works/OL4476294W), by [Ken Follett](https://openlibrary.org/authors/OL229268A/Ken_Follett)
+   - IT: _"La grande rapina di Nizza"_
+- [_"Code to zero"_](https://openlibrary.org/works/OL1914074W), by [Ken Follett](https://openlibrary.org/authors/OL229268A/Ken_Follett)
+   - IT: _"Codice a zero"_
+- [_"On Wings of Eagles"_](https://openlibrary.org/works/OL1914089W), by [Ken Follett](https://openlibrary.org/authors/OL229268A/Ken_Follett)
+   - IT: _"Sulle ali delle aquile"_
+- [_"Broken Stars"_](https://openlibrary.org/works/OL19794391W), by [Ken Liu](https://openlibrary.org/authors/OL4094327A/Ken_Liu)
+   - EN
+   - Contains:
+      - ... 
+- [_"Romance of the three kingdoms"_](https://openlibrary.org/works/OL1961811W), by [Luo Guanzhong](https://openlibrary.org/authors/OL235478A)
+   - IT: _"Il romanzo dei tre regni"_
+- [_"Cani, camosci, cuculi (e un corvo)"_](https://openlibrary.org/works/OL11808901W), by [Mauro Corona](https://openlibrary.org/authors/OL5037108A/Mauro_Corona)
+   - IT
+- [_"The End We Start From"_](https://openlibrary.org/works/OL20873102W), by [Megan Hunter](https://openlibrary.org/authors/OL7489502A/Megan_Hunter)
+   - IT: _"La fine da cui partiamo"_
+- [_"The Andromeda Strain"_](https://openlibrary.org/works/OL46900W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A)
+   - IT: _"Andromeda"_
+- [_"Jurassic Park"_](https://openlibrary.org/works/OL46917W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A)
+   - IT: _"Jurassic Park"_
+- [_"Sphere"_](https://openlibrary.org/works/OL46917W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A)
+   - IT: _"Sfera"_
+- [_"Prey"_](https://openlibrary.org/works/OL46883W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A)
+   - IT: _"Preda"_
+- [_"Timeline"_](https://openlibrary.org/works/OL46884W) by [Michael Crichton](https://openlibrary.org/authors/OL28257A)
+   - IT: _"Ai confini del tempo"_
+- [_"Master and Margarita"_](https://openlibrary.org/works/OL676009W), by [Mikhail Afanasyevich Bulgakov](https://openlibrary.org/authors/OL52940A/%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB_%D0%90%D1%84%D0%B0%D0%BD%D0%B0%D1%81%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%91%D1%83%D0%BB%D0%B3%D0%B0%D0%BA%D0%BE%D0%B2)
+   - IT: _"Il Maestro e Margherita"_
+- [_"Sanshirō"_](https://openlibrary.org/works/OL10339194W), by [Natsume Sōseki](https://openlibrary.org/authors/OL2688998A)
+   - IT: _"Sanshirō"_
+- [_"Snow Crash"_](https://openlibrary.org/works/OL38501W), by [Neal Stephenson](https://openlibrary.org/authors/OL19430A)
+   - EN
+- [_"Coraline"_](https://openlibrary.org/works/OL679358W), by [Neil Gaiman](https://openlibrary.org/authors/OL53305A/Neil_Gaiman)
+   - IT: _"Coraline"_
+- [_"American Gods"_](https://openlibrary.org/works/OL679360W), by [Neil Gaiman](https://openlibrary.org/authors/OL53305A/Neil_Gaiman)
+   - IT: _"American Gods"_
+- [_"Quatermass"_](https://openlibrary.org/works/OL6468819W), by [Nigel Kneale](https://openlibrary.org/authors/OL1716427A)
+   - IT: _"Quatermass"_
+- [_"Xenocide"_](https://openlibrary.org/works/OL49604W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card)
+   - EN
+- [_"Speaker for the Dead"_](https://openlibrary.org/works/OL49580W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card)
+   - EN
+- [_"Ender's Game"_](https://openlibrary.org/works/OL49488W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card)
+   - EN
+   - IT: _"Il gioco di Ender"_
+   - FR: _"La Stratégie Ender"_
+- [_"Breakfast at Twilight"_](https://openlibrary.org/works/OL26517819W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - IT: _"Colazione al crepuscolo"_
+- [_"The Turning Wheel"_](https://openlibrary.org/works/OL19292731W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - IT: _"La ruota cosmica"_
+- [_"Shell Game"_](https://openlibrary.org/works/OL26517824W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - IT: _"Rivolta contro la Terra"_
+- [_"The defenders"_](https://openlibrary.org/works/OL16963912W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - IT: _"I difensori della Terra"_
+- [_"Minority Report"_](https://openlibrary.org/works/OL2172414W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - EN
+   - Contains:
+      - [_"Minority Report"_](https://openlibrary.org/works/OL2172414W)
+         - EN
+      - _"Imposter"_
+         - EN
+      - [_"Second Variety"_](https://openlibrary.org/works/OL2172434W?edition=key%3A/books/OL2409390M)
+         - EN
+      - _"War Game"_
+         - EN
+      - _"What the Dead Man Say"_
+         - EN
+      - _"Oh, to be a Blobel!"_
+         - EN
+      - _"The electric ant"_
+         - EN
+      - _"Faith of our Fathers"_
+         - EN
+      - [_"We can remember it for you wholesale"_](https://openlibrary.org/works/OL10570232W)
+         - EN
+- [_"Eye in the sky"_](https://openlibrary.org/works/OL2172504W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - IT: _"L'occhio nel cielo"_
+- [_"Ubik"_](https://openlibrary.org/works/OL2172454W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - EN
+- [_"The Man in the High Castle"_](https://openlibrary.org/works/OL2172403W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - IT: _"La svastica sul sole"_
+- [_"Do Androids Dream of Electric Sheep?"_](https://openlibrary.org/works/OL2172356W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+   - EN 
+   - IT: _"Il cacciatore di androidi"_
+- [_"Now and Forever"_](https://openlibrary.org/works/OL103138W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury)
+   - IT: _"Ora e per sempre"_
+- [_"Long After Midnight"_](https://openlibrary.org/works/OL103183W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury)
+   - IT: _"Molto dopo mezzanotte"_
+   - Contains:
+     - _"The Blue Bottle"_
+     - _"One Timeless Spring"_
+     - _"The Parrot Who Met Papa"_
+     - _"The Burning Man"_
+     - _"A Piece of Wood"_
+     - _"The Messiah"_
+     - _"G.B.S.-Mark V"_
+     - _"The Utterly Perfect Murder"_
+     - _"Punishment Without Crime"_
+     - _"Getting Through Sunday Somehow"_
+     - _"Drink Entire: Against the Madness of Crowds"_
+     - _"Interval in Sunlight"_
+     - _"A Story of Love"_
+     - _"The Wish"_
+     - _"Forever and the Earth"_
+     - _"The Better Part of Wisdom"_
+     - _"Darling Adolf"_
+     - _"The Miracles of Jamie"_
+     - _"The October Game"_
+     - _"The Pumpernickel"_
+     - _"Long After Midnight"_
+     - _"Have I Got a Chocolate Bar for You!"_
+- [_"Dandelion Wine"_](https://openlibrary.org/works/OL103118W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury)
+   - EN
+- [_"Something Wicked This Way Comes"_](https://openlibrary.org/works/OL103194W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury)
+   - IT: _"Something Wicked This Way Comes"_ (?)
+- [_"Fahrenheit 451"_](https://openlibrary.org/works/OL103123W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury)
+   - IT: _"Fahrenheit 451"_
+- [_"The Martian Chronicles"_](https://openlibrary.org/works/OL103134W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury)
+   - IT: _"Le cronache marziane"_
+   - Contains:
+       - ...
+- [_"The God Delusion"_](https://openlibrary.org/works/OL1966485W), by [Richard Dawkins](https://openlibrary.org/authors/OL236174A)
+   - IT: _"L'illusione di Dio"_
+- [_"A stir of echoes"_](https://openlibrary.org/works/OL64220W), by [Richard Matheson](https://openlibrary.org/authors/OL19731A)
+   - IT: _"Io sono Helen Driscoll"_
+- [_"I am Legend"_](https://openlibrary.org/works/OL11374287W), by [Richard Matheson](https://openlibrary.org/authors/OL19731A)
+   - IT: _"Io sono Leggenda"_
+- [_"Citizen of the Galaxy"_](https://openlibrary.org/works/OL59679W), by [Robert A. Heinlein](https://openlibrary.org/authors/OL28641A/Robert_A._Heinlein)
+   - IT: _"Cittadino della Galassia"_
+- [_"Starship Troopers"_](https://openlibrary.org/works/OL59740W), by [Robert A. Heinlein](https://openlibrary.org/authors/OL28641A/Robert_A._Heinlein)
+   - IT: _"Fanteria dello spazio"_
+- [_"The Last Book in the Universe"_](https://openlibrary.org/works/OL497780W), by [Rodman Philbrick](https://openlibrary.org/authors/OL33122A/W._R._Philbrick)
+   - IT: _"L'ultimo libro dell'universo"_
+- [_"The UNIX-haters handbook"_](https://openlibrary.org/works/OL16929040W) by [Simson Garfinkel](https://openlibrary.org/authors/OL184278A/Simson_Garfinkel)
+   - EN [here](https://web.mit.edu/~simsong/www/ugh.pdf) and [here](/archive/ugh.pdf)
+- [_"Eden"_](https://openlibrary.org/works/OL109515W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem)
+   - IT: _"Eden"_
+- [_"Cyberiada"_](https://openlibrary.org/works/OL2683553W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem)
+   - IT: _"Le Ciberiadi"_
+- [_"Kongres futurologiczny"_](https://openlibrary.org/works/OL2683552W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem)
+   - IT: _"Il congresso di futurologia"_
+- [_"Solaris"_](https://openlibrary.org/works/OL109524W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem)
+   - IT: _"Solaris"_
+- [_"Opowieści o pilocie Pirxie"_](https://openlibrary.org/works/OL9104526W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem)
+   - IT: _"I racconti del pilota Pirx"_
+   - Contains:
+       - ...
+- [_"Saltatempo"_](https://openlibrary.org/works/OL9138137W), by [Stefano Benni](https://openlibrary.org/authors/OL86259A)
+   - IT
+- [_"Hunger Games"_](https://openlibrary.org/works/OL21685791W), by [Suzanne Collins](https://openlibrary.org/authors/OL1394359A/Suzanne_Collins)
+   - IT: _"Hunger Games"_
+- [_"Catching Fire"_](https://openlibrary.org/works/OL5735360W), by [Suzanne Collins](https://openlibrary.org/authors/OL1394359A/Suzanne_Collins)
+   - IT: _"La ragazza di fuoco"_
+- [_"The Jasmine Throne"_](https://openlibrary.org/works/OL24151326W), by [Tasha Suri](https://openlibrary.org/authors/OL7544796A)
+   - EN
+- [_"A Wizard of Earthsea"_](https://openlibrary.org/works/OL59798W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)
+   - IT: _"Il mago di Earthsea"_
+- [_"The Tombs of Atuan"_](https://openlibrary.org/works/OL59801W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)
+   - IT: _"Le tombe di Atuan"_
+- [_"The Farthest Shore"_](https://openlibrary.org/works/OL59855W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)
+   - IT: _"La spiaggia più lontana"_
+- [_"The Other Wind"_](https://openlibrary.org/works/OL59806W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) 
+   - IT: _"I venti di Earthsea"_
+- [_"Tehanu"_](https://openlibrary.org/works/OL20102714W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)
+   - IT: _"Tehanu"_
+- [_"The Left Hand of Darkness"_](https://openlibrary.org/works/OL59800W), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) 
+   - IT: _"La mano sinistra delle tenebre"_
+- [_"A Fire upon the Deep"_](https://openlibrary.org/works/OL1975714W), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge)
+   - EN
+- [_"The Green Leopard Plague"_](https://openlibrary.org/works/OL17546562W), by [Walter Jon Williams](https://openlibrary.org/authors/OL19039A/Walter_Jon_Williams)
+   - IT: _"L'era del flagello"_
+- [_"Neuromancer"_](https://openlibrary.org/works/OL27258W), by [William Gibson](https://openlibrary.org/authors/OL26283A)
+   - IT: _"Neuromante"_
+- [_"Count Zero"_](https://openlibrary.org/works/OL27256W), by [William Gibson](https://openlibrary.org/authors/OL26283A)
+   - IT: _"Giù nel ciberspazio"_
+- [_"Mona Lisa Overdrive"_](https://openlibrary.org/works/OL27253W), by [William Gibson](https://openlibrary.org/authors/OL26283A)
+   - IT: _"Monna Lisa cyberpunk"_
+- [_"The journey to the west"_](https://openlibrary.org/works/OL10498510W), by [Wu Cheng'en](https://openlibrary.org/authors/OL608235A/Wu_Cheng%27en)
+   - IT: _"Il viaggio in Occidente"_
+- [_"Cyber China"_](https://openlibrary.org/works/OL31194742W), by [Xiaolong Qiu](https://openlibrary.org/authors/OL1431656A/Qiu_Xiaolong)
+   - IT: _"Cyber China"_
+- [_"We"_](https://openlibrary.org/works/OL10215W), by [Yevgeny Ivanovich Zamyatin](https://openlibrary.org/authors/OL30241A/%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_%D0%97%D0%B0%D0%BC%D1%8F%D1%82%D0%B8%D0%BD)
+   - IT: _"Noi"_
 
 ### Short Stories / Essays
 
-- [_"The Coming Technological Singularity"_](/archive/vinge-the-coming-technological-singularity.html), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge)
-- [_"Flowers for Algernon"_](/archive/keyes-flowers-for-algernon.html) (short story), by [Daniel Keyes](https://openlibrary.org/authors/OL35895A) on _"Fantasy & Science Fiction"_, April '59
-- [_"The Night"_](/archive/bradbury-the-night.html) (also known as _"Ice Cream on a Summer's Evening"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) on _"Weird Tales"_, July '46
-- [_"The Creatures That Time Forgot"_](/archive/bradbury-the-creatures-that-time-forgot.html) (also known as _"Frost and Fire"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) on _"Planet Stories"_, Fall '46
-- [_"The Star"_](/archive/clarke-the-star.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
 - [_"Superiority"_](/archive/clarke-superiority.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
+- [_"The Star"_](/archive/clarke-the-star.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
 - [_"The Sentinel"_](/archive/clarke-the-sentinel.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
+- [_"The Creatures That Time Forgot"_](/archive/bradbury-the-creatures-that-time-forgot.html) (also known as _"Frost and Fire"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) on _"Planet Stories"_, Fall '46
+- [_"The Night"_](/archive/bradbury-the-night.html) (also known as _"Ice Cream on a Summer's Evening"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) on _"Weird Tales"_, July '46
+- [_"Flowers for Algernon"_](/archive/keyes-flowers-for-algernon.html) (short story), by [Daniel Keyes](https://openlibrary.org/authors/OL35895A) on _"Fantasy & Science Fiction"_, April '59
 - [_"The Minority Report"_](/archive/dick-minority-report.html), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+- [_"The Coming Technological Singularity"_](/archive/vinge-the-coming-technological-singularity.html), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge)
 
 ### Movies
 
--
+- [_"Gattaca"_](https://www.imdb.com/title/tt0119177/), by A. Niccol, 1997
+- [_"Solaris"_](https://www.imdb.com/title/tt0069293) (director's cut), by A. Tarkovsky, 1972
+- [_"Metropolis"_](https://www.imdb.com/title/tt0017136) (silent film), by F. Lang, 1927
 
-### To read/watch
+### To read
 
-- 
+- [_"The Way of Kings: Book One of the Stormlight Archive"_](https://openlibrary.org/works/OL15358691W?edition=key%3A/books/OL25883754M) by [Brandon Sanderson](https://openlibrary.org/authors/OL1394865A/Brandon_Sanderson) <details><summary>Summary</summary><small><em>Roshar is a world of stone and storms. Uncanny tempests of incredible power sweep across the rocky terrain so frequently that they have shaped ecology and civilization alike. Animals hide in shells, trees pull in branches, and grass retracts into the soilless ground. Cities are built only where the topography offers shelter.<br><br>It has been centuries since the fall of the ten consecrated orders known as the Knights Radiant, but their Shardblades and Shardplate remain: mystical swords and suits of armor that transform ordinary men into near-invincible warriors. Men trade kingdoms for Shardblades. Wars are fought for them, and won by them.<br><br>One such war rages on a ruined landscape called the Shattered Plains. There, Kaladin, who traded his medical apprenticeship for a spear, has been reduced to slavery. In a war that makes no sense, where ten armies fight separately against a single foe, he struggles to save his men and to fathom the leaders who consider them expendable.<br><br>Brightlord Dalinar Kholin commands one of those other armies. Like his brother, the late king, he is fascinated by an ancient text called The Way of Kings. Troubled by overpowering visions of ancient times and the Knights Radiant, he has begun to doubt his own sanity.<br><br>Across the ocean, an untried young woman named Shallan seeks to train under the eminent scholar and notorious heretic Jasnah Kholin, Dalinar’s niece. Though she genuinely loves learning, Shallan’s motives are less than pure. As she plans a daring theft, her research for Jasnah hints at secrets of the Knights Radiant and the true cause of the war.<br><br>The result of more than ten years of planning, writing, and worldbuilding, The Way of Kings is but the opening movement of the Stormlight Archive, a bold masterpiece in the making.<br><br>Speak again the ancient oaths,<br><br>Life before death.<br>Strength before weakness.<br>Journey before destination.<br>and return to men the Shards they once bore.<br><br>The Knights Radiant must stand again. </em></small></details>
+- [_"The Wind's Twelve Quarters: Short Stories"_](https://openlibrary.org/works/OL59861W) by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) <details><summary>Summary</summary><small><em>This is a collection containing, among other stories, the short story that started the Earthsea series." Along with "The Rule of Names," the story establishes the world and characters of Earthsea. First published in 1964 in an issue of Fantastic, the story can be found in a handful of anthologies but can be hard to lay hands on. </em></small></details>
+- [_"The Dispossessed"_](https://openlibrary.org/works/OL59863W) by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) <details><summary>Summary</summary><small><em>Shevek, a brilliant physicist, decides to take action. He will seek answers, question the unquestionable, and attempt to tear down the walls of hatred that have isolated his planet of anarchists from the rest of the civilized universe. To do this dangerous task will mean giving up his family and possibly his life. Shevek must make the unprecedented journey to the planet, Anarres, to challenge the complex structures of life and living, and ignite the fires of change. </em></small></details>
+- [_"The moon is a harsh mistress"_](https://openlibrary.org/works/OL59704W), by [Robert A. Heinlein](https://openlibrary.org/authors/OL28641A/Robert_A._Heinlein) <details><summary>Summary</summary><small><em><A one-armed computer technician, a radical blonde bombshell, an aging academic, and a sentient all-knowing computer lead the lunar population in a revolution against Earth's colonial rule. </em></small></details>
+- [_"Lightspeed, Year One"_](https://openlibrary.org/works/OL18169427W), by various authors <details><summary>Summary</summary><small><em>Introduction / John Joseph Adams<br>I'm alive, I love you, I'll see you in Reno / Vylar Kaftan<br>The Cassandra project / Jack McDevitt<br>Cats in victory / David Barr Kirtley<br>Amaryllis / Carrie Vaughn<br>No time like the present / Carol Emshwiller<br>Manumission / Tobias S. Buckell<br>The Zeppelin Conductors' Society Annual Gentlemen's Ball / Genevieve Valentine<br>" ... For a single yesterday" / George R.R. Martin<br>How to become a Mars overlord / Catherynne M. Valente<br>Patient zero / Tananarive Due<br>Arvies / Adam-Troy Castro<br>More than the sum of his parts / Joe Haldeman<br>Flower, mercy, needle, chain / Yoon Ha Lee<br>The long chase / Geoffrey A. Landis<br>Amid the words of war / Cat Rambo<br>Travelers / Robert Silverberg<br>Hindsight / Sarah Langan<br>Tight little stitches in a dead man's back / Joe R. Lansdale<br>The taste of starlight / John R. Fultz<br>Beachworld / Stephen King<br>Standard loneliness package / Charles Yu<br>Faces in revolving souls / Caitlín R. Kiernan<br>Hwang's billion brilliant daughters / Alice Sola Kim<br>Ej-Es / Nancy Kress<br>In-fall / Ted Kosmatka<br>The observer / Kristine Kathryn Rusch<br>Jenny's sick / David Tallerman<br>The silence of the asonu / Ursula K. Le Guin<br>Postings from an amorous tomorrow / Corey Mariani<br>Cucumber gravy / Susan Palwick<br>Black fire / Tanith Lee<br>The elephants of Poznan / Orson Scott Card<br>Long enough and just so long / Cat Rambo<br>The passenger / Julie E. Czerneda<br>Simulacrum / Ken Liu<br>Breakaway, backdown / James Patrick Kelly<br>Saying the names / Maggie Clark<br>Gossamer / Stephen Baxter<br>Spider the artist / Nnedi Okorafor<br>Woman leaves room / Robert Reed<br>All that touches the air / An Owomoyela<br>Maneki neko / Bruce Sterling<br>Mama, we are zhenya, your son / Tom Crosshill<br>Velvet fields / Anne McCaffrey<br>The harrowers / Eric Gregory<br>Bibi from Jupiter / Tessa Mellas<br>Eliot wrote / Nancy Kress<br>Scales / Alastair Reynolds.<br></em></small></details>
+- [_"Catch-22"_](https://openlibrary.org/works/OL276798W), by [Joseph Heller](https://openlibrary.org/authors/OL33512A) <details><summary>Summary</summary><small><em>Catch-22 is like no other novel. It has its own rationale, its own extraordinary character. It moves back and forth from hilarity to horror. It is outrageously funny and strangely affecting. It is totally original. Set in the closing months of World War II in an American bomber squadron off Italy, Catch-22 is the story of a bombardier named Yossarian, who is frantic and furious because thousands of people he hasn't even met keep trying to kill him. Catch-22 is a microcosm of the twentieth-century world as it might look to someone dangerously sane. It is a novel that lives and moves and grows with astonishing power and vitality -- a masterpiece of our time.</em></small></details>
+- [_"The Good Soldier Švejk"_](https://openlibrary.org/works/OL835204W), by [Jaroslav Hašek](https://openlibrary.org/authors/OL71477A/Jaroslav_Ha%C5%A1ek) <details><summary>Summary</summary><small><em>The Good Soldier Švejk (pronounced [ˈʃvɛjk]) is an unfinished satirical dark comedy novel by Czech writer Jaroslav Hašek, published in 1921–1923, about a good-humored, simple-minded, middle-aged man who pretends to be enthusiastic to serve Austria-Hungary in World War I. </em></small></details>
+- [_"Auf zwei Planeten"_](https://openlibrary.org/works/OL4592774W), by [Kurd Laßwitz](https://openlibrary.org/authors/OL4389142A) <details><summary>Summary</summary><small><em>German sci-fi novel that was inspirational to young Wernher von Braun</em></small></details>
+- [_"Tau Zero"_](https://openlibrary.org/works/OL90571W), by [Poul Anderson](https://openlibrary.org/authors/OL24072A) <details><summary>Summary</summary><small><em>The novel centers on a ten-year interstellar voyage aboard the spaceship Leonora Christine, and it opens with members of the crew preparing for their departure from earth. It is an especially moving departure because they know that while they are aboard the ship and traveling close to the speed of light, time will be passing much more quickly back home. As a result, by the time they return everyone they know will have long since died.<br>From practically the very first page, therefore, Tau Zero sets the scientific realities of space travel in dramatic tension with the no-less-real emotional and psychological states of the travelers. This is a dynamic Anderson explores with great success over the course of the novel as fifty crewmembers settle in for the long journey together. They are a highly-trained team of scientists and researchers, but they are also a community of individuals, each trying to make a life for him or herself in space.This is the background within which the action of the novel takes place. Anderson carefully depicts the network of relationships linking these people before the real plot begins to unfold. The voyage soon takes a unexpected and disastrous turn for the worse.</em></small></details>
+- [_"Ender's Shadow"_](https://openlibrary.org/works/OL49496W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card) <details><summary>Summary</summary><small><em>This is Bean's installment of Orson Scott Card's Ender's saga. It is a great character building book for those who have read Ender's Game and want to know more about Bean and his background. </em></small></details>
+- [_"Inversions"_](https://openlibrary.org/works/OL100772W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A) <details><summary>Summary</summary><small><em>In the winter palace, the King’s new physician has more enemies than she at first realises. But then she also has more remedies to hand than those who wish her ill can know about. </em></small></details>
+- [_"The Lifecycle of Software Objects"_](https://openlibrary.org/works/OL17268350W), by [Ted Chiang](https://openlibrary.org/authors/OL1604887A/Ted_Chiang) <details><summary>Summary</summary><small><em>What's the best way to create artificial intelligence? In 1950, Alan Turing wrote, "Many people think that a very abstract activity, like the playing of chess, would be best. It can also be maintained that it is best to provide the machine with the best sense organs that money can buy, and then teach it to understand and speak English. This process could follow the normal teaching of a child. Things would be pointed out and named, etc. Again I do not know what the right answer is, but I think both approaches should be tried."<br>The first approach has been tried many times in both science fiction and reality. In this new novella, at over 30,000 words, his longest work to date, Ted Chiang offers a detailed imagining of how the second approach might work within the contemporary landscape of startup companies, massively-multiplayer online gaming, and open-source software. It's a story of two people and the artificial intelligences they helped create, following them for more than a decade as they deal with the upgrades and obsolescence that are inevitable in the world of software. At the same time, it's an examination of the difference between processing power and intelligence, and of what it means to have a real relationship with an artificial entity.</em></small></details>
 
+
+### To watch
+
+- [_"Dune"_](https://www.imdb.com/title/tt0087182), by D. Lynch, 1984
+- [_"Silent Running"_](https://www.imdb.com/title/tt0067756/), by D. Trumbull, 1972
