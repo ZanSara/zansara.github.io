@@ -192,8 +192,9 @@ Books:
 Short Stories / Essays:
 
 - [_"The Coming Technological Singularity"_](/archive/vinge-the-coming-technological-singularity.html), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge)
-- [_"Flowers for Algernon"_](/archive/keyes-flowers-for-algernon.html) (short story), by [Daniel Keyes](https://openlibrary.org/authors/OL35895A)
-- [_"The Night"_](/archive/bradbury-the-night.html) (also known as _"Ice Cream on a Summer's Evening"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury)
+- [_"Flowers for Algernon"_](/archive/keyes-flowers-for-algernon.html) (short story), by [Daniel Keyes](https://openlibrary.org/authors/OL35895A) on _"Fantasy & Science Fiction"_, April '59
+- [_"The Night"_](/archive/bradbury-the-night.html) (also known as _"Ice Cream on a Summer's Evening"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) on _"Weird Tales"_, July '46
+- [_"The Creatures That Time Forgot"_](/archive/bradbury-the-creatures-that-time-forgot.html) (also known as _"Frost and Fire"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) on _"Planet Stories"_, Fall '46
 - [_"The Star"_](/archive/clarke-the-star.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
 - [_"Superiority"_](/archive/clarke-superiority.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
 - [_"The Sentinel"_](/archive/clarke-the-sentinel.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
