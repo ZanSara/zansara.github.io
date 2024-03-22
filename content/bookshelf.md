@@ -4,7 +4,7 @@ description: "My bookshelf"
 author: "ZanSara"
 ---
 
-Books:
+### Books
 
 - [_"Renaissance"_](https://openlibrary.org/works/OL15345911W), by [A. E. van Vogt](https://openlibrary.org/authors/OL24708A) (IT: _"Le lenti del potere"_)
 - [_"Island"_](https://openlibrary.org/works/OL64462W), by [Aldous Huxley](https://openlibrary.org/authors/OL19767A/Aldous_Huxley) (IT: _"L'isola"_)
@@ -189,7 +189,7 @@ Books:
 - [_"Cyber China"_](https://openlibrary.org/works/OL31194742W), by [Xiaolong Qiu](https://openlibrary.org/authors/OL1431656A/Qiu_Xiaolong) (IT)
 - [_"We"_](https://openlibrary.org/works/OL10215W), by [Yevgeny Ivanovich Zamyatin](https://openlibrary.org/authors/OL30241A/%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_%D0%97%D0%B0%D0%BC%D1%8F%D1%82%D0%B8%D0%BD) (IT: _"Noi"_)
 
-Short Stories / Essays:
+### Short Stories / Essays
 
 - [_"The Coming Technological Singularity"_](/archive/vinge-the-coming-technological-singularity.html), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge)
 - [_"Flowers for Algernon"_](/archive/keyes-flowers-for-algernon.html) (short story), by [Daniel Keyes](https://openlibrary.org/authors/OL35895A) on _"Fantasy & Science Fiction"_, April '59
@@ -200,11 +200,11 @@ Short Stories / Essays:
 - [_"The Sentinel"_](/archive/clarke-the-sentinel.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
 - [_"The Minority Report"_](/archive/dick-minority-report.html), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
 
-Movies:
+### Movies
 
 -
 
-To read/watch:
+### To read/watch
 
 - 
 
