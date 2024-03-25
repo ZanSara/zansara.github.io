@@ -4,6 +4,8 @@ description: "My bookshelf"
 author: "ZanSara"
 ---
 
+Collection of interesting books, movies and short stories I've come across.
+
 - [To read](#to-read)
 - [To watch](#to-watch)
 - [Books](#books)
@@ -264,6 +266,24 @@ author: "ZanSara"
    - IT: _"American Gods"_
 - [_"Quatermass"_](https://openlibrary.org/works/OL6468819W), by [Nigel Kneale](https://openlibrary.org/authors/OL1716427A)
    - IT: _"Quatermass"_
+- [_"Вечера на хуторе близ Диканьки"_](https://openlibrary.org/works/OL699209W), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"Le veglie ad una fattoria presso Dikan'ka"_
+- [_"Миргород"_](https://openlibrary.org/works/OL699224W/), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"Mirgorod"_
+- [_"Вий"_](https://openlibrary.org/works/OL23612825W), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"Il Vij"_
+- [_"Тарас Бульба"_](https://openlibrary.org/works/OL699228W), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"Taras Bul'ba"_
+- [_"Арабески"_](https://openlibrary.org/works/OL699123W), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"I racconti degli arabeschi"_
+- [_"Нос"_](https://openlibrary.org/works/OL29551464W), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"Il naso"_
+- [_"Шине́ль"_](https://openlibrary.org/works/OL29722417W), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"Il cappotto"_
+- [_"Коляска"_](https://en.wikipedia.org/wiki/The_Carriage), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"Il calesse"_
+- [_"Мёртвые души"_](https://openlibrary.org/works/OL17396611W), by [Nikolai Gogol](https://openlibrary.org/authors/OL2627043A/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C)
+   - IT: _"Anime morte"_
 - [_"Xenocide"_](https://openlibrary.org/works/OL49604W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card)
    - EN
 - [_"Speaker for the Dead"_](https://openlibrary.org/works/OL49580W), by [Orson Scott Card](https://openlibrary.org/authors/OL25161A/Orson_Scott_Card)
@@ -425,7 +445,7 @@ author: "ZanSara"
 
 - [_"The seven samurai"_](https://www.imdb.com/title/tt0047478/), by A. Kurasawa, 1954
 - [_"Gattaca"_](https://www.imdb.com/title/tt0119177/), by A. Niccol, 1997
-- [_"Solaris"_](https://www.imdb.com/title/tt0069293) (director's cut), by A. Tarkovsky, 1972
+- [_"Солярис"_](https://www.imdb.com/title/tt0069293) (director's cut), by A. Tarkovsky, 1972
 - [_"Inception"_](https://www.imdb.com/title/tt1375666/), by C. Nolan, 2010
 - [_"Metropolis"_](https://www.imdb.com/title/tt0017136) (silent film), by F. Lang, 1927
 - [_"Howl's Moving Castle"_](https://www.imdb.com/title/tt0347149/) (_"Il castello errante di Howl"_), by H. Miyazaki
@@ -434,4 +454,5 @@ author: "ZanSara"
 - [_"The Wind Rises"_](https://www.imdb.com/title/tt2013293/) (_"Si alza il vento"_), by H. Miyazaki
 - [_"Interstellar"_](https://www.imdb.com/title/tt0816692), by M. McConaughey, A. Hathaway, 2014
 - [_"The Martian"_](https://www.imdb.com/title/tt3659388/), by R. Scott, 2015
+- [_"Александр Невский"_](https://www.imdb.com/title/tt0029850/), by S. Eisenstein, 1938
 
