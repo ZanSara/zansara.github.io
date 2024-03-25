@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GPT on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/gpt/</link>
+    <description>Recent content in GPT on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 28 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/gpt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ClozeGPT: Write Anki cloze cards with a custom GPT</title>
+      <link>https://www.zansara.dev/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/</link>
+      <pubDate>Wed, 28 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/</guid>
+      <description>As everyone who has been serious about studying with Anki knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.&#xA;What can we do to make this process less tedious?</description>
+    </item>
+    <item>
+      <title>Is RAG all you need? A look at the limits of retrieval augmentation</title>
+      <link>https://www.zansara.dev/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/</link>
+      <pubDate>Wed, 21 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/</guid>
+      <description>This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog at this link.&#xA;Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta paper in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on.</description>
+    </item>
+    <item>
+      <title>The World of Web RAG</title>
+      <link>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</link>
+      <pubDate>Thu, 09 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</guid>
+      <description>Last updated: 18/01/2023&#xA;In an earlier post of the Haystack 2.0 series, we&amp;rsquo;ve seen how to build RAG and indexing pipelines. An application that uses these two pipelines is practical if you have an extensive, private collection of documents and need to perform RAG on such data only. However, in many cases, you may want to get data from the Internet: from news outlets, documentation pages, and so on.&#xA;In this post, we will see how to build a Web RAG application: a RAG pipeline that can search the Web for the information needed to answer your questions.</description>
+    </item>
+    <item>
+      <title>RAG Pipelines from scratch</title>
+      <link>https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/</link>
+      <pubDate>Fri, 27 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/</guid>
+      <description>Last updated: 18/01/2023 - Read it on the Haystack Blog.&#xA;Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today&amp;rsquo;s NLP landscape, Haystack must enable it.&#xA;Let&amp;rsquo;s see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales.</description>
+    </item>
+  </channel>
+</rss>

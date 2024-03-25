@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Retrieval on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/retrieval/</link>
+    <description>Recent content in Retrieval on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 21 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/retrieval/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Is RAG all you need? A look at the limits of retrieval augmentation</title>
+      <link>https://www.zansara.dev/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/</link>
+      <pubDate>Wed, 21 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/</guid>
+      <description>This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog at this link.&#xA;Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta paper in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on.</description>
+    </item>
+    <item>
+      <title>[UPCOMING] ODSC East 2024: RAG, the bad parts (and the good!)</title>
+      <link>https://www.zansara.dev/talks/2024-04-22-odsc-east-2024/</link>
+      <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2024-04-22-odsc-east-2024/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>A Practical Introduction to Image Retrieval</title>
+      <link>https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/</link>
+      <pubDate>Thu, 01 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/</guid>
+      <description>Youtube: Open NLP meetup #7&#xA;Slides: A Practical Introduction to Image Retrieval&#xA;Colab: MultiModalRetriever - Live coding&#xA;All the material can also be found here.&#xA;A Practical Introduction to Image Retrieval Link to heading by Sara Zanzottera from deepset&#xA;Search should not be limited to text only. Recently, Transformers-based NLP models started crossing the boundaries of text data and exploring the possibilities of other modalities, like tabular data, images, audio files, and more.</description>
+    </item>
+  </channel>
+</rss>

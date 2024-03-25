@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pipeline on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/pipeline/</link>
+    <description>Recent content in Pipeline on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 21 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/pipeline/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Is RAG all you need? A look at the limits of retrieval augmentation</title>
+      <link>https://www.zansara.dev/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/</link>
+      <pubDate>Wed, 21 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/</guid>
+      <description>This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog at this link.&#xA;Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta paper in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on.</description>
+    </item>
+    <item>
+      <title>A New Approach to Haystack Pipelines</title>
+      <link>https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/</link>
+      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/</guid>
+      <description>Updated on 21/12/2023&#xA;As we have seen in the previous episode of this series, Haystack&amp;rsquo;s Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.&#xA;What does this mean in practice? Let&amp;rsquo;s look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1.</description>
+    </item>
+    <item>
+      <title>Haystack&#39;s Pipeline - A Deep Dive</title>
+      <link>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</link>
+      <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</guid>
+      <description>If you&amp;rsquo;ve ever looked at Haystack before, you must have come across the Pipeline, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?&#xA;In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses.</description>
+    </item>
+  </channel>
+</rss>

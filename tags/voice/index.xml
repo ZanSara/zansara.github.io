@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Voice on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/voice/</link>
+    <description>Recent content in Voice on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 01 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/voice/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Brekeke</title>
+      <link>https://www.zansara.dev/projects/brekeke/</link>
+      <pubDate>Fri, 01 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/projects/brekeke/</guid>
+      <description>With the rise of more and more powerful LLMs, I am experimenting with different ways to interact with them in ways that don&amp;rsquo;t necessarily involve a laptop, a keyboard or a screen.&#xA;I codenamed all of these experiments &amp;ldquo;Brekeke&amp;rdquo;, the sound frogs make in Hungarian (don&amp;rsquo;t ask why). The focus of these experiments is mostly small home automation tasks and run on a swarm of Raspberry Pis.&#xA;See the series here.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DataHour on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/datahour/</link>
+    <description>Recent content in DataHour on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 15 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/datahour/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DataHour: Optimizing LLMs with Retrieval Augmented Generation and Haystack 2.0</title>
+      <link>https://www.zansara.dev/talks/2023-12-15-datahour-rag/</link>
+      <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-12-15-datahour-rag/</guid>
+      <description>Recording, slides, Colab, gist. All the material can also be found on Analytics Vidhya&amp;rsquo;s community and on my backup.&#xA;In this hour-long workshop organized by Analytics Vidhya I give an overview of what RAG is, what problems it solves, and how it works.&#xA;After a brief introduction to Haystack, I show in practice how to use Haystack 2.0 to assemble a Pipeline that performs RAG on a local database and then on the Web with a simple change.</description>
+    </item>
+  </channel>
+</rss>

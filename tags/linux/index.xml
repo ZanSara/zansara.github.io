@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/linux/</link>
+    <description>Recent content in Linux on Sara Zan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 10 Sep 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An (unofficial) Python SDK for Verbix</title>
+      <link>https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/</link>
+      <pubDate>Sun, 10 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/</guid>
+      <description>PyPI package: https://pypi.org/project/verbix-sdk/&#xA;GitHub Repo: https://github.com/ZanSara/verbix-sdk&#xA;Minimal Docs: https://github.com/ZanSara/verbix-sdk/blob/main/README.md&#xA;As part of a larger side project which is still in the works (Ebisu Flashcards), these days I found myself looking for some decent API for verbs conjugations in different languages. My requirements were &amp;ldquo;simple&amp;rdquo;:&#xA;Supports many languages, including Italian, Portuguese and Hungarian Conjugates irregulars properly Offers an API access to the conjugation tables Refuses to conjugate anything except for known verbs (Optional) Highlights the irregularities in some way Surprisingly these seem to be a shortage of good alternatives in this field.</description>
+    </item>
+    <item>
+      <title>My Dotfiles</title>
+      <link>https://www.zansara.dev/posts/2021-12-11-dotfiles/</link>
+      <pubDate>Sat, 11 Dec 2021 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2021-12-11-dotfiles/</guid>
+      <description>GitHub Repo: https://github.com/ZanSara/dotfiles&#xA;What Linux developer would I be if I didn&amp;rsquo;t also have my very own dotfiles repo?&#xA;After many years of iterations I finally found a combination that lasted quite a while, so I figured it&amp;rsquo;s time to treat them as a real project. It was originally optimized for my laptop, but then I realized it works quite well on my three-monitor desk setup as well without major issues.</description>
+    </item>
+  </channel>
+</rss>

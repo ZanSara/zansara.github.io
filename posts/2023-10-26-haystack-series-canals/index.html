@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  A New Approach to Haystack Pipelines · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="Updated on 21/12/2023
+As we have seen in the previous episode of this series, Haystack&rsquo;s Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.
+What does this mean in practice? Let&rsquo;s look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source">
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="A New Approach to Haystack Pipelines"/>
+<meta name="twitter:description" content="Updated on 21/12/2023
+As we have seen in the previous episode of this series, Haystack&rsquo;s Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.
+What does this mean in practice? Let&rsquo;s look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1."/>
+
+<meta property="og:title" content="A New Approach to Haystack Pipelines" />
+<meta property="og:description" content="Updated on 21/12/2023
+As we have seen in the previous episode of this series, Haystack&rsquo;s Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.
+What does this mean in practice? Let&rsquo;s look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-10-26T00:00:00+00:00" />
+
+
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/favicon.png" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2023-10-26-haystack-series-canals/cover-updated.png">
+  <meta name="og:image" content="/posts/2023-10-26-haystack-series-canals/cover-updated.png">
+  <meta name="twitter:image" content="/posts/2023-10-26-haystack-series-canals/cover-updated.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/tags/">Tags</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://zansaradev.goatcounter.com">Stats</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/">
+              A New Approach to Haystack Pipelines
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2023-10-26T00:00:00Z">
+                October 26, 2023
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          <div class="tags">
+  <i class="fa fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/haystack-2.0/">Haystack 2.0</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/haystack/">Haystack</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/python/">Python</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/pipeline/">Pipeline</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/dag/">DAG</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/api-design/">API Design</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2023-10-26-haystack-series-canals/cover-updated.png" alt="Featured image"/>
+        
+        <p><em>Updated on 21/12/2023</em></p>
+<hr>
+<p>As we have seen in <a href="https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/"  class="external-link" target="_blank" rel="noopener">the previous episode of this series</a>, Haystack&rsquo;s Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.</p>
+<p>What does this mean in practice? Let&rsquo;s look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1.x counterparts, and the pros and cons of this new paradigm.</p>
+<h2 id="new-use-cases">
+  New Use Cases
+  <a class="heading-link" href="#new-use-cases">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I&rsquo;ve already written <a href="https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/"  class="external-link" target="_blank" rel="noopener">at length</a> about what made the original Pipeline concept so powerful and its weaknesses. Pipelines were overly effective for the use cases we could conceive while developing them, but they didn&rsquo;t generalize well on unforeseen situations.</p>
+<p>For a long time, Haystack was able to afford not focusing on use cases that didn&rsquo;t fit its architecture, as I have mentioned in my <a href="https://www.zansara.dev/posts/2023-10-11-haystack-series-why/"  class="external-link" target="_blank" rel="noopener">previous post</a> about the reasons for the rewrite. The pipeline was then more than sufficient for its purposes.</p>
+<p>However, the situation flipped as LLMs and Generative AI &ldquo;entered&rdquo; the scene abruptly at the end of 2022 (although it&rsquo;s certainly been around for longer). Our <code>Pipeline</code> although useable and still quite powerful in many LLM use-cases, seemingly overfit the original use-cases it was designed for.</p>
+<p>Let&rsquo;s take one of these use cases and see where it leads us.</p>
+<h2 id="rag-pipelines">
+  RAG Pipelines
+  <a class="heading-link" href="#rag-pipelines">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Let&rsquo;s take one typical example: <a href="https://www.deepset.ai/blog/llms-retrieval-augmentation"  class="external-link" target="_blank" rel="noopener">retrieval augmented generation</a>, or RAG for short. This technique has been used since the very early days of the Generative AI boom as an easy way to strongly <a href="https://haystack.deepset.ai/blog/generative-vs-extractive-models"  class="external-link" target="_blank" rel="noopener">reduce hallucinations</a> and improve the alignment of LLMs. The basic idea is: instead of asking directly a question, such as <code>&quot;What's the capital of France?&quot;</code>, we send to the model a more complex prompt, that includes both the question and the answer. Such a prompt might be:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Given the following paragraph, answer the question.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Paragraph: France is a unitary semi-presidential republic with its capital in Paris, 
+</span></span><span style="display:flex;"><span>the country&#39;s largest city and main cultural and commercial centre; other major urban 
+</span></span><span style="display:flex;"><span>areas include Marseille, Lyon, Toulouse, Lille, Bordeaux, Strasbourg and Nice.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Question: What&#39;s the capital of France?
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Answer:
+</span></span></code></pre></div><p>In this situation, the task of the LLM becomes far easier: instead of drawing facts from its internal knowledge, which might be lacking, inaccurate, or out-of-date, the model can use the paragraph&rsquo;s content to answer the question, improving the model&rsquo;s performance significantly.</p>
+<p>We now have a new problem, though. How can we provide the correct snippets of text to the LLM? This is where the &ldquo;retrieval&rdquo; keyword comes up.</p>
+<p>One of Haystack&rsquo;s primary use cases had been <a href="https://huggingface.co/tasks/question-answering"  class="external-link" target="_blank" rel="noopener">Extractive Question Answering</a>: a system where a Retriever component searches a Document Store (such as a vector or SQL database) for snippets of text that are the most relevant to a given question. It then sends such snippets to a Reader (an extractive model), which highlights the keywords that answer the original question.</p>
+<p>By replacing a Reader model with an LLM, we get a Retrieval Augmented Generation Pipeline. Easy!</p>
+<p><img src="/posts/2023-10-26-haystack-series-canals/gen-vs-ext-qa-pipeline.png" alt="Generative vs Extractive QA Pipeline Graph"></p>
+<p>So far, everything checks out. Supporting RAG with Haystack feels not only possible but natural. Let&rsquo;s take this simple example one step forward: what if, instead of getting the data from a document store, I want to retrieve data from the Internet?</p>
+<h2 id="web-rag">
+  Web RAG
+  <a class="heading-link" href="#web-rag">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>At first glance, the task may not seem daunting. We surely need a special Retriever that, instead of searching through a DB, searches through the Internet using a search engine. But the core concepts stay the same, and so, we assume, should the pipeline&rsquo;s graph. The end result should be something like this:</p>
+<p><img src="/posts/2023-10-26-haystack-series-canals/initial-web-rag-pipeline.png" alt="Initial Web RAG Pipeline Graph"></p>
+<p>However, the problem doesn&rsquo;t end there. Search engines return links, which need to be accessed, and the content of the webpage downloaded. Such pages may be extensive and contain artifacts, so the resulting text needs to be cleaned, reduced into paragraphs, potentially embedded by a retrieval model, ranked against the original query, and only the top few resulting pieces of text need to be passed over to the LLM. Just by including these minimal requirements, our pipeline already looks like this:</p>
+<p><img src="/posts/2023-10-26-haystack-series-canals/linear-web-rag-pipeline.png" alt="Linear Web RAG Pipeline Graph"></p>
+<p>And we still need to consider that URLs may reference not HTML pages but PDFs, videos, zip files, and so on. We need file converters, zip extractors, audio transcribers, and so on.</p>
+<p><img src="/posts/2023-10-26-haystack-series-canals/multifile-web-rag-pipeline.png" alt="Multiple File Type Web RAG Pipeline Graph"></p>
+<p>You may notice how this use case moved quickly from looking like a simple query pipeline into a strange overlap of a query and an indexing pipeline. As we&rsquo;ve learned in the previous post, indexing pipelines have their own set of quirks, one of which is that they can&rsquo;t simultaneously process files of different types. But we can only expect the Search Engine to retrieve HTML files or PDFs if we filter them out on purpose, which makes the pipeline less effective. In fact, a pipeline that can read content from different file types, such as the one above, can&rsquo;t really be made to work.</p>
+<p>And what if, on top of this, we need to cache the resulting documents to reduce latency? What if I wanted to get the results from Google&rsquo;s page 2, but only if the content of page 1 did not answer our question? At this point, the pipeline is hard to imagine, let alone draw.</p>
+<p>Although Web RAG is somewhat possible in Haystack, it stretches far beyond what the pipeline was designed to handle. Can we do better?</p>
+<h2 id="pinpointing-the-issue">
+  Pinpointing the issue
+  <a class="heading-link" href="#pinpointing-the-issue">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>When we went back to the drawing board to address these concerns, the first step was pinpointing the issue.</p>
+<p>The root problem, as we realized, is that Haystack Pipelines treats each component as a locomotive treats its wagons. They all look the same from the pipeline&rsquo;s perspective, they can all be connected in any order, and they all go from A to B rolling over the same pair of rails, passing all through the same stations.</p>
+<p><img src="/posts/2023-10-26-haystack-series-canals/train.png" alt="Cargo Train"></p>
+<p>In Haystack 1, components are designed to serve the pipeline&rsquo;s needs first. A good component is identical to all the others, provides the exact interface the pipeline requires, and can be connected to any other in any order. The components are awkward to use outside of a pipeline due to the same <code>run()</code> method that makes the pipeline so ergonomic. Why does the Ranker, which needs only a query and a list of Documents to operate, also accept <code>file_paths</code> and <code>meta</code> in its <code>run()</code> method? It does so uniquely to satisfy the pipeline&rsquo;s requirements, which in turn only exist to make all components forcefully compatible with each other.</p>
+<p>Just like a locomotive, the pipeline pushes the components over the input data one by one. When seen in this light, it&rsquo;s painfully obvious why the indexing pipeline we&rsquo;ve seen earlier can&rsquo;t work: the &ldquo;pipeline train&rdquo; can only go on one branch at a time. Component trains can&rsquo;t split mid-execution. They are designed to all see the same data all the time. Even when branching happens, all branches always see the same data. Sending different wagons onto different rails is not possible by design.</p>
+<h2 id="breaking-it-down">
+  Breaking it down
+  <a class="heading-link" href="#breaking-it-down">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The issue&rsquo;s core is more evident when seen in this light. The pipeline is the only object that drives the execution, while components tend to be as passive and uniform as possible. This approach doesn&rsquo;t scale: components are fundamentally different, and asking them to all appear equal forces them to hide their differences, making bugs and odd behavior more likely. As the number of components to handle grows, their variety will increase regardless, so the pipeline must always be aware of all the possibilities to manage them and progressively add edge cases that rapidly increase its complexity.</p>
+<p>Therefore, the pipeline rewrite for Haystack 2.0 focused on one core principle: the components will define and drive the execution process. There is no locomotive anymore: every component needs to find its way, such as grabbing the data they need from the producers and sending their results to whoever needs them by declaring the proper connections. In the railway metaphor, it&rsquo;s like adding a steering wheel to each container: the result is a truck, and the resulting system looks now like a highway.</p>
+<p><img src="/posts/2023-10-26-haystack-series-canals/highway.png" alt="Highway"></p>
+<p>Just as railways are excellent at going from A to B when you only need to take a few well-known routes and never another, highways are unbeatable at reaching every possible destination with the same effort, even though they need a driver for each wagon. A &ldquo;highway&rdquo; Pipeline requires more work from the Components&rsquo; side, but it frees them to go wherever they need to with a precision that a &ldquo;railway&rdquo; pipeline cannot accomplish.</p>
+<h2 id="the-structure-of-haystack-20">
+  The Structure of Haystack 2.0
+  <a class="heading-link" href="#the-structure-of-haystack-20">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>By design, pipelines in Haystack 2.0 is not geared toward specific NLP use cases, but it&rsquo;s a minimal, generic <a href="https://en.wikipedia.org/wiki/Extract,_transform,_load"  class="external-link" target="_blank" rel="noopener">ETL</a>-like class.</p>
+<p>At its core, Haystack 2.0 builds upon these two fundamental concepts:</p>
+<ul>
+<li>
+<p>The <code>Component</code> protocol, a well-defined API that Python classes need to respect to be understood by the pipeline.</p>
+</li>
+<li>
+<p>The <code>Pipeline</code> object, the graph resolver and execution engine that also performs validation and provides a few utilities on top.</p>
+</li>
+</ul>
+<p>Let&rsquo;s explore these two concepts one by one.</p>
+<h3 id="the-pipeline-api">
+  The Pipeline API
+  <a class="heading-link" href="#the-pipeline-api">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>The new <code>Pipeline</code> object may remind vaguely of Haystack&rsquo;s original pipeline, and using one should feel very familiar. For example, this is how you assemble a simple Pipeline that performs two additions in Haystack 2.0.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">canals</span> <span style="color:#ff7b72">import</span> Pipeline
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">sample_components</span> <span style="color:#ff7b72">import</span> AddFixedValue
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Create the Pipeline object</span>
+</span></span><span style="display:flex;"><span>pipeline <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Add the components - note the missing`inputs` parameter</span>
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;add_one&#34;</span>, AddFixedValue(add<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">1</span>))
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;add_two&#34;</span>, AddFixedValue(add<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">2</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Connect them together</span>
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;add_one.result&#34;</span>, <span style="color:#a5d6ff">&#34;add_two.value&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Draw the pipeline</span>
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>draw(<span style="color:#a5d6ff">&#34;two_additions_pipeline.png&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Run the pipeline</span>
+</span></span><span style="display:flex;"><span>results <span style="color:#ff7b72;font-weight:bold">=</span> pipeline<span style="color:#ff7b72;font-weight:bold">.</span>run({<span style="color:#a5d6ff">&#34;add_one&#34;</span>: {<span style="color:#a5d6ff">&#34;value&#34;</span>: <span style="color:#a5d6ff">1</span>}})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(results)
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># prints &#39;{&#34;add_two&#34;: {&#34;result&#34;: 4}}&#39;</span>
+</span></span></code></pre></div><p>Creating the pipeline requires no special attention: however, you can now pass a <code>max_loops_allowed</code> parameter, to limit looping when it&rsquo;s a risk. On the contrary, old Haystack 1.x Pipelines did not support loops at all.</p>
+<p>Next, components are added by calling the <code>Pipeline.add_component(name, component)</code> method. This is also subject to very similar requirements to the previous <code>pipeline.add_node</code>:</p>
+<ul>
+<li>Every component needs a unique name.</li>
+<li>Some are reserved (for now, only <code>_debug</code>).</li>
+<li>Instances are not reusable.</li>
+<li>The object needs to be a component.
+However, we no longer connect the components to each other using this function because, although it is possible to implement in principle, it feels more awkward to use in the case of loops.</li>
+</ul>
+<p>Consequently, we introduced a new method, <code>Pipeline.connect()</code>. This method follows the syntax <code>(&quot;producer_component.output_name_&quot;, &quot;consumer_component.input_name&quot;)</code>: so we don&rsquo;t simply line up two components one after the other, but we connect one of their outputs to one of their inputs in an explicit manner.</p>
+<p>This change allows pipelines to perform a much more careful validation of such connections. As we will discover soon, pipeline components in Haystack 2.0 must declare the type of their inputs and outputs. In this way, pipelines not only can make sure that the inputs and outputs exist for the given component, but they can also check whether their types match and can explain connection failures in great detail. For example, if there were a type mismatch, <code>Pipeline.connect()</code> will return an error such as:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>Cannot connect &#39;greeter.greeting&#39; with &#39;add_two.value&#39;: their declared input and output 
+</span></span><span style="display:flex;"><span>types do not match.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>greeter:
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">-</span> greeting: str
+</span></span><span style="display:flex;"><span>add_two:
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">-</span> value: int (available)
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">-</span> add: Optional[int] (available)
+</span></span></code></pre></div><p>Once the components are connected together, the resulting pipeline can be drawn. Pipeline drawings in Haystack 2.0 show far more details than their predecessors because the components are forced to share much more information about what they need to run, the types of these variables, and so on. The pipeline above draws the following image:</p>
+<p><img src="/posts/2023-10-26-haystack-series-canals/two_additions_pipeline.png" alt="A Pipeline making two additions"></p>
+<p>You can see how the components classes, their inputs and outputs, and all the connections are named and typed.</p>
+<p>So, how do you run such a pipeline? By just providing a dictionary of input values. Each starting component should have a small dictionary with all the necessary inputs. In the example above, we pass <code>1</code> to the <code>value</code> input of <code>add_one</code>. The results mirror the input&rsquo;s structure: <code>add_two</code> is at the end of the pipeline, so the pipeline will return a dictionary where under the <code>add_two</code> key there is a dictionary: <code>{&quot;result&quot;: 4}</code>.</p>
+<p>By looking at the diagram, you may have noticed that these two components have optional inputs. They&rsquo;re not necessary for the pipeline to run, but they can be used to dynamically control the behavior of these components. In this case, <code>add</code> controls the &ldquo;fixed value&rdquo; this component adds to its primary input. For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>run({<span style="color:#a5d6ff">&#34;add_one&#34;</span>: {<span style="color:#a5d6ff">&#34;value&#34;</span>: <span style="color:#a5d6ff">1</span>, <span style="color:#a5d6ff">&#34;add&#34;</span>: <span style="color:#a5d6ff">2</span>}})
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns &#39;{&#34;add_two&#34;: {&#34;result&#34;: 5}}&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>run({<span style="color:#a5d6ff">&#34;add_one&#34;</span>: {<span style="color:#a5d6ff">&#34;value&#34;</span>: <span style="color:#a5d6ff">1</span>}, <span style="color:#a5d6ff">&#34;add_two&#34;</span>: {<span style="color:#a5d6ff">&#34;add&#34;</span>: <span style="color:#a5d6ff">10</span>}})
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns &#39;{&#34;add_two&#34;: {&#34;result&#34;: 12}}&#39;</span>
+</span></span></code></pre></div><p>One evident difficulty of this API is that it might be challenging to understand what to provide to the run method for each component. This issue has also been considered: the pipeline offers a <code>Pipeline.inputs()</code> method that returns a structured representation of all the expected input. For our pipeline, it looks like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;add_one&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;value&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;type&#34;</span>: int, 
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;is_optional&#34;</span>: <span style="color:#79c0ff">False</span>
+</span></span><span style="display:flex;"><span>        }, 
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;add&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;type&#34;</span>: typing<span style="color:#ff7b72;font-weight:bold">.</span>Optional[int], 
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;is_optional&#34;</span>: <span style="color:#79c0ff">True</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }, 
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;add_two&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;add&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;type&#34;</span>: typing<span style="color:#ff7b72;font-weight:bold">.</span>Optional[int], 
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;is_optional&#34;</span>: <span style="color:#79c0ff">True</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="the-component-api">
+  The Component API
+  <a class="heading-link" href="#the-component-api">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Now that we covered the Pipeline&rsquo;s API, let&rsquo;s have a look at what it takes for a Python class to be treated as a pipeline component.</p>
+<p>You are going to need:</p>
+<ul>
+<li>
+<p><strong>A <code>@component</code> decorator</strong>. All component classes must be decorated with the <code>@component</code> decorator. This allows a pipeline to discover and validate them.</p>
+</li>
+<li>
+<p><strong>A <code>run()</code> method</strong>. This is the method where the main functionality of the component should be carried out. It&rsquo;s invoked by <code>Pipeline.run()</code> and has a few constraints, which we will describe later.</p>
+</li>
+<li>
+<p><strong>A <code>@component.output_types()</code> decorator for the <code>run()</code> method</strong>. This allows the pipeline to validate the connections between components.</p>
+</li>
+<li>
+<p>Optionally, <strong>a <code>warm_up()</code> method</strong>. It can be used to defer the loading of a heavy resource (think a local LLM or an embedding model) to the warm-up stage that occurs right before the first execution of the pipeline. Components that use <code>warm_up()</code> can be added to a Pipeline and connected before the heavy operations are carried out. In this way, the validation that a <code>Pipeline</code> performs can happen before resources are wasted.</p>
+</li>
+</ul>
+<p>To summarize, a minimal component can look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">canals</span> <span style="color:#ff7b72">import</span> component
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">@component</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">Double</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d2a8ff;font-weight:bold">@component.output_types</span>(result<span style="color:#ff7b72;font-weight:bold">=</span>int)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(self, value: int):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> {<span style="color:#a5d6ff">&#34;result&#34;</span>: value <span style="color:#ff7b72;font-weight:bold">*</span> <span style="color:#a5d6ff">2</span>}
+</span></span></code></pre></div><h3 id="pipeline-validation">
+  Pipeline Validation
+  <a class="heading-link" href="#pipeline-validation">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Note how the <code>run()</code> method has a few peculiar features. One is that all the method parameters need to be typed: if <code>value</code> was not declared as <code>value: int</code>, the pipeline would raise an exception demanding for typing.</p>
+<p>This is the way components declare to the pipeline which inputs they expect and of which type: this is the first half of the information needed to perform the validation that <code>Pipeline.connect()</code> carries out.</p>
+<p>The other half of the information comes from the <code>@component.output_types</code> decorator. Pipelines demand that components declare how many outputs the component will produce and of what type. One may ask why not rely on typing for the outputs, just as we&rsquo;ve done for the inputs. So why not simply declare components as:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">@component</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">Double</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(self, value: int) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> int:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> value <span style="color:#ff7b72;font-weight:bold">*</span> <span style="color:#a5d6ff">2</span>
+</span></span></code></pre></div><p>For <code>Double</code>, this is a legitimate solution. However, let&rsquo;s see an example with another component called <code>CheckParity</code>: if a component&rsquo;s input value is even, it sends it unchanged over the <code>even</code> output, while if it&rsquo;s odd, it will send it over the <code>odd</code> output. The following clearly doesn&rsquo;t work: we&rsquo;re not communicating anywhere to Canals which output is even and which one is odd.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">@component</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">CheckParity</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(self, value: int) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> int:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> value <span style="color:#ff7b72;font-weight:bold">%</span> <span style="color:#a5d6ff">2</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">return</span> value
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> value
+</span></span></code></pre></div><p>How about this instead?</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">@component</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">CheckParity</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(self, value: int) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Dict[str, int]:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> value <span style="color:#ff7b72;font-weight:bold">%</span> <span style="color:#a5d6ff">2</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">return</span> {<span style="color:#a5d6ff">&#34;even&#34;</span>: value}
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> {<span style="color:#a5d6ff">&#34;odd&#34;</span>: value}
+</span></span></code></pre></div><p>This approach carries all the information required. However, such information is only available after the <code>run()</code> method is called. Unless we parse the method to discover all return statements and their keys (which is not always possible), pipelines cannot know all the keys the return dictionary may have. So, it can&rsquo;t validate the connections when <code>Pipeline.connect()</code> is called.</p>
+<p>The decorator bridges the gap by allowing the class to declare in advance what outputs it will produce and of which type. Pipeline trusts this information to be correct and validates the connections accordingly.</p>
+<p>Okay, but what if the component is very dynamic? The output type may depend on the input type. Perhaps the number of inputs depends on some initialization parameter. In these cases, pipelines allow components to declare the inputs and output types in their init method as such:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">@component</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">HighlyDynamicComponent</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> __init__(self, <span style="color:#ff7b72;font-weight:bold">...</span>):
+</span></span><span style="display:flex;"><span>        component<span style="color:#ff7b72;font-weight:bold">.</span>set_input_types(self, input_name<span style="color:#ff7b72;font-weight:bold">=</span>input_type, <span style="color:#ff7b72;font-weight:bold">...</span>)
+</span></span><span style="display:flex;"><span>        component<span style="color:#ff7b72;font-weight:bold">.</span>set_output_types(self, output_name<span style="color:#ff7b72;font-weight:bold">=</span>output_type, <span style="color:#ff7b72;font-weight:bold">...</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(self, <span style="color:#ff7b72;font-weight:bold">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">...</span>
+</span></span></code></pre></div><p>Note that there&rsquo;s no more typing on <code>run()</code>, and the decorator is gone. The information provided in the init method is sufficient for the pipeline to validate the connections.</p>
+<p>One more feature of the inputs and output declarations relates to optional and variadic values. Pipelines in Haystack 2.0 support this both through a mix of type checking and signature inspection. For example, let&rsquo;s have a look at how the <code>AddFixedValue</code> we&rsquo;ve seen earlier looks like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">typing</span> <span style="color:#ff7b72">import</span> Optional
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">canals</span> <span style="color:#ff7b72">import</span> component
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">@component</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">AddFixedValue</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    Adds two values together.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> __init__(self, add: int <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">1</span>):
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff7b72;font-weight:bold">.</span>add <span style="color:#ff7b72;font-weight:bold">=</span> add
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d2a8ff;font-weight:bold">@component.output_types</span>(result<span style="color:#ff7b72;font-weight:bold">=</span>int)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(self, value: int, add: Optional[int] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">        Adds two values together.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> add <span style="color:#ff7b72;font-weight:bold">is</span> <span style="color:#79c0ff">None</span>:
+</span></span><span style="display:flex;"><span>            add <span style="color:#ff7b72;font-weight:bold">=</span> self<span style="color:#ff7b72;font-weight:bold">.</span>add
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> {<span style="color:#a5d6ff">&#34;result&#34;</span>: value <span style="color:#ff7b72;font-weight:bold">+</span> add}
+</span></span></code></pre></div><p>You can see that <code>add</code>, the optional parameter we met before, has a default value. Adding a default value to a parameter in the <code>run()</code> signature tells the pipeline that the parameter itself is optional, so the component can run even if that specific input doesn&rsquo;t receive any value from the pipeline&rsquo;s input or other components.</p>
+<p>Another component that generalizes the sum operation is <code>Sum</code>, which instead looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">canals</span> <span style="color:#ff7b72">import</span> component
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">canals.component.types</span> <span style="color:#ff7b72">import</span> Variadic
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">@component</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">Sum</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    Adds all its inputs together.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d2a8ff;font-weight:bold">@component.output_types</span>(total<span style="color:#ff7b72;font-weight:bold">=</span>int)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(self, values: Variadic[int]):
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">        :param values: the values to sum
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> {<span style="color:#a5d6ff">&#34;total&#34;</span>: sum(v <span style="color:#ff7b72">for</span> v <span style="color:#ff7b72;font-weight:bold">in</span> values <span style="color:#ff7b72">if</span> v <span style="color:#ff7b72;font-weight:bold">is</span> <span style="color:#ff7b72;font-weight:bold">not</span> <span style="color:#79c0ff">None</span>)}
+</span></span></code></pre></div><p>In this case, we used the special type <code>Variadic</code> to tell the pipeline that the <code>values</code> input can receive data from multiple producers, instead of just one. Therefore, <code>values</code> is going to be a list type, but it can be connected to single <code>int</code> outputs, making it a valuable aggregator.</p>
+<h2 id="serialization">
+  Serialization
+  <a class="heading-link" href="#serialization">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Just like old Haystack Pipelines, the new pipelines can be serialized. However, this feature suffered from similar problems plaguing the execution model,  so it was changed radically.</p>
+<p>The original pipeline gathered intrusive information about each of its components when initialized, leveraging the shared <code>BaseComponent</code> class. Conversely, the <code>Pipeline</code> delegates the serialization process entirely to its components.</p>
+<p>If a component wishes to be serializable, it must provide two additional methods, <code>to_dict</code> and <code>from_dict</code>, which perform serialization and deserialization to a dictionary. The pipeline limits itself to calling each of its component&rsquo;s methods, collecting their output, grouping them together with some limited extra information (such as the connections between them), and returning the result.</p>
+<p>For example, if <code>AddFixedValue</code> were serializable, its serialized version could look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;type&#34;</span>: <span style="color:#a5d6ff">&#34;AddFixedValue&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;init_parameters&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;add&#34;</span>: <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The entire pipeline we used above would end up as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;max_loops_allowed&#34;</span>: <span style="color:#a5d6ff">100</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;components&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;add_one&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;type&#34;</span>: <span style="color:#a5d6ff">&#34;AddFixedValue&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;init_parameters&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#34;add&#34;</span>: <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;add_two&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;type&#34;</span>: <span style="color:#a5d6ff">&#34;AddFixedValue&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;init_parameters&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#a5d6ff">&#34;add&#34;</span>: <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;connections&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;sender&#34;</span>: <span style="color:#a5d6ff">&#34;add_one.result&#34;</span>, 
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;receiver&#34;</span>: <span style="color:#a5d6ff">&#34;add_two.value&#34;</span>,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Notice how the components are free to perform serialization in the way they see fit. The only requirement imposed by the <code>Pipeline</code> is the presence of two top-level keys, <code>type</code> and <code>init_parameters</code>, which are necessary for the pipeline to deserialize each component into the correct class.</p>
+<p>This is useful, especially if the component&rsquo;s state includes some non-trivial values, such as objects, API keys, or other special values. Pipeline no longer needs to know how to serialize everything the Components may contain: the task is fully delegated to them, which always knows best what needs to be done.</p>
+<h2 id="but-do-we-need-any-of-this">
+  But&hellip; do we need any of this?
+  <a class="heading-link" href="#but-do-we-need-any-of-this">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Having done a tour of the new <code>Pipeline</code> features, one might have noticed one detail. There&rsquo;s a bit more work involved in using a Pipeline than there was before: you can&rsquo;t just chain every component after every other. There are connections to be made, validation to perform, graphs to assemble, and so on.</p>
+<p>In exchange, the pipeline is now way more powerful than before. Sure, but so is a plain Python script. Do we <em>really</em> need the Pipeline object? And what do we need it for?</p>
+<ul>
+<li>
+<p><strong>Validation</strong>. While components normally validate their inputs and outputs, the pipeline does all the validation before the components run, even before loading heavy resources. This makes the whole system far less likely to fail at runtime for a simple input/output mismatch, which can be priceless for complex applications.</p>
+</li>
+<li>
+<p><strong>Serialization</strong>. Redistributing code is always tricky: redistributing a JSON file is much safer. Pipelines make it possible to represent complex systems in a readable JSON file that can be edited, shared, stored, deployed, and re-deployed on different backends at need.</p>
+</li>
+<li>
+<p><strong>Drawing</strong>: The new Pipeline offers a way to see your system clearly and automatically, which is often very handy for debugging, inspecting the system, and collaborating on the pipeline&rsquo;s design.</p>
+</li>
+<li>
+<p>On top of this, the pipeline abstraction promotes flatter API surfaces by discouraging components nesting one within the other and providing easy-to-use, single-responsibility components that are easy to reason about.</p>
+</li>
+</ul>
+<p>Having said all of this, however, we don&rsquo;t believe that the pipeline design makes Haystack win or lose. Pipelines are just a bonus on top of what provides the real value: a broad set of components that reliably perform well-defined tasks. That&rsquo;s why the Component API does not make the <code>run()</code> method awkward to use outside of a Pipeline: calling <code>Sum.run(values=[1, 2, 3])</code> feels Pythonic outside of a pipeline and always will.</p>
+<p>In the following posts, I will explore the world of Haystack components, starting from our now familiar use cases: RAG Pipelines.</p>
+<hr>
+<p><em>Next: <a href="/posts/2023-10-27-haystack-series-rag" >RAG Pipelines from scratch</a></em></p>
+<p><em>Previous: <a href="/posts/2023-10-15-haystack-series-pipeline" >Haystack&rsquo;s Pipeline</a></em></p>
+<p><em>See the entire series here: <a href="/series/haystack-2.0-series/" >Haystack 2.0 series</a></em></p>
+
+      </div>
+
+
+      <footer>
+        
+
+<section class="see-also">
+  
+    
+    
+    
+  
+</section>
+
+
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2024
+     Sara Zan 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>
