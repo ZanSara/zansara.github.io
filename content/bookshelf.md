@@ -4,7 +4,7 @@ description: "My bookshelf"
 author: "ZanSara"
 ---
 
-Collection of interesting books, movies and short stories I've come across.
+Collection of interesting books, movies and short stories I've come across, in no particular order.
 
 - [To read](#to-read)
 - [To watch](#to-watch)
@@ -18,7 +18,6 @@ Collection of interesting books, movies and short stories I've come across.
 - [_"The Way of Kings: Book One of the Stormlight Archive"_](https://openlibrary.org/works/OL15358691W?edition=key%3A/books/OL25883754M) by [Brandon Sanderson](https://openlibrary.org/authors/OL1394865A/Brandon_Sanderson) <details><summary>Summary</summary><small><em>Roshar is a world of stone and storms. Uncanny tempests of incredible power sweep across the rocky terrain so frequently that they have shaped ecology and civilization alike. Animals hide in shells, trees pull in branches, and grass retracts into the soilless ground. Cities are built only where the topography offers shelter.<br><br>It has been centuries since the fall of the ten consecrated orders known as the Knights Radiant, but their Shardblades and Shardplate remain: mystical swords and suits of armor that transform ordinary men into near-invincible warriors. Men trade kingdoms for Shardblades. Wars are fought for them, and won by them.<br><br>One such war rages on a ruined landscape called the Shattered Plains. There, Kaladin, who traded his medical apprenticeship for a spear, has been reduced to slavery. In a war that makes no sense, where ten armies fight separately against a single foe, he struggles to save his men and to fathom the leaders who consider them expendable.<br><br>Brightlord Dalinar Kholin commands one of those other armies. Like his brother, the late king, he is fascinated by an ancient text called The Way of Kings. Troubled by overpowering visions of ancient times and the Knights Radiant, he has begun to doubt his own sanity.<br><br>Across the ocean, an untried young woman named Shallan seeks to train under the eminent scholar and notorious heretic Jasnah Kholin, Dalinar’s niece. Though she genuinely loves learning, Shallan’s motives are less than pure. As she plans a daring theft, her research for Jasnah hints at secrets of the Knights Radiant and the true cause of the war.<br><br>The result of more than ten years of planning, writing, and worldbuilding, The Way of Kings is but the opening movement of the Stormlight Archive, a bold masterpiece in the making.<br><br>Speak again the ancient oaths,<br><br>Life before death.<br>Strength before weakness.<br>Journey before destination.<br>and return to men the Shards they once bore.<br><br>The Knights Radiant must stand again. </em></small></details>
 - [_"The Wind's Twelve Quarters: Short Stories"_](https://openlibrary.org/works/OL59861W) by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) <details><summary>Summary</summary><small><em>This is a collection containing, among other stories, the short story that started the Earthsea series." Along with "The Rule of Names," the story establishes the world and characters of Earthsea. First published in 1964 in an issue of Fantastic, the story can be found in a handful of anthologies but can be hard to lay hands on. </em></small></details>
 - [_"The Dispossessed"_](https://openlibrary.org/works/OL59863W) by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin) <details><summary>Summary</summary><small><em>Shevek, a brilliant physicist, decides to take action. He will seek answers, question the unquestionable, and attempt to tear down the walls of hatred that have isolated his planet of anarchists from the rest of the civilized universe. To do this dangerous task will mean giving up his family and possibly his life. Shevek must make the unprecedented journey to the planet, Anarres, to challenge the complex structures of life and living, and ignite the fires of change. </em></small></details>
-- [_"The moon is a harsh mistress"_](https://openlibrary.org/works/OL59704W), by [Robert A. Heinlein](https://openlibrary.org/authors/OL28641A/Robert_A._Heinlein) <details><summary>Summary</summary><small><em><A one-armed computer technician, a radical blonde bombshell, an aging academic, and a sentient all-knowing computer lead the lunar population in a revolution against Earth's colonial rule. </em></small></details>
 - [_"Lightspeed, Year One"_](https://openlibrary.org/works/OL18169427W), by various authors <details><summary>Summary</summary><small><em>Introduction / John Joseph Adams<br>I'm alive, I love you, I'll see you in Reno / Vylar Kaftan<br>The Cassandra project / Jack McDevitt<br>Cats in victory / David Barr Kirtley<br>Amaryllis / Carrie Vaughn<br>No time like the present / Carol Emshwiller<br>Manumission / Tobias S. Buckell<br>The Zeppelin Conductors' Society Annual Gentlemen's Ball / Genevieve Valentine<br>" ... For a single yesterday" / George R.R. Martin<br>How to become a Mars overlord / Catherynne M. Valente<br>Patient zero / Tananarive Due<br>Arvies / Adam-Troy Castro<br>More than the sum of his parts / Joe Haldeman<br>Flower, mercy, needle, chain / Yoon Ha Lee<br>The long chase / Geoffrey A. Landis<br>Amid the words of war / Cat Rambo<br>Travelers / Robert Silverberg<br>Hindsight / Sarah Langan<br>Tight little stitches in a dead man's back / Joe R. Lansdale<br>The taste of starlight / John R. Fultz<br>Beachworld / Stephen King<br>Standard loneliness package / Charles Yu<br>Faces in revolving souls / Caitlín R. Kiernan<br>Hwang's billion brilliant daughters / Alice Sola Kim<br>Ej-Es / Nancy Kress<br>In-fall / Ted Kosmatka<br>The observer / Kristine Kathryn Rusch<br>Jenny's sick / David Tallerman<br>The silence of the asonu / Ursula K. Le Guin<br>Postings from an amorous tomorrow / Corey Mariani<br>Cucumber gravy / Susan Palwick<br>Black fire / Tanith Lee<br>The elephants of Poznan / Orson Scott Card<br>Long enough and just so long / Cat Rambo<br>The passenger / Julie E. Czerneda<br>Simulacrum / Ken Liu<br>Breakaway, backdown / James Patrick Kelly<br>Saying the names / Maggie Clark<br>Gossamer / Stephen Baxter<br>Spider the artist / Nnedi Okorafor<br>Woman leaves room / Robert Reed<br>All that touches the air / An Owomoyela<br>Maneki neko / Bruce Sterling<br>Mama, we are zhenya, your son / Tom Crosshill<br>Velvet fields / Anne McCaffrey<br>The harrowers / Eric Gregory<br>Bibi from Jupiter / Tessa Mellas<br>Eliot wrote / Nancy Kress<br>Scales / Alastair Reynolds.<br></em></small></details>
 - [_"Catch-22"_](https://openlibrary.org/works/OL276798W), by [Joseph Heller](https://openlibrary.org/authors/OL33512A) <details><summary>Summary</summary><small><em>Catch-22 is like no other novel. It has its own rationale, its own extraordinary character. It moves back and forth from hilarity to horror. It is outrageously funny and strangely affecting. It is totally original. Set in the closing months of World War II in an American bomber squadron off Italy, Catch-22 is the story of a bombardier named Yossarian, who is frantic and furious because thousands of people he hasn't even met keep trying to kill him. Catch-22 is a microcosm of the twentieth-century world as it might look to someone dangerously sane. It is a novel that lives and moves and grows with astonishing power and vitality -- a masterpiece of our time.</em></small></details>
 - [_"The Good Soldier Švejk"_](https://openlibrary.org/works/OL835204W), by [Jaroslav Hašek](https://openlibrary.org/authors/OL71477A/Jaroslav_Ha%C5%A1ek) <details><summary>Summary</summary><small><em>The Good Soldier Švejk (pronounced [ˈʃvɛjk]) is an unfinished satirical dark comedy novel by Czech writer Jaroslav Hašek, published in 1921–1923, about a good-humored, simple-minded, middle-aged man who pretends to be enthusiastic to serve Austria-Hungary in World War I. </em></small></details>
@@ -28,10 +27,17 @@ Collection of interesting books, movies and short stories I've come across.
 - [_"Inversions"_](https://openlibrary.org/works/OL100772W), by [Iain M. Banks](https://openlibrary.org/authors/OL6924809A) <details><summary>Summary</summary><small><em>In the winter palace, the King’s new physician has more enemies than she at first realises. But then she also has more remedies to hand than those who wish her ill can know about. </em></small></details>
 - [_"The Lifecycle of Software Objects"_](https://openlibrary.org/works/OL17268350W), by [Ted Chiang](https://openlibrary.org/authors/OL1604887A/Ted_Chiang) <details><summary>Summary</summary><small><em>What's the best way to create artificial intelligence? In 1950, Alan Turing wrote, "Many people think that a very abstract activity, like the playing of chess, would be best. It can also be maintained that it is best to provide the machine with the best sense organs that money can buy, and then teach it to understand and speak English. This process could follow the normal teaching of a child. Things would be pointed out and named, etc. Again I do not know what the right answer is, but I think both approaches should be tried."<br>The first approach has been tried many times in both science fiction and reality. In this new novella, at over 30,000 words, his longest work to date, Ted Chiang offers a detailed imagining of how the second approach might work within the contemporary landscape of startup companies, massively-multiplayer online gaming, and open-source software. It's a story of two people and the artificial intelligences they helped create, following them for more than a decade as they deal with the upgrades and obsolescence that are inevitable in the world of software. At the same time, it's an examination of the difference between processing power and intelligence, and of what it means to have a real relationship with an artificial entity.</em></small></details>
 
-### To watch
+### To watch (or re-watch)
 
+- [_"Memento"_](https://www.imdb.com/title/tt0209144/) by C. Nolan
+- [_"Eternal Sunshine of the Spotless Mind"_](https://www.imdb.com/title/tt0338013), by M. Gondry, 2004
+- [_"The Wizard of Oz"_](https://www.imdb.com/title/tt0032138), by V. Fleming, 1939
+- [_"The Terminator"_](https://www.imdb.com/title/tt0088247), by J. Cameron, 1984
+- [_"V for Vendetta"_](https://www.imdb.com/title/tt0434409), by J. McTeigue, 2005
+- [_"The Iron Giant"_](https://www.imdb.com/title/tt0129167), by B. Bird, 1999
 - [_"Dune"_](https://www.imdb.com/title/tt0087182), by D. Lynch, 1984
 - [_"Silent Running"_](https://www.imdb.com/title/tt0067756/), by D. Trumbull, 1972
+- [_"Будет ласковый дождь / There Will Come Soft Rains"_](https://www.youtube.com/watch?v=4oxP3TyuQx0) (1984). Soviet multifilm adaptation directed by N. Tulyahodzhaev, "Uzbekfilm" studio, USSR
 
 ### Books
 
@@ -52,7 +58,8 @@ Collection of interesting books, movies and short stories I've come across.
    - IT: _"2001: Odissea nello Spazio"_
 - [_"Venus"_](https://openlibrary.org/works/OL15814W), by [Ben Bova](https://openlibrary.org/authors/OL23121A)
    - EN
-- [_"Perils of Perception"_](https://openlibrary.org/works/OL21190280W), by [Bobby Duffy](https://openlibrary.org/authors/OL5612854A/Bobby_Duffy) (IT)
+- [_"Perils of Perception"_](https://openlibrary.org/works/OL21190280W), by [Bobby Duffy](https://openlibrary.org/authors/OL5612854A/Bobby_Duffy)
+   - IT: _"I rischi della percezione"_
 - [_"Out of the Silent Planet"_](https://openlibrary.org/works/OL71166W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A)
    - EN
 - [_"Perelandra"_](https://openlibrary.org/works/OL71163W), by [C.S. Lewis](https://openlibrary.org/authors/OL31574A)
@@ -117,6 +124,8 @@ Collection of interesting books, movies and short stories I've come across.
    - IT: _"Il vecchio e il mare"_
 - [_"L'impero di Cindia"_](https://openlibrary.org/works/OL20906273W), by [Federico Rampini](https://openlibrary.org/authors/OL411047A/Federico_Rampini)
    - IT
+- [_"Игрокъ"_](https://openlibrary.org/works/OL166923W), by [Fedor Dostoievskij](https://openlibrary.org/authors/OL22242A)
+   - IT: _"Il giocatore"_
 - [_"Dune"_](https://openlibrary.org/works/OL893415W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A)
     - IT: _"Dune"_
 - [_"Dune Messiah"_](https://openlibrary.org/works/OL893526W), by [Frank Herbert](https://openlibrary.org/authors/OL79034A)
@@ -182,6 +191,8 @@ Collection of interesting books, movies and short stories I've come across.
    - IT: _"L'orlo della Fondazione"_
 - [_"Foundation and Earth"_](https://openlibrary.org/works/OL46347W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
    - IT: _"Fondazione e Terra"_
+- [_"The End of Eternity"_](https://openlibrary.org/books/OL47767376M), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
+   - IT: _"La fine dell'eternità"_
 - [_"El reino del dragón de oro"_](https://openlibrary.org/works/OL1905349W), by [Isabel Allende](https://openlibrary.org/authors/OL228079A/Isabel_Allende)
    - IT: _"Il regno del drago d'oro"_
 - [_"Harry Potter and the Philosopher's Stone"_](https://openlibrary.org/works/OL82563W/), by [J. K. Rowling](https://openlibrary.org/authors/OL23919A/J._K._Rowling)
@@ -232,6 +243,8 @@ Collection of interesting books, movies and short stories I've come across.
    - EN
    - Contains:
       - ... 
+- [_"Tales of the Otori"_](https://openlibrary.org/works/OL5786074W), by [Lian Hearn](https://openlibrary.org/authors/OL1415040A)
+   - IT: _"La Leggenda di Otori"_
 - [_"Romance of the three kingdoms"_](https://openlibrary.org/works/OL1961811W), by [Luo Guanzhong](https://openlibrary.org/authors/OL235478A)
    - IT: _"Il romanzo dei tre regni"_
 - [_"Cani, camosci, cuculi (e un corvo)"_](https://openlibrary.org/works/OL11808901W), by [Mauro Corona](https://openlibrary.org/authors/OL5037108A/Mauro_Corona)
@@ -304,23 +317,14 @@ Collection of interesting books, movies and short stories I've come across.
    - EN
    - Contains:
       - [_"Minority Report"_](https://openlibrary.org/works/OL2172414W)
-         - EN
       - _"Imposter"_
-         - EN
       - [_"Second Variety"_](https://openlibrary.org/works/OL2172434W?edition=key%3A/books/OL2409390M)
-         - EN
       - _"War Game"_
-         - EN
       - _"What the Dead Man Say"_
-         - EN
       - _"Oh, to be a Blobel!"_
-         - EN
       - _"The electric ant"_
-         - EN
       - _"Faith of our Fathers"_
-         - EN
-      - [_"We can remember it for you wholesale"_](https://openlibrary.org/works/OL10570232W)
-         - EN
+      - [_"We can remember it for you wholesale"_](https://openlibrary.org/works/OL10570232W) (_"Total Recall"_)
 - [_"Eye in the sky"_](https://openlibrary.org/works/OL2172504W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
    - IT: _"L'occhio nel cielo"_
 - [_"Ubik"_](https://openlibrary.org/works/OL2172454W), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
@@ -377,6 +381,8 @@ Collection of interesting books, movies and short stories I've come across.
    - IT: _"Cittadino della Galassia"_
 - [_"Starship Troopers"_](https://openlibrary.org/works/OL59740W), by [Robert A. Heinlein](https://openlibrary.org/authors/OL28641A/Robert_A._Heinlein)
    - IT: _"Fanteria dello spazio"_
+- [_"The Moon Is A Harsh Mistress"_](https://openlibrary.org/works/OL59704W), by [Robert A. Heinlein](https://openlibrary.org/authors/OL28641A/Robert_A._Heinlein)
+   - EN
 - [_"The Last Book in the Universe"_](https://openlibrary.org/works/OL497780W), by [Rodman Philbrick](https://openlibrary.org/authors/OL33122A/W._R._Philbrick)
    - IT: _"L'ultimo libro dell'universo"_
 - [_"The UNIX-haters handbook"_](https://openlibrary.org/works/OL16929040W) by [Simson Garfinkel](https://openlibrary.org/authors/OL184278A/Simson_Garfinkel)
@@ -437,22 +443,54 @@ Collection of interesting books, movies and short stories I've come across.
 - [_"The Sentinel"_](/archive/clarke-the-sentinel.html), by [Arthur C. Clarke](https://openlibrary.org/authors/OL2623461A/Arthur_C._Clarke)
 - [_"The Creatures That Time Forgot"_](/archive/bradbury-the-creatures-that-time-forgot.html) (also known as _"Frost and Fire"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) on _"Planet Stories"_, Fall '46
 - [_"The Night"_](/archive/bradbury-the-night.html) (also known as _"Ice Cream on a Summer's Evening"_), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) on _"Weird Tales"_, July '46
+- [_"There Will Come Soft Rains"_](/archive/bradbury-there-will-come-soft-rains.html), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury) first on _"Collier's Weekly"_, May 6, '50, then in _"The Martian Chronicles"_.
 - [_"Flowers for Algernon"_](/archive/keyes-flowers-for-algernon.html) (short story), by [Daniel Keyes](https://openlibrary.org/authors/OL35895A) on _"Fantasy & Science Fiction"_, April '59
 - [_"The Minority Report"_](/archive/dick-minority-report.html), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+- [_"We Can Remember For You Wholesale"_](/archive/dick-we-can-remember-for-you-wholesale.html), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
 - [_"The Coming Technological Singularity"_](/archive/vinge-the-coming-technological-singularity.html), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge)
 
 ### Movies
 
+- [_"Gravity"_](https://www.imdb.com/title/tt1454468), by A. Cuarón, 2013
+- [_"A Separation"_](https://www.imdb.com/title/tt1832382), by A. Farhadi, 2011
 - [_"The seven samurai"_](https://www.imdb.com/title/tt0047478/), by A. Kurasawa, 1954
 - [_"Gattaca"_](https://www.imdb.com/title/tt0119177/), by A. Niccol, 1997
+- [_"Wall-E"_](https://www.imdb.com/title/tt0910970), by A. Stanton, 2008
 - [_"Солярис"_](https://www.imdb.com/title/tt0069293) (director's cut), by A. Tarkovsky, 1972
+- [_"Harry Potter"_](https://www.imdb.com/title/tt0241527) (all of them), by C. Columbus, 2001+
+- [_"Gran Torino"_](https://www.imdb.com/title/tt1205489), by C. Eastwood, 2008
 - [_"Inception"_](https://www.imdb.com/title/tt1375666/), by C. Nolan, 2010
+- [_"Arrival"_](https://www.imdb.com/title/tt2543164/), by D. Villeneuve, 2016
+- [_"Blade Runner 2049"_](https://www.imdb.com/title/tt1856101), by D. Villeneuve, 2017
+- [_"Click"_](https://www.imdb.com/title/tt0389860), by F. Coraci, 2006
 - [_"Metropolis"_](https://www.imdb.com/title/tt0017136) (silent film), by F. Lang, 1927
-- [_"Howl's Moving Castle"_](https://www.imdb.com/title/tt0347149/) (_"Il castello errante di Howl"_), by H. Miyazaki
-- [_"Spirited Away"_](https://www.imdb.com/title/tt0245429) (_"La citta incantata"_), by H. Miyazaki
-- [_"Porco Rosso"_](https://www.imdb.com/title/tt0104652), by H. Miyazaki
-- [_"The Wind Rises"_](https://www.imdb.com/title/tt2013293/) (_"Si alza il vento"_), by H. Miyazaki
+- [_"Star Wars"_](https://www.imdb.com/title/tt0076759) (all of them), by G. Lucas, 1977+
+- [_"Nuovo Cinema Paradiso"_](https://www.imdb.com/title/tt0095765), by G. Tornatore, 1988
+- [_"Howl's Moving Castle"_](https://www.imdb.com/title/tt0347149/) (_"Il castello errante di Howl"_), by H. Miyazaki, 2004
+- [_"Spirited Away"_](https://www.imdb.com/title/tt0245429) (_"La citta incantata"_), by H. Miyazaki, 2001
+- [_"Porco Rosso"_](https://www.imdb.com/title/tt0104652), by H. Miyazaki, 1992
+- [_"The Wind Rises"_](https://www.imdb.com/title/tt2013293/) (_"Si alza il vento"_), by H. Miyazaki, 2013
+- [_"The Seventh Seal"_](https://www.imdb.com/title/tt0050976), by I. Bergman, 1957
+- [_"Il fantastico mondo di Amélie"_](https://www.imdb.com/title/tt0211915), by J. Jeunet, 2001
+- [_"Tron: Legacy"_](https://www.imdb.com/title/tt1104001/), by J. Kosinski, 2010
+- [_"Die Hard"_](https://www.imdb.com/title/tt0095016), by J. McTiernan, 1988
+- [_"The Matrix"_](https://www.imdb.com/title/tt0133093), by L. Wachowski, 1999
+- [_"Back to the Future"_](https://www.imdb.com/title/tt0088763) (all three), by M. J. Fox
 - [_"Interstellar"_](https://www.imdb.com/title/tt0816692), by M. McConaughey, A. Hathaway, 2014
+- [_"Up"_](https://www.imdb.com/title/tt1049413), by P. Docter, 2009
+- [_"The Lord of the Rings"_](https://www.imdb.com/title/tt0120737) (all three), by P. Jackson, 2001+
+- [_"Yes Man"_](https://www.imdb.com/title/tt1068680), by P. Reed, 2008
+- [_"Starship Troopers"_](https://www.imdb.com/title/tt0120201), by P. Verhoeven, 1997
+- [_"Total Recall"_](https://www.imdb.com/title/tt0100802), by P. Verhoeven, 1990
+- [_"The Truman Show"_](https://www.imdb.com/title/tt0120382), by P. Weir, 1998
+- [_"Kill Bill"_](https://www.imdb.com/title/tt6019206), by Q. Tarantino, 2003-2004
+- [_"Pulp Fiction"_](https://www.imdb.com/title/tt0110912/), by Q. Tarantino, 1994
+- [_"Alien"_](https://www.imdb.com/list/ls033997481/) (all of them), by R. Scott et al., 1986+
+- [_"Blade Runner"_](https://www.imdb.com/title/tt0083658), by R. Scott, 1982
 - [_"The Martian"_](https://www.imdb.com/title/tt3659388/), by R. Scott, 2015
+- [_"2001: A Space Odyssey"_](https://www.imdb.com/title/tt0062622), by S. Kubrick, 1968
 - [_"Александр Невский"_](https://www.imdb.com/title/tt0029850/), by S. Eisenstein, 1938
+- [_"Indiana Jones"_](https://www.imdb.com/title/tt0097576) (most of them), by S. Spielberg et al
+- [_"Monty Python and the Holy Grail"_](https://www.imdb.com/title/tt0071853), by T. Gilliam, 1975
+- [_"Bruce Almighty"_](https://www.imdb.com/title/tt0315327) (_"Una settimana da dio"_), by T. Shadyac, 2003
 
