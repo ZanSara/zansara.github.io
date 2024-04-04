@@ -4,7 +4,7 @@ description: "My bookshelf"
 author: "ZanSara"
 ---
 
-Collection of interesting books, movies and short stories I've come across, in no particular order.
+Collection of books, movies and short stories I've come across, in no particular order.
 
 - [To read](#to-read)
 - [To watch](#to-watch)
@@ -447,6 +447,7 @@ Collection of interesting books, movies and short stories I've come across, in n
 - [_"Flowers for Algernon"_](/archive/keyes-flowers-for-algernon.html) (short story), by [Daniel Keyes](https://openlibrary.org/authors/OL35895A) on _"Fantasy & Science Fiction"_, April '59
 - [_"The Minority Report"_](/archive/dick-minority-report.html), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
 - [_"We Can Remember For You Wholesale"_](/archive/dick-we-can-remember-for-you-wholesale.html), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+- [_"The Carrier Bag Theory of Fiction"_](/archive/guin-the-carrier-bag-theory-of-fiction.html), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)
 - [_"The Coming Technological Singularity"_](/archive/vinge-the-coming-technological-singularity.html), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge)
 
 ### Movies
@@ -462,6 +463,7 @@ Collection of interesting books, movies and short stories I've come across, in n
 - [_"Inception"_](https://www.imdb.com/title/tt1375666/), by C. Nolan, 2010
 - [_"Arrival"_](https://www.imdb.com/title/tt2543164/), by D. Villeneuve, 2016
 - [_"Blade Runner 2049"_](https://www.imdb.com/title/tt1856101), by D. Villeneuve, 2017
+- [_"The Naked Gun"_](https://www.imdb.com/title/tt0095705), by D. Zucker, 1982
 - [_"Click"_](https://www.imdb.com/title/tt0389860), by F. Coraci, 2006
 - [_"Metropolis"_](https://www.imdb.com/title/tt0017136) (silent film), by F. Lang, 1927
 - [_"Star Wars"_](https://www.imdb.com/title/tt0076759) (all of them), by G. Lucas, 1977+
@@ -471,12 +473,17 @@ Collection of interesting books, movies and short stories I've come across, in n
 - [_"Porco Rosso"_](https://www.imdb.com/title/tt0104652), by H. Miyazaki, 1992
 - [_"The Wind Rises"_](https://www.imdb.com/title/tt2013293/) (_"Si alza il vento"_), by H. Miyazaki, 2013
 - [_"The Seventh Seal"_](https://www.imdb.com/title/tt0050976), by I. Bergman, 1957
+- [_"Airplane!"_](https://www.imdb.com/title/tt0080339), by J. Abrahamas, 1980
 - [_"Il fantastico mondo di Amélie"_](https://www.imdb.com/title/tt0211915), by J. Jeunet, 2001
 - [_"Tron: Legacy"_](https://www.imdb.com/title/tt1104001/), by J. Kosinski, 2010
 - [_"Die Hard"_](https://www.imdb.com/title/tt0095016), by J. McTiernan, 1988
 - [_"The Matrix"_](https://www.imdb.com/title/tt0133093), by L. Wachowski, 1999
+- [_"Frankenstein Junior"_](https://www.imdb.com/title/tt0072431), by M. Brooks, 1974
+- [_"Spaceballs"_](https://www.imdb.com/title/tt0094012), by M. Brooks, 1987
 - [_"Back to the Future"_](https://www.imdb.com/title/tt0088763) (all three), by M. J. Fox
 - [_"Interstellar"_](https://www.imdb.com/title/tt0816692), by M. McConaughey, A. Hathaway, 2014
+- [_"Willy Wonka & the Chocolate Factory"_](https://www.imdb.com/title/tt0067992), by M. Stuart, 1971
+- [_"Event Horizon"_](https://www.imdb.com/title/tt0119081), by P. Anderson, 1997
 - [_"Up"_](https://www.imdb.com/title/tt1049413), by P. Docter, 2009
 - [_"The Lord of the Rings"_](https://www.imdb.com/title/tt0120737) (all three), by P. Jackson, 2001+
 - [_"Yes Man"_](https://www.imdb.com/title/tt1068680), by P. Reed, 2008
@@ -485,12 +492,17 @@ Collection of interesting books, movies and short stories I've come across, in n
 - [_"The Truman Show"_](https://www.imdb.com/title/tt0120382), by P. Weir, 1998
 - [_"Kill Bill"_](https://www.imdb.com/title/tt6019206), by Q. Tarantino, 2003-2004
 - [_"Pulp Fiction"_](https://www.imdb.com/title/tt0110912/), by Q. Tarantino, 1994
-- [_"Alien"_](https://www.imdb.com/list/ls033997481/) (all of them), by R. Scott et al., 1986+
+- [_"Alien"_](https://www.imdb.com/list/ls033997481/) (all of them), by R. Scott, 1986+
 - [_"Blade Runner"_](https://www.imdb.com/title/tt0083658), by R. Scott, 1982
 - [_"The Martian"_](https://www.imdb.com/title/tt3659388/), by R. Scott, 2015
+- [_"Maleficent"_](https://www.imdb.com/title/tt1587310), by R. Stromberg, 2014
+- [_"Machete"_](https://www.imdb.com/title/tt0985694), by R. Rodriguez, 2010
+- [_"Planet Terror"_](https://www.imdb.com/title/tt1077258), by R. Rodriguez, 2007
 - [_"2001: A Space Odyssey"_](https://www.imdb.com/title/tt0062622), by S. Kubrick, 1968
 - [_"Александр Невский"_](https://www.imdb.com/title/tt0029850/), by S. Eisenstein, 1938
-- [_"Indiana Jones"_](https://www.imdb.com/title/tt0097576) (most of them), by S. Spielberg et al
+- [_"Indiana Jones"_](https://www.imdb.com/title/tt0097576) (most of them), by S. Spielberg
+- [_"Alice in Wonderland"_](https://www.imdb.com/title/tt1014759), by T. Burton, 2010
+- [_"Charlie and the Chocolate Factory"_](https://www.imdb.com/title/tt0367594), by T. Burton, 2005
+- [_"Corpse Bride"_](https://www.imdb.com/title/tt0121164), by T. Burton, 2005
 - [_"Monty Python and the Holy Grail"_](https://www.imdb.com/title/tt0071853), by T. Gilliam, 1975
 - [_"Bruce Almighty"_](https://www.imdb.com/title/tt0315327) (_"Una settimana da dio"_), by T. Shadyac, 2003
-
