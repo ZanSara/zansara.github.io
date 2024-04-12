@@ -20,17 +20,16 @@ style = "github-dark"
   info = """
   Python and LLMs specialist, 
   [main contributor](https://github.com/deepset-ai/haystack/graphs/contributors) of [Haystack](https://haystack.deepset.ai/), 
-  former [CERN](https://home.cern/) employee.
-
+  former [CERN](https://home.cern/) employee. 
   I'm also an opinionated sci-fi reader, hiker, tinkerer and somewhat polyglot. Currently busy trying to learn Portuguese and Hungarian at the same time.
   """
   description = "Sara Zan's Personal Website"
   keywords = "blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source"
-  avatarurl = "/me/avatar.jpeg"
+  avatarurl = "/me/avatar-color.svg"
   
   #gravatar = "john.doe@example.com"
 
-  faviconSVG = "/favicon.png"
+  faviconSVG = "/favicon.svg"
   favicon_32 = "/favicon.png"
   touchicon = "/favicon.png"
   # favicon_16 = "/img/favicon-16x16.png"
