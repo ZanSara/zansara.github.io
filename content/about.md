@@ -5,13 +5,15 @@ aliases: ["about-me", "zansara", "contact"]
 author: "ZanSara"
 ---
 
-I am a Python and LLMs specialist currently working for [deepset](https://www.deepset.ai/), 
-a German startup working on NLP [since "before it was cool"](https://www.deepset.ai/about). 
-At the moment I'm the [main contributor](https://github.com/deepset-ai/haystack/graphs/contributors) 
+I am a freelance Python and LLMs specialist based in Portugal. 
+
+Until recently I worked for [deepset](https://www.deepset.ai/),
+a German startup working on NLP [since "before it was cool"](https://www.deepset.ai/about), 
+where I was the [main contributor](https://github.com/deepset-ai/haystack/graphs/contributors) 
 of [Haystack](https://haystack.deepset.ai/), their open-source framework for building highly
 customizable, production-ready NLP and LLM applications.
 
-Previously I have been working at [CERN](https://home.cern/), where I began my software engineering
+Previously I worked for a few years at [CERN](https://home.cern/), where I began my software engineering
 career. During my time there I had the privilege of driving one 
 [major decision](/publications/tucpr03/) to migrate the graphical
 interface's software of the accelerator's control systems from Java to PyQt, 
@@ -24,7 +26,7 @@ can dedicate to them.
 I love science fiction and space exploration, I enjoy challenging hikes in nature and learning
 languages, as much as such process can be enjoyed.
 
-I speak Italian as a native and fluent English, but I've also learned French during my time at CERN, 
+I speak native Italian and fluent English, but I've also learned French during my time at CERN, 
 I'm studying Hungarian for family reasons, and Portuguese because I currently live there. 
 I still can understand some Russian and I have a very basic understanding
 of Chinese, both from my teenage and university years.

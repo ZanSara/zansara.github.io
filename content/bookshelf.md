@@ -83,19 +83,12 @@ Collection of books, movies and short stories I've come across, in no particular
    - IT: _"Le cronache di Narnia"_
    - Contains:
       - [_"The Magician's Nephew"_](https://openlibrary.org/works/OL71042W)
-         - IT: _"Il nipote del mago"_
       - [_"The Lion, the Witch and the Wardrobe"_](https://openlibrary.org/works/OL71175W)
-         - IT: _"Il leone, la strega e l'armadio"_
       - [_"The Horse and His Boy"_](https://openlibrary.org/works/OL71058W)
-         - IT: _"Il cavallo e il ragazzo"_
       - [_"Prince Caspian"_](https://openlibrary.org/works/OL71069W?)
-         - IT: _"Il principe Caspian"_
       - [_"The Voyage of the Dawn Treader"_](https://openlibrary.org/works/OL71132W)
-         - IT: _"Il viaggio del veliero"_
       - [_"The Silver Chair"_](https://openlibrary.org/works/OL71078W)
-         - IT: _"La sedia d'argento"_
       - [_"The Last Battle"_](https://openlibrary.org/works/OL71078W)
-         - IT: _"L'ultima battaglia"_
 - [_"Eragon"_](https://openlibrary.org/works/OL5819895W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini)
    - IT: _"Eragon"_
 - [_"Eldest"_](https://openlibrary.org/works/OL5819886W), by [Christopher Paolini](https://openlibrary.org/authors/OL1425963A/Christopher_Paolini)
@@ -111,7 +104,16 @@ Collection of books, movies and short stories I've come across, in no particular
 - [_"Death's End"_](https://openlibrary.org/works/OL17610507W), by [Cixin Liu](https://openlibrary.org/authors/OL7044246A)
    - IT: _"Nella quarta dimensione"_
 - [_"Orbit Twenty"_](https://openlibrary.org/works/OL27448026W), by [Damon Knight](https://openlibrary.org/authors/OL2628836A):
-   - ...
+   - EN
+   - Contains:
+      - _"Moongate"_, by Kate Wilhelm
+      - _"The Novella Race"_, by Pamela Sargent
+      - _"Bright Coins in Never-Ending Stream"_, by R. A. Lafferty
+      - _"The Synergy Sculpture"_, by Terrence L. Brown
+      - _"The Birds are Free"_, by Ronald Anthony Cross
+      - _"A Right-Handed Wrist"_, by Stepan Chapman
+      - _"They Made us Not To Be And They Are Not"_, by Phillipa C. Maddern
+      - _"Seven American Nights"_, by Gene Wolfe 
 - [_"Flowers for Algernon"_](https://openlibrary.org/works/OL515754W), (novel) by [Daniel Keyes](https://openlibrary.org/authors/OL35895A)
    - EN
    - IT: _"Fiori per Algernon"_
@@ -193,7 +195,27 @@ Collection of books, movies and short stories I've come across, in no particular
    - IT: _"L'altro universo"_
 - [_"Great Science Fiction Stories By The World's Greatest Scientists"_](https://openlibrary.org/works/OL264006W/Great_Science_Fiction_Stories_by_the_World%27s_Greatest_Scientists?edition=key%3A/books/OL8339979M), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
    - IT: _"Fantascienza. I migliori racconti di famosi scienziati"_
-    - ...
+    - _"White Creatures"_, by Gregory Benford
+    - _"The Singing Diamond"_, by Robert L. Forward
+    - _"Publish and Perish"_, by Paul J. Nahin
+    - _"Skystalk"_, by Charles Sheffield
+    - _"The Universal Library"_, by Kurd Lasswitz
+    - _"Long Shot"_, by Vernor Vinge
+    - _"Blackmail"_, by Fred Hoyle
+    - _"Jeannette's Hands"_, by R. S. Richardson
+    - _"The Warm Space"_, by David Brin
+    - _"The Wind from the Sun"_, by Arthur C. Clarke
+    - _"Industrial Accident"_, by G. Harry Stine
+    - _"Choice"_, by John R. Pierce
+    - _"The Winnowing"_, by Isaac Asimov
+    - _"Dr. Snow Maiden"_, by Larry Eisenberg
+    - _"On the Fourth Planet"_, by J. F. Bone
+    - _"Learning Theory"_, by James McConnell
+    - _"Love Is the Plan the Plan Is Death"_, by James Tiptree, Jr.
+    - _"Transfusion"_, by Chad Oliver
+    - _"In the Beginning"_, by Morton Klass
+    - _"Modulation in All Things"_, by Suzette Haden Elgin
+    - _"The Bones of Charlemagne"_, by Mario Pei
 - [_"Foundation"_](https://openlibrary.org/works/OL46125W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
    - IT: _"Fondazione"_
 - [_"Foundation and Empire"_](https://openlibrary.org/works/OL46224W), by [Isaac Asimov](https://openlibrary.org/authors/OL34221A/Isaac_Asimov)
@@ -226,11 +248,8 @@ Collection of books, movies and short stories I've come across, in no particular
    - IT: _"Il signore degli anelli"_
    - Contains:
       - [_"The Fellowship of the Ring"_](https://openlibrary.org/works/OL14933414W)
-         - IT: _"La compagnia dell'anello"_
       - [_"The Two Towers"_](https://openlibrary.org/works/OL27479W)
-         - IT: _"Le due torri"_
       - [_"The Return of the King"_](https://openlibrary.org/works/OL27516W)
-         - IT: _"il ritorno del re"_
 - [_"Trouble with Lichen"_](https://openlibrary.org/works/OL1911333W), by [John Wyndham](https://openlibrary.org/authors/OL228968A)
 - [_"The Day of the Triffids"_](https://openlibrary.org/works/OL1911336W), by [John Wyndham](https://openlibrary.org/authors/OL228968A)
    - IT: _"Il giorno dei trifidi"_
@@ -255,11 +274,31 @@ Collection of books, movies and short stories I've come across, in no particular
 - [_"Broken Stars"_](https://openlibrary.org/works/OL19794391W), by [Ken Liu](https://openlibrary.org/authors/OL4094327A/Ken_Liu)
    - EN
    - Contains:
-      - ... 
+      - _"Goodnight, Melancholy"_ by Xia Jia
+      - _"The Snow of Jinyang"_ by Zhang Ran
+      - _"Broken Stars"_ by Tang Fei
+      - _"Submarines"_ by Han Song
+      - _"Salinger and the Koreans"_ by Han Song
+      - _"Under a Dangling Sky"_ by Cheng Jingbo
+      - _"What Has Passed Shall in Kinder Light Appear"_ by Baoshu
+      - _"The New Year Train"_ by Hao Jingfang
+      - _"The Robot Who Liked to Tell Tall Tales"_ by Fei Dao
+      - _"Moonlight"_ by Liu Cixin
+      - _"The Restaurant at the End of the Universe: Laba Porridge"_ by Anna Wu
+      - _"The First Emperor’s Games"_ by Ma Boyong
+      - _"Reflection"_ by Gu Shi
+      - _"The Brain Box"_ by Regina Kanyu Wang
+      - _"Coming of the Light"_ by Chen Qiufan
+      - _"A History of Future Illnesses"_ by Chen Qiufan
+      - _"A Brief Introduction to Chinese Science Fiction and Fandom"_ by Regina Kanyu Wang,
+      - _"A New Continent for China Scholars: Chinese Science Fiction Studies"_ by Mingwei Song
+      - _"Science Fiction: Embarrassing No More"_ by Fei Dao
 - [_"Tales of the Otori"_](https://openlibrary.org/works/OL5786074W), by [Lian Hearn](https://openlibrary.org/authors/OL1415040A)
    - IT: _"La Leggenda di Otori"_
 - [_"Romance of the three kingdoms"_](https://openlibrary.org/works/OL1961811W), by [Luo Guanzhong](https://openlibrary.org/authors/OL235478A)
    - IT: _"Il romanzo dei tre regni"_
+- [_"Manna: Two Views of Humanity's Future"_](https://marshallbrain.com/manna), by [Marshall Brain](https://marshallbrain.com/)
+   - EN
 - [_"Cani, camosci, cuculi (e un corvo)"_](https://openlibrary.org/works/OL11808901W), by [Mauro Corona](https://openlibrary.org/authors/OL5037108A/Mauro_Corona)
    - IT
 - [_"The End We Start From"_](https://openlibrary.org/works/OL20873102W), by [Megan Hunter](https://openlibrary.org/authors/OL7489502A/Megan_Hunter)
@@ -383,7 +422,62 @@ Collection of books, movies and short stories I've come across, in no particular
 - [_"The Martian Chronicles"_](https://openlibrary.org/works/OL103134W), by [Ray Bradbury](https://openlibrary.org/authors/OL24137A/Ray_Bradbury)
    - IT: _"Le cronache marziane"_
    - Contains:
-       - ...
+      - _"Rocket Summer"_
+         - IT: _"Gennaio 1999: L'estate del razzo"_
+      - _"Ylla"_
+         - IT: _"Febbraio 1999: Ylla"_
+      - _"The Summer Night"_
+         - IT: _"Agosto 1999: La notte estiva"_
+      - _"The Earth Men"_
+         - IT: _"Agosto 1999: I terrestri"_
+      - _"The Taxpayer"_
+         - IT: _"Marzo 2000: Il contribuente"_
+      - _"Mars Is Heaven!"_
+         - IT: _"Aprile 2000: La terza spedizione"_
+      - _"And the Moon Be Still As Bright"_
+         - IT: _"Giugno 2001: "...And the Moon Be Still As Bright...""_
+      - _"The Settlers"_
+         - IT: _"Agosto 2001: I coloni"_
+      - _"The Green Morning"_
+         - IT: _"Dicembre 2001: Il verde mattino"_
+      - _"The Locusts"_
+         - IT: _"Febbraio 2002: Le locuste"_
+      - _"The Wilderness"_
+         - IT: _"Giugno 2002: L'immensità"_
+      - _"Night Meeting "_
+         - IT: _"Agosto 2002: Incontro di notte"_
+      - _"The Shore"_
+         - IT: _"Ottobre 2002: La spiaggia"_
+      - _"The Fire Balloons"_
+         - IT: _"Novembre 2002: Le sfere di fuoco"_
+      - _"Interim"_
+         - IT: _"Febbraio 2003: Intermezzo"_
+      - _"The Musicians"_
+         - IT: _"Aprile 2003: I musici"_
+      - _"Way in the Middle of the Air"_
+         - IT: _"Giugno 2003: Su negli spazi azzurri"_
+      - _"The Naming of Names"_
+         - IT: _"2004-2005: L'imposizione dei nomi"_
+      - _"Usher II"_
+         - IT: _"Aprile 2005: Usher II"_
+      - _"The Old Ones"_
+         - IT: _"Agosto 2005: I vecchi"_
+      - _"The Martian"_
+         - IT: _"Settembre 2005: Il marziano"_
+      - _"The Luggage Store"_
+         - IT: _"Novembre 2005: La valigeria"_
+      - _"The Off Season"_
+         - IT: _"Novembre 2005: Stagione morta"_
+      - _"The Watchers"_
+         - IT: _"Novembre 2005: Tutti a guardare"_
+      - _"The Silent Towns"_
+         - IT: _"Dicembre 2005: Le città silenti"_
+      - _"The Long Years"_
+         - IT: _"Aprile 2026: I lunghi anni"_
+      - _"There Will Come Soft Rains"_
+         - IT: _"Agosto 2026: Cadrà dolce la pioggia"_
+      - _"The Million Year Picnic"_
+         - IT: _"Ottobre 2026: La gita di un milione di anni"_
 - [_"The God Delusion"_](https://openlibrary.org/works/OL1966485W), by [Richard Dawkins](https://openlibrary.org/authors/OL236174A)
    - IT: _"L'illusione di Dio"_
 - [_"A stir of echoes"_](https://openlibrary.org/works/OL64220W), by [Richard Matheson](https://openlibrary.org/authors/OL19731A)
@@ -411,7 +505,11 @@ Collection of books, movies and short stories I've come across, in no particular
 - [_"Opowieści o pilocie Pirxie"_](https://openlibrary.org/works/OL9104526W), by [Stanisław Lem](https://openlibrary.org/authors/OL29655A/Stanis%C5%82aw_Lem)
    - IT: _"I racconti del pilota Pirx"_
    - Contains:
-       - ...
+       - _"The Test"_
+       - _"The Conditioned Reflex"_
+       - _"On Patrol"_
+       - _"The Albatross"_
+       - _"Terminus"_
 - [_"Saltatempo"_](https://openlibrary.org/works/OL9138137W), by [Stefano Benni](https://openlibrary.org/authors/OL86259A)
    - IT
 - [_"Hunger Games"_](https://openlibrary.org/works/OL21685791W), by [Suzanne Collins](https://openlibrary.org/authors/OL1394359A/Suzanne_Collins)
