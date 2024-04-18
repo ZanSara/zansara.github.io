@@ -560,6 +560,7 @@ Collection of books, movies and short stories I've come across, in no particular
 - [_"Flowers for Algernon"_](/archive/keyes-flowers-for-algernon.html) (short story), by [Daniel Keyes](https://openlibrary.org/authors/OL35895A) on _"Fantasy & Science Fiction"_, April '59
 - [_"The Minority Report"_](/archive/dick-minority-report.html), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
 - [_"We Can Remember For You Wholesale"_](/archive/dick-we-can-remember-for-you-wholesale.html), by [Philip K. Dick](https://openlibrary.org/authors/OL274606A/Philip_K._Dick)
+- [_"Story of Your Life"_](/archive/chiang-story-of-your-life.html), by [Ted Chiang](https://openlibrary.org/authors/OL1604887A/Ted_Chiang)
 - [_"The Carrier Bag Theory of Fiction"_](/archive/guin-the-carrier-bag-theory-of-fiction.html), by [Ursula K. Le Guin](https://openlibrary.org/authors/OL31353A/Ursula_K._Le_Guin)
 - [_"The Coming Technological Singularity"_](/archive/vinge-the-coming-technological-singularity.html), by [Vernor Vinge](https://openlibrary.org/authors/OL2751197A/Vernor_Vinge)
 
