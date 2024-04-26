@@ -10,7 +10,7 @@ featuredImage: "/talks/2024-04-25-odsc-east-rag.png"
 
 ---
 
-In this talk at [ODSC East 2024](https://odsc.com/boston/) I talk about RAG: how it works, how it fails, and how to evaluate its performance objectively. I give an overview of some useful open-source tools for RAG evalution and how to use them with [Haystack](https://haystack.deepset.ai/?utm_campaign=odsc-east), and then give you some ideas on how to expand your RAG architecture further than a simple two-step process.
+At [ODSC East 2024](https://odsc.com/boston/) I talked about RAG: how it works, how it fails, and how to evaluate its performance objectively. I gave an overview of some useful open-source tools for RAG evalution and how to use them with [Haystack](https://haystack.deepset.ai/?utm_campaign=odsc-east), and then offer some ideas on how to expand your RAG architecture further than a simple two-step process.
 
 Some resources mentioned in the talk:
 
