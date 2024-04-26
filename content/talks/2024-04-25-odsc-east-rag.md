@@ -20,5 +20,6 @@ Some resources mentioned in the talk:
 - Evaluating RAG end-to-end with RAGAS: https://docs.ragas.io/en/latest/
 - Semantic Answer Similarity (SAS) metric: https://docs.ragas.io/en/latest/concepts/metrics/semantic_similarity.html
 - Answer Correctness metric: https://docs.ragas.io/en/latest/concepts/metrics/answer_correctness.html
+- Perplexity.ai: https://www.perplexity.ai/
 
 Plus, shout-out to a very interesting LLM evaluation library I discovered at ODSC: [continuous-eval](https://docs.relari.ai/v0.3). Worth checking out especially if SAS or answer correctness are too vague and high level for your domain.
