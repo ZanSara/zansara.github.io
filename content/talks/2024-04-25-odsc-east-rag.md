@@ -6,7 +6,9 @@ tags: [LLM, NLP, Python, AI, RAG, "ODSC East", ODSC, Retrieval, Generation, Eval
 featuredImage: "/talks/2024-04-25-odsc-east-rag.png"
 ---
 
-[Announcement](https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/), [slides](https://drive.google.com/file/d/19EDFCqOiAo9Cvx5fxx6Wq1Z-EoMKwxbs/view?usp=sharing)
+[Announcement](https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/), 
+[slides](https://drive.google.com/file/d/19EDFCqOiAo9Cvx5fxx6Wq1Z-EoMKwxbs/view?usp=sharing).
+Did you miss the talk? Check out the [summary](/posts/2024-04-29-odsc-east-rag-talk-summary).
 
 ---
 

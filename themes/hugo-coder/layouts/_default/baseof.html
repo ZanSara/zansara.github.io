@@ -44,7 +44,7 @@
   </script>
   {{ end }}
 
-  <script src="js/coder.js"></script>
+  <script src="/js/coder.js"></script>
 
   {{ range .Site.Params.customJS }}
   {{ $script := resources.Get . | minify | fingerprint }}
