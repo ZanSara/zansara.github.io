@@ -2,7 +2,7 @@
 title: "ODSC East: RAG, the bad parts (and the good!)"
 date: 2024-04-25
 author: "ZanSara"
-tags: [LLM, NLP, Python, AI, RAG, "ODSC East", ODSC, Retrieval, Generation, Evaluation, Haystack]
+tags: [LLM, NLP, Python, AI, RAG, ODSC, Retrieval, Generation, Evaluation, Haystack]
 featuredImage: "/talks/2024-04-25-odsc-east-rag.png"
 ---
 

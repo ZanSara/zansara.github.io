@@ -2,7 +2,7 @@
 title: "Is RAG all you need? A look at the limits of retrieval augmentation"
 date: 2024-02-21
 author: "ZanSara"
-tags: [Python, LLM, GPT, Pipeline, RAG, Generation, Retrieval, "ODSC East", ODSC, Teaser]
+tags: [Python, LLM, GPT, Pipeline, RAG, Generation, Retrieval, ODSC, Teaser]
 featuredImage: "/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg"
 canonicalUrl: https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/
 aliases:

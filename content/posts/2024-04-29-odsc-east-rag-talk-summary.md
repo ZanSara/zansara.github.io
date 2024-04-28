@@ -2,7 +2,7 @@
 title: "Talk Summary: RAG, the bad parts (and the good!)"
 date: 2024-04-29
 author: "ZanSara"
-tags: [Python, LLM, GPT, Pipeline, RAG, Generation, Retrieval, "ODSC East", ODSC]
+tags: [Python, LLM, GPT, Pipeline, RAG, Generation, Retrieval, ODSC]
 featuredImage: "/posts/2024-04-29-odsc-east-rag-talk-summary/cover.png"
 ---
 
