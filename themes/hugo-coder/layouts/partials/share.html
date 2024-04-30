@@ -1,0 +1,19 @@
+<hr style="margin-top: 5rem;">
+{{ $title := .Title }}
+{{ $url := printf "%s" .Permalink | absLangURL }}
+{{ $body := print $title ", by " .Site.Title "\n" .Params.description "\n\n" $url "\n" }}
+<div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
+    <p>Share on: </p>
+    <a href="https://twitter.com/intent/post?{{ $title }}, by @zansara_dev=test&url={{ $url }}" aria-label="share on Twitter">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/twitter-x.svg" }}</div>
+    </a>
+    <a href="https://mastodonshare.com/?text={{ $title }}, by @zansara@mastodon.social&url={{ $url }}" aria-label="share on Mastodon">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/mastodon.svg" }}</div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url={{ $url }}&title={{ $title }}, by " aria-label="share on LinkedIn">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/linkedin.svg" }}</div>
+    </a>
+    <a href="mailto:?subject={{ $title }}, by Sara Zan.&body={{ $body }}"aria-label="share by email">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/email.svg" }}</div>
+    </a>
+</div>
