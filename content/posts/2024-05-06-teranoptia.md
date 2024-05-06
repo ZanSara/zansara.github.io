@@ -72,12 +72,6 @@ function generateTest(value){
 </script>
 {{< /raw >}}
 
-{{< notice info >}}
-
-_As you're about to notice, I'm no JavaScript developer. Don't expect high-quality JS in this post._
-
-{{< /notice >}}
-
 [Teranoptia](https://www.tunera.xyz/fonts/teranoptia/) is a cool font that lets you build small creatures by mapping each letter (and a few other characters) to a piece of a creature like a head, a tail, a leg, a wing and so on. By typing words you can create strings of creatures. 
 
 Here is the glyphset:
@@ -254,6 +248,13 @@ to more complex, multi-line designs:
 
 {{< /raw >}}
 
+Let's play with it a bit and see how we can put together a few "correct" looking creatures.
+
+{{< notice info >}}
+
+_As you're about to notice, I'm no JavaScript developer. Don't expect high-quality JS in this post._
+
+{{< /notice >}}
 
 ## Mirroring animals
 
