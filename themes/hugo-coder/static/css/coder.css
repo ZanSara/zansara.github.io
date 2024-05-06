@@ -1,6 +1,20 @@
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
+@font-face {
+  font-family: teranoptia;
+  src: url("/fonts/teranoptia/fonts/Teranoptia-Furiae.ttf");
+}
+
+.fleuron{
+  text-align: center!important;
+  width: 100%;
+  font-size: 3rem;
+  font-family: teranoptia;
+  line-height: 70px;
+  margin: 80px 0;
+}
+
 /**
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.

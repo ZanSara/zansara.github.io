@@ -1,3 +1,2 @@
 User-agent: * 
-Disallow: /archive
 Sitemap: https://www.zansara.dev/sitemap.xml
