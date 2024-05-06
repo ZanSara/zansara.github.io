@@ -873,7 +873,7 @@ Go ahead and put your own vocabulary file to see if your language contains more 
 
 In this post I've just put together a few exercises for fun, but these tools can be great for teaching purposes: the output is very easy to validate visually, and the grammar involved, while not trivial, is not as complex as natural language or as dry as numerical sequences. If you need something to keep your students engaged, this might be a simple trick to help them visualize the concepts better.
 
-On my side, I think I'm going to retroactively use these neat little monsters as weird [fleurons](https://en.wikipedia.org/wiki/Fleuron_(typography)) :)
+On my side, I think I'm going to use these neat little monsters as weird [fleurons](https://en.wikipedia.org/wiki/Fleuron_(typography)) :)
 
 
 <p class="fleuron">su</p>
