@@ -49,7 +49,7 @@ You don't believe it? Type something in here.
 
 <div style="display: flex; gap: 10px;">
     Characters to generate:
-    <input id="test-glyph-count" type="number" value=20 ></input>
+    <input id="test-glyph-count" type="number" value=10 ></input>
     <button onclick="generateTest(document.getElementById('test-glyph-count').value);">Generate!</button>
 </div>
 
