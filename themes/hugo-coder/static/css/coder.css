@@ -1,12 +1,9 @@
-/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
-/* Document
-   ========================================================================== */
 @font-face {
   font-family: teranoptia;
   src: url("/fonts/teranoptia/fonts/Teranoptia-Furiae.ttf");
 }
 
-.fleuron{
+.fleuron {
   text-align: center!important;
   width: 100%;
   font-size: 3rem;
@@ -14,7 +11,18 @@
   line-height: 70px;
   margin: 80px 0;
 }
+.fleuron a {
+  text-decoration: none;
+  color: #555;
+}
+.fleuron a:hover {
+  text-decoration: none;
+}
 
+
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+/* Document
+   ========================================================================== */
 /**
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
@@ -4070,5 +4078,3 @@ figure {
 /* TextWhitespace */
 .chroma .w {
   color: #bbbbbb; }
-
-/*# sourceMappingURL=coder.css.map */

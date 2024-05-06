@@ -92,3 +92,6 @@ In my upcoming talk at ODSC East “RAG, the bad parts (and the good!): building
 * what **techniques can help you raise the quality of the answers**, from simple prompt engineering tricks like few-shot prompting, all the way up to finetuning, self-correction loops and entailment checks.
 
 Make sure to attend to the [talk](https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/) to learn more about all these techniques and how to apply them in your projects.
+
+
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">ažo</a></p>

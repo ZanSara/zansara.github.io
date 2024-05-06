@@ -125,3 +125,6 @@ Our small [ClozeGPT](https://chat.openai.com/g/g-wmHCaGcCZ-clozegpt) works only 
 ![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/laranja-flashcard.png)
 
 _Front: I like orange juice in my morning coffee._
+
+
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">SDE</a></p>

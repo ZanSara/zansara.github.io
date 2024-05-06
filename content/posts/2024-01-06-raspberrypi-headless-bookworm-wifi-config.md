@@ -387,3 +387,5 @@ On this note you should remember that doing a manual configuration of NetworkMan
 
 Doing a manual configuration is easier on many levels, but only if you don't intend to support other versions of RPi OS. If you do, or if you expect to migrate when a new version comes out, you should consider doing something similar to what the Imager does: use a `firstrun.sh` file that tries to use `raspberrypi-sys-mods` and falls back to a manual configuration only if that executable is missing. That is likely to make migrations easier if the Raspberry Pi OS team should choose once again to modify the way that headless setups work.
 
+
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">FŻ</a></p>

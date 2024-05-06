@@ -1,3 +1,8 @@
+
+body.colorscheme-dark .fleuron a {
+  color: #999!important;
+}
+
 body.colorscheme-dark {
   color: #dadada;
   background-color: #212121; }
@@ -831,5 +836,3 @@ body.colorscheme-dark {
       text-decoration: underline; }
     body.colorscheme-auto .chroma .w {
       color: #6e7681; } }
-
-/*# sourceMappingURL=coder-dark.css.map */

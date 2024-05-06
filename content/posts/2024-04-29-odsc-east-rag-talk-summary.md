@@ -354,3 +354,7 @@ Finetuning the LLM is also necessary if you need to alter its behavior in produc
 # Conclusion
 
 RAG is a vast topic that could fill books: this was only an overview of some of the most important concepts to remember when working on a RAG application. For more on this topic, check out my [other blog posts](/posts) and stay tuned for [future talks](/talks)!
+
+
+
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">[K</a></p>
