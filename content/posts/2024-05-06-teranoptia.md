@@ -4,7 +4,6 @@ date: 2024-05-06
 author: "ZanSara"
 tags: [JS, JavaScript, Font, Fun, Regex, Grammar, "Computer Science"]
 featuredImage: "/posts/2024-05-06-teranoptia/cover.png"
-draft: true
 ---
 
 {{< raw >}}
