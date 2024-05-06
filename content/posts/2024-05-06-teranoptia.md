@@ -318,10 +318,6 @@ For example, "Hello" becomes:
 
 <p class="teranoptia">Hello</p>
 
-While "SUẊQPŻ" looks like:
-
-<p class="teranoptia">SUẊQPŻ</p>
-
 This is a problem if we want to make a parametric or random creature generator, because most of the random strings won't look good. 
 
 ### Naive random generator
