@@ -87,6 +87,11 @@ style = "github-dark"
   icon = "fa fa-rss fa-2x"
   weight = 1
   url = "/index.xml"
+[[params.social]]
+  name = "Substack"
+  icon = "fa fa-bookmark fa-2x"
+  weight = 1
+  url = "https://zansara.substack.com/"
 
 [taxonomies]
   tag = "tags"
