@@ -5,7 +5,8 @@ aliases: ["about-me", "zansara", "contact"]
 author: "ZanSara"
 ---
 
-I am a freelance Python and LLMs specialist based in Portugal. 
+I am a Python and Gen AI software engineer based in Portugal, currently working for 
+[Kwal.ai](https://www.kwal.ai/) on an upcoming open source project.
 
 Until recently I worked for [deepset](https://www.deepset.ai/),
 a German startup working on NLP [since "before it was cool"](https://www.deepset.ai/about), 
@@ -32,4 +33,5 @@ I still can understand some Russian and I have a very basic understanding
 of Chinese, both from my teenage and university years.
 
 You can find my latest CV [here](/me/sara_zanzottera_cv.pdf). Check out also my 
-[projects](/projects), my [publications](/publications) and my [talks](/talks).
+[projects](/projects), my [publications](/publications) and my [talks](/talks). If you prefer
+newsletters you can find my posts also on [Substack](https://zansara.substack.com/).
