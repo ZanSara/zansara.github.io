@@ -6,15 +6,18 @@
     <a href="https://twitter.com/intent/post?{{ $title }}, by @zansara_dev=test&url={{ $url }}" aria-label="share on Twitter">
         <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/twitter-x.svg" }}</div>
     </a>
+    <a href="https://news.ycombinator.com/submitlink?u={{ $url }}" aria-label="share on HackerNews">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/hn.svg" }}</div>
+    </a>
     <a href="https://mastodonshare.com/?text={{ $title }}, by @zansara@mastodon.social&url={{ $url }}" aria-label="share on Mastodon">
         <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/mastodon.svg" }}</div>
     </a>
     <a href="https://www.linkedin.com/shareArticle?url={{ $url }}" aria-label="share on LinkedIn">
         <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/linkedin.svg" }}</div>
     </a>
-    <a href="mailto:?subject={{ $title }}, by Sara Zan.&body={{ $url }}"aria-label="share by email">
+    <a href="mailto:?subject={{ $title }}, by Sara Zan.&body={{ $url }}" aria-label="share by email">
         <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/email.svg" }}</div>
     </a>
 </div>
 
-https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdigitalocean.com%2Fresource%2Fresources-article%2Fserverless-architecture&t=An%20Introduction%20to%20Serverless%20Architecture
+<!---->
