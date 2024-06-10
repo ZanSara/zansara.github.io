@@ -2,7 +2,6 @@
 title: "An (unofficial) Python SDK for Verbix"
 date: 2023-09-10
 author: "ZanSara"
-tags: [Linux, Languages, Verbix, Conjugations, Flashcards, Python, API, SDK]
 featuredImage: "/posts/2023-09-10-python-verbix-sdk/cover.png"
 ---
 

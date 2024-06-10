@@ -2,7 +2,6 @@
 title: "Generating creatures with Teranoptia"
 date: 2024-05-06
 author: "ZanSara"
-tags: [JS, JavaScript, Font, Fun, Regex, Grammar, "Computer Science"]
 featuredImage: "/posts/2024-05-06-teranoptia/cover.png"
 ---
 

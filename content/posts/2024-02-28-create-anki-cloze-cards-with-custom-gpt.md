@@ -2,7 +2,6 @@
 title: "ClozeGPT: Write Anki cloze cards with a custom GPT"
 date: 2024-02-28
 author: "ZanSara"
-tags: [Python, LLM, GPT, Generation, "Language Learning", Anki, Clozes, GPTs, "Prompt Engineering"]
 featuredImage: "/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png"
 ---
 

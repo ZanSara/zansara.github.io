@@ -2,7 +2,6 @@
 title: "The World of Web RAG"
 date: 2023-11-09
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, Web, indexing]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-11-09-haystack-series-simple-web-rag/cover.jpeg"
 ---

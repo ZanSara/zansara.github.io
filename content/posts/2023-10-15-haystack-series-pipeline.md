@@ -2,7 +2,6 @@
 title: "Haystack's Pipeline - A Deep Dive"
 date: 2023-10-15
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, NLP, Python, Pipeline, DAG, graph, "API Design", "Semantic Search", "Hybrid Retrieval"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-15-haystack-series-pipeline/cover.png"
 ---

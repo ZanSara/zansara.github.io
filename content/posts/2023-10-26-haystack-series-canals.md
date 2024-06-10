@@ -2,7 +2,6 @@
 title: "A New Approach to Haystack Pipelines"
 date: 2023-10-26
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, Python, Pipeline, DAG, "API Design"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-26-haystack-series-canals/cover-updated.png"
 ---

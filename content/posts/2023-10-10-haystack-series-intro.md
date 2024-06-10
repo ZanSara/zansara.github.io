@@ -2,7 +2,6 @@
 title: "Haystack 2.0: What is it?"
 date: 2023-10-10
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-10-haystack-series-intro/cover.png"
 ---

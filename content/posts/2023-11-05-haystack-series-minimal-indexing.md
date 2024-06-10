@@ -2,7 +2,6 @@
 title: "Indexing data for RAG applications"
 date: 2023-11-05
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, "Retrieval Augmentation", RAG, "indexing", "Document Store"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-11-05-haystack-series-minimal-indexing/cover.png"
 ---

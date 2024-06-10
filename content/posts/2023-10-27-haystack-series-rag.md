@@ -2,7 +2,6 @@
 title: "RAG Pipelines from scratch"
 date: 2023-10-27
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, NLP, Python, LLM, GPT, "Retrieval Augmentation", RAG, "Semantic Search"]
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-27-haystack-series-rag/cover.png"
 ---
