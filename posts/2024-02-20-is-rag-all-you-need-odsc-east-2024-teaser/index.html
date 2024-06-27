@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Is RAG all you need? A look at the limits of retrieval augmentation · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog at this link.
+Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta paper in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Is RAG all you need? A look at the limits of retrieval augmentation">
+  <meta name="twitter:description" content="This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog at this link.
+Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta paper in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Is RAG all you need? A look at the limits of retrieval augmentation">
+  <meta property="og:description" content="This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog at this link.
+Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta paper in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-02-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-02-21T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg">
+  <meta name="og:image" content="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg">
+  <meta name="twitter:image" content="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/tags/">Tags</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://zansaradev.goatcounter.com">Stats</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/">
+              Is RAG all you need? A look at the limits of retrieval augmentation
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2024-02-21T00:00:00Z">
+                February 21, 2024
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg" alt="Featured image"/>
+        
+        <p><em>This blogpost is a teaser for <a href="https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/"  class="external-link" target="_blank" rel="noopener">my upcoming talk</a> at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog <a href="https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/"  class="external-link" target="_blank" rel="noopener">at this link</a>.</em></p>
+<hr>
+<p>Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta <a href="https://arxiv.org/abs/2005.11401"  class="external-link" target="_blank" rel="noopener">paper</a> in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on. On top of this, RAG is relatively cheap to implement for the benefit it provides, especially when compared to costly techniques like LLM finetuning. This makes it a no-brainer for a lot of usecases, to the point that nowadays every production system that uses LLMs in production seems to be implemented as some form of RAG.</p>
+<p><img src="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/rag_paper.png" alt=""></p>
+<p><em>A diagram of a RAG system from the <a href="https://arxiv.org/abs/2005.11401"  class="external-link" target="_blank" rel="noopener">original paper</a>.</em></p>
+<p>However, retrieval augmentation is not a silver bullet that many claim it is. Among all these obvious benefits, RAG brings its own set of weaknesses and limitations, which it’s good to be aware of when scale and accuracy need to be improved further.</p>
+<h1 id="how-does-a-rag-application-fail">
+  How does a RAG application fail?
+  <a class="heading-link" href="#how-does-a-rag-application-fail">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>At a high level, RAG introduces a retrieval step right before the LLM generation. This means that we can classify the failure modes of a RAG system into two main categories:</p>
+<ul>
+<li>
+<p>Retrieval failures: when the retriever returns only documents which are irrelevant to the query or misleading, which in turn gives the LLM wrong information to build the final answer from.</p>
+</li>
+<li>
+<p>Generation failures: when the LLM generates a reply that is unrelated or directly contradicts the documents that were retrieved. This is a classic LLM hallucination.</p>
+</li>
+</ul>
+<p>When developing a simple system or a PoC, these sorts of errors tends to have a limited impact on the results as long as you are using the best available tools. Powerful LLMs such as GPT 4 and Mixtral are not at all prone to hallucination when the provided documents are correct and relevant, and specialized systems such as vector databases, combined with specialized embedding models, that can easily achieve high retrieval accuracy, precision and recall on most queries.</p>
+<p>However, as the system scales to larger corpora, lower quality documents, or niche and specialized fields, these errors end up amplifying each other and may degrade the overall system performance noticeably. Having a good grasp of the underlying causes of these issues, and an idea of how to minimize them, can make a huge difference.</p>
+<p><img src="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/rag_failures.png" alt=""></p>
+<p><em>The difference between retrieval and generation failures. Identifying where your RAG system is more likely to fail is key to improve the quality of its answers.</em></p>
+<h1 id="a-case-study-customer-support-chatbots">
+  A case study: customer support chatbots
+  <a class="heading-link" href="#a-case-study-customer-support-chatbots">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>This is one of the most common applications of LLMs is a chatbot that helps users by answering their questions about a product or a service. Apps like this can be used in situations that are more or less sensitive for the user and difficult for the LLM: from simple developer documentation search, customer support for airlines or banks, up to bots that provide legal or medical advice.</p>
+<p>These three systems are very similar from a high level perspective: the LLM needs to use snippets retrieved from a a corpus of documents to build a coherent answer for the user. In fact, RAG is a fitting architecture for all of them, so let’s assume that all the three systems are build more or less equally, with a retrieval step followed by a generation one.
+Let’s see what are the challenges involved in each of them.</p>
+<h2 id="enhanced-search-for-developer-documentation">
+  Enhanced search for developer documentation
+  <a class="heading-link" href="#enhanced-search-for-developer-documentation">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>For this usecase, RAG is usually sufficient to achieve good results. A simple proof of concept may even overshoots expectations.</p>
+<p>When present and done well, developer documentation is structured and easy for a chatbot to understand. Retrieval is usually easy and effective, and the LLM can reinterpret the retrieved snippets effectively. On top of that, hallucinations are easy to spot by the user or even by an automated system like a REPL, so they have a limited impact on the perceived quality of the results.</p>
+<p>As a bonus, the queries are very likely to always be in English, which happens to be the case for the documentation too and to be the language which LLMs are the strongest at.</p>
+<p><img src="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/mongodb.png" alt=""></p>
+<p><em>The MongoDB documentation provides a chatbot interface which is quite useful.</em></p>
+<h2 id="customer-support-bots-for-airlines-and-banks">
+  Customer support bots for airlines and banks
+  <a class="heading-link" href="#customer-support-bots-for-airlines-and-banks">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>In this case, the small annoyances that are already present above have a <a href="https://www.theguardian.com/world/2024/feb/16/air-canada-chatbot-lawsuit"  class="external-link" target="_blank" rel="noopener">much stronger impact</a>.</p>
+<p>Even if your airline or bank’s customer support pages are top notch, hallucinations are not as easy to spot, because to make sure that the answers are accurate the user needs to check the sources that the LLM is quoting… which voids the whole point of the generation step. And what if the user cannot read such pages at all? Maybe they speak a minority language, so they can’t read them. Also, LLMs tend to perform worse on languages other than English and hallucinate more often, exacerbating the problem where it’s already more acute.</p>
+<p><img src="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/air_canada.png" alt=""></p>
+<p><em>You are going to need a very good RAG system and a huge disclaimer to avoid <a href="https://www.theguardian.com/world/2024/feb/16/air-canada-chatbot-lawsuit"  class="external-link" target="_blank" rel="noopener">this scenario</a>.</em></p>
+<h2 id="bots-that-provide-legal-or-medical-advice">
+  Bots that provide legal or medical advice
+  <a class="heading-link" href="#bots-that-provide-legal-or-medical-advice">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The third case brings the exact same issues to a whole new level. In these scenarios, vanilla RAG is normally not enough.</p>
+<p>Laws and scientific articles are hard to read for the average person, require specialized knowledge to understand, and they need to be read in context: asking the user to check the sources that the LLM is quoting is just not possible. And while retrieval on this type of documents is feasible, its accuracy is not as high as on simple, straightforward text.</p>
+<p>Even worse, LLMs often have no reliable background knowledge on these topics, so their reply need to be strongly grounded by relevant documents for the answers to be correct and dependable. While a simple RAG implementation is still better than a vanilla reply from GPT-4, the results can be problematic in entirely different ways.</p>
+<p><img src="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/medical_questions.png" alt=""></p>
+<p><em><a href="https://www.sciencedirect.com/science/article/pii/S2949761223000366"  class="external-link" target="_blank" rel="noopener">Research is being done</a>, but the results are not promising yet.</em></p>
+<h1 id="ok-but-what-can-we-do">
+  Ok, but what can we do?
+  <a class="heading-link" href="#ok-but-what-can-we-do">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Moving your simple PoC to real world use cases without reducing the quality of the response requires a deeper understanding of how the retrieval and the generation work together. You need to be able to measure your system’s performance, to analyze the causes of the failures, and to plan experiments to improve such metrics. Often you will need to complement it with other techniques that can improve its retrieval and generation abilities to reach the quality thresholds that makes such a system useful at all.</p>
+<p>In my upcoming talk at ODSC East “RAG, the bad parts (and the good!): building a deeper understanding of this hot LLM paradigm’s weaknesses, strengths, and limitations” we are going to cover all these topics:</p>
+<ul>
+<li>
+<p>how to <strong>measure the performance</strong> of your RAG applications, from simple metrics like F1 to more sophisticated approaches like Semantic Answer Similarity.</p>
+</li>
+<li>
+<p>how to <strong>identify if you’re dealing with a retrieval or a generation failure</strong> and where to look for a solution: is the problem in your documents content, in their size, in the way you chunk them or embed them? Or is the LLM that is causing the most trouble, maybe due to the way you are prompting it?</p>
+</li>
+<li>
+<p>what <strong>techniques can help you raise the quality of the answers</strong>, from simple prompt engineering tricks like few-shot prompting, all the way up to finetuning, self-correction loops and entailment checks.</p>
+</li>
+</ul>
+<p>Make sure to attend to the <a href="https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/"  class="external-link" target="_blank" rel="noopener">talk</a> to learn more about all these techniques and how to apply them in your projects.</p>
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">ažo</a></p>
+      </div>
+
+      <hr style="margin-top: 5rem;">
+
+
+<div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
+    <p>Share on: </p>
+    <a href="https://twitter.com/intent/post?Is%20RAG%20all%20you%20need%3f%20A%20look%20at%20the%20limits%20of%20retrieval%20augmentation, by @zansara_dev=test&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser%2f" aria-label="share on Twitter">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></div>
+    </a>
+    <a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser%2f" aria-label="share on HackerNews">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96zM21 229.2c0 0 .1-.1 .1-.2s.1-.2 .2-.2c0 .1 0 .3-.1 .4H21zM239.2 384H207.8V281.3L128 128h37.3c41.5 77.7 48.1 95.8 54.1 112c1.6 4.3 3.1 8.5 5.2 13.6c3.2-7 5.1-11.9 7.1-17.3c5.9-15.3 12.8-33.2 53.5-108.3H320L239.2 283.1V384z"/></svg></div>
+    </a>
+    <a href="https://mastodonshare.com/?text=Is%20RAG%20all%20you%20need%3f%20A%20look%20at%20the%20limits%20of%20retrieval%20augmentation, by @zansara@mastodon.social&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser%2f" aria-label="share on Mastodon">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54a102.5 102.5 0 0 1 -.9-13.9c85.6 20.9 158.7 9.1 178.8 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.3V197c0-58.5-64-56.6-64-6.9v114.2H90.2c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175z"/></svg></div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser%2f" aria-label="share on LinkedIn">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></div>
+    </a>
+    <a href="mailto:?subject=Is%20RAG%20all%20you%20need%3f%20A%20look%20at%20the%20limits%20of%20retrieval%20augmentation, by Sara Zan.&body=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser%2f" aria-label="share by email">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></div>
+    </a>
+</div>
+
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2024
+     Sara Zan 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>

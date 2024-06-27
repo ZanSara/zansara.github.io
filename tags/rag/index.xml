@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RAG on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/rag/</link>
+    <description>Recent content in RAG on Sara Zan</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 26 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/rag/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[UPCOMING] EuroPython: Is RAG all you need? A look at the limits of retrieval augmented generation</title>
+      <link>https://www.zansara.dev/talks/2024-04-26-europython-rag/</link>
+      <pubDate>Fri, 26 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2024-04-26-europython-rag/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ODSC East: RAG, the bad parts (and the good!)</title>
+      <link>https://www.zansara.dev/talks/2024-04-25-odsc-east-rag/</link>
+      <pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2024-04-25-odsc-east-rag/</guid>
+      <description>Announcement, slides. Did you miss the talk? Check out the summary.&#xA;At ODSC East 2024 I talked about RAG: how it works, how it fails, and how to evaluate its performance objectively. I gave an overview of some useful open-source tools for RAG evalution and how to use them with Haystack, and then offered some ideas on how to expand your RAG architecture further than a simple two-step process.&#xA;Some resources mentioned in the talk:</description>
+    </item>
+    <item>
+      <title>DataHour: Optimizing LLMs with Retrieval Augmented Generation and Haystack 2.0</title>
+      <link>https://www.zansara.dev/talks/2023-12-15-datahour-rag/</link>
+      <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-12-15-datahour-rag/</guid>
+      <description>Recording, slides, Colab, gist. All the material can also be found on Analytics Vidhya&amp;rsquo;s community and on my backup.&#xA;In this hour-long workshop organized by Analytics Vidhya I give an overview of what RAG is, what problems it solves, and how it works.&#xA;After a brief introduction to Haystack, I show in practice how to use Haystack 2.0 to assemble a Pipeline that performs RAG on a local database and then on the Web with a simple change.</description>
+    </item>
+    <item>
+      <title>Pointer[183]: Haystack, creare LLM Applications in modo facile</title>
+      <link>https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/</link>
+      <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/</guid>
+      <description>Website: https://pointerpodcast.it/p/pointer183-haystack-creare-llm-applications-in-modo-facile-con-stefano-fiorucci-e-sara-zanzottera&#xA;The podcast was recorded in Italian for PointerPodcast with Luca Corbucci, Eugenio Paluello and Stefano Fiorucci.&#xA;Per concludere in grande stile il 2023, in questa puntata ci occupiamo delle LLM che sono state un argomento centrale della scena tech dell&amp;rsquo;anno che sta per terminare. Abbiamo invitato due esperti del settore, Sara Zanzottera e Stefano Fiorucci.&#xA;Entrambi i nostri ospiti lavorano per deepset come NLP Engineer. Deepset è l&amp;rsquo;azienda produttrice di Haystack uno dei framework opensource per LLM più noti, che ha da poco raggiunto la versione 2.</description>
+    </item>
+    <item>
+      <title>Office Hours: RAG Pipelines</title>
+      <link>https://www.zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/</link>
+      <pubDate>Thu, 12 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/</guid>
+      <description>Recording: Office Hours - RAG Pipelines&#xA;Notebook: RAG_Pipelines.ipynb&#xA;All the material can also be found here.&#xA;In this Office Hours I walk through the LLM support offered by Haystack 2.0 to this date: Generator, PromptBuilder, and how to connect them to different types of Retrievers to build Retrieval Augmented Generation (RAG) applications.&#xA;In under 40 minutes we start from a simple query to ChatGPT up to a full pipeline that retrieves documents from the Internet, splits them into chunks and feeds them to an LLM to ground its replies.</description>
+    </item>
+  </channel>
+</rss>
