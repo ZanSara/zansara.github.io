@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Office Hours on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/office-hours/</link>
+    <description>Recent content in Office Hours on Sara Zan</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 12 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/office-hours/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Office Hours: RAG Pipelines</title>
+      <link>https://www.zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/</link>
+      <pubDate>Thu, 12 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/</guid>
+      <description>Recording: Office Hours - RAG Pipelines&#xA;Notebook: RAG_Pipelines.ipynb&#xA;All the material can also be found here.&#xA;In this Office Hours I walk through the LLM support offered by Haystack 2.0 to this date: Generator, PromptBuilder, and how to connect them to different types of Retrievers to build Retrieval Augmented Generation (RAG) applications.&#xA;In under 40 minutes we start from a simple query to ChatGPT up to a full pipeline that retrieves documents from the Internet, splits them into chunks and feeds them to an LLM to ground its replies.</description>
+    </item>
+    <item>
+      <title>Office Hours: Haystack 2.0</title>
+      <link>https://www.zansara.dev/talks/2023-08-03-office-hours-haystack-2.0-status/</link>
+      <pubDate>Thu, 03 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2023-08-03-office-hours-haystack-2.0-status/</guid>
+      <description>Recording: Haystack v2 - Office Hours&#xA;Slides: Haystack v2 - Status Update&#xA;All the material can also be found here.&#xA;In this Office Hours I&amp;rsquo;ve presented for the first time to our Discord community a preview of the upcoming 2.0 release of Haystack, which has been in the works since the start of the year. As rumors started to arise at the presence of a preview module in the latest Haystack 1.</description>
+    </item>
+  </channel>
+</rss>

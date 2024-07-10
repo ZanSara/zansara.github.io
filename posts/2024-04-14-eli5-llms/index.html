@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Explain me LLMs like I&#39;m five: build a story to help anyone get the idea · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="These days everyone&rsquo;s boss seems to want some form of GenAI in their products. That doesn&rsquo;t always make sense: however, understanding when it does and when it doesn&rsquo;t is not obvious even for us experts, and nearly impossible for everyone else.
+How can we help our colleagues understand the pros and cons of this tech, and figure out when and how it makes sense to use it?
+In this post I am going to outline a narrative that explains LLMs without tecnicalities and help you frame some high level technical decisions, such as RAG vs finetuning, or which specific model size to use, in a way that a non-technical audience can not only grasp but also reason about.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Explain me LLMs like I&#39;m five: build a story to help anyone get the idea">
+  <meta name="twitter:description" content="These days everyone’s boss seems to want some form of GenAI in their products. That doesn’t always make sense: however, understanding when it does and when it doesn’t is not obvious even for us experts, and nearly impossible for everyone else.
+How can we help our colleagues understand the pros and cons of this tech, and figure out when and how it makes sense to use it?
+In this post I am going to outline a narrative that explains LLMs without tecnicalities and help you frame some high level technical decisions, such as RAG vs finetuning, or which specific model size to use, in a way that a non-technical audience can not only grasp but also reason about.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2024-04-14-eli5-llms/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Explain me LLMs like I&#39;m five: build a story to help anyone get the idea">
+  <meta property="og:description" content="These days everyone’s boss seems to want some form of GenAI in their products. That doesn’t always make sense: however, understanding when it does and when it doesn’t is not obvious even for us experts, and nearly impossible for everyone else.
+How can we help our colleagues understand the pros and cons of this tech, and figure out when and how it makes sense to use it?
+In this post I am going to outline a narrative that explains LLMs without tecnicalities and help you frame some high level technical decisions, such as RAG vs finetuning, or which specific model size to use, in a way that a non-technical audience can not only grasp but also reason about.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-04-14T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-04-14T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2024-04-14-eli5-llms/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2024-04-14-eli5-llms/cover.png">
+  <meta name="og:image" content="/posts/2024-04-14-eli5-llms/cover.png">
+  <meta name="twitter:image" content="/posts/2024-04-14-eli5-llms/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/tags/">Tags</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://zansaradev.goatcounter.com">Stats</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2024-04-14-eli5-llms/">
+              Explain me LLMs like I&#39;m five: build a story to help anyone get the idea
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2024-04-14T00:00:00Z">
+                April 14, 2024
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2024-04-14-eli5-llms/cover.png" alt="Featured image"/>
+        
+        <p>These days everyone&rsquo;s boss seems to want some form of GenAI in their products. That doesn&rsquo;t always make sense: however, understanding when it does and when it doesn&rsquo;t is not obvious even for us experts, and nearly impossible for everyone else.</p>
+<p>How can we help our colleagues understand the pros and cons of this tech, and figure out when and how it makes sense to use it?</p>
+<p>In this post I am going to outline a narrative that explains LLMs without tecnicalities and help you frame some high level technical decisions, such as RAG vs finetuning, or which specific model size to use, in a way that a non-technical audience can not only grasp but also reason about. We&rsquo;ll start by &ldquo;translating&rdquo; a few terms into their &ldquo;human equivalent&rdquo; and then use this metaphor to reason about the differences between RAG and finetuning.</p>
+<p>Let&rsquo;s dive in!</p>
+<h1 id="llms-are-high-school-students">
+  LLMs are high-school students
+  <a class="heading-link" href="#llms-are-high-school-students">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Large Language Models are often described as &ldquo;super-intelligent&rdquo; entities that know far more than any human could possibly know. This makes a lot of people think that they are also extremely intelligent and are able to reason about anything in a super-human way. The reality is very different: LLMs are able to memorize and repeat far more facts that humans do, but in their abilities to reason they are often inferior to the average person.</p>
+<p>Rather than describing LLMs as all-knowing geniuses, it&rsquo;s much better to frame them as <strong>an average high-school student</strong>. They&rsquo;re not the smartest humans on the planet, but they can help a lot if you guide them through the process. And just as a normal person might, sometimes they forget things, and occasionally they remember them wrong.</p>
+<h1 id="some-llms-are-smarter-than-others">
+  Some LLMs are smarter than others
+  <a class="heading-link" href="#some-llms-are-smarter-than-others">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Language models are not all born equal. Some are inherently able to do more complex reasoning, to learn more facts and to talk more smoothly in more languages.</p>
+<p>The <strong>&ldquo;IQ&rdquo;</strong> of an LLM can be approximated, more or less, to its <strong>parameter count</strong>. An LLM with 7 billion parameters is almost always less clever than a 40 billion parameter model, will have a harder time learning more facts, and will be harder to reason with.</p>
+<p>However, just like with real humans, there are exceptions. Recent &ldquo;small&rdquo; models can easily outperform older and larger models, due to improvements in the way they&rsquo;re built. Also, some small models are very good at some very specialized job and can outperform a large, general purpose model on that task.</p>
+<h1 id="llms-learn-by-studying">
+  LLMs learn by &ldquo;studying&rdquo;
+  <a class="heading-link" href="#llms-learn-by-studying">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Another similarity to human students is that LLMs also learn all the fact they know by <strong>&ldquo;going to school&rdquo;</strong> and studying a ton of general and unrelated facts. This is what <strong>training</strong> an LLM means. This implies that, just like with students, an LLM needs a lot of varied material to study from. This material is what is usually called &ldquo;training data&rdquo; or &ldquo;training dataset&rdquo;.</p>
+<p>They can also learn more than what they currently know and <strong>specialize</strong> on a topic: all they need to do is to study further on it. This is what <strong>finetuning</strong> represents, and as you would expect, it also needs some study material. This is normally called &ldquo;finetuning data/datasets&rdquo;.</p>
+<p>The distinction between training and fine tuning is not much about how it&rsquo;s done, but mostly about <strong>the size and contents of the dataset required</strong>. The initial training usually takes a lot of time, computing power, and tons of very varied data, just like what&rsquo;s needed to bring a baby to the level of a high-schooler. Fine tuning instead looks like preparing for a specific test or exam: the study material is a lot less and a lot more specific.</p>
+<p>Keep in mind that, just like for humans, studying more can make a student a bit smarter, but it won&rsquo;t make it a genius. In many cases, no amount of training and/or finetuning can close the gap between the 7 billion parameter version of an LLM and the 40 billion one.</p>
+<h1 id="every-chat-is-an-exam">
+  Every chat is an exam
+  <a class="heading-link" href="#every-chat-is-an-exam">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>One of the most common usecases for LLMs is question answering, an NLP task where users ask questions to the model and expect a correct answer back. The fact that the answer must be correct means that this interaction is very similar to an <strong>exam</strong>: the LLM is being tested by the user on its knowledge.</p>
+<p>This means that, just like a student, when the LLM is used directly it has to rely on its knowledge to answer the question. If it studied the topic well it will answer accurately most of the times. However if it didn&rsquo;t study the subject, it will do what students always do: they will <strong>make up stuff that sounds legit</strong>, hoping that the teacher will not notice how little they know. This is what we call <strong>hallucinations</strong>.</p>
+<p>When the answer is known to the user the answer of the LLM can be graded, just like in a real exam, to make the LLM improve. This process is called <strong>evaluation</strong>. Just like with humans, there are many ways in which the answer can be graded: the LLM can be graded on the accuracy of the facts it recalled, or the fluency it delivered its answer with, or it can be scored on the correctness of a reasoning exercise, like a math problem. These ways of grading an LLM are called <strong>metrics</strong>.</p>
+<h1 id="making-the-exams-easier">
+  Making the exams easier
+  <a class="heading-link" href="#making-the-exams-easier">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Hallucinations are very dangerous if the user doesn&rsquo;t know what the LLM was supposed to reply, so they need to be reduced, possibly eliminated entirely. It&rsquo;s like we really need the students to pass the exam with flying colors, no matter how much they studied.</p>
+<p>Luckily there are many ways to help our student succeed. One way to improve the score is, naturally, to make them study more and better. Giving them more time to study (<strong>more finetuning</strong>) and better material (<strong>better finetuning datasets</strong>) is one good way to make LLMs reply correctly more often. The issue is that this method is <strong>expensive</strong>, because it needs a lot of computing power and high quality data, and the student may still forget something during the exam.</p>
+<p>We can make the exams even easier by converting them into <strong>open-book exams</strong>. Instead of asking the students to memorize all the facts and recall them during the exam, we can let them bring the book and lookup the information they need when the teacher asks the question. This method can be applied to LLMs too and is called <strong>RAG</strong>, which stands for &ldquo;retrieval augmented generation&rdquo;.</p>
+<p>RAG has a few interesting properties. First of all, it can make very easy even for &ldquo;dumb&rdquo;, small LLMs to recall nearly all the important facts correctly and consistently. By letting your students carry their history books to the exam, all of them will be able to tell you the date of any historical event by just looking it up, regardless of how smart they are or how much they studied.</p>
+<p>RAG doesn&rsquo;t need a lot of data, but you need an <strong>efficient way to access it</strong>. In our metaphor, you need a well structured book with a good index to help the student find the correct facts when asked, or they might fail to find the information they need when they&rsquo;re quizzed.</p>
+<p>A trait that makes RAG unique is that is can be used to keep the LLM up-to-date with <strong>information that can&rsquo;t be &ldquo;studied&rdquo;</strong> because it changes too fast. Let&rsquo;s imagine a teacher that wants to quiz the students about today&rsquo;s stock prices. They can&rsquo;t expect the pupils to know them if they don&rsquo;t have access to the latest financial data. Even if they were to study the prices every hour the result would be quite pointless, because all the knowledge they acquire becomes immediately irrelevant and might even confuse them.</p>
+<p>Last but not least, RAG can be used <em>together</em> with finetuning. Just as a teacher can make students study the topic and then also bring the book to the exam to make sure they will answer correctly, you can also use RAG and finetuning together.</p>
+<p>However, there are situations where RAG doesn&rsquo;t help. For example, it&rsquo;s pointless if the questions are asked in language that the LLM doesn&rsquo;t know, or if the exam is made of tasks that require complex reasoning. This is true for human students too: books won&rsquo;t help them much to understand a foreign language to the point that they can take an exam in it, and won&rsquo;t be useful to crack a hard math problem. For these sort of exams the students just need to be smart and study more, which in LLM terms means that you should prefer a large model and you probably need to finetune it.</p>
+<h1 id="telling-a-story">
+  Telling a story
+  <a class="heading-link" href="#telling-a-story">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Let&rsquo;s recap the terminology we used:</p>
+<ul>
+<li>The <strong>LLM</strong> is a <strong>student</strong></li>
+<li>The <strong>LLM&rsquo;s IQ</strong> corresponds to its <strong>parameter count</strong></li>
+<li><strong>Training</strong> an LLM is the same as making a student <strong>go to school</strong></li>
+<li><strong>Finetuning</strong> it means to make it <strong>specialize on a subject</strong> by making it study only books and other material on the subject</li>
+<li>A <strong>training dataset</strong> is the <strong>books and material</strong> the student needs to study on</li>
+<li><strong>User interactions</strong> are like <strong>university exams</strong></li>
+<li><strong>Evaluating</strong> an LLM means to <strong>score its answers</strong> as if they were the responses to a test</li>
+<li>A <strong>metric</strong> is a <strong>type of evaluation</strong> that focuses on a specific trait of the answer</li>
+<li>A <strong>hallucination</strong> is a <strong>wrong answer</strong> that the LLM makes up just like a student would, to in order to try passing an exam when it doesn&rsquo;t know the answer or can&rsquo;t recall it in that moment</li>
+<li><strong>RAG (retrieval augmented generation)</strong> is like an <strong>open-book exam</strong>: it gives the LLM access to some material on the question&rsquo;s topic, so it won&rsquo;t need to hallucinate an answer. It will help the LLM recall facts, but it won&rsquo;t make it smarter.</li>
+</ul>
+<p>By drawing a parallel with a human student it can be a lot easier to explain to non-technical audience why some decisions were taken.</p>
+<p>For example, it might not be obvious why RAG is cheaper than finetuning, because both need domain-specific data. By explaining that RAG is like an open-book exam versus a closed-book one, the difference is clearer: the students need less time and effort to prepare and they&rsquo;re less likely to make trivial mistakes if they can bring the book with them at the exam.</p>
+<p>Another example is hallucinations. It&rsquo;s difficult for many people to understand why LLMs don&rsquo;t like to say &ldquo;I don&rsquo;t know&rdquo;, until they realise that from the LLM&rsquo;s perspective every question is like an exam: better make up something that admit they&rsquo;re unprepared! And so on.</p>
+<p>Building a shared, simple intuition of how LLM works is a very powerful tool. Next time you&rsquo;re asked to explain a technical decision related to LLMs, building a story around it may get the message across in a much more effective way and help everyone be on the same page. Give it a try!</p>
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">WYZ</a></p>
+      </div>
+
+      <hr style="margin-top: 5rem;">
+
+
+<div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
+    <p>Share on: </p>
+    <a href="https://twitter.com/intent/post?Explain%20me%20LLMs%20like%20I%27m%20five%3a%20build%20a%20story%20to%20help%20anyone%20get%20the%20idea, by @zansara_dev=test&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-04-14-eli5-llms%2f" aria-label="share on Twitter">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></div>
+    </a>
+    <a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-04-14-eli5-llms%2f" aria-label="share on HackerNews">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96zM21 229.2c0 0 .1-.1 .1-.2s.1-.2 .2-.2c0 .1 0 .3-.1 .4H21zM239.2 384H207.8V281.3L128 128h37.3c41.5 77.7 48.1 95.8 54.1 112c1.6 4.3 3.1 8.5 5.2 13.6c3.2-7 5.1-11.9 7.1-17.3c5.9-15.3 12.8-33.2 53.5-108.3H320L239.2 283.1V384z"/></svg></div>
+    </a>
+    <a href="https://mastodonshare.com/?text=Explain%20me%20LLMs%20like%20I%27m%20five%3a%20build%20a%20story%20to%20help%20anyone%20get%20the%20idea, by @zansara@mastodon.social&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-04-14-eli5-llms%2f" aria-label="share on Mastodon">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54a102.5 102.5 0 0 1 -.9-13.9c85.6 20.9 158.7 9.1 178.8 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.3V197c0-58.5-64-56.6-64-6.9v114.2H90.2c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175z"/></svg></div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-04-14-eli5-llms%2f" aria-label="share on LinkedIn">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></div>
+    </a>
+    <a href="mailto:?subject=Explain%20me%20LLMs%20like%20I%27m%20five%3a%20build%20a%20story%20to%20help%20anyone%20get%20the%20idea, by Sara Zan.&body=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-04-14-eli5-llms%2f" aria-label="share by email">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></div>
+    </a>
+</div>
+
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2024
+     Sara Zan 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>

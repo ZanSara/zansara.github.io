@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Agents on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/agents/</link>
+    <description>Recent content in Agents on Sara Zan</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 10 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/agents/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[UPCOMING] [ONLINE] ODSC Europe: Building Reliable Voice Agents with Open Source tools</title>
+      <link>https://www.zansara.dev/talks/2024-09-05-odsc-europe-voice-agents/</link>
+      <pubDate>Wed, 10 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2024-09-05-odsc-europe-voice-agents/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Evaluation on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/evaluation/</link>
+    <description>Recent content in Evaluation on Sara Zan</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/evaluation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ODSC East: RAG, the bad parts (and the good!)</title>
+      <link>https://www.zansara.dev/talks/2024-04-25-odsc-east-rag/</link>
+      <pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2024-04-25-odsc-east-rag/</guid>
+      <description>Announcement, slides. Did you miss the talk? Check out the summary.&#xA;At ODSC East 2024 I talked about RAG: how it works, how it fails, and how to evaluate its performance objectively. I gave an overview of some useful open-source tools for RAG evalution and how to use them with Haystack, and then offered some ideas on how to expand your RAG architecture further than a simple two-step process.&#xA;Some resources mentioned in the talk:</description>
+    </item>
+  </channel>
+</rss>

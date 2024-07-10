@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Colab on Sara Zan</title>
+    <link>https://www.zansara.dev/tags/colab/</link>
+    <description>Recent content in Colab on Sara Zan</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 01 Dec 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/tags/colab/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Practical Introduction to Image Retrieval</title>
+      <link>https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/</link>
+      <pubDate>Thu, 01 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/</guid>
+      <description>Youtube: Open NLP meetup #7&#xA;Slides: A Practical Introduction to Image Retrieval&#xA;Colab: MultiModalRetriever - Live coding&#xA;All the material can also be found here.&#xA;A Practical Introduction to Image Retrieval Link to heading by Sara Zanzottera from deepset&#xA;Search should not be limited to text only. Recently, Transformers-based NLP models started crossing the boundaries of text data and exploring the possibilities of other modalities, like tabular data, images, audio files, and more.</description>
+    </item>
+  </channel>
+</rss>
