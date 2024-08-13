@@ -2,7 +2,6 @@
 title: "DataHour: Optimizing LLMs with Retrieval Augmented Generation and Haystack 2.0"
 date: 2023-12-15
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI, RAG, "DataHour"]
 featuredImage: "/talks/2023-12-15-datahour-rag.png"
 ---
 

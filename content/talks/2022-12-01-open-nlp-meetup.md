@@ -2,7 +2,6 @@
 title: "A Practical Introduction to Image Retrieval"
 date: 2022-12-01
 author: "ZanSara"
-tags: [Haystack, LLM, NLP, Python, AI, Retrieval, Images, Colab, "Multi Modality", "Text to Image", "OpenNLP Meetup"]
 featuredImage: "/talks/2022-12-01-open-nlp-meetup.png"
 ---
 

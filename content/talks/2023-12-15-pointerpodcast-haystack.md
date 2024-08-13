@@ -2,7 +2,6 @@
 title: "Pointer[183]: Haystack, creare LLM Applications in modo facile"
 date: 2023-12-15
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI, RAG, "PointerPodcast", Podcast, Italiano]
 featuredImage: "/talks/2023-12-15-pointerpodcast-haystack.png"
 ---
 

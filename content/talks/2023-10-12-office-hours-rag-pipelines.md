@@ -2,7 +2,6 @@
 title: "Office Hours: RAG Pipelines"
 date: 2023-10-12
 author: "ZanSara"
-tags: ["Haystack 2.0", Haystack, LLM, NLP, Python, AI, RAG, "Office Hours"]
 featuredImage: "/talks/2023-10-12-office-hours-rag-pipelines.png"
 ---
 
