@@ -12,6 +12,12 @@ or the [summary](/posts/2024-04-29-odsc-east-rag-talk-summary) of a previous edi
 
 ---
 
+{{< raw >}}
+<div class='iframe-wrapper'>
+<iframe src="https://drive.google.com/file/d/1OkYQ7WMt63QkdJTU3GIpSxBZmnLfZti6/preview" width=100% height=100% allow="autoplay"></iframe>
+</div>
+{{< /raw >}}
+
 At [EuroPython 2024](https://ep2024.europython.eu/) I talked about RAG: how it works, how it fails, and how to evaluate its performance objectively. I gave an overview of some useful open-source tools for RAG evalution such as [continuous-eval](https://docs.relari.ai/v0.3?utm_campaign=europython-2024) and how to use them with [Haystack](https://haystack.deepset.ai/?utm_campaign=europython-2024), and then offered some ideas on how to expand your RAG architecture further than a simple two-step process.
 
 Some resources mentioned in the talk:

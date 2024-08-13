@@ -15,6 +15,12 @@ All the material can also be found [here](https://drive.google.com/drive/folders
 
 ---
 
+{{< raw >}}
+<div class='iframe-wrapper'>
+<iframe src="https://drive.google.com/file/d/19mxD-xUJ-14G-2XAqXEVpZfqR2MsSZTn/preview" width="100%" height="100%" allow="autoplay"></iframe>
+</div>
+{{< /raw >}}
+
 ## A Practical Introduction to Image Retrieval
 
 *by Sara Zanzottera from deepset*

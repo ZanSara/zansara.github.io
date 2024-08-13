@@ -13,6 +13,12 @@ All the material can also be found [here](https://drive.google.com/drive/folders
 
 ---
 
+{{< raw >}}
+<div class='iframe-wrapper'>
+<iframe src="https://drive.google.com/file/d/1PyAlvJ22Z6o1bls07Do5kx2WMTdotsM7/preview" width="100%" height="100%" allow="autoplay"></iframe>
+</div>
+{{< /raw >}}
+
 In this [Office Hours](https://discord.com/invite/VBpFzsgRVF) I've presented for the first time to our Discord community a preview of the upcoming 2.0 release of Haystack, which has been in the works since the start of the year. As rumors started to arise at the presence of a `preview` module in the latest Haystack 1.x releases, we took the opportunity to share this early draft of the project to collect early feedback.
 
 Haystack 2.0 is a total rewrite that rethinks many of the core concepts of the framework and makes LLMs support its primary concern, but makes sure to support all the usecases its predecessor enabled. The rewrite addresses some well-know, old issues about the pipeline's design, the relationship between the pipeline, its components, and the document stores, and aims at improving drastically the developer experience and the framework's extensibility.

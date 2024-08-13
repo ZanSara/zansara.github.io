@@ -9,6 +9,12 @@ featuredImage: "/talks/2023-12-15-datahour-rag.png"
 
 ---
 
+{{< raw >}}
+<div class='iframe-wrapper'>
+<iframe src="https://drive.google.com/file/d/1OkFr4u9ZOraJRF406IQgQh4YC8GLHbzA/preview" width=100% height=100% allow="autoplay"></iframe>
+</div>
+{{< /raw >}}
+
 In this hour-long workshop organized by [Analytics Vidhya](https://www.analyticsvidhya.com/) I give an overview of what RAG is, what problems it solves, and how it works. 
 
 After a brief introduction to Haystack, I show in practice how to use Haystack 2.0 to assemble a Pipeline that performs RAG on a local database and then on the Web with a simple change. 
