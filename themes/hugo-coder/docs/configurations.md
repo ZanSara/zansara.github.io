@@ -3,7 +3,6 @@
 * [About Hugo Configurations](#about-hugo-configurations)
   * [Analytics](/docs/analytics.md)
   * [Commenting Systems](#commenting-systems)
-    * [Disqus](#disqus)
     * [Commento](#commento)
     * [Utterances](#utterances)
     * [Giscus](#giscus)
@@ -23,7 +22,6 @@ This theme supports:
 * [Analytics](/docs/analytics.md)
 
 * Commenting Systems
-  * [Disqus](https://disqus.com/)
   * [Commento](https://commento.io/)
   * [Utterances](https://utteranc.es/)
   * [Giscus](https://giscus.app/)
@@ -32,10 +30,6 @@ This theme supports:
 ### Commenting Systems
 
 Comments are displayed within post pages, but can be disabled with `disableComments` front-matter.
-
-#### Disqus
-
-Follow [these steps](https://gohugo.io/content-management/comments/#configure-disqus).
 
 #### Commento
 
@@ -242,8 +236,6 @@ languagecode = "en"
 defaultcontentlanguage = "en"
 
 paginate = 20
-
-disqusShortname = "yourdiscussshortname"
 
 [markup.highlight]
 style = "github-dark"

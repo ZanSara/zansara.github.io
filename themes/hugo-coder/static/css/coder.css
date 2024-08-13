@@ -3071,8 +3071,6 @@ body {
     body {
       font-size: 1.6em;
       line-height: 1.6em; } }
-iframe[src*=disqus] {
-  color-scheme: light; }
 
 a {
   font-weight: 500;
