@@ -3,7 +3,6 @@ title: "Brekeke"
 description: A collection of LLM-powered home automation scripts
 date: 2023-12-01
 author: "ZanSara"
-tags: ["Brekeke", "Raspberry Pi", "LLM", "AI", "NLP", "Voice", "Audio", "Whisper", "Home Automation"]
 featuredImage: "/projects/brekeke.jpeg"
 ---
 

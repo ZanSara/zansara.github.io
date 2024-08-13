@@ -2,7 +2,6 @@
 title: "Evolution of the CERN Beam Instrumentation Offline Analysis Framework (OAF)"
 date: 2021-12-11
 author: "ZanSara"
-tags: [CERN, Physics, Python, "Data Science"]
 featuredImage: "/publications/thpv042.png"
 ---
 

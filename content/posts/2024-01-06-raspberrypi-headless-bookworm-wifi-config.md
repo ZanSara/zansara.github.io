@@ -2,7 +2,6 @@
 title: "Headless WiFi setup on Raspberry Pi OS \"Bookworm\" without the Raspberry Pi Imager"
 date: 2024-01-06
 author: "ZanSara"
-series: ["Brekeke"]
 featuredImage: "/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/cover.png"
 ---
 

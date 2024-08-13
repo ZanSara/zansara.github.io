@@ -93,9 +93,9 @@ style = "github-dark"
   weight = 1
   url = "https://zansara.substack.com/"
 
-[taxonomies]
-  tag = "tags"
-  series = "series"
+# [taxonomies]
+#   tag = "tags"
+#   series = "series"
 
 # Menu links
 [[menu.main]]
@@ -119,10 +119,6 @@ style = "github-dark"
   weight = 5
   url  = "talks/"
 [[menu.main]]
-  name = "Tags"
-  weight = 6
-  url  = "tags/"
-[[menu.main]]
   name = "Stats"
-  weight = 7
+  weight = 6
   url  = "https://zansaradev.goatcounter.com"

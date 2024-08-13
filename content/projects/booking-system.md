@@ -3,7 +3,6 @@ title: "CAI Sovico's Website"
 description: Small website and reservations management system
 date: 2016-01-01
 author: "ZanSara"
-tags: [PHP, "PHP 8", Hiking, Web, JavaScript, HTML, CSS, MySQL, CAI]
 featuredImage: "/projects/camerini.png"
 ---
 

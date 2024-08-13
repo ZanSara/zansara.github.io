@@ -2,7 +2,6 @@
 title: "Making my own voice assistant: Setting up ReSpeaker"
 date: 2024-01-06
 author: "ZanSara"
-tags: ["Raspberry Pi", "Bookworm", "Audio", "ReSpeaker", "HAT"]
 featuredImage: "/posts/2024-01-xx/cover.png"
 draft: true
 ---

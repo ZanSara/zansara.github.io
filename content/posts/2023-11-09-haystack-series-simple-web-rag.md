@@ -367,8 +367,6 @@ In one of our next posts, we will see how to cover such use cases while keeping 
 
 *Previous: [Indexing data for RAG applications](/posts/2023-11-05-haystack-series-minimal-indexing)*
 
-*Next: [Build Haystack pipelines with Multiplexer](/posts/2024-02-07-haystack-series-multiplexer)*
-
 *See the entire series here: [Haystack 2.0 series](/series/haystack-2.0-series/)*
 
 <small>*Cover image from [Wikipedia](https://commons.wikimedia.org/wiki/File:Isola_delle_Rose_1968.jpg)*</small>
