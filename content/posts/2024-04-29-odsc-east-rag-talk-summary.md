@@ -5,11 +5,11 @@ author: "ZanSara"
 featuredImage: "/posts/2024-04-29-odsc-east-rag-talk-summary/cover.png"
 ---
 
-*This is a summary of [my recent talk](/talks/2024-04-25-odsc-east-rag/) at ODSC East.*
+*This is a summary of [my recent talk](/talks/2024-04-25-odsc-east-rag/) given at ODSC East 2024 and EuroPython 2024.*
 
 ---
 
-If you've been at [ODSC East](https://odsc.com/boston) this year, there's one acronym that you've probably heard in nearly every talk: it's RAG. RAG is one of the most used techniques to enhance LLMs in production, but why is it so? And what are its weak points?
+If you've been at any AI or Python conference this year, there's one acronym that you've probably heard in nearly every talk: it's RAG. RAG is one of the most used techniques to enhance LLMs in production, but why is it so? And what are its weak points?
 
 In this post, we will first describe what RAG is and how it works at a high level. We will then see what type of failures we may encounter, how they happen, and a few reasons that may trigger these issues. Next, we will look at a few tools to help us evaluate a RAG application in production. Last, we're going to list a few techniques to enhance your RAG app and make it more capable in a variety of scenarios.
 
