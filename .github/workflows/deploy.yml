@@ -37,6 +37,6 @@ jobs:
 
           git add .
           git config user.name 'ZanSara'
-          git config user.email 'sarazanzo94@gmail.com'
+          git config user.email 'github@zansara.dev'
           git commit -m 'deploy' || true
           git push -u origin gh-pages --force || true

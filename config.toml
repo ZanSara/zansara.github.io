@@ -3,6 +3,7 @@ title = "Sara Zan"
 theme = "hugo-coder"
 languagecode = "en"
 defaultcontentlanguage = "en"
+buildFuture = true
 
 paginate = 20
 
