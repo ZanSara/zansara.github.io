@@ -1,11 +1,11 @@
 ---
-title: "Talk Summary: RAG, the bad parts (and the good!)"
+title: "RAG, the bad parts (and the good!)"
 date: 2024-04-29
 author: "ZanSara"
-featuredImage: "/posts/2024-04-29-odsc-east-rag-talk-summary/cover.png"
+featuredImage: "/posts/2024-04-29-odsc-east-rag/cover.png"
 ---
 
-*This is a summary of [my recent talk](/talks/2024-04-25-odsc-east-rag/) given at ODSC East 2024 and EuroPython 2024.*
+*This is a writeup of my talk at [ODSC East 2024](/talks/2024-04-25-odsc-east-rag/) and [EuroPython 2024](/talks/2024-07-10-europython-rag/).*
 
 ---
 
@@ -42,7 +42,7 @@ Let's dive in.
 
 RAG stands for **R**etrieval **A**ugmented **G**eneration, which can be explained as: "A technique to **augment** LLM’s knowledge beyond its training data by **retrieving** contextual information before a **generating** an answer."
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/rag-diagram.png)
+![](/posts/2024-04-29-odsc-east-rag/rag-diagram.png)
 
 RAG is a technique that works best for question-answering tasks, such as chatbots or similar knowledge extraction applications. This means that the user of a RAG app is a user who needs an answer to a question. 
 
@@ -108,11 +108,11 @@ Let's ask both: "Where does ODSC East 2024 take place?"
 
 ChatGPT says:
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/chatgpt.png)
+![](/posts/2024-04-29-odsc-east-rag/chatgpt.png)
 
 While Perplexity says:
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/perplexity-ai.png)
+![](/posts/2024-04-29-odsc-east-rag/perplexity-ai.png)
 
 Note how ChatGPT clearly says that it doesn't know: this is better than many other LLMs, which would just make up a place and date. On the contrary, Perplexity states some specific facts, and in case of doubt it's easy to verify that it's right by simply checking the sources above. Even just looking at the source's URL can give users a lot more confidence in whether the answer is grounded.
 
@@ -134,7 +134,7 @@ What was the official language of the Republic of Rose Island?
 
 Here is what would happen in an ideal case:
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/successful-query.png)
+![](/posts/2024-04-29-odsc-east-rag/successful-query.png)
 
 First, the retriever searches the dataset (let's imagine, in this case, Wikipedia) and returns a few snippets. The retriever did a good job here, and the snippets contain clearly stated information about the official language of Rose Island. The LLM reads these snippets, understands them, and replies to the user (correctly):
 
@@ -146,7 +146,7 @@ The official language of the Republic of Rose Island was Esperanto.
 
 What would happen if the retrieval step didn't go as planned?
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/retrieval-failure.png)
+![](/posts/2024-04-29-odsc-east-rag/retrieval-failure.png)
 
 Here, the retriever finds some information about Rose Island, but none of the snippets contain any information about the official language. They only say where it was located, what happened to it, and so on. So the LLM, which knows nothing about this nation except what the prompt says, takes an educated guess and replies:
 
@@ -174,7 +174,7 @@ One caveat with retrieval failures is that if you're using a very powerful LLM s
 
 Assuming that retrieval was successful, what would happen if the LLM still hallucinated?
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/generation-failure.png)
+![](/posts/2024-04-29-odsc-east-rag/generation-failure.png)
 
 This is clearly an issue with our LLM: even when given all the correct data, the LLM still generated a wrong answer. Maybe our LLM doesn't know that Esperanto is even a language? Or perhaps we're using an LLM that doesn't understand English well?
 
@@ -188,7 +188,7 @@ Naturally, each LLM will have different weak points that can trigger issues like
 
 - **The RAG prompt is not built correctly**. Some LLMs, especially older or smaller ones, may be very sensitive to how the prompt is built. If your model ignores part of the context or misses the question, the prompt might contain contradicting information, or it might be simply too large. LLMs are not always great at [finding a needle in the haystack](https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.arxiv2023.pdf): if you are consistently building huge RAG prompts and you observe generation issues, consider cutting it back to help the LLM focus on the data that actually contains the answer.
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/lost-in-the-middle.png)
+![](/posts/2024-04-29-odsc-east-rag/lost-in-the-middle.png)
 
 # Evaluation strategies
 
@@ -210,7 +210,7 @@ For **vector-based** retrievers like vector DBs, the evaluation is more tricky b
 
 ## Evaluating Generation
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/uptrain-logo.png)
+![](/posts/2024-04-29-odsc-east-rag/uptrain-logo.png)
 
 Evaluating an LLM's answers to a question is still a developing art, and several libraries can help with the task. One commonly used framework is [UpTrain](https://haystack.deepset.ai/integrations/uptrain?utm_campaign=odsc-east), which implements an "LLM-as-a-judge" approach. This means that the answers given by an LLM are then evaluated by another LLM, normally a larger and more powerful model.
 
@@ -226,7 +226,7 @@ This approach leads to a far more detailed view of what the LLM is good at and w
 
 ## End-to-end evaluation
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/ragas-logo.png)
+![](/posts/2024-04-29-odsc-east-rag/ragas-logo.png)
 
 The evaluation of RAG systems end-to-end is also quite complex and can be implemented in many ways, depending on the aspect you wish to monitor. One of the simplest approaches is to focus on semantic similarity between the question and the final answer.
 
@@ -249,13 +249,13 @@ On top of evaluation metrics, RAGAS also offers the capability to build [synthet
 
 💡 *I recently discovered an even more comprehensive framework for end-to-end evaluation called [**continuous-eval**](https://docs.relari.ai/v0.3) from [Relari.ai](https://relari.ai/), which focuses on modular evaluation of RAG pipelines. Check it out if you're interested in this topic and RAGAS doesn't offer enough flexibility for your use case.*
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/relari-logo.png)
+![](/posts/2024-04-29-odsc-east-rag/relari-logo.png)
 
 {{< /notice >}}
 
 ## Putting it all together
 
-![](/posts/2024-04-29-odsc-east-rag-talk-summary/haystack-logo.png)
+![](/posts/2024-04-29-odsc-east-rag/haystack-logo.png)
 
 Once you know how you want to evaluate your app, it's time to put it together. A convenient framework for this step is [Haystack](https://haystack.deepset.ai/?utm_campaign=odsc-east), a Python open-source LLM framework focused on building RAG applications. Haystack is an excellent choice because it can be used through all stages of the application lifecycle, from prototyping to production, including evaluation.
 

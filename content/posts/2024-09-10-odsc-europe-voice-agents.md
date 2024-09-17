@@ -1,12 +1,12 @@
 ---
-title: "Building Reliable Voice Agents with Open Source Tools (Talk Write-up)"
+title: "Building Reliable Voice Agents with Open Source Tools"
 date: 2024-09-13
 author: "ZanSara"
-featuredImage: "/posts/2024-09-13-odsc-europe-voice-agents-talk-writeup/cover.png"
+featuredImage: "/posts/2024-09-13-odsc-europe-voice-agents/cover.png"
 draft: true
 ---
 
-*This is a write-up of my recent talk at ODSC Europe 2024.*
+*This is a write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-odsc-europe-voice-agents/).*
 
 ---
 
@@ -40,7 +40,7 @@ Today, the basic architecture of a modern voice agent can be decomposed into thr
 - the agent's **logic engine**, which works entirely with text only,
 - a **text-to-speech (TTS)** component, which converts the bot's text responses back into an audio stream of synthetic speech.
 
-![](/posts/2024-09-13-odsc-europe-voice-agents-talk-writeup/structure-of-a-voice-bot.png)
+![](/posts/2024-09-13-odsc-europe-voice-agents/structure-of-a-voice-bot.png)
 
 Let's see the details of each.
 
@@ -50,7 +50,7 @@ Speech-to-text software is able to convert the audio stream of a person saying s
 
 With the [first release of OpenAI's Whisper models](https://openai.com/index/whisper/) in late 2022, the state of the art improved dramatically. Whisper enabled transcription (and even direct translation) of speech from many languages with an impressively low WER, finally comparable to the performance of a human, all with relatively low resources, higher then realtime speed, and no finetuning required. Not only, but the model was free to use, as OpenAI [open-sourced it](https://huggingface.co/openai) together with a [Python SDK](https://github.com/openai/whisper), and the details of its architecture were [published](https://cdn.openai.com/papers/whisper.pdf), allowing the scientific community to improve on it.
 
-![](/posts/2024-09-13-odsc-europe-voice-agents-talk-writeup/whisper-wer.png)
+![](/posts/2024-09-13-odsc-europe-voice-agents/whisper-wer.png)
 
 _The WER (word error rate) of Whisper was extremely impressive at the time of its publication (see the full diagram [here](https://github.com/openai/whisper/assets/266841/f4619d66-1058-4005-8f67-a9d811b77c62))._
 
@@ -65,7 +65,7 @@ Today many companies (such as OpenAI, [Cartesia](https://cartesia.ai/sonic), [El
 
 {{< raw >}}
 <div>
-<audio controls src="/posts/2024-09-13-odsc-europe-voice-agents-talk-writeup/sonic-tts-sample.wav" style="width: 100%"></audio>
+<audio controls src="/posts/2024-09-13-odsc-europe-voice-agents/sonic-tts-sample.wav" style="width: 100%"></audio>
 </div>
 {{< /raw >}}
 
@@ -87,7 +87,7 @@ Tree-based logic, while somewhat functional, doesn't really resemble a conversat
 
 One of its most effective usecases is as a first-line screening to triage incoming messages.
 
-![](/posts/2024-09-13-odsc-europe-voice-agents-talk-writeup/tree-based-logic.png)
+![](/posts/2024-09-13-odsc-europe-voice-agents/tree-based-logic.png)
 
 _Example of a very simple decision tree for a chatbot. While rather minimal, this bot already has several flaws: there's no way to correct the information you entered at a previous step, and it has no ability to recognize synonyms ("I want to buy an item" would trigger the fallback route.)_
 
@@ -97,7 +97,7 @@ In intent-based bots, **intents** are defined roughtly as "actions the users may
 
 Advanced voice assistants such as Siri and Alexa use variations of this intent-based system. However, as their owners are usually familiar with, interacting with an intent-based bot doesn't always feel natural, especially when the available intents don't match the user's expectation and the bot ends up triggering an unexpected action. In the long run, this ends with users carefully second-guessing what words and sentence structures activate the response they need and eventually leads to a sort of "magical incantation" style of prompting the agent, where the user has to learn what is the "magical sentence" that the bot will recognize to perform a specific intent without misunderstandings.
 
-![](/posts/2024-09-13-odsc-europe-voice-agents-talk-writeup/amazon-echo.webp)
+![](/posts/2024-09-13-odsc-europe-voice-agents/amazon-echo.webp)
 
 _Modern voice assistants like Alexa and Siri are often built on the concept of intent (image from Amazon)._
 
@@ -109,16 +109,28 @@ However, LLMs tend to be harder to control. Their very ability of generating nat
 
 The problem of controlling the conversation, one that traditionally was always on the user's side, is now entirely on the shoulders of the developers and can easily backfire.
 
-![](/posts/2024-09-13-odsc-europe-voice-agents-talk-writeup/chatgpt-takesies-backsies.png)
+![](/posts/2024-09-13-odsc-europe-voice-agents/chatgpt-takesies-backsies.png)
 
 _In a rather [famous instance](https://x.com/ChrisJBakke/status/1736533308849443121), a user managed to convince a Chevrolet dealership chatbot to promise selling him a Chevy Tahoe for a single dollar._
 
 
 # New challenges
 
+Thanks to all these recent improvements, it would seem that making natural-sounding, smart voice bots is getting easier and easier. It is indeed much simpler to make a simple bot sound better, understand more and respond appropriately, but there's still a long way to go before users can interact with these new bots as they would with a human.
 
+The issue lays in the fact that users expectations grow with the quality of the bot. It's not enough for the bot to have a voice that shoulds human: users want to be able to interact with it in a way that it feels human too, which is far more rich and interactive than what the rigid tech of earlier chatbots made us assume.
 
+What does this mean in practice? What are the expectations that users might have from our bots?
 
+## Real speech is not turn-based
+
+Traditional bots can only handle turn-based conversations: the user talks, then the bot talks as well, then the user talks some more, and so on. A conversation with another human, however, has no such limitation: people may talk over each other, interrupt each other and give audible feedback in several ways.
+
+Here are some examples of this richer interaction style:
+
+- **Interruptions**. Interruptions occur when a person is talking and another one starts talking at the same time. It is expected that the first person stops talking, at least for a few seconds, to understand what the interruption was about, while the second person continue to talk.
+
+- **Back-channeling**: Back-channeling is the practice of saying "ok", "sure", "right" while the other p
 
 
 

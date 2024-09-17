@@ -8,7 +8,7 @@ featuredImage: "/talks/2024-07-10-europython-rag.png"
 [Announcement](https://ep2024.europython.eu/session/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmented-generation), 
 [slides](https://drive.google.com/file/d/13OXMLaBQr1I_za7sqVHJWxRj5xFAg7KV/view?usp=sharing).
 Did you miss the talk? Check out the [recording](https://drive.google.com/file/d/1OkYQ7WMt63QkdJTU3GIpSxBZmnLfZti6/view?usp=sharing) (cut from the [original stream](https://www.youtube.com/watch?v=tcXmnCJIvFc)),
-or the [summary](/posts/2024-04-29-odsc-east-rag-talk-summary) of a previous edition of the same talk.
+or the [write-up](/posts/2024-04-29-odsc-east-rag) of a previous edition of the same talk.
 
 ---
 
