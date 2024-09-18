@@ -10,6 +10,7 @@ featuredImage: "/talks/2024-09-06-odsc-europe-voice-agents.png"
 [notebook](https://colab.research.google.com/drive/1NCAAs8RB2FuqMChFKMIVWV0RiJr9O3IJ?usp=sharing).
 All resources can also be found on ODSC's website and in 
 [my archive](https://drive.google.com/drive/folders/1rrXMTbfTZVuq9pMzneC8j-5GKdRQ6l2i?usp=sharing).
+Did you miss the talk? Check out the write-up [here](/posts/2024-09-05-odsc-europe-voice-agents-part-1/).
 
 ---
 
