@@ -38,7 +38,7 @@ _Continues in [Part 2](/posts/2024-09-05-odsc-europe-voice-agents-part-2/)._
 
 # What is a voice agent?
 
-As the name says, voice agents are programs that are able to carry on a task and/or take actions and decisions on behalf of a user ("software agents") by using voice as their primary mean of communication (as poopsed to the much more common text chat format). Voice agents are inherently harder to build than their text based counterparts: computers operate primarily with text, and the art of making machines understand human voices has been an elusive problem for decades.
+As the name says, voice agents are programs that are able to carry on a task and/or take actions and decisions on behalf of a user ("software agents") by using voice as their primary mean of communication (as opposed to the much more common text chat format). Voice agents are inherently harder to build than their text based counterparts: computers operate primarily with text, and the art of making machines understand human voices has been an elusive problem for decades.
 
 Today, the basic architecture of a modern voice agent can be decomposed into three main fundamental building blocks:
 
@@ -87,7 +87,7 @@ Based on the way their logic is implemented, today you may come across bots that
 
 ### Tree-based
 
-Tree-based (or rule-based) logic is one of the earliest method of implementing chatbot's logic, still very popular today for its simplicity. Tree-based bots don't really try to understand what the user is saying, but listen to the user looking for a keyword or key sentence that will trigger the next step. For example, a customer support chatbot may look for the keyword "refund" to give the user any infomation about how to perform a refund, or the name of a discount campaign to explain the user how to take advantage of that.
+Tree-based (or rule-based) logic is one of the earliest method of implementing chatbot's logic, still very popular today for its simplicity. Tree-based bots don't really try to understand what the user is saying, but listen to the user looking for a keyword or key sentence that will trigger the next step. For example, a customer support chatbot may look for the keyword "refund" to give the user any information about how to perform a refund, or the name of a discount campaign to explain the user how to take advantage of that.
 
 Tree-based logic, while somewhat functional, doesn't really resemble a conversation and can become very frustrating to the user when the conversation tree was not designed with care, because it's difficult for the end user to understand which option or keyword they should use to achieve the desired outcome. It is also unsuitable to handle real questions and requests like a human would. 
 
@@ -99,7 +99,7 @@ _Example of a very simple decision tree for a chatbot. While rather minimal, thi
 
 ### Intent-based
 
-In intent-based bots, **intents** are defined roughtly as "actions the users may want to do". With respect to a strict, keyword-based tree structure, intent-based bots may switch from an intent to another much more easily (because they lack a strict tree-based routing) and may use advanced AI techniques to understand what the user is actually trying to accomplish and perform the required action.
+In intent-based bots, **intents** are defined roughly as "actions the users may want to do". With respect to a strict, keyword-based tree structure, intent-based bots may switch from an intent to another much more easily (because they lack a strict tree-based routing) and may use advanced AI techniques to understand what the user is actually trying to accomplish and perform the required action.
 
 Advanced voice assistants such as Siri and Alexa use variations of this intent-based system. However, as their owners are usually familiar with, interacting with an intent-based bot doesn't always feel natural, especially when the available intents don't match the user's expectation and the bot ends up triggering an unexpected action. In the long run, this ends with users carefully second-guessing what words and sentence structures activate the response they need and eventually leads to a sort of "magical incantation" style of prompting the agent, where the user has to learn what is the "magical sentence" that the bot will recognize to perform a specific intent without misunderstandings.
 
@@ -109,9 +109,9 @@ _Modern voice assistants like Alexa and Siri are often built on the concept of i
 
 ### LLM-based
 
-The introduction of instruction-tuned GPT models like ChatGPT revolutionized the field of natural languahe understanding and, with it, the way bots can be built today. LLMs are naturally good at conversation and can formulate natural replies to any sort of question, making the conversation feel much more natural than with any technique that was ever available earlier.
+The introduction of instruction-tuned GPT models like ChatGPT revolutionized the field of natural language understanding and, with it, the way bots can be built today. LLMs are naturally good at conversation and can formulate natural replies to any sort of question, making the conversation feel much more natural than with any technique that was ever available earlier.
 
-However, LLMs tend to be harder to control. Their very ability of generating naturally souding responses for anything makes them behave in ways that are often unexpected to the developer of the chatbot: for example, users can get the LLM-based bot to promise them anything they ask for, or they can be convinced to say something incorrect or even occasionally lie.
+However, LLMs tend to be harder to control. Their very ability of generating naturally sounding responses for anything makes them behave in ways that are often unexpected to the developer of the chatbot: for example, users can get the LLM-based bot to promise them anything they ask for, or they can be convinced to say something incorrect or even occasionally lie.
 
 The problem of controlling the conversation, one that traditionally was always on the user's side, is now entirely on the shoulders of the developers and can easily backfire.
 
@@ -123,7 +123,7 @@ _In a rather [famous instance](https://x.com/ChrisJBakke/status/1736533308849443
 
 Thanks to all these recent improvements, it would seem that making natural-sounding, smart bots is getting easier and easier. It is indeed much simpler to make a simple bot sound better, understand more and respond appropriately, but there's still a long way to go before users can interact with these new bots as they would with a human.
 
-The issue lays in the fact that **users expectations grow** with the quality of the bot. It's not enough for the bot to have a voice that shoulds human: users want to be able to interact with it in a way that it feels human too, which is far more rich and interactive than what the rigid tech of earlier chatbots allowed so far.
+The issue lays in the fact that **users expectations grow** with the quality of the bot. It's not enough for the bot to have a voice that sounds human: users want to be able to interact with it in a way that it feels human too, which is far more rich and interactive than what the rigid tech of earlier chatbots allowed so far.
 
 What does this mean in practice? What are the expectations that users might have from our bots?
 
@@ -141,7 +141,7 @@ Here are some examples of this richer interaction style:
 
 - **Buying time**. When one of the parties know that it will stay silent for a while, a natural reaction is to notify the other party in advance by saying something like "Hold on...", "Wait a second...", "Let me check..." and so on. This message has the benefit of preventing the "pinging" behavior we've seen before and can be very useful for voice bots that may need to carry on background work during the conversation, such as looking up information.
 
-- **Audible clues**. Not everything can be transcribed by a speech-to-text model, but audio carries a lot of nuance that is oten used by humans to communicate. A simple example is pitch: humans can often tell if they're talking to a child, a woman or a man by the pitch of their voice, but STT engines don't transcribe that information. So if a child picks up the phone when your bot asks for their mother or father, the model won't pick up the obvious audible clue and assume it is talking to the right person. Similar considerations should be made for tone (to detect mood, sarcasm, etc) or other sounds like laughter, sobs, and more
+- **Audible clues**. Not everything can be transcribed by a speech-to-text model, but audio carries a lot of nuance that is often used by humans to communicate. A simple example is pitch: humans can often tell if they're talking to a child, a woman or a man by the pitch of their voice, but STT engines don't transcribe that information. So if a child picks up the phone when your bot asks for their mother or father, the model won't pick up the obvious audible clue and assume it is talking to the right person. Similar considerations should be made for tone (to detect mood, sarcasm, etc) or other sounds like laughter, sobs, and more
 
 ## Real conversation flows are not predictable
 
@@ -165,7 +165,7 @@ It may seem that some of these issues, especially the ones related to conversati
 
 - **Hallucinations**. This is a technical term to say that LLMs can occasionally mis-remember information, or straight up lie. The problem is that they're also very confident about their statements, sometimes to the point of trying to gaslight their users. Hallucinations are a major problem for all LLMs: although it may seem to get more manageable with larger and smarter models, the problem only gets more subtle and harder to spot.
 
-- **Misunderstandings**. While LLMs are great at understanding what the user is trying to say, they're not immune to misunderstandings. Unlike a human though, LLMs rarely suspect a misunderstanding and they rather make assumptions that ask for clarifications, resulting in surprising replies and behavior that are reminescent of intent-based bots.
+- **Misunderstandings**. While LLMs are great at understanding what the user is trying to say, they're not immune to misunderstandings. Unlike a human though, LLMs rarely suspect a misunderstanding and they rather make assumptions that ask for clarifications, resulting in surprising replies and behavior that are reminiscent of intent-based bots.
 
 - **Lack of assertiveness**. LLMs are trained to listen to the user and do their best to be helpful. This means that LLMs are also not very good at taking the lead of the conversation when we would need them to, and are easily misled and distracted by a motivated user. Preventing your model to give your user's a literary analysis of their unpublished poetry may sound silly, but it's a lot harder than many suspect.
 
