@@ -1,6 +1,6 @@
 ---
 title: "Building Reliable Voice Bots with Open Source Tools - Part 1"
-date: 2024-09-19
+date: 2024-09-18
 author: "ZanSara"
 featuredImage: "/posts/2024-09-05-odsc-europe-voice-agents/cover.png"
 ---
