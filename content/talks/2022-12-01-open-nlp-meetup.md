@@ -1,16 +1,12 @@
 ---
-title: "A Practical Introduction to Image Retrieval"
+title: "OpenNLP Meetup: A Practical Introduction to Image Retrieval"
 date: 2022-12-01
 author: "ZanSara"
 featuredImage: "/talks/2022-12-01-open-nlp-meetup.png"
 ---
 
-Youtube: [Open NLP meetup #7](https://www.youtube.com/watch?v=7Idjl3OR0FY)
-
-Slides: [A Practical Introduction to Image Retrieval](https://gist.github.com/ZanSara/dc4b22e7ffe2a56647e0afba7537c46b)
-
-Colab: [MultiModalRetriever - Live coding](https://gist.github.com/ZanSara/9e8557830cc866fcf43a2c5623688c74)
-
+[Youtube link](https://www.youtube.com/watch?v=7Idjl3OR0FY),
+[slides](https://gist.github.com/ZanSara/dc4b22e7ffe2a56647e0afba7537c46b), [Colab](https://gist.github.com/ZanSara/9e8557830cc866fcf43a2c5623688c74) (live coding).
 All the material can also be found [here](https://drive.google.com/drive/folders/1_3b8PsvykHeM0jSHsMUWQ-4h_VADutcX?usp=drive_link).
 
 ---
@@ -43,4 +39,3 @@ Towards the end I mention briefly an even more advanced version of this image re
 
 The slides were generated from the linked Jupyter notebook with `jupyter nbconvert Dec_1st_OpenNLP_Meetup.ipynb --to slides --post serve`.
 
-This was my most popular talk to date, with almost a hundred attendees watching live.

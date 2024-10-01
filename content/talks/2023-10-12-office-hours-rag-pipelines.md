@@ -5,11 +5,7 @@ author: "ZanSara"
 featuredImage: "/talks/2023-10-12-office-hours-rag-pipelines.png"
 ---
 
-Recording: [Office Hours - RAG Pipelines](https://drive.google.com/file/d/1UXGi4raiCQmrxOfOexL-Qh0CVbtiSm89/view?usp=drive_link)
-
-Notebook: [RAG_Pipelines.ipynb](https://gist.github.com/ZanSara/5975901eea972c126f8e1c2341686dfb)
-
-All the material can also be found [here](https://drive.google.com/drive/folders/17CIfoy6c4INs0O_X6YCa3CYXkjRvWm7X?usp=drive_link).
+[Recording](https://drive.google.com/file/d/1UXGi4raiCQmrxOfOexL-Qh0CVbtiSm89/view?usp=drive_link), [notebook](https://gist.github.com/ZanSara/5975901eea972c126f8e1c2341686dfb). All the material can also be found [here](https://drive.google.com/drive/folders/17CIfoy6c4INs0O_X6YCa3CYXkjRvWm7X?usp=drive_link).
 
 ---
 
