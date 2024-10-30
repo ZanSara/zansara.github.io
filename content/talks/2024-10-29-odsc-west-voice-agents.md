@@ -10,6 +10,9 @@ aliases:
 [Announcement](https://odsc.com/speakers/building-reliable-voice-agents-with-open-source-tools-2/), [slides](https://drive.google.com/file/d/1H_8PKQY_kFIzwxakZc-RJU8Rtwnjajhl/view?usp=sharing), [notebook](https://colab.research.google.com/drive/1CUX7JRYMU1MEJBZ6lWMg5EThPew19Zjs?usp=sharing).
 All resources can also be found in 
 [my archive](https://drive.google.com/drive/folders/1baO1Gv55CIjLT-KPWtSm2z4IOBdXkHjn?usp=drive_link).
+Did you miss the talk? Check out the write-up's 
+[part 1](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/)
+and [part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/).
 
 ---
 
