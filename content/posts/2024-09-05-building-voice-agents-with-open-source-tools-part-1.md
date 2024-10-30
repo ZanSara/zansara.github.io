@@ -1,6 +1,6 @@
 ---
 title: "Building Reliable Voice Bots with Open Source Tools - Part 1"
-date: 2024-10-30
+date: 2024-09-20
 author: "ZanSara"
 featuredImage: "/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png"
 aliases:
