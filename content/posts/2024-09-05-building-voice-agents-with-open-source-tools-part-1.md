@@ -5,6 +5,7 @@ author: "ZanSara"
 featuredImage: "/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png"
 aliases:
 - /posts/2024-09-05-odsc-europe-voice-agents-part-1
+- /posts/2024-09-05-voice-bots-1/
 ---
 
 *This is part one of the write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-building-voice-agents-with-open-source-tools/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*
