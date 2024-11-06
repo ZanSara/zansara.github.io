@@ -13,7 +13,11 @@ All resources can also be found in
 
 ---
 
-_Recording coming soon._
+{{< raw >}}
+<div class='iframe-wrapper'>
+<iframe src="https://drive.google.com/file/d/1BvcNbsAGWp25EDpiQ5ljYos3_eneo3wu/preview" width=100% height=100% allow="autoplay"></iframe>
+</div>
+{{< /raw >}}
 
 ---
 
