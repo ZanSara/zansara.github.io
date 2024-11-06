@@ -19,6 +19,8 @@ All resources can also be found in
 </div>
 {{< /raw >}}
 
+_Note: this was a tutorial session co-presented with [Christian Lang](https://www.linkedin.com/in/christian-lang-8942b0145/) and [Bruno Bitter](https://www.linkedin.com/in/brunobitter/). My section starts at 01:08._
+
 ---
 
 At the [AMTA 2024 Virtual Tutorial Day](https://amtaweb.org/virtual-tutorial-day-program/) I talked about controlling invariant translation elements with RAG. During the talk several speakers intervened on the topic, each bringing a different perspective of it. 
