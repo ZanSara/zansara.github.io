@@ -2,7 +2,7 @@
 {{ $title := .Title }}
 {{ $url := printf "%s" .Permalink | absLangURL }}
 <div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
-    <p>Share on: </p>
+    <p>Share this post on: </p>
     <a href="https://twitter.com/intent/post?{{ $title }}, by @zansara_dev=test&url={{ $url }}" aria-label="share on Twitter">
         <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/twitter-x.svg" }}</div>
     </a>

@@ -5,4 +5,5 @@ date: 2021-06-01
 author: "ZanSara"
 featuredImage: "/projects/ebisu-flashcards.png"
 externalLink: https://github.com/ebisu-flashcards
+draft: true
 ---
