@@ -111,14 +111,18 @@ style = "github-dark"
   weight = 3
   url  = "projects/"
 [[menu.main]]
-  name = "Publications"
+  name = "Demos"
   weight = 4
+  url  = "demos/"
+[[menu.main]]
+  name = "Publications"
+  weight = 5
   url  = "publications/"
 [[menu.main]]
   name = "Talks"
-  weight = 5
+  weight = 6
   url  = "talks/"
 [[menu.main]]
   name = "Stats"
-  weight = 6
+  weight = 7
   url  = "https://zansaradev.goatcounter.com"
