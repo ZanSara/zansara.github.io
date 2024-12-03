@@ -6,9 +6,9 @@ featuredImage: "/talks/2024-12-03-pydata-global-voice-bots.png"
 externalLink: 
 ---
 
-[Announcement](https://global2024.pydata.org/cfp/talk/T3YDBP/), [slides](#), [demo video](https://drive.google.com/file/d/1bja0O8LG7790UIU7HpAYXat-BYXeUbK-/view?usp=sharing).
+[Announcement](https://global2024.pydata.org/cfp/talk/T3YDBP/), [slides](https://drive.google.com/file/d/1rXb4-m-BWwhAqDCDBXpzw6nJ9OELOpSl/view?usp=sharing), [demo video](https://drive.google.com/file/d/1bja0O8LG7790UIU7HpAYXat-BYXeUbK-/view?usp=sharing).
 All resources can also be found in 
-[my archive](https://intentional-ai.github.io/intentional/docs/home/).
+[my archive](https://drive.google.com/drive/folders/1ZPkne2QxOnSXfchv08CWkAZG3duXxd4Z?usp=sharing).
 
 ---
 
