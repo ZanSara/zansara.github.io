@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Haystack&#39;s Pipeline - A Deep Dive · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="If you&rsquo;ve ever looked at Haystack before, you must have come across the Pipeline, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?
+In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses. This deep dive into the current state of the framework is also a premise for the next episode, where I will explain how Haystack 2.0 addresses this version&rsquo;s shortcomings.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Haystack&#39;s Pipeline - A Deep Dive">
+  <meta name="twitter:description" content="If you’ve ever looked at Haystack before, you must have come across the Pipeline, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?
+In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses. This deep dive into the current state of the framework is also a premise for the next episode, where I will explain how Haystack 2.0 addresses this version’s shortcomings.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Haystack&#39;s Pipeline - A Deep Dive">
+  <meta property="og:description" content="If you’ve ever looked at Haystack before, you must have come across the Pipeline, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?
+In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses. This deep dive into the current state of the framework is also a premise for the next episode, where I will explain how Haystack 2.0 addresses this version’s shortcomings.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-10-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-10-15T00:00:00+00:00">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-11-haystack-series-why/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-10-haystack-series-intro/">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2023-10-15-haystack-series-pipeline/cover.png">
+  <meta name="og:image" content="/posts/2023-10-15-haystack-series-pipeline/cover.png">
+  <meta name="twitter:image" content="/posts/2023-10-15-haystack-series-pipeline/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://zansaradev.goatcounter.com">Stats</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/">
+              Haystack&#39;s Pipeline - A Deep Dive
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2023-10-15T00:00:00Z">
+                October 15, 2023
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2023-10-15-haystack-series-pipeline/cover.png" alt="Featured image"/>
+        
+        <p>If you&rsquo;ve ever looked at Haystack before, you must have come across the <a href="https://docs.haystack.deepset.ai/docs/pipelines"  class="external-link" target="_blank" rel="noopener">Pipeline</a>, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?</p>
+<p>In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses. This deep dive into the current state of the framework is also a premise for the next episode, where I will explain how Haystack 2.0 addresses this version&rsquo;s shortcomings.</p>
+<p>If you think you already know how Haystack Pipelines work, give this post a chance: I might manage to change your mind.</p>
+<h2 id="a-bit-of-history">
+  A Bit Of History
+  <a class="heading-link" href="#a-bit-of-history">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Interestingly, in the very first releases of Haystack, Pipelines were not a thing. Version 0.1.0 was released with a simpler object, the <a href="https://github.com/deepset-ai/haystack/blob/d2c77f307788899eb562d3cb6e42c69b968b9f2a/haystack/__init__.py#L16"  class="external-link" target="_blank" rel="noopener">Finder</a>, that did little more than gluing together a <a href="https://docs.haystack.deepset.ai/docs/retriever"  class="external-link" target="_blank" rel="noopener">Retriever</a> and a <a href="https://docs.haystack.deepset.ai/docs/reader"  class="external-link" target="_blank" rel="noopener">Reader</a>, the two fundamental building blocks of a <a href="https://docs.haystack.deepset.ai/docs/glossary#semantic-search"  class="external-link" target="_blank" rel="noopener">semantic search</a> application.</p>
+<p>In the next few months, however, the capabilities of language models expanded to enable many more use cases. One hot topic was <a href="https://haystack.deepset.ai/blog/hybrid-retrieval"  class="external-link" target="_blank" rel="noopener">hybrid retrieval</a>: a system composed of two different Retrievers, an optional <a href="https://docs.haystack.deepset.ai/docs/ranker"  class="external-link" target="_blank" rel="noopener">Ranker</a>, and an optional Reader. This kind of application clearly didn&rsquo;t fit the Finder&rsquo;s design, so in <a href="https://github.com/deepset-ai/haystack/releases/tag/v0.6.0"  class="external-link" target="_blank" rel="noopener">version 0.6.0</a> the <a href="https://docs.haystack.deepset.ai/docs/pipelines"  class="external-link" target="_blank" rel="noopener">Pipeline</a> object was introduced: a new abstraction that helped users build applications as a graph of components.</p>
+<p>Pipeline&rsquo;s API was a huge step forward from Finder. It instantly enabled seemingly endless combinations of components, unlocked almost all use cases conceivable, and became a foundational Haystack concept meant to stay for a very long time. In fact, the API offered by the first version of Pipeline changed very little since its initial release.</p>
+<p>This is the snippet included in the release notes of version 0.6.0 to showcase hybrid retrieval. Does it look familiar?</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>p <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>p<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>es_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;ESRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>p<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>dpr_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DPRRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>p<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>JoinDocuments(join_mode<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;concatenate&#34;</span>), name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinResults&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;ESRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DPRRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>p<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;QAReader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;JoinResults&#34;</span>])
+</span></span><span style="display:flex;"><span>res <span style="color:#ff7b72;font-weight:bold">=</span> p<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What did Einstein work on?&#34;</span>, top_k_retriever<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">1</span>)
+</span></span></code></pre></div><h2 id="a-powerful-abstraction">
+  A Powerful Abstraction
+  <a class="heading-link" href="#a-powerful-abstraction">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>One fascinating aspect of this Pipeline model is the simplicity of its user-facing API. In almost all examples, you see only two or three methods used:</p>
+<ul>
+<li><code>add_node</code>: to add a component to the graph and connect it to the others.</li>
+<li><code>run</code>: to run the Pipeline from start to finish.</li>
+<li><code>draw</code>: to draw the graph of the Pipeline to an image.</li>
+</ul>
+<p>At this level, users don&rsquo;t need to know what kind of data the components need to function, what they produce, or even what the components <em>do</em>: all they need to know is the place they must occupy in the graph for the system to work.</p>
+<p>For example, as long as the users know that their hybrid retrieval pipeline should look more or less like this (note: this is the output of <code>Pipeline.draw()</code>), translating it into a Haystack Pipeline object using a few <code>add_node</code> calls is mostly straightforward.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/hybrid-retrieval.png" alt="Hybrid Retrieval"></p>
+<p>This fact is reflected by the documentation of the various components as well. For example, this is how the documentation page for Ranker opens:</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/ranker-docs.png" alt="Ranker Documentation"></p>
+<p>Note how the first information about this component is <em>where to place it</em>. Right after, it specifies its inputs and outputs, even though it&rsquo;s not immediately clear why we need this information, and then lists which specific classes can cover the role of a Ranker.</p>
+<p>The message is clear: all Ranker classes are functionally interchangeable, and as long as you place them correctly in the Pipeline, they will fulfill the function of Ranker as you expect them to. Users don&rsquo;t need to understand what distinguishes <code>CohereRanker</code> from <code>RecentnessReranker</code> unless they want to: the documentation promises that you can swap them safely, and thanks to the Pipeline abstraction, this statement mostly holds true.</p>
+<h2 id="ready-made-pipelines">
+  Ready-made Pipelines
+  <a class="heading-link" href="#ready-made-pipelines">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>But how can the users know which sort of graph they have to build?</p>
+<p>Most NLP applications are made by a relatively limited number of high-level components: Retriever, Readers, Rankers, plus the occasional Classifier, Translator, or Summarizer. Systems requiring something more than these components used to be really rare, at least when talking about &ldquo;query&rdquo; pipelines (more on this later).</p>
+<p>Therefore, at this level of abstraction, there are just a few graph topologies possible. Better yet, they could each be mapped to high-level use cases such as semantic search, language-agnostic document search, hybrid retrieval, and so on.</p>
+<p>But the crucial point is that, in most cases, tailoring the application did not require any changes to the graph&rsquo;s shape. Users only need to identify their use case, find an example or a tutorial defining the shape of the Pipeline they need, and then swap the single components with other instances from the same category until they find the best combination for their exact requirements.</p>
+<p>This workflow was evident and encouraged: it was the philosophy behind Finder as well, and from version 0.6.0, Haystack immediately provided what are called &ldquo;<a href="https://docs.haystack.deepset.ai/docs/ready_made_pipelines"  class="external-link" target="_blank" rel="noopener">Ready-made Pipelines</a>&rdquo;: objects that initialized the graph on the user&rsquo;s behalf, and expected as input the components to place in each point of the graph: for example a Reader and a Retriever, in case of simple Extractive QA.</p>
+<p>With this further abstraction on top of Pipeline, creating an NLP application became an action that doesn&rsquo;t even require the user to be aware of the existence of the graph. In fact:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline <span style="color:#ff7b72;font-weight:bold">=</span> ExtractiveQAPipeline(reader, retriever)
+</span></span></code></pre></div><p>is enough to get your Extractive QA applications ready to answer your questions. And you can do so with just another line.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>answers <span style="color:#ff7b72;font-weight:bold">=</span> pipeline<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What did Einstein work on?&#34;</span>)
+</span></span></code></pre></div><h2 id="flexibility-powered-by-dags">
+  &ldquo;Flexibility powered by DAGs&rdquo;
+  <a class="heading-link" href="#flexibility-powered-by-dags">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>This abstraction is extremely powerful for the use cases that it was designed for. There are a few layers of ease of use vs. customization the user can choose from depending on their expertise, which help them progress from a simple ready-made Pipeline to fully custom graphs.</p>
+<p>However, the focus was oriented so much on the initial stages of the user&rsquo;s journey that power-users&rsquo; needs were sometimes forgotten. Such issues didn&rsquo;t show immediately, but quickly added friction as soon as the users tried to customize their system beyond the examples from the tutorials and the documentation.</p>
+<p>For an example of these issues, let&rsquo;s talk about pipelines with branches. Here are two small, apparently very similar pipelines.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/branching-query-pipelines.png" alt="Query Classification vs Hybrid Retrieval"></p>
+<p>The first Pipeline represents the Hybrid Retrieval use case we&rsquo;ve met with before. Here, the Query node sends its outputs to both retrievers, and they both produce some output. For the Reader to make sense of this data, we need a Join node that merges the two lists into one and a Ranker that takes the lists and sorts them again by similarity to the query. Ranker then sends the rearranged list to the Reader.</p>
+<p>The second Pipeline instead performs a simpler form of Hybrid Retrieval. Here, the Query node sends its outputs to a Query Classifier, which then triggers only one of the two retrievers, the one that is expected to perform better on it. The triggered Retriever then sends its output directly to the Reader, which doesn&rsquo;t need to know which Retriever the data comes from. So, in this case, we don&rsquo;t need the Join node.</p>
+<p>The two pipelines are built as you would expect, with a bunch of <code>add_node</code> calls. You can even run them with the same identical code, which is the same code needed for every other Pipeline we&rsquo;ve seen so far.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline_1 <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipeline_1<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>sparse_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline_1<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>dense_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline_1<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>join_documents, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline_1<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>rerank, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Ranker&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline_1<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Reader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>answers <span style="color:#ff7b72;font-weight:bold">=</span> pipeline_1<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What did Einstein work on?&#34;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline_2 <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipeline_2<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>query_classifier, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;QueryClassifier&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline_2<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>sparse_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DPRRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;QueryClassifier&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline_2<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>dense_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;ESRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;QueryClassifier&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline_2<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Reader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>answers <span style="color:#ff7b72;font-weight:bold">=</span> pipeline_2<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What did Einstein work on?&#34;</span>)
+</span></span></code></pre></div><p>Both pipelines run as you would expect them to. Hooray! Pipelines can branch and join!</p>
+<p>Now, let&rsquo;s take the first Pipeline and customize it further.</p>
+<p>For example, imagine we want to expand language support to include French. The dense Retriever has no issues handling several languages as long as we select a multilingual model; however, the sparse Retriever needs the keywords to match, so we must translate the queries to English to find some relevant documents in our English-only knowledge base.</p>
+<p>Here is what the Pipeline ends up looking like. Language Classifier sends all French queries over <code>output_1</code> and all English queries over <code>output_2</code>. In this way, the query passes through the Translator node only if it is written in French.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/multilingual-hybrid-retrieval.png" alt="Multilingual Hybrid Retrieval"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>language_classifier, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;LanguageClassifier&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>translator, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Translator&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>sparse_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Translator&#34;</span>, <span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>dense_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>, <span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>join_documents, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>rerank, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Ranker&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Reader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Ranker&#34;</span>])
+</span></span></code></pre></div><p>But&hellip; wait. Let&rsquo;s look again at the graph and at the code. DenseRetriever should receive <em>two</em> inputs from Language Classifier: both <code>output_1</code> and <code>output_2</code>, because it can handle both languages. What&rsquo;s going on? Is this a bug in <code>draw()</code>?</p>
+<p>Thanks to the <code>debug=True</code> parameter of <code>Pipeline.run()</code>, we start inspecting what each node saw during the execution, and we realize quickly that our worst fears are true: this is a bug in the Pipeline implementation. The underlying library powering the Pipeline&rsquo;s graphs takes the definition of Directed Acyclic Graphs very seriously and does not allow two nodes to be connected by more than one edge. There are, of course, other graph classes supporting this case, but Haystack happens to use the wrong one.</p>
+<p>Interestingly, Pipeline doesn&rsquo;t even notice the problem and does not fail. It runs as the drawing suggests: when the query happens to be in French, only the sparse Retriever will process it.</p>
+<p>Clearly, this is not good for us.</p>
+<p>Well, let&rsquo;s look for a workaround. Given that we&rsquo;re Haystack power users by now, we realize that we can use a Join node with a single input as a &ldquo;no-op&rdquo; node. If we put it along one of the edges, that edge won&rsquo;t directly connect Language Classifier and Dense Retriever, so the bug should be solved.</p>
+<p>So here is our current Pipeline:</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/multilingual-hybrid-retrieval-with-noop.png" alt="Multilingual Hybrid Retrieval with No-Op Joiner"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>language_classifier, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;LanguageClassifier&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>translator, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Translator&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>sparse_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Translator&#34;</span>, <span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>no_op_join, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;NoOpJoin&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>dense_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;NoOpJoin&#34;</span>, <span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>join_documents, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>rerank, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Ranker&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Reader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Ranker&#34;</span>])
+</span></span></code></pre></div><p>Great news: the Pipeline now runs as we expect! However, when we run a French query, the results are better but still surprisingly bad.</p>
+<p>What now? Is the dense Retriever still not running? Is the Translation node doing a poor job?</p>
+<p>Some debugging later, we realize that the Translator is amazingly good and the Retrievers are both running. But we forgot another piece of the puzzle: Ranker needs the query to be in the same language as the documents. It requires the English version of the query, just like the sparse Retriever does. However, right now, it receives the original French query, and that&rsquo;s the reason for the lack of performance. We soon realize that this is very important also for the Reader.</p>
+<p>So&hellip; how does the Pipeline pass the query down to the Ranker?</p>
+<p>Until this point, we didn&rsquo;t need to know how exactly values are passed from one component to the next. We didn&rsquo;t need to care about their inputs and outputs at all: Pipeline was doing all this dirty work for us. Suddenly, we need to tell the Pipeline which query to pass to the Ranker and we have no idea how to do that.</p>
+<p>Worse yet. There is <em>no way</em> to reliably do that. The documentation seems to blissfully ignore the topic, docstrings give us no pointers, and looking at <a href="https://github.com/deepset-ai/haystack/blob/aaee03aee87e96acd8791b9eff999055a8203237/haystack/pipelines/base.py#L483"  class="external-link" target="_blank" rel="noopener">the routing code of Pipeline</a> we quickly get dizzy and cut the chase. We dig through the Pipeline API several times until we&rsquo;re confident that there&rsquo;s nothing that can help.</p>
+<p>Well, there must be at least some workaround. Maybe we can forget about this issue by rearranging the nodes.</p>
+<p>One easy way out is to translate the query for both retrievers instead of only for the sparse one. This solution also eliminates the NoOpJoin node we introduced earlier, so it doesn&rsquo;t sound too bad.</p>
+<p>The Pipeline looks like this now.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/multilingual-hybrid-retrieval-two-translators.png" alt="Multilingual Hybrid Retrieval with two Translators"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>language_classifier, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;LanguageClassifier&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>translator, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Translator&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>sparse_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Translator&#34;</span>, <span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>translator_2, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Translator2&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>dense_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Translator2&#34;</span>, <span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>join_documents, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>rerank, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Ranker&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Reader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Ranker&#34;</span>])
+</span></span></code></pre></div><p>We now have two nodes that contain identical translator components. Given that they are stateless, we can surely place the same instance in both places, with different names, and avoid doubling its memory footprint just to work around a couple of Pipeline bugs. After all, Translator nodes use relatively heavy models for machine translation.</p>
+<p>This is what Pipeline replies as soon as we try.</p>
+<pre tabindex="0"><code>PipelineConfigError: Cannot add node &#39;Translator2&#39;. You have already added the same 
+instance to the Pipeline under the name &#39;Translator&#39;.
+</code></pre><p>Okay, so it seems like we can&rsquo;t re-use components in two places: there is an explicit check against this, for some reason. Alright, let&rsquo;s rearrange <em>again</em> this Pipeline with this new constraint in mind.</p>
+<p>How about we first translate the query and then distribute it?</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/multilingual-hybrid-retrieval-translate-and-distribute.png" alt="Multilingual Hybrid Retrieval, translate-and-distribute"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>language_classifier, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;LanguageClassifier&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>translator, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Translator&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>sparse_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Translator&#34;</span>, <span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>dense_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Translator&#34;</span>, <span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>join_documents, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>rerank, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Ranker&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Reader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Ranker&#34;</span>])
+</span></span></code></pre></div><p>Looks neat: there is no way now for the original French query to reach Ranker now. Right?</p>
+<p>We run the pipeline again and soon realize that nothing has changed. The query received by Ranker is still in French, untranslated. Shuffling the order of the <code>add_node</code> calls and the names of the components in the <code>inputs</code> parameters seems to have no effect on the graph. We even try to connect Translator directly with Ranker in a desperate attempt to forward the correct value, but Pipeline now starts throwing obscure, apparently meaningless error messages like:</p>
+<pre tabindex="0"><code>BaseRanker.run() missing 1 required positional argument: &#39;documents&#39;
+</code></pre><p>Isn&rsquo;t Ranker receiving the documents from JoinDocuments? Where did they go?</p>
+<p>Having wasted far too much time on this relatively simple Pipeline, we throw the towel, go to Haystack&rsquo;s Discord server, and ask for help.</p>
+<p>Soon enough, one of the maintainers shows up and promises a workaround ASAP. You&rsquo;re skeptical at this point, but the workaround, in fact, exists.</p>
+<p>It&rsquo;s just not very pretty.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/multilingual-hybrid-retrieval-workaround.png" alt="Multilingual Hybrid Retrieval, working version"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>language_classifier, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;LanguageClassifier&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>translator_workaround, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;TranslatorWorkaround&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>sparse_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>, <span style="color:#a5d6ff">&#34;TranslatorWorkaround&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>dense_retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;LanguageClassifier.output_1&#34;</span>, <span style="color:#a5d6ff">&#34;TranslatorWorkaround&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>join_documents, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;SparseRetriever&#34;</span>, <span style="color:#a5d6ff">&#34;DenseRetriever&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>join_query_workaround, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinQueryWorkaround&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;TranslatorWorkaround&#34;</span>, <span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>rerank, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Ranker&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;JoinQueryWorkaround&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Reader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Ranker&#34;</span>])
+</span></span></code></pre></div><p>Note that you need two custom nodes: a wrapper for the Translator and a brand-new Join node.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">TranslatorWorkaround</span>(TransformersTranslator):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    outgoing_edges <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(self, query):
+</span></span><span style="display:flex;"><span>        results, edge <span style="color:#ff7b72;font-weight:bold">=</span> super()<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span>query)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> {<span style="color:#ff7b72;font-weight:bold">**</span>results, <span style="color:#a5d6ff">&#34;documents&#34;</span>: [] }, <span style="color:#a5d6ff">&#34;output_1&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run_batch</span>(self, queries):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">JoinQueryWorkaround</span>(JoinNode):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run_accumulated</span>(self, inputs, <span style="color:#ff7b72;font-weight:bold">*</span>args, <span style="color:#ff7b72;font-weight:bold">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> {<span style="color:#a5d6ff">&#34;query&#34;</span>: inputs[<span style="color:#a5d6ff">0</span>]<span style="color:#ff7b72;font-weight:bold">.</span>get(<span style="color:#a5d6ff">&#34;query&#34;</span>, <span style="color:#79c0ff">None</span>), <span style="color:#a5d6ff">&#34;documents&#34;</span>: inputs[<span style="color:#a5d6ff">1</span>]<span style="color:#ff7b72;font-weight:bold">.</span>get(<span style="color:#a5d6ff">&#34;documents&#34;</span>, <span style="color:#79c0ff">None</span>)}, <span style="color:#a5d6ff">&#34;output_1&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run_batch_accumulated</span>(self, inputs):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">pass</span>
+</span></span></code></pre></div><p>Along with this beautiful code, we also receive an explanation about how the <code>JoinQueryWorkaround</code> node works only for this specific Pipeline and is pretty hard to generalize, which is why it&rsquo;s not present in Haystack right now. I&rsquo;ll spare you the details: you will have an idea why by the end of this journey.</p>
+<p>Wanna play with this Pipeline yourself and try to make it work in another way? Check out the <a href="https://drive.google.com/file/d/18Gqfd0O828T71Gc-IHeU4v7OXwaPk7Fc/view?usp=sharing"  class="external-link" target="_blank" rel="noopener">Colab</a> or the <a href="https://gist.github.com/ZanSara/33020a980f2f535e2529df4ca4e8f08a"  class="external-link" target="_blank" rel="noopener">gist</a> and have fun.</p>
+<p>Having learned only that it&rsquo;s better not to implement unusual branching patterns with Haystack unless you&rsquo;re ready for a fight, let&rsquo;s now turn to the indexing side of your application. We&rsquo;ll stick to the basics this time.</p>
+<h2 id="indexing-pipelines">
+  Indexing Pipelines
+  <a class="heading-link" href="#indexing-pipelines">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Indexing pipelines&rsquo; main goal is to transform files into Documents from which a query pipeline can later retrieve information. They mostly look like the following.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/indexing-pipeline.png" alt="Indexing Pipeline"></p>
+<p>And the code looks just like how you would expect it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipeline <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>file_type_classifier, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;FileTypeClassifier&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;File&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>text_converter, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;TextConverter&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;FileTypeClassifier.output_1&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>pdf_converter, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;PdfConverter&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;FileTypeClassifier.output_2&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>docx_converter, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DocxConverter&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;FileTypeClassifier.output_4&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>join_documents, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;TextConverter&#34;</span>, <span style="color:#a5d6ff">&#34;PdfConverter&#34;</span>, <span style="color:#a5d6ff">&#34;DocxConverter&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>preprocessor, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Preprocessor&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;JoinDocuments&#34;</span>])
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>document_store, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;DocumentStore&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Preprocessor&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipeline<span style="color:#ff7b72;font-weight:bold">.</span>run(file_paths<span style="color:#ff7b72;font-weight:bold">=</span>paths)
+</span></span></code></pre></div><p>There is no surprising stuff here. The starting node is File instead of Query, which seems logical given that this Pipeline expects a list of files, not a query. There is a document store at the end which we didn&rsquo;t use in query pipelines so far, but it&rsquo;s not looking too strange. It&rsquo;s all quite intuitive.</p>
+<p>Indexing pipelines are run by giving them the paths of the files to convert. In this scenario, more than one Converter may run, so we place a Join node before the PreProcessor to make sense of the merge. We make sure that the directory contains only files that we can convert, in this case, .txt, .pdf, and .docx, and then we run the code above.</p>
+<p>The code, however, fails.</p>
+<pre tabindex="0"><code>ValueError: Multiple non-default file types are not allowed at once.
+</code></pre><p>The more we look at the error, the less it makes sense. What are non-default file types? Why are they not allowed at once, and what can I do to fix that?</p>
+<p>We head for the documentation, where we find a lead.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/filetypeclassifier-docs.png" alt="FileTypeClassifier documentation"></p>
+<p>So it seems like the File Classifier can only process the files if they&rsquo;re all of the same type.</p>
+<p>After all we&rsquo;ve been through with the Hybrid Retrieval pipelines, this sounds wrong. We know that Pipeline can run two branches at the same time. We&rsquo;ve been doing it all the time just a moment ago. Why can&rsquo;t FileTypeClassifier send data to two converters just like LanguageClassifier sends data to two retrievers?</p>
+<p>Turns out, this is <em>not</em> the same thing.</p>
+<p>Let&rsquo;s compare the three pipelines and try to spot the difference.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/all-branching-pipelines.png" alt="All branching pipelines, side by side"></p>
+<p>In the first case, Query sends the same identical value to both Retrievers. So, from the component&rsquo;s perspective, there&rsquo;s a single output being produced: the Pipeline takes care of copying it for all nodes connected to it.</p>
+<p>In the second case, QueryClassifier can send the query to either Retriever but never to both. So, the component can produce two different outputs, but at every run, it will always return just one.</p>
+<p>In the third case, FileTypeClassifier may need to produce two different outputs simultaneously: for example, one with a list of text files and one with a list of PDFs. And it turns out this can&rsquo;t be done. This is, unfortunately, a well-known limitation of the Pipeline/BaseComponent API design.
+The output of a component is defined as a tuple, <code>(output_values, output_edge)</code>, and nodes can&rsquo;t produce a list of these tuples to send different values to different nodes.</p>
+<p>That&rsquo;s the end of the story. This time, there is no workaround. You must pass the files individually or forget about using a Pipeline for this task.</p>
+<h2 id="validation">
+  Validation
+  <a class="heading-link" href="#validation">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>On top of these challenges, other tradeoffs had to be taken for the API to look so simple at first impact. One of these is connection validation.</p>
+<p>Let&rsquo;s imagine we quickly skimmed through a tutorial and got one bit of information wrong: we mistakenly believe that in an Extractive QA Pipeline, you need to place a Reader in front of a Retriever. So we sit down and write this.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>p <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>p<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>reader, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Reader&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Query&#34;</span>])
+</span></span><span style="display:flex;"><span>p<span style="color:#ff7b72;font-weight:bold">.</span>add_node(component<span style="color:#ff7b72;font-weight:bold">=</span>retriever, name<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Retriever&#34;</span>, inputs<span style="color:#ff7b72;font-weight:bold">=</span>[<span style="color:#a5d6ff">&#34;Reader&#34;</span>])
+</span></span></code></pre></div><p>Up to this point, running the script raises no error. Haystack is happy to connect these two components in this order. You can even <code>draw()</code> this Pipeline just fine.</p>
+<p><img src="/posts/2023-10-15-haystack-series-pipeline/swapped-retriever-reader.png" alt="Swapper Retriever/Reader Pipeline"></p>
+<p>Alright, so what happens when we run it?</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>res <span style="color:#ff7b72;font-weight:bold">=</span> p<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What did Einstein work on?&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>BaseReader.run() missing 1 required positional argument: &#39;documents&#39;
+</code></pre><p>This is the same error we&rsquo;ve seen in the translating hybrid retrieval pipeline earlier, but fear not! Here, we can follow the suggestion of the error message by doing:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>res <span style="color:#ff7b72;font-weight:bold">=</span> p<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What did Einstein work on?&#34;</span>, documents<span style="color:#ff7b72;font-weight:bold">=</span>document_store<span style="color:#ff7b72;font-weight:bold">.</span>get_all_documents())
+</span></span></code></pre></div><p>And to our surprise, this Pipeline doesn&rsquo;t crash. It just hangs there, showing an insanely slow progress bar, telling us that some inference is in progress. A few hours later, we kill the process and consider switching to another framework because this one is clearly very slow.</p>
+<p>What happened?</p>
+<p>The cause of this issue is the same that makes connecting Haystack components in a Pipeline so effortless, and it&rsquo;s related to the way components and Pipeline communicate. If you check <code>Pipeline.run()</code>&rsquo;s signature, you&rsquo;ll see that it looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(
+</span></span><span style="display:flex;"><span>    self,
+</span></span><span style="display:flex;"><span>    query: Optional[str] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    file_paths: Optional[List[str]] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    labels: Optional[MultiLabel] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    documents: Optional[List[Document]] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    meta: Optional[Union[dict, List[dict]]] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    params: Optional[dict] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    debug: Optional[bool] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>):
+</span></span></code></pre></div><p>which mirrors the <code>BaseComponent.run()</code> signature, the base class nodes have to inherit from.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">@abstractmethod</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">run</span>(
+</span></span><span style="display:flex;"><span>    self,
+</span></span><span style="display:flex;"><span>    query: Optional[str] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    file_paths: Optional[List[str]] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    labels: Optional[MultiLabel] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    documents: Optional[List[Document]] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>    meta: Optional[dict] <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>,
+</span></span><span style="display:flex;"><span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Tuple[Dict, str]:
+</span></span></code></pre></div><p>This match means a few things:</p>
+<ul>
+<li>
+<p>Every component can be connected to every other because their inputs are identical.</p>
+</li>
+<li>
+<p>Every component can only output the same variables received as input.</p>
+</li>
+<li>
+<p>It&rsquo;s impossible to tell if it makes sense to connect two components because their inputs and outputs always match.</p>
+</li>
+</ul>
+<p>Take this with a grain of salt: the actual implementation is far more nuanced than what I just showed you, but the problem is fundamentally this: components are trying to be as compatible as possible with all others and they have no way to signal, to the Pipeline or to the users, that they&rsquo;re meant to be connected only to some nodes and not to others.</p>
+<p>In addition to this problem, to respect the shared signature, components often take inputs that they don&rsquo;t use. A Ranker only needs documents, so all the other inputs required by the run method signature go unused. What do components do with the values? It depends:</p>
+<ul>
+<li>Some have them in the signature and forward them unchanged.</li>
+<li>Some have them in the signature and don&rsquo;t forward them.</li>
+<li>Some don&rsquo;t have them in the signature, breaking the inheritance pattern, and Pipeline reacts by assuming that they should be added unchanged to the output dictionary.</li>
+</ul>
+<p>If you check closely the two workaround nodes for the Hybrid Retrieval pipeline we tried to build before, you&rsquo;ll notice the fix entirely focuses on altering the routing of the unused parameters <code>query</code> and <code>documents</code> to make the Pipeline behave the way the user expects. However, this behavior does not generalize: a different pipeline would require another behavior, which is why the components behave differently in the first place.</p>
+<h2 id="wrapping-up">
+  Wrapping up
+  <a class="heading-link" href="#wrapping-up">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I could go on for ages talking about the shortcomings of complex Pipelines, but I&rsquo;d rather stop here.</p>
+<p>Along this journey into the guts of Haystack Pipelines, we&rsquo;ve seen at the same time some beautiful APIs and the ugly consequences of their implementation. As always, there&rsquo;s no free lunch: trying to over-simplify the interface will bite back as soon as the use cases become nontrivial.</p>
+<p>However, we believe that this concept has a huge potential and that this version of Pipeline can be improved a lot before the impact on the API becomes too heavy. In Haystack 2.0, armed with the experience we gained working with this implementation of Pipeline, we reimplemented it in a fundamentally different way, which will prevent many of these issues.</p>
+<p>In the next post, we&rsquo;re going to see how.</p>
+<hr>
+<p><em>Next: <a href="/posts/2023-10-26-haystack-series-canals" >Canals: a new concept of Pipeline</a></em></p>
+<p><em>Previous: <a href="/posts/2023-10-11-haystack-series-why" >Why rewriting Haystack?!</a></em></p>
+<p><em>See the entire series here: <a href="/series/haystack-2.0-series/" >Haystack 2.0 series</a></em></p>
+
+      </div>
+
+      <hr style="margin-top: 5rem;">
+
+
+<div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
+    <p>Share this post on: </p>
+    <a href="https://twitter.com/intent/post?Haystack%27s%20Pipeline%20-%20A%20Deep%20Dive, by @zansara_dev=test&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-15-haystack-series-pipeline%2f" aria-label="share on Twitter">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></div>
+    </a>
+    <a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-15-haystack-series-pipeline%2f" aria-label="share on HackerNews">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96zM21 229.2c0 0 .1-.1 .1-.2s.1-.2 .2-.2c0 .1 0 .3-.1 .4H21zM239.2 384H207.8V281.3L128 128h37.3c41.5 77.7 48.1 95.8 54.1 112c1.6 4.3 3.1 8.5 5.2 13.6c3.2-7 5.1-11.9 7.1-17.3c5.9-15.3 12.8-33.2 53.5-108.3H320L239.2 283.1V384z"/></svg></div>
+    </a>
+    <a href="https://mastodonshare.com/?text=Haystack%27s%20Pipeline%20-%20A%20Deep%20Dive, by @zansara@mastodon.social&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-15-haystack-series-pipeline%2f" aria-label="share on Mastodon">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54a102.5 102.5 0 0 1 -.9-13.9c85.6 20.9 158.7 9.1 178.8 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.3V197c0-58.5-64-56.6-64-6.9v114.2H90.2c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175z"/></svg></div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-15-haystack-series-pipeline%2f" aria-label="share on LinkedIn">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></div>
+    </a>
+    <a href="mailto:?subject=Haystack%27s%20Pipeline%20-%20A%20Deep%20Dive, by Sara Zan.&body=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-15-haystack-series-pipeline%2f" aria-label="share by email">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></div>
+    </a>
+</div>
+
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2024
+    <a href="/">Sara Zan</a>
+    ·
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>

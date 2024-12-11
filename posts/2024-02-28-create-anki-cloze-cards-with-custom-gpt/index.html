@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  ClozeGPT: Write Anki cloze cards with a custom GPT · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="As everyone who has been serious about studying with Anki knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
+What can we do to make this process less tedious?">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ClozeGPT: Write Anki cloze cards with a custom GPT">
+  <meta name="twitter:description" content="As everyone who has been serious about studying with Anki knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
+What can we do to make this process less tedious?">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="ClozeGPT: Write Anki cloze cards with a custom GPT">
+  <meta property="og:description" content="As everyone who has been serious about studying with Anki knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
+What can we do to make this process less tedious?">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-02-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-02-28T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png">
+  <meta name="og:image" content="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png">
+  <meta name="twitter:image" content="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://zansaradev.goatcounter.com">Stats</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/">
+              ClozeGPT: Write Anki cloze cards with a custom GPT
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2024-02-28T00:00:00Z">
+                February 28, 2024
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png" alt="Featured image"/>
+        
+        <p>As everyone who has been serious about studying with <a href="https://apps.ankiweb.net/"  class="external-link" target="_blank" rel="noopener">Anki</a> knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.</p>
+<p>What can we do to make this process less tedious?</p>
+<h1 id="write-simple-cards">
+  Write simple cards
+  <a class="heading-link" href="#write-simple-cards">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p><a href="https://www.reddit.com/r/Anki/"  class="external-link" target="_blank" rel="noopener">A lot</a> has been written about the best way to create Anki cards. However, as a <a href="https://news.ycombinator.com/item?id=39002138"  class="external-link" target="_blank" rel="noopener">HackerNews commenter</a> once said:</p>
+<blockquote>
+<p>One massively overlooked way to improve spaced repetition is to make easier cards.</p>
+</blockquote>
+<p>Cards can hardly be <a href="https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge"  class="external-link" target="_blank" rel="noopener">too simple to be effective</a>. You don&rsquo;t need to write complicated tricky questions to make sure you are making the most of your reviews. On the contrary, even a long sentence where the word you need to study is highlighted is often enough to make the review worthwhile.</p>
+<p>In the case of language learning, if you&rsquo;re an advanced learner one of the easiest way to create such cards is to <a href="https://www.supermemo.com/en/blog/learn-whole-phrases-supertip-4"  class="external-link" target="_blank" rel="noopener">copy-paste a sentence</a> with your target word into a card and write the translation of that word (or sentence) on the back. But if you&rsquo;re a beginner, even these cards can be complicated both to write and to review. What if the sentence where you found the new word is too complex? You&rsquo;ll need to write a brand new sentence. But what if you write an incorrect sentence? And so on.</p>
+<h1 id="automating-the-process">
+  Automating the process
+  <a class="heading-link" href="#automating-the-process">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Automated card generation has been often compared to the usage of <a href="https://www.reddit.com/r/languagelearning/comments/6ysx7g/is_there_value_in_making_your_own_anki_deck_or/"  class="external-link" target="_blank" rel="noopener">pre-made decks</a>, because the students don&rsquo;t see the content of the cards they&rsquo;re adding to their decks before doing so. However, this depends a lot on how much the automation is hiding from the user.</p>
+<p>In my family we&rsquo;re currently learning Portuguese, so we end up creating a lot of cards with Portuguese vocabulary. Given that many useful words are hard to make sense of without context, having cards with sample sentences helps me massively to remember them. But our sample sentences often sound unnatural in Portuguese, even when they&rsquo;re correct. It would be great if we could have a &ldquo;sample sentence generator&rdquo; that creates such sample sentences for me in more colloquial Portuguese!</p>
+<p>This is when we&rsquo;ve got the idea of using an LLM to help with the task. GPT models are great sentence generators: can we get them to make some good sample sentence cards?</p>
+<p>A <a href="https://chat.openai.com/share/89c821b8-6048-45f3-9fc1-c3875fdbe1c5"  class="external-link" target="_blank" rel="noopener">quick experiment</a> proves that there is potential to this concept.</p>
+<p><img src="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/chatgpt-anki-card-creation.png" alt=""></p>
+<h1 id="custom-gpts">
+  Custom GPTs
+  <a class="heading-link" href="#custom-gpts">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>The natural next step is to store that set of instructions into a custom prompt, or as they&rsquo;re called now, a <a href="https://help.openai.com/en/articles/8554407-gpts-faq#h_40756527ce"  class="external-link" target="_blank" rel="noopener">custom GPT</a>. Making these small wrapper is <a href="https://help.openai.com/en/articles/8554397-creating-a-gpt"  class="external-link" target="_blank" rel="noopener">really easy</a>: it requires no coding, only a well crafted prompt and a catchy name. So we called our new GPT &ldquo;ClozeGPT&rdquo; and started off with a prompt like this:</p>
+<pre><code>Your job is to create Portuguese Anki cloze cards. 
+I might give you a single word or a pair (word + translation). 
+
+Front cards:
+- Use Anki's `{{c1::...}}` feature to template in cards. 
+- You can create cards with multiple clozes.
+- Keep the verb focused, and don't rely too much on auxiliary verbs like 
+  &quot;precisar&quot;, &quot;gostar&quot;, etc...
+- Use the English translation as a cloze hint.
+
+Back cards:
+- The back card should contain the Portuguese word.
+- If the word could be mistaken (e.g. &quot;levantar&quot; vs. &quot;acordar&quot;), 
+  write a hint that can help me remember the difference. 
+- The hint should be used sparingly.
+
+Examples:
+
+---------
+
+Input: cozinhar
+
+# FRONT
+```
+Eu {{c1::cozinho::cook}} todos os dias para minha família.
+```
+
+# BACK
+```
+cozinhar - to cook
+```
+---------
+
+Input: levantar
+
+# FRONT
+```
+Eu preciso {{c1::levantar::get up}} cedo amanhã para ir ao trabalho.
+```
+
+# BACK
+```
+levantar - to get up, to raise (don't mistake this with &quot;acordar&quot;, which is to wake up from sleep)
+```
+</code></pre>
+<p>This simple prompt already gives very nice results!</p>
+<p><img src="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/beber-flashcard.png" alt=""></p>
+<h1 id="bells-and-whistles">
+  Bells and whistles
+  <a class="heading-link" href="#bells-and-whistles">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Naturally, once a tool works well it&rsquo;s hard to resist the urge to add some new features to it. So for our ClozeGPT we added a few more abilities:</p>
+<pre><code># Commands
+
+## `+&lt;&lt;word&gt;&gt;`
+Expands the back card with an extra word present in the sentence.
+Include all the previous words, plus the one given.
+In this case, only the back card needs to be printed; don't show the front card again.
+
+## `R[: &lt;&lt;optional hint&gt;&gt;]`
+Regenerates the response based on the hint given.
+If the hint is absent, regenerate the sentence with a different context.
+Do not change the target words, the hint most often a different context I would like to have a sentence for.
+
+## `Q: &lt;&lt;question&gt;&gt;`
+This is an escape to a normal chat about a related question.
+Answer the question as usual, you don't need to generate anything.
+</code></pre>
+<p>The <code>+</code> command is useful when the generated sentence contains some other interesting word you can take the occasion to learn as well:</p>
+<p><img src="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/maca-flashcard.png" alt=""></p>
+<p>The <code>R</code> command can be used to direct the card generation a bit better than with a simple press on the &ldquo;Regenerate&rdquo; icon:</p>
+<p><img src="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/morango-flashcard.png" alt=""></p>
+<p>And finally <code>Q</code> is a convenient escape hatch to make this GPT revert back to its usual helpful self, where it can engage in conversation.</p>
+<p><img src="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/esquecer-flashcard.png" alt=""></p>
+<h1 id="have-fun">
+  Have fun
+  <a class="heading-link" href="#have-fun">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Our small <a href="https://chat.openai.com/g/g-wmHCaGcCZ-clozegpt"  class="external-link" target="_blank" rel="noopener">ClozeGPT</a> works only for Portuguese now, but feel free to play with it if you find it useful. And, of course, always keep in mind that LLMs are only <a href="https://chat.openai.com/share/07295647-9f43-4346-97a5-b35f62251d55"  class="external-link" target="_blank" rel="noopener">pretending to be humans</a>.</p>
+<p><img src="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/laranja-flashcard.png" alt=""></p>
+<p><em>Front: I like orange juice in my morning coffee.</em></p>
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">SDE</a></p>
+      </div>
+
+      <hr style="margin-top: 5rem;">
+
+
+<div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
+    <p>Share this post on: </p>
+    <a href="https://twitter.com/intent/post?ClozeGPT%3a%20Write%20Anki%20cloze%20cards%20with%20a%20custom%20GPT, by @zansara_dev=test&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-28-create-anki-cloze-cards-with-custom-gpt%2f" aria-label="share on Twitter">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></div>
+    </a>
+    <a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-28-create-anki-cloze-cards-with-custom-gpt%2f" aria-label="share on HackerNews">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96zM21 229.2c0 0 .1-.1 .1-.2s.1-.2 .2-.2c0 .1 0 .3-.1 .4H21zM239.2 384H207.8V281.3L128 128h37.3c41.5 77.7 48.1 95.8 54.1 112c1.6 4.3 3.1 8.5 5.2 13.6c3.2-7 5.1-11.9 7.1-17.3c5.9-15.3 12.8-33.2 53.5-108.3H320L239.2 283.1V384z"/></svg></div>
+    </a>
+    <a href="https://mastodonshare.com/?text=ClozeGPT%3a%20Write%20Anki%20cloze%20cards%20with%20a%20custom%20GPT, by @zansara@mastodon.social&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-28-create-anki-cloze-cards-with-custom-gpt%2f" aria-label="share on Mastodon">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54a102.5 102.5 0 0 1 -.9-13.9c85.6 20.9 158.7 9.1 178.8 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.3V197c0-58.5-64-56.6-64-6.9v114.2H90.2c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175z"/></svg></div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-28-create-anki-cloze-cards-with-custom-gpt%2f" aria-label="share on LinkedIn">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></div>
+    </a>
+    <a href="mailto:?subject=ClozeGPT%3a%20Write%20Anki%20cloze%20cards%20with%20a%20custom%20GPT, by Sara Zan.&body=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-02-28-create-anki-cloze-cards-with-custom-gpt%2f" aria-label="share by email">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></div>
+    </a>
+</div>
+
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2024
+    <a href="/">Sara Zan</a>
+    ·
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>
