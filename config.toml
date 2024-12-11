@@ -111,10 +111,6 @@ style = "github-dark"
   weight = 3
   url  = "projects/"
 [[menu.main]]
-  name = "Demos"
-  weight = 4
-  url  = "demos/"
-[[menu.main]]
   name = "Publications"
   weight = 5
   url  = "publications/"
