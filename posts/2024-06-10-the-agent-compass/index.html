@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  The Agent Compass · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="The concept of Agent is one of the vaguest out there in the post-ChatGPT landscape. The word has been used to identify systems that seem to have nothing in common with one another, from complex autonomous research systems down to a simple sequence of two predefined LLM calls. Even the distinction between Agents and techniques such as RAG and prompt engineering seems blurry at best.
+Let&rsquo;s try to shed some light on the topic by understanding just how much the term &ldquo;AI Agent&rdquo; covers and set some landmarks to better navigate the space.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The Agent Compass">
+  <meta name="twitter:description" content="The concept of Agent is one of the vaguest out there in the post-ChatGPT landscape. The word has been used to identify systems that seem to have nothing in common with one another, from complex autonomous research systems down to a simple sequence of two predefined LLM calls. Even the distinction between Agents and techniques such as RAG and prompt engineering seems blurry at best.
+Let’s try to shed some light on the topic by understanding just how much the term “AI Agent” covers and set some landmarks to better navigate the space.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2024-06-10-the-agent-compass/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="The Agent Compass">
+  <meta property="og:description" content="The concept of Agent is one of the vaguest out there in the post-ChatGPT landscape. The word has been used to identify systems that seem to have nothing in common with one another, from complex autonomous research systems down to a simple sequence of two predefined LLM calls. Even the distinction between Agents and techniques such as RAG and prompt engineering seems blurry at best.
+Let’s try to shed some light on the topic by understanding just how much the term “AI Agent” covers and set some landmarks to better navigate the space.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-06-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-06-10T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2024-06-10-the-agent-compass/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2024-06-10-the-agent-compass/cover.png">
+  <meta name="og:image" content="/posts/2024-06-10-the-agent-compass/cover.png">
+  <meta name="twitter:image" content="/posts/2024-06-10-the-agent-compass/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://zansaradev.goatcounter.com">Stats</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2024-06-10-the-agent-compass/">
+              The Agent Compass
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2024-06-10T00:00:00Z">
+                June 10, 2024
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2024-06-10-the-agent-compass/cover.png" alt="Featured image"/>
+        
+        <p>The concept of Agent is one of the vaguest out there in the post-ChatGPT landscape. The word has been used to identify systems that seem to have nothing in common with one another, from complex autonomous research systems down to a simple sequence of two predefined LLM calls. Even the distinction between Agents and techniques such as RAG and prompt engineering seems blurry at best.</p>
+<p>Let&rsquo;s try to shed some light on the topic by understanding just how much the term &ldquo;AI Agent&rdquo; covers and set some landmarks to better navigate the space.</p>
+<h2 id="defining-agent">
+  Defining &ldquo;Agent&rdquo;
+  <a class="heading-link" href="#defining-agent">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The problem starts with the definition of &ldquo;agent&rdquo;. For example, <a href="https://en.wikipedia.org/wiki/Software_agent"  class="external-link" target="_blank" rel="noopener">Wikipedia</a> reports that a software agent is</p>
+<blockquote>
+<p>a computer program that acts for a user or another program in a relationship of agency.</p>
+</blockquote>
+<p>This definition is extremely high-level, to the point that it could be applied to systems ranging from ChatGPT to a thermostat. However, if we restrain our definition to &ldquo;LLM-powered agents&rdquo;, then it starts to mean something: an Agent is an LLM-powered application that is given some <strong>agency</strong>, which means that it can take actions to accomplish the goals set by its user. Here we see the difference between an agent and a simple chatbot, because a chatbot can only talk to a user. but don&rsquo;t have the agency to take any action on their behalf. Instead, an Agent is a system you can effectively delegate tasks to.</p>
+<p>In short, an LLM powered application can be called an Agent when</p>
+<blockquote>
+<p>it can take decisions and choose to perform actions in order to achieve the goals set by the user.</p>
+</blockquote>
+<h2 id="autonomous-vs-conversational">
+  Autonomous vs Conversational
+  <a class="heading-link" href="#autonomous-vs-conversational">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>On top of this definition there&rsquo;s an additional distinction to take into account, normally brought up by the terms <strong>autonomous</strong> and <strong>conversational</strong> agents.</p>
+<p>Autonomous Agents are applications that <strong>don&rsquo;t use conversation as a tool</strong> to accomplish their goal. They can use several tools several times, but they won&rsquo;t produce an answer for the user until their goal is accomplished in full. These agents normally interact with a single user, the one that set their goal, and the whole result of their operations might be a simple notification that the task is done. The fact that they can understand language is rather a feature that lets them receive the user&rsquo;s task in natural language, understand it, and then to navigate the material they need to use (emails, webpages, etc).</p>
+<p>An example of an autonomous agent is a <strong>virtual personal assistant</strong>: an app that can read through your emails and, for example, pays the bills for you when they&rsquo;re due. This is a system that the user sets up with a few credentials and then works autonomously, without the user&rsquo;s supervision, on the user&rsquo;s own behalf, possibly without bothering them at all.</p>
+<p>On the contrary, Conversational Agents <strong>use conversation as a tool</strong>, often their primary one. This doesn&rsquo;t have to be a conversation with the person that set them off: it&rsquo;s usually a conversation with another party, that may or may not be aware that they&rsquo;re talking to an autonomous system. Naturally, they behave like agents only from the perspective of the user that assigned them the task, while in many cases they have very limited or no agency from the perspective of the users that holds the conversation with them.</p>
+<p>An example of a conversational agent is a <strong>virtual salesman</strong>: an app that takes a list of potential clients and calls them one by one, trying to persuade them to buy. From the perspective of the clients receiving the call this bot is not an agent: it can perform no actions on their behalf, in fact it may not be able to perform actions at all other than talking to them. But from the perspective of the salesman the bots are agents, because they&rsquo;re calling people for them, saving a lot of their time.</p>
+<p>The distinction between these two categories is very blurry, and <strong>some systems may behave like both</strong> depending on the circumnstances. For example, an autonomous agent might become a conversational one if it&rsquo;s configured to reschedule appointments for you by calling people, or to reply to your emails to automatically challenge parking fines, and so on. Alternatively, an LLM that asks you if it&rsquo;s appropriate to use a tool before using it is behaving a bit like a conversational agent, because it&rsquo;s using the chat to improve its odds of providing you a better result.</p>
+<h2 id="degrees-of-agency">
+  Degrees of agency
+  <a class="heading-link" href="#degrees-of-agency">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>All the distinctions we made above are best understood as a continuous spectrum rather than hard categories. Various AI systems may have more or less agency and may be tuned towards a more &ldquo;autonomous&rdquo; or &ldquo;conversational&rdquo; behavior.</p>
+<p>In order to understand this difference in practice, let&rsquo;s try to categorize some well-known LLM techniques and apps to see how &ldquo;agentic&rdquo; they are. Having two axis to measure by, we can build a simple compass like this:</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/empty-compass.png" alt="a compass with two axis: no agency (left) to full agency (right) on the horizontal axis, and autonomous (bottom) to conversational (top) on the vertical axis."></p>
+<div style="text-align:center;"><i>Our Agent compass</i></div>
+<h3 id="bare-llms">
+  Bare LLMs
+  <a class="heading-link" href="#bare-llms">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Many apps out there perform nothing more than direct calls to LLMs, such as ChatGPT&rsquo;s free app and other similarly simple assistants and chatbots. There are no more components to this system other than the model itself and their mode of operation is very straightforward: a user asks a question to an LLM, and the LLM replies directly.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/direct-llm-call.png" alt="Diagram of the operation of a direct LLM call: a user asks a question to an LLM and the LLM replies directly."></p>
+<p>This systems are not designed with the intent of accomplishing a goal, and neither can take any actions on the user&rsquo;s behalf. They focus on talking with a user in a reactive way and can do nothing else than talk back. An LLM on its own has <strong>no agency at all</strong>.</p>
+<p>At this level it also makes very little sense to distinguish between autonomous or conversational agent behavior, because the entire app shows no degrees of autonomy. So we can place them at the very center-left of the diagram.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/direct-llm-call-compass.png" alt="the updated compass"></p>
+<h3 id="basic-rag">
+  Basic RAG
+  <a class="heading-link" href="#basic-rag">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Together with direct LLM calls and simple chatbots, basic RAG is also an example of an application that does not need any agency or goals to pursue in order to function. Simple RAG apps works in two stages: first the user question is sent to a retriever system, which fetches some additional data relevant to the question. Then, the question and the additional data is sent to the LLM to formulate an answer.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/basic-rag.png" alt="Diagram of the operation of a RAG app: first the user question is sent to a retriever system, which fetches some additional data relevant to the question. Then, the question and the additional data is sent to the LLM to formulate an answer."></p>
+<p>This means that simple RAG is not an agent: the LLM has no role in the retrieval step and simply reacts to the RAG prompt, doing little more than what a direct LLM call does. <strong>The LLM is given no agency</strong>, takes no decisions in order to accomplish its goals, and has no tools it can decide to use, or actions it can decide to take. It&rsquo;s a fully pipelined, reactive system. However, we may rank basic RAG more on the autonomous side with respect to a direct LLM call, because there is one step that is done automonously (the retrieval).</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/basic-rag-compass.png" alt="the updated compass"></p>
+<h3 id="agentic-rag">
+  Agentic RAG
+  <a class="heading-link" href="#agentic-rag">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Agentic RAG is a slightly more advanced version of RAG that does not always perform the retrieval step. This helps the app produce better prompts for the LLM: for example, if the user is asking a question about trivia, retrieval is very important, while if they&rsquo;re quizzing the LLM with some mathematical problem, retrieval might confuse the LLM by giving it examples of solutions to different puzzles, and therefore make hallucinations more likely.</p>
+<p>This means that an agentic RAG app works as follows: when the user asks a question, before calling the retriever the app checks whether the retrieval step is necessary at all. Most of the time the preliminary check is done by an LLM as well, but in theory the same check coould be done by a properly trained classifier model. Once the check is done, if retrieval was necessary it is run, otherwise the app skips directly to the LLM, which then replies to the user.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/agentic-rag.png" alt="Diagram of the operation of an agentic RAG app: when the user asks a question, before calling the retriever the app checks whether the retrieval step is necessary at all. Once the check is done, if retrieval was necessary it is run, otherwise the app skips directly to the LLM, which then replies to the user."></p>
+<p>You can see immediately that there&rsquo;s a fundamental difference between this type of RAG and the basic pipelined form: the app needs to <strong>take a decision</strong> in order to accomplish the goal of answering the user. The goal is very limited (giving a correct answer to the user), and the decision very simple (use or not use a single tool), but this little bit of agency given to the LLM makes us place an application like this definitely more towards the Agent side of the diagram.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/agentic-rag-compass.png" alt="the updated compass"></p>
+<p>We keep Agentic RAG towards the Autonomous side because in the vast majority of cases the decision to invoke the retriever is kept hidden from the user.</p>
+<h3 id="llms-with-function-calling">
+  LLMs with function calling
+  <a class="heading-link" href="#llms-with-function-calling">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Some LLM applications, such as ChatGPT with GPT4+ or Bing Chat, can make the LLM use some predefined tools: a web search, an image generator, and maybe a few more. The way they work is quite straightforward: when a user asks a question, the LLM first needs to decide whether it should use a tool to answer the question. If it decides that a tool is needed, it calls it, otherwise it skips directly to generating a reply, which is then sent back to the user.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/llm-with-function-calling.png" alt="Diagram of the operation of an LLM with function calling: when a user asks a question, the LLM first needs to decide whether it should use a tool to answer the question. If it decides that a tool is needed, it calls it, otherwise it skips directly to generating a reply, which is then sent back to the user."></p>
+<p>You can see how this diagram resemble agentic RAG&rsquo;s: before giving an answer to the user, the app needs to <strong>take a decision</strong>.</p>
+<p>With respect to Agentic RAG this decision is a lot more complex: it&rsquo;s not a simple yes/no decision, but it involves choosing which tool to use and also generate the input parameters for the selected tool that will provide the desired output. In many cases the tool&rsquo;s output will be given to the LLM to be re-elaborated (such as the output of a web search), while in some other it can go directly to the user (like in the case of image generators). This all implies that more agency is given to the system and, therefore, it can be placed more clearly towards the Agent end of the scale.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/llm-with-function-calling-compass.png" alt="the updated compass"></p>
+<p>We place LLMs with function calling in the middle between Conversational and Autonomous because the degree to which the user is aware of this decision can vary greatly between apps. For example, Bing Chat and ChatGPT normally notify the user that they&rsquo;re going to use a tool when they do, and the user can instruct them to use them or not, so they&rsquo;re slightly more conversational.</p>
+<h3 id="self-correcting-rag">
+  Self correcting RAG
+  <a class="heading-link" href="#self-correcting-rag">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Self-correcting RAG is a technique that improves on simple RAG by making the LLM double-check its replies before returning them to the user. It comes from an LLM evaluation technique called &ldquo;LLM-as-a-judge&rdquo;, because an LLM is used to judge the output of a different LLM or RAG pipeline.</p>
+<p>Self-correcting RAG starts as simple RAG: when the user asks a question, the retriever is called and the results are sent to the LLM to extract an answer from. However, before returning the answer to the user, another LLM is asked to judge whether in their opinion, the answer is correct. If the second LLM agrees, the answer is sent to the user. If not, the second LLM generates a new question for the retriever and runs it again, or in other cases, it simply integrates its opinion in the prompt and runs the first LLM again.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/self-correcting-rag.png" alt="Diagram of the operation of self correcting RAG: when the user asks a question, the retriever is called and the results are sent to the LLM to extract an answer from. However, before returning the answer to the user, another LLM is asked to judge whether in their opinion, the answer is correct. If the second LLM agrees, the answer is sent to the user. If not, the second LLM generates a new question for the retriever and runs it again, or in other cases, it simply integrates its opinion in the prompt and runs the first LLM again."></p>
+<p>Self-correcting RAG can be seen as <strong>one more step towards agentic behavior</strong> because it unlocks a new possibility for the application: <strong>the ability to try again</strong>. A self-correcting RAG app has a chance to detect its own mistakes and has the agency to decide that it&rsquo;s better to try again, maybe with a slightly reworded question or different retrieval parameters, before answering the user. Given that this process is entirely autonomous, we&rsquo;ll place this technique quite towards the Autonomous end of the scale.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/self-correcting-rag-compass.png" alt="the updated compass"></p>
+<h3 id="chain-of-thought">
+  Chain-of-thought
+  <a class="heading-link" href="#chain-of-thought">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><a href="https://arxiv.org/abs/2201.11903"  class="external-link" target="_blank" rel="noopener">Chain-of-thought</a> is a family of prompting techniques that makes the LLM &ldquo;reason out loud&rdquo;. It&rsquo;s very useful when the model needs to process a very complicated question, such as a mathematical problem or a layered question like &ldquo;When was the eldest sistem of the current King of Sweden born?&rdquo; Assuming that the LLM knows these facts, in order to not hallucinate it&rsquo;s best to ask the model to proceed &ldquo;step-by-step&rdquo; and find out, in order:</p>
+<ol>
+<li>Who the current King of Sweden is,</li>
+<li>Whether he has an elder sister,</li>
+<li>If yes, who she is,</li>
+<li>The age of the person identified above.</li>
+</ol>
+<p>The LLM might know the final fact in any case, but the probability of it giving the right answer increases noticeably if the LLM is prompted this way.</p>
+<p>Chain-of-thought prompts can also be seen as the LLM accomplishing the task of finding the correct answer in steps, which implies that there are two lines of thinking going on: on one side the LLM is answering the questions it&rsquo;s posing to itself, while on the other it&rsquo;s constantly re-assessing whether it has a final answer for the user.</p>
+<p>In the example above, the chain of thought might end at step 2 if the LLM realizes that the current King of Sweden has no elder sisters (he <a href="https://en.wikipedia.org/wiki/Carl_XVI_Gustaf#Early_life"  class="external-link" target="_blank" rel="noopener">doesn&rsquo;t</a>): the LLM needs to keep an eye of its own thought process and decide whether it needs to continue or not.</p>
+<p>We can summarize an app using chain-of-thought prompting like this: when a user asks a question, first of all the LLM reacts to the chain-of-thought prompt to lay out the sub-questions it needs to answer. Then it answers its own questions one by one, asking itself each time whether the final answer has already been found. When the LLM believes it has the final answer, it rewrites it for the user and returns it.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/chain-of-thought.png" alt="Diagram of the operation of a chain-of-thought LLM app: when a user asks a question, first of all the LLM reacts to the chain-of-thought prompt to lay out the sub-questions it needs to answer. Then it answers its own questions one by one, asking itself each time whether the final answer has already been found. When the LLM believes it has the final answer, it rewrites it for the user and returns it "></p>
+<p>This new prompting technique makes a big step towards full agency: the ability for the LLM to <strong>assess whether the goal has been achieved</strong> before returning any answer to the user. While apps like Bing Chat iterate with the user and need their feedback to reach high-level goals, chain-of-thought gives the LLM the freedom to check its own answers before having the user judge them, which makes the loop much faster and can increase the output quality dramatically.</p>
+<p>This process is similar to what self-correcting RAG does, but has a wider scope, because the LLM does not only need to decide whether an answer is correct, it can also decide to continue reasoning in order to make it more complete, more detailed, to phrase it better, and so on.</p>
+<p>Another interesting trait of chain-of-thought apps is that they introduce the concept of <strong>inner monologue</strong>. The inner monologue is a conversation that the LLM has with itself, a conversation buffer where it keeps adding messages as the reasoning develops. This monologue is not visible to the user, but helps the LLM deconstruct a complex reasoning line into a more manageable format, like a researcher that takes notes instead of keeping all their earlier reasoning inside their head all the times.</p>
+<p>Due to the wider scope of the decision-making that chain-of-thought apps are able to do, they also place in the middle of our compass They can be seen as slightly more autonomous than conversational due to the fact that they hide their internal monologue to the user.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/chain-of-thought-compass.png" alt="the updated compass"></p>
+<p>From here, the next step is straightforward: using tools.</p>
+<h3 id="multi-hop-rag">
+  Multi-hop RAG
+  <a class="heading-link" href="#multi-hop-rag">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Multi-hop RAG applications are nothing else than simple RAG apps that use chain-of-thought prompting and are free to invoke the retriever as many times as needed and only when needed.</p>
+<p>This is how it works. When the user makes a question, a chain of thought prompt is generated and sent to the LLM. The LLM assesses whether it knows the answer to the question and if not, asks itself whether a retrieval is necessary. If it decides that retrieval is necessary it calls it, otherwise it skips it and generates an answer directly. It then checks again whether the question is answered. Exiting the loop, the LLM produces a complete answer by re-reading its own inner monologue and returns this reply to the user.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/multi-hop-rag.png" alt="Diagram of the operation of multi-hop RAG: when the user makes a question, a chain of thought prompt is generated and sent to the LLM. The LLM assesses whether it knows the answer to the question and if not, asks itself whether a retrieval is necessary. If it decides that retrieval is necessary it calls it, otherwise it skips it and generates an answer directly. It then checks again whether the question is answered. Exiting the loop, the LLM produces a complete answer by re-reading its own inner monologue and returns this reply to the user."></p>
+<p>An app like this is getting quite close to a proper autonomous agent, because it can <strong>perform its own research autonomously</strong>. The LLM calls are made in such a way that the system is able to assess whether it knows enough to answer or whether it should do more research by formulating more questions for the retriever and then reasoning over the new collected data.</p>
+<p>Multi-hop RAG is a very powerful technique that shows a lot of agency and autonomy, and therefore can be placed in the lower-right quadrant of out compass. However, it is still limited with respect to a &ldquo;true&rdquo; autonomous agent, because the only action it can take is to invoke the retriever.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/multi-hop-rag-compass.png" alt="the updated compass"></p>
+<h3 id="react-agents">
+  ReAct Agents
+  <a class="heading-link" href="#react-agents">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Let&rsquo;s now move onto apps that can be defined proper &ldquo;agents&rdquo;. One of the first flavor of agentic LLM apps, and still the most popular nowadays, is called &ldquo;<a href="https://arxiv.org/abs/2210.03629"  class="external-link" target="_blank" rel="noopener">ReAct</a>&rdquo; Agents, which stands for &ldquo;Reason + Act&rdquo;. ReAct is a prompting technique that belongs to the chain-of-thought extended family: it makes the LLM reason step by step, decide whether to perform any action, and then observe the result of the actions it took before moving further.</p>
+<p>A ReAct agent works more or less like this: when user sets a goal, the app builds a ReAct prompt, which first of all asks the LLM whether the answer is already known. If the LLM says no, the prompt makes it select a tool. The tool returns some values which are added to the inner monologue of the application toghether with the invitation to re-assess whether the goal has been accomplished. The app loops over until the answer is found, and then the answer is returned to the user.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/react-agent.png" alt="Diagram of the operation of a ReAct Agent: when user sets a goal, the app builds a ReAct prompt, which first of all asks the LLM whether the answer is already known. If the LLM says no, the prompt makes it select a tool. The tool returns some values which are added to the inner monologue of the application toghether with the invitation to re-assess whether the goal has been accomplished. The app loops over until the answer is found, and then the answer is returned to the user."></p>
+<p>As you can see, the structure is very similar to a multi-hop RAG, with an important difference: ReAct Agents normally have <strong>many tools to choose from</strong> rather than a single retriever. This gives them the agency to take much more complex decisions and can be finally called &ldquo;agents&rdquo;.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/react-agent-compass.png" alt="the updated compass"></p>
+<p>ReAct Agents are very autonomous in their tasks and rely on an inner monologue rather than a conversation with a user to achieve their goals. Therefore we place them very much on the Autonomous end of the spectrum.</p>
+<h3 id="conversational-agents">
+  Conversational Agents
+  <a class="heading-link" href="#conversational-agents">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Conversational Agents are a category of apps that can vary widely. As stated earlier, conversational agents focus on using the conversation itself as a tool to accomplish goals, so in order to understand them, one has to distinguish between the people that set the goal (let&rsquo;s call them <em>owners</em>) and those who talk with the bot (the <em>users</em>).</p>
+<p>Once this distinction is made, this is how the most basic conversational agents normally work. First, the owner sets a goal. The application then starts a conversation with a user and, right after the first message, starts asking itself if the given goal was accomplished. It then keeps talking to the target user until it believes the goal was attained and, once done, it returns back to its owner to report the outcome.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/basic-conversational-agent.png" alt="Diagram of the operation of a Conversational Agent: first, the owner sets a goal. The application then starts a conversation with a user and, right after the first message, starts asking itself if the given goal was accomplished. It then keeps talking to the target user until it believes the goal was attained and, once done, it returns back to its owner to report the outcome."></p>
+<p>Basic conversational agents are very agentic in the sense that they can take a task off the hands of their owners and keep working on them until the goal is achieved. However, <strong>they have varying degrees of agency</strong> depending on how many tools they can use and how sophisticated is their ability to talk to their target users.</p>
+<p>For example, can the communication occurr over one single channel, be it email, chat, voice, or something else? Can the agent choose among different channels to reach the user? Can it perform side tasks to behalf of either party to work towards its task? There is a large variety of these agents available and no clear naming distinction between them, so depending on their abilities, their position on our compass might be very different. This is why we place them in the top center, spreading far out in both directions.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/conversational-agent-compass.png" alt="the updated compass"></p>
+<h3 id="ai-crews">
+  AI Crews
+  <a class="heading-link" href="#ai-crews">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>By far the most advanced agent implementation available right now is called AI Crew, such as the ones provided by <a href="https://www.crewai.com/"  class="external-link" target="_blank" rel="noopener">CrewAI</a>. These apps take the concept of autonomous agent to the next level by making several different agents work together.</p>
+<p>The way these apps works is very flexible. For example, let&rsquo;s imagine we are making an AI application that can build a fully working mobile game from a simple description. This is an extremely complex task that, in real life, requires several developers. To achieve the same with an AI Crew, the crew needs to contain several agents, each one with their own special skills, tools, and background knowledge. There could be:</p>
+<ul>
+<li>a Designer Agent, that has all the tools to generate artwork and assets;</li>
+<li>a Writer Agent that writes the story, the copy, the dialogues, and most of the text;</li>
+<li>a Frontend Developer Agent that designs and implements the user interface;</li>
+<li>a Game Developer Agent that writes the code for the game itself;</li>
+<li>a Manager Agent, that coordinates the work of all the other agents, keeps them on track and eventually reports the results of their work to the user.</li>
+</ul>
+<p>These agents interact with each other just like a team of humans would: by exchanging messages in a chat format, asking each other to perform actions for them, until their manager decides that the overall goal they were set to has been accomplished, and reports to the user.</p>
+<p>AI Crews are very advanced and dynamic systems that are still actively researched and explored. One thing that&rsquo;s clear though is that they show the highest level of agency of any other LLM-based app, so we can place them right at the very bottom-right end of the scale.</p>
+<p><img src="/posts/2024-06-10-the-agent-compass/ai-crews-compass.png" alt="the updated compass"></p>
+<h2 id="conclusion">
+  Conclusion
+  <a class="heading-link" href="#conclusion">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>What we&rsquo;ve seen here are just a few examples of LLM-powered applications and how close or far they are to the concept of a &ldquo;real&rdquo; AI agent. AI agents are still a very active area of research, and their effectiveness is getting more and more reasonable as LLMs become cheaper and more powerful.</p>
+<p>As matter of fact, with today&rsquo;s LLMs true AI agents are possible, but in many cases they&rsquo;re too brittle and expensive for real production use cases. Agentic systems today suffer from two main issues: they perform <strong>huge and frequent LLM calls</strong> and they <strong>tolerate a very low error rate</strong> in their decision making.</p>
+<p>Inner monologues can grow to an unbounded size during the agent&rsquo;s operation, making the context window size a potential limitation. A single bad decision can send a chain-of-thought reasoning train in a completely wrong direction and many LLM calls will be performed before the system realizes its mistake, if it does at all. However, as LLMs become faster, cheaper and smarter, the day when AI Agent will become reliable and cheap enough is nearer than many think.</p>
+<p>Let&rsquo;s be ready for it!</p>
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">SDH</a></p>
+      </div>
+
+      <hr style="margin-top: 5rem;">
+
+
+<div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
+    <p>Share this post on: </p>
+    <a href="https://twitter.com/intent/post?The%20Agent%20Compass, by @zansara_dev=test&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-06-10-the-agent-compass%2f" aria-label="share on Twitter">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></div>
+    </a>
+    <a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-06-10-the-agent-compass%2f" aria-label="share on HackerNews">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96zM21 229.2c0 0 .1-.1 .1-.2s.1-.2 .2-.2c0 .1 0 .3-.1 .4H21zM239.2 384H207.8V281.3L128 128h37.3c41.5 77.7 48.1 95.8 54.1 112c1.6 4.3 3.1 8.5 5.2 13.6c3.2-7 5.1-11.9 7.1-17.3c5.9-15.3 12.8-33.2 53.5-108.3H320L239.2 283.1V384z"/></svg></div>
+    </a>
+    <a href="https://mastodonshare.com/?text=The%20Agent%20Compass, by @zansara@mastodon.social&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-06-10-the-agent-compass%2f" aria-label="share on Mastodon">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54a102.5 102.5 0 0 1 -.9-13.9c85.6 20.9 158.7 9.1 178.8 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.3V197c0-58.5-64-56.6-64-6.9v114.2H90.2c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175z"/></svg></div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-06-10-the-agent-compass%2f" aria-label="share on LinkedIn">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></div>
+    </a>
+    <a href="mailto:?subject=The%20Agent%20Compass, by Sara Zan.&body=https%3a%2f%2fwww.zansara.dev%2fposts%2f2024-06-10-the-agent-compass%2f" aria-label="share by email">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></div>
+    </a>
+</div>
+
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2024
+    <a href="/">Sara Zan</a>
+    ·
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>
