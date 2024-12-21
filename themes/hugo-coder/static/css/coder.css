@@ -3,6 +3,11 @@
   src: url("/fonts/teranoptia/fonts/Teranoptia-Furiae.ttf");
 }
 
+.home-icon {
+  width: 2em;
+  height: 2em;
+}
+
 .fleuron {
   text-align: center!important;
   width: 100%;

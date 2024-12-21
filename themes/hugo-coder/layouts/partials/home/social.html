@@ -4,7 +4,9 @@
     {{ if .icon }}
       <li>
         <a href="{{ .url | safeURL }}" aria-label="{{ .name }}" {{ if .rel }}rel="{{ .rel }}"{{ end }} {{ if .target }}target="{{ .target }}"{{ end }} {{ if .type }}type="{{ .type }}"{{ end }}>
-          <i class="{{ .icon }}" aria-hidden="true"></i>
+          <svg xmlns="http://www.w3.org/2000/svg" class="home-icon" aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+            <path fill="currentColor" d="{{ .icon }}"/>
+          </svg>
         </a>
       </li>
     {{ else }}
