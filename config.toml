@@ -19,13 +19,13 @@ style = "github-dark"
   navbar = "Home"
   author = "Sara Zan"
   info = """
-  Lead AI Engineer at [Kwal](https://www.kwal.ai/),
+  Lead AI Engineer at [Kwal](http://archive.today/IH48a),
   [main contributor](https://github.com/deepset-ai/haystack/graphs/contributors) of [Haystack](https://haystack.deepset.ai/), 
   former [CERN](https://home.cern/) employee. 
   I'm also an opinionated sci-fi reader, hiker, tinkerer and somewhat polyglot. Currently busy trying to learn Portuguese and Hungarian at the same time.
   """
   description = "Sara Zan's Personal Website"
-  keywords = "blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source"
+  keywords = "blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai"
   avatarurl = "/me/avatar-color.svg"
   
   #gravatar = "john.doe@example.com"
