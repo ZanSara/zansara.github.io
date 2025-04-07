@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  RAG Pipelines from scratch · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="Last updated: 18/01/2023 - Read it on the Haystack Blog.
+
+Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today&rsquo;s NLP landscape, Haystack must enable it.
+Let&rsquo;s see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales. At the end of this post, we will have an application that can answer questions about world countries based on data stored in a private database. At that point, the knowledge of the LLM will be only limited by the content of our data store, and all of this can be accomplished without fine-tuning language models.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RAG Pipelines from scratch">
+  <meta name="twitter:description" content="Last updated: 18/01/2023 - Read it on the Haystack Blog.
+Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today’s NLP landscape, Haystack must enable it.
+Let’s see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales. At the end of this post, we will have an application that can answer questions about world countries based on data stored in a private database. At that point, the knowledge of the LLM will be only limited by the content of our data store, and all of this can be accomplished without fine-tuning language models.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="RAG Pipelines from scratch">
+  <meta property="og:description" content="Last updated: 18/01/2023 - Read it on the Haystack Blog.
+Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today’s NLP landscape, Haystack must enable it.
+Let’s see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales. At the end of this post, we will have an application that can answer questions about world countries based on data stored in a private database. At that point, the knowledge of the LLM will be only limited by the content of our data store, and all of this can be accomplished without fine-tuning language models.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-10-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-10-27T00:00:00+00:00">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-11-haystack-series-why/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2023-10-10-haystack-series-intro/">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2023-10-27-haystack-series-rag/cover.png">
+  <meta name="og:image" content="/posts/2023-10-27-haystack-series-rag/cover.png">
+  <meta name="twitter:image" content="/posts/2023-10-27-haystack-series-rag/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://zansaradev.goatcounter.com">Stats</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/">
+              RAG Pipelines from scratch
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2023-10-27T00:00:00Z">
+                October 27, 2023
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2023-10-27-haystack-series-rag/cover.png" alt="Featured image"/>
+        
+        <p><em>Last updated: 18/01/2023 - Read it on the <a href="https://haystack.deepset.ai/blog/rag-pipelines-from-scratch"  class="external-link" target="_blank" rel="noopener">Haystack Blog</a>.</em></p>
+<hr>
+<p>Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today&rsquo;s NLP landscape, Haystack must enable it.</p>
+<p>Let&rsquo;s see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales. At the end of this post, we will have an application that can answer questions about world countries based on data stored in a private database. At that point, the knowledge of the LLM will be only limited by the content of our data store, and all of this can be accomplished without fine-tuning language models.</p>
+<div class="notice info">
+  <div class="notice-content">💡 <em>I recently gave a talk about RAG applications in Haystack 2.0, so if you prefer videos to blog posts, you can find the recording <a href="https://zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/"  class="external-link" target="_blank" rel="noopener">here</a>. Keep in mind that the code shown might be outdated.</em></div>
+</div>
+
+<h2 id="what-is-rag">
+  What is RAG?
+  <a class="heading-link" href="#what-is-rag">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The idea of Retrieval Augmented Generation was first defined in a <a href="https://arxiv.org/abs/2005.11401"  class="external-link" target="_blank" rel="noopener">paper</a> by Meta in 2020. It was designed to solve a few of the inherent limitations of seq2seq models (language models that, given a sentence, can finish writing it for you), such as:</p>
+<ul>
+<li>Their internal knowledge, as vast as it may be, will always be limited and at least slightly out of date.</li>
+<li>They work best on generic topics rather than niche and specific areas unless they&rsquo;re fine-tuned on purpose, which is a costly and slow process.</li>
+<li>All models, even those with subject-matter expertise, tend to &ldquo;hallucinate&rdquo;: they confidently produce false statements backed by apparently solid reasoning.</li>
+<li>They cannot reliably cite their sources or tell where their knowledge comes from, which makes fact-checking their replies nontrivial.</li>
+</ul>
+<p>RAG solves these issues of &ldquo;grounding&rdquo; the LLM to reality by providing some relevant, up-to-date, and trusted information to the model together with the question. In this way, the LLM doesn&rsquo;t need to draw information from its internal knowledge, but it can base its replies on the snippets provided by the user.</p>
+<p><img src="/posts/2023-10-27-haystack-series-rag/rag-paper-image.png" alt="RAG Paper diagram" title="A visual representation of RAG from the original paper"></p>
+<p>As you can see in the image above (taken directly from the original paper), a system such as RAG is made of two parts: one that finds text snippets that are relevant to the question asked by the user and a generative model, usually an LLM, that rephrases the snippets into a coherent answer for the question.</p>
+<p>Let&rsquo;s build one of these with Haystack 2.0!</p>
+<div class="notice info">
+  <div class="notice-content">💡 <em>Do you want to see this code in action? Check out the Colab notebook <a href="https://colab.research.google.com/drive/1FkDNS3hTO4oPXHFbXQcldls0kf-KTq-r?usp=sharing"  class="external-link" target="_blank" rel="noopener">here</a> or the gist <a href="https://gist.github.com/ZanSara/0af1c2ac6c71d0a723c179cc6ec1ac41"  class="external-link" target="_blank" rel="noopener">here</a></em>.</div>
+</div>
+
+<div class="notice warning">
+  <div class="notice-content">⚠️ <strong>Warning:</strong> <em>This code was tested on <code>haystack-ai==2.0.0b5</code>. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components however stay the same.</em></div>
+</div>
+
+<h2 id="generators-haystacks-llm-components">
+  Generators: Haystack&rsquo;s LLM components
+  <a class="heading-link" href="#generators-haystacks-llm-components">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>As every NLP framework that deserves its name, Haystack supports LLMs in different ways. The easiest way to query an LLM in Haystack 2.0 is through a Generator component: depending on which LLM and how you intend to query it (chat, text completion, etc&hellip;), you should pick the appropriate class.</p>
+<p>We&rsquo;re going to use <code>gpt-3.5-turbo</code> (the model behind ChatGPT) for these examples, so the component we need is <a href="https://docs.haystack.deepset.ai/v2.0/docs/openaigenerator"  class="external-link" target="_blank" rel="noopener"><code>OpenAIGenerator</code></a>. Here is all the code required to use it to query OpenAI&rsquo;s <code>gpt-3.5-turbo</code> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack.components.generators</span> <span style="color:#ff7b72">import</span> OpenAIGenerator
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>generator <span style="color:#ff7b72;font-weight:bold">=</span> OpenAIGenerator(api_key<span style="color:#ff7b72;font-weight:bold">=</span>api_key)
+</span></span><span style="display:flex;"><span>generator<span style="color:#ff7b72;font-weight:bold">.</span>run(prompt<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What&#39;s the official language of France?&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns {&#34;replies&#34;: [&#39;The official language of France is French.&#39;]}</span>
+</span></span></code></pre></div><p>You can select your favorite OpenAI model by specifying a <code>model_name</code> at initialization, for example, <code>gpt-4</code>. It also supports setting an <code>api_base_url</code> for private deployments, a <code>streaming_callback</code> if you want to see the output generated live in the terminal, and optional <code>kwargs</code> to let you pass whatever other parameter the model understands, such as the number of answers (<code>n</code>), the temperature (<code>temperature</code>), etc.</p>
+<p>Note that in this case, we&rsquo;re passing the API key to the component&rsquo;s constructor. This is unnecessary: <code>OpenAIGenerator</code> can read the value from the <code>OPENAI_API_KEY</code> environment variable and also from the <code>api_key</code> module variable of <a href="https://github.com/openai/openai-python#usage"  class="external-link" target="_blank" rel="noopener"><code>openai</code>&rsquo;s SDK</a>.</p>
+<p>Right now, Haystack supports HuggingFace models through the <a href="https://docs.haystack.deepset.ai/v2.0/docs/huggingfacelocalgenerator"  class="external-link" target="_blank" rel="noopener"><code>HuggingFaceLocalGenerator</code></a> and <a href="https://docs.haystack.deepset.ai/v2.0/docs/huggingfacetgigenerator"  class="external-link" target="_blank" rel="noopener"><code>HuggingFaceTGIGenerator</code></a> components, and many more LLMs are coming soon.</p>
+<h2 id="promptbuilder-structured-prompts-from-templates">
+  PromptBuilder: structured prompts from templates
+  <a class="heading-link" href="#promptbuilder-structured-prompts-from-templates">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Let&rsquo;s imagine that our LLM-powered application also comes with some pre-defined questions that the user can select instead of typing in full. For example, instead of asking them to type <code>What's the official language of France?</code>, we let them select <code>Tell me the official languages</code> from a list, and they simply need to type &ldquo;France&rdquo; (or &ldquo;Wakanda&rdquo; for a change - our chatbot needs some challenges too).</p>
+<p>In this scenario, we have two pieces of the prompt: a variable (the country name, like &ldquo;France&rdquo;) and a prompt template, which in this case is <code>&quot;What's the official language of {{ country }}?&quot;</code></p>
+<p>Haystack offers a component that can render variables into prompt templates: it&rsquo;s called <a href="https://docs.haystack.deepset.ai/v2.0/docs/promptbuilder"  class="external-link" target="_blank" rel="noopener"><code>PromptBuilder</code></a>. As the generators we&rsquo;ve seen before, also <code>PromptBuilder</code> is nearly trivial to initialize and use.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack.components.builders</span> <span style="color:#ff7b72">import</span> PromptBuilder
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prompt_builder <span style="color:#ff7b72;font-weight:bold">=</span> PromptBuilder(template<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What&#39;s the official language of {{ country }}?&#34;</span>)
+</span></span><span style="display:flex;"><span>prompt_builder<span style="color:#ff7b72;font-weight:bold">.</span>run(country<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;France&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns {&#39;prompt&#39;: &#34;What&#39;s the official language of France?&#34;}</span>
+</span></span></code></pre></div><p>Note how we defined a variable, <code>country</code>, by wrapping its name in double curly brackets. PromptBuilder lets you define any input variable that way: if the prompt template was <code>&quot;What's the official language of {{ nation }}?&quot;</code>, the <code>run()</code> method of <code>PromptBuilder</code> would have expected a <code>nation</code> input.</p>
+<p>This syntax comes from <a href="https://jinja.palletsprojects.com/en/3.0.x/intro/"  class="external-link" target="_blank" rel="noopener">Jinja2</a>, a popular templating library for Python. If you have ever used Flask, Django, or Ansible, you will feel at home with <code>PromptBuilder</code>. Instead, if you never heard of any of these libraries, you can check out the <a href="https://jinja.palletsprojects.com/en/3.0.x/templates/"  class="external-link" target="_blank" rel="noopener">syntax</a> on Jinja&rsquo;s documentation. Jinja has a powerful templating language and offers way more features than you&rsquo;ll ever need in prompt templates, ranging from simple if statements and for loops to object access through dot notation, nesting of templates, variables manipulation, macros, full-fledged import and encapsulation of templates, and more.</p>
+<h2 id="a-simple-generative-pipeline">
+  A Simple Generative Pipeline
+  <a class="heading-link" href="#a-simple-generative-pipeline">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>With these two components, we can assemble a minimal pipeline to see how they work together. Connecting them is trivial: <code>PromptBuilder</code> generates a <code>prompt</code> output, and <code>OpenAIGenerator</code> expects an input with the same name and type.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack</span> <span style="color:#ff7b72">import</span> Pipeline
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack.components.generators</span> <span style="color:#ff7b72">import</span> OpenAIGenerator
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack.components.builders</span> <span style="color:#ff7b72">import</span> PromptBuilder
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>, PromptBuilder(template<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;What&#39;s the official language of {{ country }}?&#34;</span>))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;llm&#34;</span>, OpenAIGenerator(api_key<span style="color:#ff7b72;font-weight:bold">=</span>api_key))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>, <span style="color:#a5d6ff">&#34;llm&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>run({<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>: {<span style="color:#a5d6ff">&#34;country&#34;</span>: <span style="color:#a5d6ff">&#34;France&#34;</span>}})
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns {&#34;llm&#34;: {&#34;replies&#34;: [&#39;The official language of France is French.&#39;] }}</span>
+</span></span></code></pre></div><p>Here is the pipeline graph:</p>
+<p><img src="/posts/2023-10-27-haystack-series-rag/simple-llm-pipeline.png" alt="Simple LLM pipeline"></p>
+<h2 id="make-the-llm-cheat">
+  Make the LLM cheat
+  <a class="heading-link" href="#make-the-llm-cheat">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Building the Generative part of a RAG application was very simple! So far, we only provided the question to the LLM, but no information to base its answers on. Nowadays, LLMs possess a lot of general knowledge, so questions about famous countries such as France or Germany are easy for them to reply to correctly. However, when using an app about world countries, some users may be interested in knowing more about obscure or defunct microstates that don&rsquo;t exist anymore. In this case, ChatGPT is unlikely to provide the correct answer without any help.</p>
+<p>For example, let&rsquo;s ask our pipeline something <em>really</em> obscure.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>run({<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>: {<span style="color:#a5d6ff">&#34;country&#34;</span>: <span style="color:#a5d6ff">&#34;the Republic of Rose Island&#34;</span>}})
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     &#34;llm&#34;: {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         &#34;replies&#34;: [</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#             &#39;The official language of the Republic of Rose Island was Italian.&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         ]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     }</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># }</span>
+</span></span></code></pre></div><p>The answer is an educated guess but is not accurate: although it was located just outside of Italy&rsquo;s territorial waters, according to <a href="https://en.wikipedia.org/wiki/Republic_of_Rose_Island"  class="external-link" target="_blank" rel="noopener">Wikipedia</a> the official language of this short-lived micronation was Esperanto.</p>
+<p>How can we get ChatGPT to reply to such a question correctly? One way is to make it &ldquo;cheat&rdquo; by providing the answer as part of the question. In fact, <code>PromptBuilder</code> is designed to serve precisely this use case.</p>
+<p>Here is our new, more advanced prompt:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Given the following information, answer the question.
+</span></span><span style="display:flex;"><span>Context: {{ context }}
+</span></span><span style="display:flex;"><span>Question: {{ question }}
+</span></span></code></pre></div><p>Let&rsquo;s build a new pipeline using this prompt!</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>context_template <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Given the following information, answer the question.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Context: {{ context }}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Question: {{ question }}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>language_template <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;What&#39;s the official language of {{ country }}?&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;context_prompt&#34;</span>, PromptBuilder(template<span style="color:#ff7b72;font-weight:bold">=</span>context_template))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;language_prompt&#34;</span>, PromptBuilder(template<span style="color:#ff7b72;font-weight:bold">=</span>language_template))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;llm&#34;</span>, OpenAIGenerator(api_key<span style="color:#ff7b72;font-weight:bold">=</span>api_key))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;language_prompt&#34;</span>, <span style="color:#a5d6ff">&#34;context_prompt.question&#34;</span>)
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;context_prompt&#34;</span>, <span style="color:#a5d6ff">&#34;llm&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>run({
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;context_prompt&#34;</span>: {<span style="color:#a5d6ff">&#34;context&#34;</span>: <span style="color:#a5d6ff">&#34;Rose Island had its own government, currency, post office, and commercial establishments, and the official language was Esperanto.&#34;</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;language_prompt&#34;</span>: {<span style="color:#a5d6ff">&#34;country&#34;</span>: <span style="color:#a5d6ff">&#34;the Republic of Rose Island&#34;</span>}
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     &#34;llm&#34;: {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         &#34;replies&#34;: [</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#             &#39;The official language of the Republic of Rose Island is Esperanto.&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         ]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     }</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># }</span>
+</span></span></code></pre></div><p>Let&rsquo;s look at the graph of our Pipeline:</p>
+<p><img src="/posts/2023-10-27-haystack-series-rag/double-promptbuilder-pipeline.png" alt="Double PromptBuilder pipeline"></p>
+<p>The beauty of <code>PromptBuilder</code> lies in its flexibility. It allows users to chain instances together to assemble complex prompts from simpler schemas: for example, we used the output of the first <code>PromptBuilder</code> as the value of <code>question</code> in the second prompt.</p>
+<p>However, in this specific scenario, we can build a simpler system by merging the two prompts into one.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Given the following information, answer the question.
+</span></span><span style="display:flex;"><span>Context: {{ context }}
+</span></span><span style="display:flex;"><span>Question: What&#39;s the official language of {{ country }}?
+</span></span></code></pre></div><p>Using this new prompt, the resulting pipeline becomes again very similar to our first.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>template <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Given the following information, answer the question.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Context: {{ context }}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Question: What&#39;s the official language of {{ country }}?
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>pipe <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>, PromptBuilder(template<span style="color:#ff7b72;font-weight:bold">=</span>template))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;llm&#34;</span>, OpenAIGenerator(api_key<span style="color:#ff7b72;font-weight:bold">=</span>api_key))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>, <span style="color:#a5d6ff">&#34;llm&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>run({
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;context&#34;</span>: <span style="color:#a5d6ff">&#34;Rose Island had its own government, currency, post office, and commercial establishments, and the official language was Esperanto.&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;country&#34;</span>: <span style="color:#a5d6ff">&#34;the Republic of Rose Island&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     &#34;llm&#34;: {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         &#34;replies&#34;: [</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#             &#39;The official language of the Republic of Rose Island is Esperanto.&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         ]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     }</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># }</span>
+</span></span></code></pre></div><p><img src="/posts/2023-10-27-haystack-series-rag/double-variable-promptbuilder-pipeline.png" alt="PromptBuilder with two inputs pipeline"></p>
+<h2 id="retrieving-the-context">
+  Retrieving the context
+  <a class="heading-link" href="#retrieving-the-context">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>For now, we&rsquo;ve been playing with prompts, but the fundamental question remains unanswered: where do we get the correct text snippet for the question the user is asking? We can&rsquo;t expect such information as part of the input: we need our system to be able to fetch this information independently, based uniquely on the query.</p>
+<p>Thankfully, retrieving relevant information from large <a href="https://en.wikipedia.org/wiki/Text_corpus"  class="external-link" target="_blank" rel="noopener">corpora</a> (a technical term for extensive collections of data, usually text) is a task that Haystack excels at since its inception: the components that perform this task are called <a href="https://docs.haystack.deepset.ai/v2.0/docs/retrievers"  class="external-link" target="_blank" rel="noopener">Retrievers</a>.</p>
+<p>Retrieval can be performed on different data sources: to begin, let&rsquo;s assume we&rsquo;re searching for data in a local database, which is the use case that most Retrievers are geared towards.</p>
+<p>Let&rsquo;s create a small local database to store information about some European countries. Haystack offers a neat object for these small-scale demos: <code>InMemoryDocumentStore</code>. This document store is little more than a Python dictionary under the hood but provides the same exact API as much more powerful data stores and vector stores, such as <a href="https://github.com/deepset-ai/haystack-core-integrations/tree/main/document_stores/elasticsearch"  class="external-link" target="_blank" rel="noopener">Elasticsearch</a> or <a href="https://haystack.deepset.ai/integrations/chroma-documentstore"  class="external-link" target="_blank" rel="noopener">ChromaDB</a>. Keep in mind that the object is called &ldquo;Document Store&rdquo; and not simply &ldquo;datastore&rdquo; because what it stores is Haystack&rsquo;s Document objects: a small dataclass that helps other components make sense of the data that they receive.</p>
+<p>So, let&rsquo;s initialize an <code>InMemoryDocumentStore</code> and write some <code>Documents</code> into it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack.dataclasses</span> <span style="color:#ff7b72">import</span> Document
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack.document_stores.in_memory</span> <span style="color:#ff7b72">import</span> InMemoryDocumentStore
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>documents <span style="color:#ff7b72;font-weight:bold">=</span> [
+</span></span><span style="display:flex;"><span>    Document(content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;German is the the official language of Germany.&#34;</span>), 
+</span></span><span style="display:flex;"><span>    Document(content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;The capital of France is Paris, and its official language is French.&#34;</span>),
+</span></span><span style="display:flex;"><span>    Document(content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Italy recognizes a few official languages, but the most widespread one is Italian.&#34;</span>),
+</span></span><span style="display:flex;"><span>    Document(content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea.&#34;</span>)
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>docstore <span style="color:#ff7b72;font-weight:bold">=</span> InMemoryDocumentStore()
+</span></span><span style="display:flex;"><span>docstore<span style="color:#ff7b72;font-weight:bold">.</span>write_documents(documents<span style="color:#ff7b72;font-weight:bold">=</span>documents)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>docstore<span style="color:#ff7b72;font-weight:bold">.</span>filter_documents()
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns [</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     Document(content=&#34;German is the the official language of Germany.&#34;), </span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     Document(content=&#34;The capital of France is Paris, and its official language is French.&#34;),</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     Document(content=&#34;Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea.&#34;),</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     Document(content=&#34;Italy recognizes a few official languages, but the most widespread one is Italian.&#34;),</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># ]</span>
+</span></span></code></pre></div><p>Once the document store is set up, we can initialize a retriever. In Haystack 2.0, each document store comes with its own set of highly optimized retrievers: <code>InMemoryDocumentStore</code> offers two, one based on BM25 ranking and one based on embedding similarity.</p>
+<p>Let&rsquo;s start with the BM25-based retriever, which is slightly easier to set up. Let&rsquo;s first use it in isolation to see how it behaves.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack.components.retrievers.in_memory</span> <span style="color:#ff7b72">import</span> InMemoryBM25Retriever
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>retriever <span style="color:#ff7b72;font-weight:bold">=</span> InMemoryBM25Retriever(document_store<span style="color:#ff7b72;font-weight:bold">=</span>docstore)
+</span></span><span style="display:flex;"><span>retriever<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Rose Island&#34;</span>, top_k<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns [</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     Document(content=&#34;Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea.&#34;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># ]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>retriever<span style="color:#ff7b72;font-weight:bold">.</span>run(query<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Rose Island&#34;</span>, top_k<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">3</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns [</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     Document(content=&#34;Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea.&#34;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     Document(content=&#34;Italy recognizes a few official languages, but the most widespread one is Italian.&#34;),</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     Document(content=&#34;The capital of France is Paris, and its official language is French.&#34;),</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># ]</span>
+</span></span></code></pre></div><p>We see that <a href="https://docs.haystack.deepset.ai/v2.0/reference/retriever-api#inmemorybm25retriever"  class="external-link" target="_blank" rel="noopener"><code>InMemoryBM25Retriever</code></a> accepts a few parameters. <code>query</code> is the question we want to find relevant documents for. In the case of BM25, the algorithm only searches for exact word matches. The resulting retriever is very fast, but it doesn&rsquo;t fail gracefully: it can&rsquo;t handle spelling mistakes, synonyms, or descriptions of an entity. For example, documents containing the word &ldquo;cat&rdquo; would be considered irrelevant against a query such as &ldquo;felines&rdquo;.</p>
+<p><code>top_k</code> controls the number of documents returned. We can see that in the first example, only one document is returned, the correct one. In the second, where <code>top_k = 3</code>, the retriever is forced to return three documents even if just one is relevant, so it picks the other two randomly. Although the behavior is not optimal, BM25 guarantees that if there is a document that is relevant to the query, it will be in the first position, so for now, we can use it with <code>top_k=1</code>.</p>
+<p>Retrievers also accepts a <code>filters</code> parameter, which lets you pre-filter the documents before retrieval. This is a powerful technique that comes useful in complex applications, but for now we have no use for it. I will talk more in detail about this topic, called metadata filtering, in a later post.</p>
+<p>Let&rsquo;s now make use of this new component in our Pipeline.</p>
+<h2 id="our-first-rag-pipeline">
+  Our first RAG Pipeline
+  <a class="heading-link" href="#our-first-rag-pipeline">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The retriever does not return a single string but a list of Documents. How do we put the content of these objects into our prompt template?</p>
+<p>It&rsquo;s time to use Jinja&rsquo;s powerful syntax to do some unpacking on our behalf.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Given the following information, answer the question.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Context: 
+</span></span><span style="display:flex;"><span>{% for document in documents %}
+</span></span><span style="display:flex;"><span>    {{ document.content }}
+</span></span><span style="display:flex;"><span>{% endfor %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Question: What&#39;s the official language of {{ country }}?
+</span></span></code></pre></div><p>Notice how, despite the slightly alien syntax for a Python programmer, what the template does is reasonably evident: it iterates over the documents and, for each of them, renders their <code>content</code> field.</p>
+<p>With all these pieces set up, we can finally put them all together.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>template <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Given the following information, answer the question.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Context: 
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">{</span><span style="color:#a5d6ff">% f</span><span style="color:#a5d6ff">or document in documents %}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    {{ document.content }}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">{</span><span style="color:#a5d6ff">% e</span><span style="color:#a5d6ff">ndfor %}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Question: What&#39;s the official language of {{ country }}?
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>pipe <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;retriever&#34;</span>, InMemoryBM25Retriever(document_store<span style="color:#ff7b72;font-weight:bold">=</span>docstore))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>, PromptBuilder(template<span style="color:#ff7b72;font-weight:bold">=</span>template))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;llm&#34;</span>, OpenAIGenerator(api_key<span style="color:#ff7b72;font-weight:bold">=</span>api_key))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;retriever&#34;</span>, <span style="color:#a5d6ff">&#34;prompt_builder.documents&#34;</span>)
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>, <span style="color:#a5d6ff">&#34;llm&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>run({
+</span></span><span style="display:flex;"><span>   <span style="color:#a5d6ff">&#34;retriever&#34;</span>: {<span style="color:#a5d6ff">&#34;query&#34;</span>: country},
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#34;country&#34;</span>: <span style="color:#a5d6ff">&#34;the Republic of Rose Island&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     &#34;llm&#34;: {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         &#34;replies&#34;: [</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#             &#39;The official language of the Republic of Rose Island is Esperanto.&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         ]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     }</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># }</span>
+</span></span></code></pre></div><p><img src="/posts/2023-10-27-haystack-series-rag/bm25-rag-pipeline.png" alt="BM25 RAG Pipeline"></p>
+<p>Congratulations! We&rsquo;ve just built our first, true-to-its-name RAG Pipeline.</p>
+<h2 id="scaling-up-elasticsearch">
+  Scaling up: Elasticsearch
+  <a class="heading-link" href="#scaling-up-elasticsearch">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>So, we now have our running prototype. What does it take to scale this system up for production workloads?</p>
+<p>Of course, scaling up a system to production readiness is no simple task that can be addressed in a paragraph. Still, we can start this journey with one component that can readily be improved: the document store.</p>
+<p><code>InMemoryDocumentStore</code> is clearly a toy implementation: Haystack supports much more performant document stores that make more sense to use in a production scenario. Since we have built our app with a BM25 retriever, let&rsquo;s select <a href="https://haystack.deepset.ai/integrations/elasticsearch-document-store"  class="external-link" target="_blank" rel="noopener">Elasticsearch</a> as our production-ready document store of choice.</p>
+<div class="notice warning">
+  <div class="notice-content">⚠️ <strong>Warning:</strong> <em>While ES is a valid document store to use in this scenario, nowadays if often makes more sense to choose a more specialized document store such as <a href="https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/weaviate"  class="external-link" target="_blank" rel="noopener">Weaviate</a>, <a href="https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/qdrant"  class="external-link" target="_blank" rel="noopener">Qdrant</a>, and so on. Check <a href="https://github.com/deepset-ai/haystack-core-integrations/tree/main"  class="external-link" target="_blank" rel="noopener">this page</a> to see which document stores are currently supported for Haystack 2.0.</em></div>
+</div>
+
+<p>How do we use Elasticsearch on our pipeline? All it takes is to swap out <code>InMemoryDocumentStore</code> and <code>InMemoryBM25Retriever</code> with their Elasticsearch counterparts, which offer nearly identical APIs.</p>
+<p>First, let&rsquo;s create the document store: we will need a slightly more complex setup to connect to the Elasticearch backend. In this example, we use Elasticsearch version 8.8.0, but every Elasticsearch 8 version should work.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">elasticsearch_haystack.document_store</span> <span style="color:#ff7b72">import</span> ElasticsearchDocumentStore
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>host <span style="color:#ff7b72;font-weight:bold">=</span> os<span style="color:#ff7b72;font-weight:bold">.</span>environ<span style="color:#ff7b72;font-weight:bold">.</span>get(<span style="color:#a5d6ff">&#34;ELASTICSEARCH_HOST&#34;</span>, <span style="color:#a5d6ff">&#34;https://localhost:9200&#34;</span>)
+</span></span><span style="display:flex;"><span>user <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;elastic&#34;</span>
+</span></span><span style="display:flex;"><span>pwd <span style="color:#ff7b72;font-weight:bold">=</span> os<span style="color:#ff7b72;font-weight:bold">.</span>environ[<span style="color:#a5d6ff">&#34;ELASTICSEARCH_PASSWORD&#34;</span>]  <span style="color:#8b949e;font-style:italic"># You need to provide this value</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>docstore <span style="color:#ff7b72;font-weight:bold">=</span> ElasticsearchDocumentStore(
+</span></span><span style="display:flex;"><span>    hosts<span style="color:#ff7b72;font-weight:bold">=</span>[host], 
+</span></span><span style="display:flex;"><span>    basic_auth<span style="color:#ff7b72;font-weight:bold">=</span>(user, pwd), 
+</span></span><span style="display:flex;"><span>    ca_certs<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;/content/elasticsearch-8.8.0/config/certs/http_ca.crt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>Now, let&rsquo;s write again our four documents into the store. In this case, we specify the duplicate policy, so if the documents were already present, they would be overwritten. All Haystack document stores offer three policies to handle duplicates: <code>FAIL</code> (the default), <code>SKIP</code>, and <code>OVERWRITE</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">haystack.document_stores</span> <span style="color:#ff7b72">import</span> DuplicatePolicy
+</span></span><span style="display:flex;"><span>documents <span style="color:#ff7b72;font-weight:bold">=</span> [
+</span></span><span style="display:flex;"><span>    Document(content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;German is the the official language of Germany.&#34;</span>), 
+</span></span><span style="display:flex;"><span>    Document(content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;The capital of France is Paris, and its official language is French.&#34;</span>),
+</span></span><span style="display:flex;"><span>    Document(content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Italy recognizes a few official languages, but the most widespread one is Italian.&#34;</span>),
+</span></span><span style="display:flex;"><span>    Document(content<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea.&#34;</span>)
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>docstore<span style="color:#ff7b72;font-weight:bold">.</span>write_documents(documents<span style="color:#ff7b72;font-weight:bold">=</span>documents, policy<span style="color:#ff7b72;font-weight:bold">=</span>DuplicatePolicy<span style="color:#ff7b72;font-weight:bold">.</span>OVERWRITE)
+</span></span></code></pre></div><p>Once this is done, we are ready to build the same pipeline as before, but using <code>ElasticsearchBM25Retriever</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">elasticsearch_haystack.bm25_retriever</span> <span style="color:#ff7b72">import</span> ElasticsearchBM25Retriever
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Given the following information, answer the question.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Context: 
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">{</span><span style="color:#a5d6ff">% f</span><span style="color:#a5d6ff">or document in documents %}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    {{ document.content }}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">{</span><span style="color:#a5d6ff">% e</span><span style="color:#a5d6ff">ndfor %}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Question: What&#39;s the official language of {{ country }}?
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe <span style="color:#ff7b72;font-weight:bold">=</span> Pipeline()
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;retriever&#34;</span>, ElasticsearchBM25Retriever(document_store<span style="color:#ff7b72;font-weight:bold">=</span>docstore))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>, PromptBuilder(template<span style="color:#ff7b72;font-weight:bold">=</span>template))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>add_component(<span style="color:#a5d6ff">&#34;llm&#34;</span>, OpenAIGenerator(api_key<span style="color:#ff7b72;font-weight:bold">=</span>api_key))
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;retriever&#34;</span>, <span style="color:#a5d6ff">&#34;prompt_builder.documents&#34;</span>)
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>connect(<span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>, <span style="color:#a5d6ff">&#34;llm&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>draw(<span style="color:#a5d6ff">&#34;elasticsearch-rag-pipeline.png&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>country <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;the Republic of Rose Island&#34;</span>
+</span></span><span style="display:flex;"><span>pipe<span style="color:#ff7b72;font-weight:bold">.</span>run({
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;retriever&#34;</span>: {<span style="color:#a5d6ff">&#34;query&#34;</span>: country},
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;prompt_builder&#34;</span>: {<span style="color:#a5d6ff">&#34;country&#34;</span>: country}
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># returns {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     &#34;llm&#34;: {</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         &#34;replies&#34;: [</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#             &#39;The official language of the Republic of Rose Island is Esperanto.&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#         ]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">#     }</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># }</span>
+</span></span></code></pre></div><p><img src="/posts/2023-10-27-haystack-series-rag/elasticsearch-rag-pipeline.png" alt="Elasticsearch RAG Pipeline"></p>
+<p>That&rsquo;s it! We&rsquo;re now running the same pipeline over a production-ready Elasticsearch instance.</p>
+<h2 id="wrapping-up">
+  Wrapping up
+  <a class="heading-link" href="#wrapping-up">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>In this post, we&rsquo;ve detailed some fundamental components that make RAG applications possible with Haystack: Generators, the PromptBuilder, and Retrievers. We&rsquo;ve seen how they can all be used in isolation and how you can make Pipelines out of them to achieve the same goal. Last, we&rsquo;ve experimented with some of the (very early!) features that make Haystack 2.0 production-ready and easy to scale up from a simple demo with minimal changes.</p>
+<p>However, this is just the start of our journey into RAG. Stay tuned!</p>
+<hr>
+<p><em>Next: <a href="/posts/2023-11-05-haystack-series-minimal-indexing" >Indexing data for RAG applications</a></em></p>
+<p><em>Previous: <a href="/posts/2023-10-26-haystack-series-canals" >Canals: a new concept of Pipeline</a></em></p>
+<p><em>See the entire series here: <a href="/series/haystack-2.0-series/" >Haystack 2.0 series</a></em></p>
+<p><small><em>Cover image from <a href="https://it.wikipedia.org/wiki/File:Isoladellerose.jpg"  class="external-link" target="_blank" rel="noopener">Wikipedia</a></em></small></p>
+
+      </div>
+
+      <hr style="margin-top: 5rem;">
+
+
+<div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
+    <p>Share this post on: </p>
+    <a href="https://twitter.com/intent/post?RAG%20Pipelines%20from%20scratch, by @zansara_dev=test&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-27-haystack-series-rag%2f" aria-label="share on Twitter">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></div>
+    </a>
+    <a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-27-haystack-series-rag%2f" aria-label="share on HackerNews">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96zM21 229.2c0 0 .1-.1 .1-.2s.1-.2 .2-.2c0 .1 0 .3-.1 .4H21zM239.2 384H207.8V281.3L128 128h37.3c41.5 77.7 48.1 95.8 54.1 112c1.6 4.3 3.1 8.5 5.2 13.6c3.2-7 5.1-11.9 7.1-17.3c5.9-15.3 12.8-33.2 53.5-108.3H320L239.2 283.1V384z"/></svg></div>
+    </a>
+    <a href="https://mastodonshare.com/?text=RAG%20Pipelines%20from%20scratch, by @zansara@mastodon.social&url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-27-haystack-series-rag%2f" aria-label="share on Mastodon">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54a102.5 102.5 0 0 1 -.9-13.9c85.6 20.9 158.7 9.1 178.8 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.3V197c0-58.5-64-56.6-64-6.9v114.2H90.2c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175z"/></svg></div>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-27-haystack-series-rag%2f" aria-label="share on LinkedIn">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></div>
+    </a>
+    <a href="mailto:?subject=RAG%20Pipelines%20from%20scratch, by Sara Zan.&body=https%3a%2f%2fwww.zansara.dev%2fposts%2f2023-10-27-haystack-series-rag%2f" aria-label="share by email">
+        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></div>
+    </a>
+</div>
+
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025
+    <a href="/">Sara Zan</a>
+    ·
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>
