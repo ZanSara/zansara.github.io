@@ -26,13 +26,13 @@ style = "github-dark"
   """
   description = "Sara Zan's Personal Website"
   keywords = "blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai"
-  avatarurl = "/me/avatar-color.svg"
+  avatarurl = "/me/avatar.svg"
   
   #gravatar = "john.doe@example.com"
 
-  faviconSVG = "/favicon.svg"
-  favicon_32 = "/favicon.png"
-  touchicon = "/favicon.png"
+  faviconSVG = "/me/avatar.svg"
+  favicon_32 = "/me/avatar.png"
+  touchicon = "/me/avatar.png"
   # favicon_16 = "/img/favicon-16x16.png"
 
   since = 2023
