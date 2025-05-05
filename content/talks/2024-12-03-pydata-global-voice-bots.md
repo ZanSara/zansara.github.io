@@ -6,13 +6,17 @@ featuredImage: "/talks/2024-12-03-pydata-global-voice-bots.png"
 externalLink: 
 ---
 
-[Announcement](https://global2024.pydata.org/cfp/talk/T3YDBP/), [slides](https://drive.google.com/file/d/1rXb4-m-BWwhAqDCDBXpzw6nJ9OELOpSl/view?usp=sharing), [demo video](https://drive.google.com/file/d/1bja0O8LG7790UIU7HpAYXat-BYXeUbK-/view?usp=sharing).
+[Announcement](https://global2024.pydata.org/cfp/talk/T3YDBP/), [slides](https://drive.google.com/file/d/1rXb4-m-BWwhAqDCDBXpzw6nJ9OELOpSl/view?usp=sharing), [demo video](https://drive.google.com/file/d/1bja0O8LG7790UIU7HpAYXat-BYXeUbK-/view?usp=sharing) and full video ([Youtube](https://www.youtube.com/watch?v=Td5dFdG0wE4), [backup](#)).
 All resources can also be found in 
 [my archive](https://drive.google.com/drive/folders/1ZPkne2QxOnSXfchv08CWkAZG3duXxd4Z?usp=sharing).
 
 ---
 
-_Recording coming soon._
+{{< raw >}}
+<div class='iframe-wrapper'>
+<iframe src="#" width=100% height=100% allow="autoplay"></iframe>
+</div>
+{{< /raw >}}
 
 ---
 
