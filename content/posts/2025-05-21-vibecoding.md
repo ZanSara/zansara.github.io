@@ -27,7 +27,7 @@ As expected, the model thought about it, did some web searches, and then cooked 
 
 # The backup option: Claude Code
 
-I've heard many times that the best LLMs for vibecoding belong to the [Claude](https://www.anthropic.com/claude) family. On top of that, there's a cool TUI utility called [Claude Code](https://www.anthropic.com/claude-code) that allows you to vibecode from the terminal, no IDE required.
+I've heard many times that the best LLMs for vibecoding belong to the [Claude](https://www.anthropic.com/claude) family. On top of that, there's a cool TUI utility called [Claude Code](https://www.anthropic.com/claude-code) that allows you to vibecode from the terminal, no IDE required. It uses [Claude 3.7 Sonnet](https://www.anthropic.com/claude/sonnet) under the hood, so the expectations are high.
 
 Time to give it a try.
 
