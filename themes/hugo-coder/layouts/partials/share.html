@@ -4,20 +4,27 @@
 <div id="sharing" style="font-style: italic; display: flex; gap: 5px; align-items: center;">
     <p>Share this post on: </p>
     <a href="https://twitter.com/intent/post?{{ $title }}, by @zansara_dev=test&url={{ $url }}" aria-label="share on Twitter">
-        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/twitter-x.svg" }}</div>
+        <div style="height:40px;width:40px;padding:5px;border-radius: 3px;">{{ partial "assets/twitter-x.svg" }}</div>
+    </a>
+
+    https://bsky.app/intent/compose?text=I%27m%20reading%20through%20the%20Bluesky%20API%20docs%21%20%F0%9F%A6%8B%0Ahttps%3A//docs.bsky.app
+    
+    <a href="mailto:?subject={{ $title }}, by Sara Zan.&body={{ $url }}" aria-label="share on Bluesky">
+        <div style="height:40px;width:40px;padding:5px;border-radius: 3px;">{{ partial "assets/email.svg" }}</div>
     </a>
     <a href="https://news.ycombinator.com/submitlink?u={{ $url }}" aria-label="share on HackerNews">
-        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/hn.svg" }}</div>
+        <div style="height:40px;width:40px;padding:5px;border-radius: 3px;">{{ partial "assets/hn.svg" }}</div>
     </a>
     <a href="https://mastodonshare.com/?text={{ $title }}, by @zansara@mastodon.social&url={{ $url }}" aria-label="share on Mastodon">
-        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/mastodon.svg" }}</div>
+        <div style="height:40px;width:40px;padding:5px;border-radius: 3px;">{{ partial "assets/mastodon.svg" }}</div>
     </a>
     <a href="https://www.linkedin.com/shareArticle?url={{ $url }}" aria-label="share on LinkedIn">
-        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/linkedin.svg" }}</div>
+        <div style="height:40px;width:40px;padding:5px;border-radius: 3px;">{{ partial "assets/linkedin.svg" }}</div>
     </a>
     <a href="mailto:?subject={{ $title }}, by Sara Zan.&body={{ $url }}" aria-label="share by email">
-        <div style="height:40px;width:40px;background:#ffffff;padding:5px;border-radius: 3px;">{{ partial "assets/email.svg" }}</div>
+        <div style="height:40px;width:40px;padding:5px;border-radius: 3px;">{{ partial "assets/email.svg" }}</div>
     </a>
+    
 </div>
 
 <!---->

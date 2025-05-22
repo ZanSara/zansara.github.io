@@ -123,7 +123,3 @@ style = "github-dark"
   name = "Talks"
   weight = 6
   url  = "talks/"
-[[menu.main]]
-  name = "Stats"
-  weight = 7
-  url  = "https://zansaradev.goatcounter.com"

@@ -5,6 +5,11 @@ author: "ZanSara"
 featuredImage: "/posts/2025-05-16-llama-eu-ban/cover.png"
 ---
 
+{{< audio 
+    audioFile="/posts/2025-05-16-llama-eu-ban/Using Llama Models in the EU.mp3" 
+    speechifyLink="https://app.speechify.com/share/02ab44a5-6d50-47e6-a968-7b3435c4ffbd"
+>}}
+
 [The Llama 4 family](https://ai.meta.com/blog/llama-4-multimodal-intelligence/) has been released over a month ago and I finally found some time to explore it. Or so I wished to do, until I realized one crucial issue with these models:
 
 **They are banned in the EU.**

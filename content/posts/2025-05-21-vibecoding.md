@@ -5,6 +5,11 @@ author: "ZanSara"
 featuredImage: "/posts/2025-05-21-vibecoding/cover.png"
 ---
 
+{{< audio 
+    audioFile="/posts/2025-05-21-vibecoding/A simple vibecoding exercise.mp3" 
+    speechifyLink="https://app.speechify.com/share/7ba6f11d-9b76-4334-b85c-f6fe6c02e4ac"
+>}}
+
 Sometimes, after an entire day of coding, the last thing you want to do is to code some more. It would be so great if I could just sit down and enjoy some Youtube videos...
 
 Being abroad, most of the videos I watch are in a foreign language, and it helps immensely to have subtitles when I'm not in the mood for hard focus. However, Youtube subtitles are often terrible or missing entirely.
