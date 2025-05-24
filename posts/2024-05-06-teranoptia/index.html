@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Generating creatures with Teranoptia · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="
+
+
+Having fun with fonts doesn&rsquo;t always mean obsessing over kerning and ligatures. Sometimes, writing text is not even the point!
+You don&rsquo;t believe it? Type something in here.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Generating creatures with Teranoptia">
+  <meta name="twitter:description" content="Having fun with fonts doesn’t always mean obsessing over kerning and ligatures. Sometimes, writing text is not even the point!
+You don’t believe it? Type something in here.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2024-05-06-teranoptia/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Generating creatures with Teranoptia">
+  <meta property="og:description" content="Having fun with fonts doesn’t always mean obsessing over kerning and ligatures. Sometimes, writing text is not even the point!
+You don’t believe it? Type something in here.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-05-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-05-06T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2024-05-06-teranoptia/cover.png">
+  <meta name="og:image" content="/posts/2024-05-06-teranoptia/cover.png">
+  <meta name="twitter:image" content="https://zansara.dev/posts/2024-05-06-teranoptia/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Home
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/talks/">Talks</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">
+              Generating creatures with Teranoptia
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2024-05-06T00:00:00Z">
+                May 6, 2024
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2024-05-06-teranoptia/cover.png" alt="Featured image"/>
+        
+        
+
+<style>
+    @font-face {
+        font-family: teranoptia;
+        src: url("/posts/2024-05-06-teranoptia/teranoptia/fonts/Teranoptia-Furiae.ttf");
+    }
+
+    .teranoptia {
+        font-size: 5rem;
+        font-family: teranoptia;
+        hyphens: none!important;
+        line-height: 70px;
+    }
+
+    .small {
+        font-size:3rem;
+        line-height: 40px;
+    }
+
+    .glyphset {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .glyphset div {
+        margin: 3px;
+    }
+    .glyphset div p {
+        text-align: center;
+    }
+
+</style>
+
+
+<p>Having fun with fonts doesn&rsquo;t always mean obsessing over kerning and ligatures. Sometimes, writing text is not even the point!</p>
+<p>You don&rsquo;t believe it? Type something in here.</p>
+
+
+
+<textarea id="test-generated-animal" class="teranoptia" style="width: 100%; line-height: 50pt;"></textarea>
+
+<div style="display: flex; gap: 10px;">
+    Characters to generate:
+    <input id="test-glyph-count" type="number" value=10 ></input>
+    <button onclick="generateTest(document.getElementById('test-glyph-count').value);">Generate!</button>
+</div>
+
+<script>
+function makeBreakable(animal){
+    // Line break trick - avoid hypens and allows wrapping
+    const animalFragments = animal.split(/(?=[yvspmieaźACFILOSWŹv])/g);
+    animal = animalFragments.join("<wbr>");
+    return animal;
+}
+
+function generateTest(value){
+    var newAnimal = '';
+    for (var i = 0; i < value; i++) {
+        newAnimal += randomFrom(validChars);
+    }
+    document.getElementById("test-generated-animal").value = newAnimal;
+}
+
+</script>
+
+
+<p><a href="https://www.tunera.xyz/fonts/teranoptia/"  class="external-link" target="_blank" rel="noopener">Teranoptia</a> is a cool font that lets you build small creatures by mapping each letter (and a few other characters) to a piece of a creature like a head, a tail, a leg, a wing and so on. By typing words you can create strings of creatures.</p>
+<p>Here is the glyphset:</p>
+
+
+<div class="glyphset">
+    <div><p>A</p><p class="teranoptia">A</p></div>
+
+    <div><p>B</p><p class="teranoptia">B</p></div>
+
+    <div><p>C</p><p class="teranoptia">C</p></div>
+
+    <div><p>D</p><p class="teranoptia">D</p></div>
+
+    <div><p>E</p><p class="teranoptia">E</p></div>
+
+    <div><p>F</p><p class="teranoptia">F</p></div>
+
+    <div><p>G</p><p class="teranoptia">G</p></div>
+
+    <div><p>H</p><p class="teranoptia">H</p></div>
+
+    <div><p>I</p><p class="teranoptia">I</p></div>
+
+    <div><p>J</p><p class="teranoptia">J</p></div>
+
+    <div><p>K</p><p class="teranoptia">K</p></div>
+
+    <div><p>L</p><p class="teranoptia">L</p></div>
+
+    <div><p>M</p><p class="teranoptia">M</p></div>
+
+    <div><p>N</p><p class="teranoptia">N</p></div>
+
+    <div><p>O</p><p class="teranoptia">O</p></div>
+
+    <div><p>P</p><p class="teranoptia">P</p></div>
+
+    <div><p>Q</p><p class="teranoptia">Q</p></div>
+
+    <div><p>R</p><p class="teranoptia">R</p></div>
+
+    <div><p>S</p><p class="teranoptia">S</p></div>
+
+    <div><p>T</p><p class="teranoptia">T</p></div>
+
+    <div><p>U</p><p class="teranoptia">U</p></div>
+
+    <div><p>V</p><p class="teranoptia">V</p></div>
+
+    <div><p>W</p><p class="teranoptia">W</p></div>
+
+    <div><p>X</p><p class="teranoptia">X</p></div>
+
+    <div><p>Ẋ</p><p class="teranoptia">Ẋ</p></div>
+
+    <div><p>Y</p><p class="teranoptia">Y</p></div>
+
+    <div><p>Z</p><p class="teranoptia">Z</p></div>
+
+    <div><p>Ź</p><p class="teranoptia">Ź</p></div>
+
+    <div><p>Ž</p><p class="teranoptia">Ž</p></div>
+
+    <div><p>Ż</p><p class="teranoptia">Ż</p></div>
+
+    <div><p>a</p><p class="teranoptia">a</p></div>
+
+    <div><p>b</p><p class="teranoptia">b</p></div>
+
+    <div><p>ḅ</p><p class="teranoptia">ḅ</p></div>
+
+    <div><p>c</p><p class="teranoptia">c</p></div>
+
+    <div><p>d</p><p class="teranoptia">d</p></div>
+
+    <div><p>e</p><p class="teranoptia">e</p></div>
+
+    <div><p>f</p><p class="teranoptia">f</p></div>
+
+    <div><p>g</p><p class="teranoptia">g</p></div>
+
+    <div><p>h</p><p class="teranoptia">h</p></div>
+
+    <div><p>i</p><p class="teranoptia">i</p></div>
+
+    <div><p>j</p><p class="teranoptia">j</p></div>
+
+    <div><p>k</p><p class="teranoptia">k</p></div>
+
+    <div><p>l</p><p class="teranoptia">l</p></div>
+
+    <div><p>m</p><p class="teranoptia">m</p></div>
+
+    <div><p>n</p><p class="teranoptia">n</p></div>
+
+    <div><p>o</p><p class="teranoptia">o</p></div>
+
+    <div><p>p</p><p class="teranoptia">p</p></div>
+
+    <div><p>q</p><p class="teranoptia">q</p></div>
+
+    <div><p>r</p><p class="teranoptia">r</p></div>
+
+    <div><p>s</p><p class="teranoptia">s</p></div>
+
+    <div><p>t</p><p class="teranoptia">t</p></div>
+
+    <div><p>u</p><p class="teranoptia">u</p></div>
+
+    <div><p>v</p><p class="teranoptia">v</p></div>
+
+    <div><p>w</p><p class="teranoptia">w</p></div>
+
+    <div><p>x</p><p class="teranoptia">x</p></div>
+
+    <div><p>y</p><p class="teranoptia">y</p></div>
+
+    <div><p>z</p><p class="teranoptia">z</p></div>
+
+    <div><p>ź</p><p class="teranoptia">ź</p></div>
+
+    <div><p>ž</p><p class="teranoptia">ž</p></div>
+
+    <div><p>ż</p><p class="teranoptia">ż</p></div>
+
+    <div><p>,</p><p class="teranoptia">,</p></div>
+
+    <div><p>*</p><p class="teranoptia">*</p></div>
+
+    <div><p>(</p><p class="teranoptia">(</p></div>
+
+    <div><p>)</p><p class="teranoptia">)</p></div>
+
+    <div><p>{</p><p class="teranoptia">{</p></div>
+
+    <div><p>}</p><p class="teranoptia">}</p></div>
+
+    <div><p>[</p><p class="teranoptia">[</p></div>
+
+    <div><p>]</p><p class="teranoptia">]</p></div>
+
+    <div><p>‐</p><p class="teranoptia">‐</p></div>
+
+    <div><p>“</p><p class="teranoptia">“</p></div>
+
+    <div><p>”</p><p class="teranoptia">”</p></div>
+
+    <div><p>‘</p><p class="teranoptia">‘</p></div>
+
+    <div><p>’</p><p class="teranoptia">’</p></div>
+
+    <div><p>«</p><p class="teranoptia">«</p></div>
+
+    <div><p>»</p><p class="teranoptia">»</p></div>
+
+    <div><p>‹</p><p class="teranoptia">‹</p></div>
+
+    <div><p>›</p><p class="teranoptia">›</p></div>
+
+    <div><p>$</p><p class="teranoptia">$</p></div>
+
+    <div><p>€</p><p class="teranoptia">€</p></div>
+</div>
+
+You'll notice that there's a lot you can do with it, from assembling simple creatures:
+
+<p class="teranoptia">vTN</p>
+
+to more complex, multi-line designs:
+
+<p class="teranoptia"><wbr> {Ž}</p>
+<p class="teranoptia">F] [Z</p>
+
+
+
+<p>Let&rsquo;s play with it a bit and see how we can put together a few &ldquo;correct&rdquo; looking creatures.</p>
+<div class="notice info">
+  <div class="notice-content"><em>As you&rsquo;re about to notice, I&rsquo;m no JavaScript developer. Don&rsquo;t expect high-quality JS in this post.</em></div>
+</div>
+
+<h2 id="mirroring-animals">
+  Mirroring animals
+  <a class="heading-link" href="#mirroring-animals">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>To begin with, let&rsquo;s start with a simple function: animal mirroring. The glyphset includes a mirrored version of each non-symmetric glyph, but the mapping is rather arbitrary, so we are going to need a map.</p>
+<p>Here are the pairs:</p>
+<p class="small teranoptia" style="letter-spacing: 5px;"> By Ev Hs Kp Nm Ri Ve Za Żź Az Cx Fu Ir Lo Ol Sh Wd Źż vE Dw Gt Jq Mn Pk Qj Tg Uf Xc Ẋḅ Yb Žž bY cX () [] {} </p>
+<h3 id="animal-mirror">
+  Animal mirror
+  <a class="heading-link" href="#animal-mirror">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+
+<div style="display: flex; gap: 10px;">
+    <input id="original-animal" type="text" class="teranoptia" style="width: 50%; text-align:right;" oninput="mirrorAnimal(this.value);" value="WYZ*p»gh"></input>
+    <p id="mirrored-animal" class="teranoptia" style="line-height: 50pt;">ST»K*abd</p>
+</div>
+
+<script>
+const mirrorPairs = {"B": "y",  "y": "B", "E": "v",  "v": "E", "H": "s",  "s": "H", "K": "p",  "p": "K", "N": "m",  "m": "N", "R": "i",  "i": "R", "V": "e",  "e": "V", "Z": "a",  "a": "Z", "Ż": "ź",  "ź": "Ż", "A": "z",  "z": "A", "C": "x",  "x": "C", "F": "u",  "u": "F", "I": "r",  "r": "I", "L": "o",  "o": "L", "O": "l",  "l": "O", "S": "h",  "h": "S", "W": "d",  "d": "W", "Ź": "ż",  "ż": "Ź", "v": "E",  "E": "v", "D": "w",  "w": "D", "G": "t",  "t": "G", "J": "q",  "q": "J", "M": "n",  "n": "M", "P": "k",  "k": "P", "Q": "j",  "j": "Q", "T": "g",  "g": "T", "U": "f",  "f": "U", "X": "c",  "c": "X", "Ẋ": "ḅ",  "ḅ": "Ẋ", "Y": "b",  "b": "Y", "Ž": "ž",  "ž": "Ž", "b": "Y",  "Y": "b", "c": "X",  "X": "c", "(": ")",  ")": "(", "[": "]",  "]": "[", "{": "}", "}": "{"};
+
+function mirrorAnimal(original){
+    var mirror = '';
+    for (i = original.length-1; i >= 0; i--){
+        newChar = mirrorPairs[original.charAt(i)];
+        if (newChar){
+            mirror += newChar;
+        } else {
+            mirror += original.charAt(i)
+        }
+        console.log(original, original.charAt(i), mirrorPairs[original.charAt(i)], mirror);
+    }
+    document.getElementById("mirrored-animal").innerHTML = mirror;
+}
+</script>
+
+
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff7b72">const</span> mirrorPairs <span style="color:#ff7b72;font-weight:bold">=</span> {<span style="color:#a5d6ff">&#34;B&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;y&#34;</span>,  <span style="color:#a5d6ff">&#34;y&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;B&#34;</span>, <span style="color:#a5d6ff">&#34;E&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;v&#34;</span>,  <span style="color:#a5d6ff">&#34;v&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;E&#34;</span>, <span style="color:#a5d6ff">&#34;H&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;s&#34;</span>,  <span style="color:#a5d6ff">&#34;s&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;H&#34;</span>, <span style="color:#a5d6ff">&#34;K&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;p&#34;</span>,  <span style="color:#a5d6ff">&#34;p&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;K&#34;</span>, <span style="color:#a5d6ff">&#34;N&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;m&#34;</span>,  <span style="color:#a5d6ff">&#34;m&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;N&#34;</span>, <span style="color:#a5d6ff">&#34;R&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;i&#34;</span>,  <span style="color:#a5d6ff">&#34;i&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;R&#34;</span>, <span style="color:#a5d6ff">&#34;V&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;e&#34;</span>,  <span style="color:#a5d6ff">&#34;e&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;V&#34;</span>, <span style="color:#a5d6ff">&#34;Z&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;a&#34;</span>,  <span style="color:#a5d6ff">&#34;a&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Z&#34;</span>, <span style="color:#a5d6ff">&#34;Ż&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;ź&#34;</span>,  <span style="color:#a5d6ff">&#34;ź&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Ż&#34;</span>, <span style="color:#a5d6ff">&#34;A&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;z&#34;</span>,  <span style="color:#a5d6ff">&#34;z&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;A&#34;</span>, <span style="color:#a5d6ff">&#34;C&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;x&#34;</span>,  <span style="color:#a5d6ff">&#34;x&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;C&#34;</span>, <span style="color:#a5d6ff">&#34;F&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;u&#34;</span>,  <span style="color:#a5d6ff">&#34;u&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;F&#34;</span>, <span style="color:#a5d6ff">&#34;I&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;r&#34;</span>,  <span style="color:#a5d6ff">&#34;r&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;I&#34;</span>, <span style="color:#a5d6ff">&#34;L&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;o&#34;</span>,  <span style="color:#a5d6ff">&#34;o&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;L&#34;</span>, <span style="color:#a5d6ff">&#34;O&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;l&#34;</span>,  <span style="color:#a5d6ff">&#34;l&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;O&#34;</span>, <span style="color:#a5d6ff">&#34;S&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;h&#34;</span>,  <span style="color:#a5d6ff">&#34;h&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;S&#34;</span>, <span style="color:#a5d6ff">&#34;W&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;d&#34;</span>,  <span style="color:#a5d6ff">&#34;d&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;W&#34;</span>, <span style="color:#a5d6ff">&#34;Ź&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;ż&#34;</span>,  <span style="color:#a5d6ff">&#34;ż&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Ź&#34;</span>, <span style="color:#a5d6ff">&#34;v&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;E&#34;</span>,  <span style="color:#a5d6ff">&#34;E&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;v&#34;</span>, <span style="color:#a5d6ff">&#34;D&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;w&#34;</span>,  <span style="color:#a5d6ff">&#34;w&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;D&#34;</span>, <span style="color:#a5d6ff">&#34;G&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;t&#34;</span>,  <span style="color:#a5d6ff">&#34;t&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;G&#34;</span>, <span style="color:#a5d6ff">&#34;J&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;q&#34;</span>,  <span style="color:#a5d6ff">&#34;q&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;J&#34;</span>, <span style="color:#a5d6ff">&#34;M&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;n&#34;</span>,  <span style="color:#a5d6ff">&#34;n&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;M&#34;</span>, <span style="color:#a5d6ff">&#34;P&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;k&#34;</span>,  <span style="color:#a5d6ff">&#34;k&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;P&#34;</span>, <span style="color:#a5d6ff">&#34;Q&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;j&#34;</span>,  <span style="color:#a5d6ff">&#34;j&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Q&#34;</span>, <span style="color:#a5d6ff">&#34;T&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;g&#34;</span>,  <span style="color:#a5d6ff">&#34;g&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;T&#34;</span>, <span style="color:#a5d6ff">&#34;U&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;f&#34;</span>,  <span style="color:#a5d6ff">&#34;f&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;U&#34;</span>, <span style="color:#a5d6ff">&#34;X&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;c&#34;</span>,  <span style="color:#a5d6ff">&#34;c&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;X&#34;</span>, <span style="color:#a5d6ff">&#34;Ẋ&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;ḅ&#34;</span>,  <span style="color:#a5d6ff">&#34;ḅ&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Ẋ&#34;</span>, <span style="color:#a5d6ff">&#34;Y&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;b&#34;</span>,  <span style="color:#a5d6ff">&#34;b&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Y&#34;</span>, <span style="color:#a5d6ff">&#34;Ž&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;ž&#34;</span>,  <span style="color:#a5d6ff">&#34;ž&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Ž&#34;</span>, <span style="color:#a5d6ff">&#34;b&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;Y&#34;</span>,  <span style="color:#a5d6ff">&#34;Y&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;b&#34;</span>, <span style="color:#a5d6ff">&#34;c&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;X&#34;</span>,  <span style="color:#a5d6ff">&#34;X&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;c&#34;</span>, <span style="color:#a5d6ff">&#34;(&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;)&#34;</span>,  <span style="color:#a5d6ff">&#34;)&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;(&#34;</span>, <span style="color:#a5d6ff">&#34;[&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;]&#34;</span>,  <span style="color:#a5d6ff">&#34;]&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;[&#34;</span>, <span style="color:#a5d6ff">&#34;{&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;}&#34;</span>, <span style="color:#a5d6ff">&#34;}&#34;</span><span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;{&#34;</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">function</span> mirrorAnimal(original){
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">var</span> mirror <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> (i <span style="color:#ff7b72;font-weight:bold">=</span> original.length<span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>; i <span style="color:#ff7b72;font-weight:bold">&gt;=</span> <span style="color:#a5d6ff">0</span>; i<span style="color:#ff7b72;font-weight:bold">--</span>){
+</span></span><span style="display:flex;"><span>        newChar <span style="color:#ff7b72;font-weight:bold">=</span> mirrorPairs[original.charAt(i)];
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> (newChar){
+</span></span><span style="display:flex;"><span>            mirror <span style="color:#ff7b72;font-weight:bold">+=</span> newChar;
+</span></span><span style="display:flex;"><span>        } <span style="color:#ff7b72">else</span> {
+</span></span><span style="display:flex;"><span>            mirror <span style="color:#ff7b72;font-weight:bold">+=</span> original.charAt(i)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> mirror;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="random-animal-generation">
+  Random animal generation
+  <a class="heading-link" href="#random-animal-generation">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>While it&rsquo;s fun to build complicated animals this way, you&rsquo;ll notice something: it&rsquo;s pretty hard to make them come out right by simply typing something. Most of the time you need quite careful planning. In addition there&rsquo;s almost no meaningful (English) word that corresponds to a well-defined creature. Very often the characters don&rsquo;t match, creating a sequence of &ldquo;chopped&rdquo; creatures.</p>
+<p>For example, &ldquo;Hello&rdquo; becomes:</p>
+<p class="teranoptia">Hello</p>
+<p>This is a problem if we want to make a parametric or random creature generator, because most of the random strings won&rsquo;t look good.</p>
+<h3 id="naive-random-generator">
+  Naive random generator
+  <a class="heading-link" href="#naive-random-generator">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+<div style="display: flex; gap: 10px;">
+    Characters to generate:
+    <input id="naive-glyph-count" type="number" value=10></input>
+    <button onclick="generateNaive(document.getElementById('naive-glyph-count').value);">Generate!</button>
+</div>
+
+<p id="naive-generated-animal" class="teranoptia" style="line-height: 50pt;">n]Zgameź)‐</p>
+
+<script>
+const validChars = "ABCDEFGHIJKLMNOPQRSTUVWXẊYZŹŽŻabḅcdefghijklmnopqrstuvwxyzźžż,*(){}[]‐“”«»$"; //‘’‹›€
+
+function randomFrom(list){
+    return list[Math.floor(Math.random() * list.length)];
+}
+
+function generateNaive(value){
+    var newAnimal = '';
+    for (var i = 0; i < value; i++) {
+        newAnimal += randomFrom(validChars);
+    }
+    
+    // Line break trick - helps with wrapping
+    const animalFragments = newAnimal.split('');
+    newAnimal = animalFragments.join("<wbr>");
+
+    document.getElementById("naive-generated-animal").innerHTML = newAnimal;
+}
+generateNaive(document.getElementById('naive-glyph-count').value);
+
+</script>
+
+
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff7b72">const</span> validChars <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;ABCDEFGHIJKLMNOPQRSTUVWXẊYZŹŽŻabḅcdefghijklmnopqrstuvwxyzźžż,*(){}[]‐“”«»$&#34;</span>; <span style="color:#8b949e;font-style:italic">// ‘’‹›€ excluded because they&#39;re mostly vertical
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">function</span> randomFrom(list){
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> list[Math.floor(Math.random() <span style="color:#ff7b72;font-weight:bold">*</span> list.length)];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">function</span> generateNaive(value){
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">var</span> newAnimal <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> (<span style="color:#ff7b72">var</span> i <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">0</span>; i <span style="color:#ff7b72;font-weight:bold">&lt;</span> value; i<span style="color:#ff7b72;font-weight:bold">++</span>) {
+</span></span><span style="display:flex;"><span>        newAnimal <span style="color:#ff7b72;font-weight:bold">+=</span> randomFrom(validChars);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> newAnimal;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Can we do better than this?</p>
+<h2 id="generating-good-animals">
+  Generating &ldquo;good&rdquo; animals
+  <a class="heading-link" href="#generating-good-animals">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>There are many ways to define &ldquo;good&rdquo; or &ldquo;well-formed&rdquo; creatures. One of the first rules we can introduce is that we don&rsquo;t want chopped body parts to float alone.</p>
+<p>Translating it into a rule we can implement: a character that is &ldquo;open&rdquo; on the right must be followed by a character that is open on the left, and a character that is <em>not</em> open on the right must be followed by another character that is <em>not</em> open on the left.</p>
+<p>For example, <span class="small teranoptia">A</span> may be followed by <span class="small teranoptia">B</span> to make <span class="small teranoptia">AB</span>, but <span class="small teranoptia">A</span> cannot be followed by <span class="small teranoptia">C</span> to make <span class="small teranoptia">AC</span>.</p>
+<p>In the same way, <span class="small teranoptia">Z</span> may be followed by <span class="small teranoptia">A</span> to make <span class="small teranoptia">ZA</span>, but <span class="small teranoptia">Z</span> cannot be followed by <span class="small teranoptia">ż</span> to make <span class="small teranoptia">Zż</span>.</p>
+<p>This way we will get rid of all those &ldquo;chopped&rdquo; monsters that make up most of the randomly generated string.</p>
+<p>To summarize, the rules we have to implement are:</p>
+<ul>
+<li>Any character that is open on the right must be followed by another character that is open on the left.</li>
+<li>Any character that is closed on the right must be followed by another character that is closed on the left.</li>
+<li>The first character must not be open on the left.</li>
+<li>The last character must not be open on the right.</li>
+</ul>
+<h3 id="non-chopped-animals-generator">
+  Non-chopped animals generator
+  <a class="heading-link" href="#non-chopped-animals-generator">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+<div style="display: flex; gap: 10px;">
+    Characters to generate:
+    <input id="nochop-glyph-count" type="number" value=10></input>
+    <button onclick="generateNoChop(document.getElementById('nochop-glyph-count').value);">Generate!</button>
+</div>
+
+<p id="nochop-generated-animal" class="teranoptia" style="line-height: 50pt;">suSHebQ«EIl</p>
+
+<script>
+const charsOpenOnTheRightOnly = "yvspmieaźACFILOSWŹ({[";
+const charsOpenOnTheLeftOnly =  "BEHKNRVZŻzxurolhdż)]}";
+const charsOpenOnBothSides = "DGJMPQTUXẊYŽbcwtqnkjgfcḅbžYX«»";
+const charsOpenOnNoSides = ",*-“”";
+
+const charsOpenOnTheRight = charsOpenOnTheRightOnly + charsOpenOnBothSides;
+const charsOpenOnTheLeft = charsOpenOnTheLeftOnly + charsOpenOnBothSides;
+const validInitialChars = charsOpenOnTheRightOnly + charsOpenOnNoSides;
+
+function generateNoChop(value){
+    document.getElementById("nochop-generated-animal").innerHTML = "";
+    var newAnimal = '' + randomFrom(validInitialChars);
+    for (var i = 0; i < value-1; i++) {
+        if (charsOpenOnTheRight.indexOf(newAnimal[i]) > -1){
+            newAnimal += randomFrom(charsOpenOnTheLeft);
+
+        } else if (charsOpenOnTheLeftOnly.indexOf(newAnimal[i]) > -1){
+            newAnimal += randomFrom(charsOpenOnTheRightOnly);
+        
+        } else if (charsOpenOnNoSides.indexOf(newAnimal[i]) > -1){
+            newAnimal += randomFrom(validInitialChars);
+        }
+    }
+    // Final character
+    if (charsOpenOnTheRight.indexOf(newAnimal[i]) > -1){
+        newAnimal += randomFrom(charsOpenOnTheLeftOnly);
+    } else {
+        newAnimal += randomFrom(charsOpenOnNoSides);
+    }
+    document.getElementById("nochop-generated-animal").innerHTML = makeBreakable(newAnimal);
+}
+generateNoChop(document.getElementById("nochop-glyph-count").value);
+
+</script>
+
+
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff7b72">const</span> charsOpenOnTheRightOnly <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;yvspmieaźACFILOSWŹ({[&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> charsOpenOnTheLeftOnly <span style="color:#ff7b72;font-weight:bold">=</span>  <span style="color:#a5d6ff">&#34;BEHKNRVZŻzxurolhdż)]}&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> charsOpenOnBothSides <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;DGJMPQTUXẊYŽbcwtqnkjgfcḅbžYX«»&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> charsOpenOnNoSides <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;,*-“”&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> charsOpenOnTheRight <span style="color:#ff7b72;font-weight:bold">=</span> charsOpenOnTheRightOnly <span style="color:#ff7b72;font-weight:bold">+</span> charsOpenOnBothSides;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> charsOpenOnTheLeft <span style="color:#ff7b72;font-weight:bold">=</span> charsOpenOnTheLeftOnly <span style="color:#ff7b72;font-weight:bold">+</span> charsOpenOnBothSides;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> validInitialChars <span style="color:#ff7b72;font-weight:bold">=</span> charsOpenOnTheRightOnly <span style="color:#ff7b72;font-weight:bold">+</span> charsOpenOnNoSides;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">function</span> generateNoChop(value){
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">var</span> newAnimal <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#39;&#39;</span> <span style="color:#ff7b72;font-weight:bold">+</span> randomFrom(validInitialChars);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> (<span style="color:#ff7b72">var</span> i <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">0</span>; i <span style="color:#ff7b72;font-weight:bold">&lt;</span> value<span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>; i<span style="color:#ff7b72;font-weight:bold">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> (charsOpenOnTheRight.indexOf(newAnimal[i]) <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>){
+</span></span><span style="display:flex;"><span>            newAnimal <span style="color:#ff7b72;font-weight:bold">+=</span> randomFrom(charsOpenOnTheLeft);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        } <span style="color:#ff7b72">else</span> <span style="color:#ff7b72">if</span> (charsOpenOnTheLeftOnly.indexOf(newAnimal[i]) <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>){
+</span></span><span style="display:flex;"><span>            newAnimal <span style="color:#ff7b72;font-weight:bold">+=</span> randomFrom(charsOpenOnTheRightOnly);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        } <span style="color:#ff7b72">else</span> <span style="color:#ff7b72">if</span> (charsOpenOnNoSides.indexOf(newAnimal[i]) <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>){
+</span></span><span style="display:flex;"><span>            newAnimal <span style="color:#ff7b72;font-weight:bold">+=</span> randomFrom(validInitialChars);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Final character
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">if</span> (charsOpenOnTheRight.indexOf(newAnimal[i]) <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>){
+</span></span><span style="display:flex;"><span>        newAnimal <span style="color:#ff7b72;font-weight:bold">+=</span> randomFrom(charsOpenOnTheLeftOnly);
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff7b72">else</span> {
+</span></span><span style="display:flex;"><span>        newAnimal <span style="color:#ff7b72;font-weight:bold">+=</span> randomFrom(charsOpenOnNoSides);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> newAnimal;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The resulting animals are already quite better!</p>
+<p>There are still a few things we may want to fix. For example, some animals end up being just a pair of heads (such as <span class="small teranoptia">sN</span>); others instead have their bodies oriented in the wrong direction (like <span class="small teranoptia">IgV</span>).</p>
+<p>Let&rsquo;s try to get rid of those too.</p>
+<p>The trick here is to separate the characters into two groups: elements that are &ldquo;facing left&rdquo;, elements that are &ldquo;facing right&rdquo;, and symmetric ones. At this point, it&rsquo;s convenient to call them &ldquo;heads&rdquo;, &ldquo;bodies&rdquo; and &ldquo;tails&rdquo; to make the code more understandable, like the following:</p>
+<ul>
+<li>
+<p>Right heads: <span class="small teranoptia">BEHKNRVZŻ</span></p>
+</li>
+<li>
+<p>Left heads: <span class="small teranoptia">yvspmieaź</span></p>
+</li>
+<li>
+<p>Right tails: <span class="small teranoptia">ACFILOSWŹv</span></p>
+</li>
+<li>
+<p>Left tails: <span class="small teranoptia">zxurolhdżE</span></p>
+</li>
+<li>
+<p>Right bodies: <span class="small teranoptia" style="letter-spacing: 5px;">DGJMPQTUẊŽ</span></p>
+</li>
+<li>
+<p>Left bodies: <span class="small teranoptia" style="letter-spacing: 5px;">wtqnkjgfḅž</span></p>
+</li>
+<li>
+<p>Entering hole: <span class="small teranoptia" style="letter-spacing: 5px;">)]}</span></p>
+</li>
+<li>
+<p>Exiting hole: <span class="small teranoptia" style="letter-spacing: 5px;">([{</span></p>
+</li>
+<li>
+<p>Bounce &amp; symmetric bodies: <span class="small teranoptia" style="letter-spacing: 5px;">«»$bcXY</span></p>
+</li>
+<li>
+<p>Singletons: <span class="small teranoptia" style="letter-spacing: 5px;">,*-</span></p>
+</li>
+</ul>
+<p>Let&rsquo;s put this all together!</p>
+<h3 id="oriented-animals-generator">
+  Oriented animals generator
+  <a class="heading-link" href="#oriented-animals-generator">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+<div style="display: flex; gap: 10px;">
+    Characters to generate:
+    <input id="oriented-glyph-count" type="number" value=10></input>
+    <button onclick="generateOriented(document.getElementById('oriented-glyph-count').value);">Generate!</button>
+</div>
+
+<p id="oriented-generated-animal" class="teranoptia" style="line-height: 50pt;">suSHebQ«EIl</p>
+
+<script>
+
+const rightAnimalHeads = "BEHKNRVZŻ";
+const leftAnimalHeads = "yvspmieaź";
+const rightAnimalTails = "ACFILOSWŹv";
+const leftAnimalTails = "zxurolhdżE";
+const rightAnimalBodies = "DGJMPQTUẊŽ";
+const leftAnimalBodies = "wtqnkjgfḅž";
+const singletons = ",*‐";
+const exitingHole = "([{";
+const enteringHole = ")]}";
+const bounce = "«»$bcXY";
+
+const validStarts = leftAnimalHeads + rightAnimalTails + exitingHole;
+const validSuccessors = {
+    [exitingHole + bounce]: rightAnimalHeads + rightAnimalBodies + leftAnimalBodies + leftAnimalTails + enteringHole + bounce,
+    [enteringHole]: rightAnimalTails + leftAnimalHeads + exitingHole + singletons,
+    [rightAnimalHeads + leftAnimalTails + singletons]: rightAnimalTails + leftAnimalHeads + exitingHole + singletons,
+    [leftAnimalHeads]: leftAnimalBodies + leftAnimalBodies + leftAnimalBodies + leftAnimalTails + enteringHole + bounce,
+    [rightAnimalTails]: rightAnimalBodies + rightAnimalBodies + rightAnimalBodies + rightAnimalHeads + enteringHole + bounce,
+    [rightAnimalBodies]: rightAnimalBodies + rightAnimalBodies + rightAnimalBodies + rightAnimalHeads + enteringHole + bounce,
+    [leftAnimalBodies]: leftAnimalBodies + leftAnimalBodies + leftAnimalBodies + leftAnimalTails + enteringHole + bounce,
+};
+const validEnds = {
+    [exitingHole + bounce]: leftAnimalTails + rightAnimalHeads + enteringHole,
+    [rightAnimalHeads + leftAnimalTails + enteringHole]: singletons,
+    [leftAnimalHeads]: leftAnimalTails + enteringHole,
+    [rightAnimalTails]: rightAnimalHeads + enteringHole,
+    [rightAnimalBodies]: rightAnimalHeads,
+    [leftAnimalBodies]: leftAnimalTails,
+};
+
+function generateOriented(value){
+
+    var newAnimal = '' + randomFrom(validStarts);
+    for (var i = 0; i < value-1; i++) {
+        last_char = newAnimal[i-1];
+        for (const [predecessor, successor] of Object.entries(validSuccessors)) {
+            if (predecessor.indexOf(last_char) > -1){
+                newAnimal += randomFrom(successor);
+                break;
+            }
+        }
+    }
+    last_char = newAnimal[i-1];
+    for (const [predecessor, successor] of Object.entries(validEnds)) {
+        if (predecessor.indexOf(last_char) > -1){
+            newAnimal += randomFrom(successor);
+            break;
+        }
+    }
+    document.getElementById("oriented-generated-animal").innerHTML = makeBreakable(newAnimal);
+}
+generateOriented(document.getElementById("oriented-glyph-count").value);
+
+</script>
+
+
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff7b72">const</span> rightAnimalHeads <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;BEHKNRVZŻ&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> leftAnimalHeads <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;yvspmieaź&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> rightAnimalTails <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;ACFILOSWŹv&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> leftAnimalTails <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;zxurolhdżE&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> rightAnimalBodies <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;DGJMPQTUẊŽ&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> leftAnimalBodies <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;wtqnkjgfḅž&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> singletons <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;,*‐&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> exitingHole <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;([{&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> enteringHole <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;)]}&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> bounce <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;«»$bcXY&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> validStarts <span style="color:#ff7b72;font-weight:bold">=</span> leftAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> exitingHole;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> validSuccessors <span style="color:#ff7b72;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>    [exitingHole <span style="color:#ff7b72;font-weight:bold">+</span> bounce]<span style="color:#ff7b72;font-weight:bold">:</span> rightAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole <span style="color:#ff7b72;font-weight:bold">+</span> bounce,
+</span></span><span style="display:flex;"><span>    [enteringHole]<span style="color:#ff7b72;font-weight:bold">:</span> rightAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> exitingHole <span style="color:#ff7b72;font-weight:bold">+</span> singletons,
+</span></span><span style="display:flex;"><span>    [rightAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> singletons]<span style="color:#ff7b72;font-weight:bold">:</span> rightAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> exitingHole <span style="color:#ff7b72;font-weight:bold">+</span> singletons,
+</span></span><span style="display:flex;"><span>    [leftAnimalHeads]<span style="color:#ff7b72;font-weight:bold">:</span> leftAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole <span style="color:#ff7b72;font-weight:bold">+</span> bounce,
+</span></span><span style="display:flex;"><span>    [rightAnimalTails]<span style="color:#ff7b72;font-weight:bold">:</span> rightAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole <span style="color:#ff7b72;font-weight:bold">+</span> bounce,
+</span></span><span style="display:flex;"><span>    [rightAnimalBodies]<span style="color:#ff7b72;font-weight:bold">:</span> rightAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole <span style="color:#ff7b72;font-weight:bold">+</span> bounce,
+</span></span><span style="display:flex;"><span>    [leftAnimalBodies]<span style="color:#ff7b72;font-weight:bold">:</span> leftAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalBodies <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole <span style="color:#ff7b72;font-weight:bold">+</span> bounce,
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">const</span> validEnds <span style="color:#ff7b72;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>    [exitingHole <span style="color:#ff7b72;font-weight:bold">+</span> bounce]<span style="color:#ff7b72;font-weight:bold">:</span> leftAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> rightAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole,
+</span></span><span style="display:flex;"><span>    [rightAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> leftAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole]<span style="color:#ff7b72;font-weight:bold">:</span> singletons,
+</span></span><span style="display:flex;"><span>    [leftAnimalHeads]<span style="color:#ff7b72;font-weight:bold">:</span> leftAnimalTails <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole,
+</span></span><span style="display:flex;"><span>    [rightAnimalTails]<span style="color:#ff7b72;font-weight:bold">:</span> rightAnimalHeads <span style="color:#ff7b72;font-weight:bold">+</span> enteringHole,
+</span></span><span style="display:flex;"><span>    [rightAnimalBodies]<span style="color:#ff7b72;font-weight:bold">:</span> rightAnimalHeads,
+</span></span><span style="display:flex;"><span>    [leftAnimalBodies]<span style="color:#ff7b72;font-weight:bold">:</span> leftAnimalTails,
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">function</span> generateOriented(value){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">var</span> newAnimal <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#39;&#39;</span> <span style="color:#ff7b72;font-weight:bold">+</span> randomFrom(validStarts);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> (<span style="color:#ff7b72">var</span> i <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">0</span>; i <span style="color:#ff7b72;font-weight:bold">&lt;</span> value<span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>; i<span style="color:#ff7b72;font-weight:bold">++</span>) {
+</span></span><span style="display:flex;"><span>        last_char <span style="color:#ff7b72;font-weight:bold">=</span> newAnimal[i<span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">for</span> (<span style="color:#ff7b72">const</span> [predecessor, successor] <span style="color:#ff7b72">of</span> Object.entries(validSuccessors)) {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (predecessor.indexOf(last_char) <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>){
+</span></span><span style="display:flex;"><span>                newAnimal <span style="color:#ff7b72;font-weight:bold">+=</span> randomFrom(successor);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">break</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    last_char <span style="color:#ff7b72;font-weight:bold">=</span> newAnimal[i<span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> (<span style="color:#ff7b72">const</span> [predecessor, successor] <span style="color:#ff7b72">of</span> Object.entries(validEnds)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> (predecessor.indexOf(last_char) <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>){
+</span></span><span style="display:flex;"><span>            newAnimal <span style="color:#ff7b72;font-weight:bold">+=</span> randomFrom(successor);
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> newAnimal;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="a-regular-grammar">
+  A regular grammar
+  <a class="heading-link" href="#a-regular-grammar">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Let&rsquo;s move up a level now.</p>
+<p>What we&rsquo;ve defined up to this point is a set of rules that, given a string, determine what characters are allowed next. This is called a <a href="https://en.wikipedia.org/wiki/Formal_grammar"  class="external-link" target="_blank" rel="noopener"><strong>formal grammar</strong></a> in Computer Science.</p>
+<p>A grammar is defined primarily by:</p>
+<ul>
+<li>an <strong>alphabet</strong> of symbols (our Teranoptia font).</li>
+<li>a set of <strong>starting characters</strong>: all the characters that can be used at the start of the string (such as <span class="small teranoptia">a</span> or <span class="small teranoptia">*</span>).</li>
+<li>a set of <strong>terminating character</strong>: all the characters that can be used to terminate the string (such as <span class="small teranoptia">d</span> or <span class="small teranoptia">-</span>).</li>
+<li>a set of <strong>production rules</strong>: the rules needed to generate valid strings in that grammar.</li>
+</ul>
+<p>In our case, we&rsquo;re looking for a grammar that defines &ldquo;well formed&rdquo; animals. For example, our production rules might look like this:</p>
+<ul>
+<li>S (the start of the string) → a (<span class="small teranoptia">a</span>)</li>
+<li>a (<span class="small teranoptia">a</span>) → ad (<span class="small teranoptia">ad</span>)</li>
+<li>a (<span class="small teranoptia">a</span>) → ab (<span class="small teranoptia">ab</span>)</li>
+<li>b (<span class="small teranoptia">b</span>) → bb (<span class="small teranoptia">bb</span>)</li>
+<li>b (<span class="small teranoptia">b</span>) → bd (<span class="small teranoptia">bd</span>)</li>
+<li>d (<span class="small teranoptia">d</span>) → E (the end of the string)</li>
+<li>, (<span class="small teranoptia">,</span>) → E (the end of the string)</li>
+</ul>
+<p>and so on. Each combination would have its own rule.</p>
+<p>There are three main types of grammars according to Chomsky&rsquo;s hierarchy:</p>
+<ul>
+<li><strong>Regular grammars</strong>: in all rules, the left-hand side is only a single nonterminal symbol and right-hand side may be the empty string, or a single terminal symbol, or a single terminal symbol followed by a nonterminal symbol, but nothing else.</li>
+<li><strong>Context-free grammars</strong>: in all rules, the left-hand side of each production rule consists of only a single nonterminal symbol, while the right-hand side may contain any number of terminal and non-terminal symbols.</li>
+<li><strong>Context-sensitive grammars</strong>: rules can contain many terminal and non-terminal characters on both sides.</li>
+</ul>
+<p>In our case, all the production rules look very much like the examples we defined above: one character on the left-hand side, at most two on the right-hand side. This means we&rsquo;re dealing with a regular grammar. And this is good news, because it means that this language can be encoded into a <strong>regular expression</strong>.</p>
+<h2 id="building-the-regex">
+  Building the regex
+  <a class="heading-link" href="#building-the-regex">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Regular expressions are a very powerful tool, one that needs to be used with care. They&rsquo;re best used for string validation: given an arbitrary string, they are going to check whether it respects the grammar, i.e. whether the string it could have been generated by applying the rules above.</p>
+<p>Having a regex for our Teranoptia animals will allow us to search for valid animals in long lists of stroings, for example an English dictionary. Such a search would have been prohibitively expensive without a regular expression: using one, while still quite costly, is orders of magnitude more efficient.</p>
+<p>In order to build this complex regex, let&rsquo;s start with a very limited example: a regex that matches left-facing snakes.</p>
+<pre tabindex="0"><code class="language-regex" data-lang="regex">^(a(b|c|X|Y)*d)+$
+</code></pre><p>This regex is fairly straightforward: the string must start with a (<span class="small teranoptia">a</span>), can contain any number of b (<span class="small teranoptia">b</span>), c (<span class="small teranoptia">c</span>), X (<span class="small teranoptia">X</span>) and Y (<span class="small teranoptia">Y</span>), and must end with d (<span class="small teranoptia">d</span>). While we&rsquo;re at it, let&rsquo;s add a + to the end, meaning that this pattern can repeat multiple times: the string will simply contain many snakes.</p>
+<h3 id="left-facing-snakes-regex">
+  Left-facing snakes regex
+  <a class="heading-link" href="#left-facing-snakes-regex">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+<div style="display: flex; gap: 10px;">
+    <input id="left-facing-snakes-input" type="string" class="teranoptia" value="abd" oninput="validateLeftFacingSnake();"></input>
+    <p id="left-facing-snakes-result">Valid</p>
+</div>
+
+<script>
+var leftFacingSnake = new RegExp("^(a(b|c|X|Y)*d)+$");
+
+function validateLeftFacingSnake(){
+    const candidate = document.getElementById('left-facing-snakes-input').value;
+    if (leftFacingSnake.test(candidate)){
+        document.getElementById('left-facing-snakes-input').style.color = "green";
+        document.getElementById('left-facing-snakes-result').innerHTML = "Valid!";
+    } else {
+        document.getElementById('left-facing-snakes-input').style.color = "red";
+        document.getElementById('left-facing-snakes-result').innerHTML = "NOT valid!";
+    }
+}
+validateLeftFacingSnake()
+</script>
+
+
+<p>What would it take to extend it to snakes that face either side? Luckily, snake bodies are symmetrical, so we can take advantage of that and write:</p>
+<pre tabindex="0"><code class="language-regex" data-lang="regex">^((a|W)(b|c|X|Y)*(d|Z))+$
+</code></pre><h3 id="naive-snakes">
+  Naive snakes
+  <a class="heading-link" href="#naive-snakes">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+<div style="display: flex; gap: 10px;">
+    <input id="naive-snakes-input" type="string" class="teranoptia" value="abdWXZ" oninput="validateNaiveSnake();"></input>
+    <p id="naive-snakes-result">Valid</p>
+</div>
+
+<script>
+var naiveSnake = new RegExp("^((a|W)(b|c|X|Y)*(d|Z))+$");
+
+function validateNaiveSnake(){
+    const candidate = document.getElementById('naive-snakes-input').value;
+    if (naiveSnake.test(candidate)){
+        document.getElementById('naive-snakes-input').style.color = "green";
+        document.getElementById('naive-snakes-result').innerHTML = "Valid!";
+    } else {
+        document.getElementById('naive-snakes-input').style.color = "red";
+        document.getElementById('naive-snakes-result').innerHTML = "NOT valid!";
+    }
+}
+validateNaiveSnake();
+</script>
+
+
+<p>That looks super-promising until we realize that there&rsquo;s a problem: this &ldquo;snake&rdquo; <span class="small teranoptia">aZ</span> also matches the regex. To generate well-formed animals we need to keep heads and tails separate. In the regex, it would look like:</p>
+<pre tabindex="0"><code class="language-regex" data-lang="regex">^(
+    (a)(b|c|X|Y)*(d) |
+    (W)(b|c|X|Y)*(Z)
+)+$
+</code></pre><h3 id="correct-snakes">
+  Correct snakes
+  <a class="heading-link" href="#correct-snakes">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+<div style="display: flex; gap: 10px;">
+    <input id="correct-snakes-input" type="string" class="teranoptia" value="abdWXZ" oninput="validateCorrectSnake();"></input>
+    <p id="correct-snakes-result">Valid</p>
+</div>
+
+<script>
+var correctSnake = new RegExp("^(((a)(b|c|X|Y)*(d))|((W)(b|c|X|Y)*(Z)))+$");
+
+function validateCorrectSnake(){
+    const candidate = document.getElementById('correct-snakes-input').value;
+    if (correctSnake.test(candidate)){
+        document.getElementById('correct-snakes-input').style.color = "green";
+        document.getElementById('correct-snakes-result').innerHTML = "Valid!";
+    } else {
+        document.getElementById('correct-snakes-input').style.color = "red";
+        document.getElementById('correct-snakes-result').innerHTML = "NOT valid!";
+    }
+}
+validateCorrectSnake()
+</script>
+
+
+<p>Once here, building the rest of the regex is simply matter of adding the correct characters to each group. We&rsquo;re gonna trade some extra characters for an easier structure by duplicating the symmetric characters when needed.</p>
+<pre tabindex="0"><code class="language-regex" data-lang="regex">^(
+    // Left-facing animals
+    (
+        y|v|s|p|m|i|e|a|ź|(|[|{   // Left heads &amp; exiting holes
+    )(
+        w|t|q|n|k|j|g|f|ḅ|ž|X|Y|b|c|$|«|»  // Left &amp; symmetric bodies
+    )*(
+        z|x|u|r|o|l|h|d|ż|E|)|]|}  // Left tails &amp; entering holes
+    ) |
+
+    // Right facing animals
+    (
+        A|C|F|I|L|O|S|W|Ź|v|(|[|{   // right tails &amp; exiting holes
+    )(
+        D|G|J|M|P|Q|T|U|Ẋ|Ž|b|c|X|Y|$|«|»  // right &amp; symmetric bodies  
+    )*(
+        B|E|H|K|N|R|V|Z|Ż|)|]|}   // right heads &amp; entering holes
+    ) |
+
+    // Singletons
+    (,|-|*)
+)+$
+</code></pre><h3 id="well-formed-animals-regex">
+  Well-formed animals regex
+  <a class="heading-link" href="#well-formed-animals-regex">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+<div style="display: flex; gap: 10px;">
+    <input id="correct-animal-input" type="string" class="teranoptia" value="abu*W«XZ" oninput="validateCorrectAnimal();"></input>
+    <p id="correct-animal-result">Valid</p>
+</div>
+
+<script>
+var correctAnimal = new RegExp("^((y|v|s|p|m|i|e|a|ź|\\(|\\[|\\{)(w|t|q|n|k|j|g|f|ḅ|ž|b|c|X|Y|\\$|«|»)*(z|x|u|r|o|l|h|d|ż|E|\\)|\\]|\\})|(A|C|F|I|L|O|S|W|Ź|v|\\(|\\[|\\{)(D|G|J|M|P|Q|T|U|Ẋ|Ž|b|c|X|Y|\\$|«|»)*(B|E|H|K|N|R|V|Z|Ż|\\)|\\]|\\})|(-|\\*|,))+$");
+
+function validateCorrectAnimal(){
+    const candidate = document.getElementById('correct-animal-input').value;
+    if (correctAnimal.test(candidate)){
+        document.getElementById('correct-animal-input').style.color = "green";
+        document.getElementById('correct-animal-result').innerHTML = "Valid!";
+    } else {
+        document.getElementById('correct-animal-input').style.color = "red";
+        document.getElementById('correct-animal-result').innerHTML = "NOT valid!";
+    }
+}
+validateCorrectAnimal();
+</script>
+
+
+<p>If you play with the above regex, you&rsquo;ll notice a slight discrepancy with what our well-formed animal generator creates. The generator can create &ldquo;double-headed&rdquo; monsters where a symmetric body part is inserted, like <span class="small teranoptia">a«Z</span>. However, the regex does not allow it. Extending it to account for these scenarios would make it even more unreadable, so this is left as an exercise for the reader.</p>
+<h2 id="searching-for-monstrous-words">
+  Searching for &ldquo;monstrous&rdquo; words
+  <a class="heading-link" href="#searching-for-monstrous-words">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Let&rsquo;s put the regex to use! There must be some English words that match the regex, right?</p>
+<p>Google helpfully compiled a text file with the most frequent 10.000 English words by frequency. Let&rsquo;s load it up and match every line with our brand-new regex. Unfortunately Teranoptia is case-sensitive and uses quite a few odd letters and special characters, so it&rsquo;s unlikely we&rsquo;re going to find many interesting creatures. Still worth an attempt.</p>
+<h3 id="monster-search">
+  Monster search
+  <a class="heading-link" href="#monster-search">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+
+
+<div style="display: flex; gap: 10px;">
+    <input id="file-url" type="url" value="https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english.txt" style="width: 100%;"></input>
+    <button onclick="searchFile();">Search</button>
+</div>
+<p id="search-result"></p>
+<div id="words-found"></div>
+
+<script>
+var correctAnimal = new RegExp("^((y|v|s|p|m|i|e|a|ź|\\(|\\[|\\{)(w|t|q|n|k|j|g|f|ḅ|ž|b|c|X|Y|\\$|«|»)*(z|x|u|r|o|l|h|d|ż|E|\\)|\\]|\\})|(A|C|F|I|L|O|S|W|Ź|v|\\(|\\[|\\{)(D|G|J|M|P|Q|T|U|Ẋ|Ž|b|c|X|Y|\\$|«|»)*(B|E|H|K|N|R|V|Z|Ż|\\)|\\]|\\})|(-|\\*|,))+$");
+
+function searchFile(){
+    document.getElementById('search-result').innerHTML = "Loading...";
+
+    fetch(document.getElementById('file-url').value)
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then((text) => {
+        lines = text.split('\n');
+        counter = 0;
+
+        for (i = 0; i < lines.length; i++){
+            var candidate = lines[i];
+            document.getElementById('search-result').innerHTML = "Checking " + candidate;
+            if (correctAnimal.test(candidate)){
+                document.getElementById('words-found').innerHTML += "<p>"+candidate+"<span class='teranoptia'> "+candidate+"</span></p>";
+                counter++;
+            }
+        }
+        document.getElementById('search-result').innerHTML = "Done! Found "+ counter +" animals over "+lines.length+" words tested.";        
+    })
+    .catch((error) => {
+        document.getElementById('search-result').innerHTML = "Failed to fetch file :(";
+    });
+}
+</script>
+
+
+<p>Go ahead and put your own vocabulary file to see if your language contains more animals!</p>
+<h2 id="conclusion">
+  Conclusion
+  <a class="heading-link" href="#conclusion">
+    <i class="fa fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>In this post I&rsquo;ve just put together a few exercises for fun, but these tools can be great for teaching purposes: the output is very easy to validate visually, and the grammar involved, while not trivial, is not as complex as natural language or as dry as numerical sequences. If you need something to keep your students engaged, this might be a simple trick to help them visualize the concepts better.</p>
+<p>On my side, I think I&rsquo;m going to use these neat little monsters as weird <a href="https://en.wikipedia.org/wiki/Fleuron_%28typography%29"  class="external-link" target="_blank" rel="noopener">fleurons</a> :)</p>
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">su</a></p>
+<hr>
+<p><em>Download Teranoptia at this link: <a href="https://www.tunera.xyz/fonts/teranoptia/"  class="external-link" target="_blank" rel="noopener">https://www.tunera.xyz/fonts/teranoptia/</a></em></p>
+
+      </div>
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025
+    <a href="/">Sara Zan</a>
+    ·
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>
