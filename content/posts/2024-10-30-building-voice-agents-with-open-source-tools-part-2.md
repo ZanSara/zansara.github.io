@@ -7,6 +7,11 @@ aliases:
 - /posts/2024-09-05-voice-bots-2/
 ---
 
+{{< audio 
+    audioFile="/posts/2024-09-05-building-voice-agents-with-open-source-tools/Building Reliable Voice Bots with Open Source Tools - Part 2.mp3" 
+    speechifyLink="https://app.speechify.com/share/24120caa-a44d-40bb-9add-8451c8b1b6e6"
+>}}
+
 *This is part two of the write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-building-voice-agents-with-open-source-tools/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*
 
 ---

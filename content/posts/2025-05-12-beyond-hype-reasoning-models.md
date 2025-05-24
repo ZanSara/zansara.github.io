@@ -5,6 +5,11 @@ author: "ZanSara"
 featuredImage: "/posts/2025-05-12-beyond-hype-reasoning-models/cover.png"
 ---
 
+{{< audio 
+    audioFile="/posts/2025-05-12-beyond-hype-reasoning-models/Beyond the hype of reasoning models_ debunking three common misunderstandings.mp3" 
+    speechifyLink="https://app.speechify.com/share/9811737c-0eb1-4f31-b088-d3f1b0b78fb2"
+>}}
+
 With the release of OpenAI’s o1 and similar models such as DeepSeek R1, Gemini 2.0 Flash Thinking, Phi 4 Reasoning and more, a new type of LLMs entered the scene: the so-called reasoning models. With their unbelievable scores in the toughest benchmarks for machine intelligence, reasoning models immediately got the attention of most AI enthusiasts, sparking speculations about their capabilities and what those could mean for the industry.
 
 However, as often in the field of Generative AI, the hype makes it very difficult to understand at a glance what these models can really do. But before we jump into the details let’s clarify what we’re talking about.
