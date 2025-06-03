@@ -11,13 +11,7 @@ All resources can also be found in
 [my archive](https://drive.google.com/drive/folders/1ZPkne2QxOnSXfchv08CWkAZG3duXxd4Z?usp=sharing).
 
 ---
-
-{{< raw >}}
-<div class='iframe-wrapper'>
-<iframe src="https://drive.google.com/file/d/1HTEEs-Zr8mZoJA8a7AuiJf61soGvQNPI/preview" width=100% height=100% allow="autoplay"></iframe>
-</div>
-{{< /raw >}}
-
+{{< googledriveVideo url="https://drive.google.com/file/d/1HTEEs-Zr8mZoJA8a7AuiJf61soGvQNPI" >}}
 ---
 
 

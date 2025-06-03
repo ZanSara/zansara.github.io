@@ -9,11 +9,7 @@ featuredImage: "/talks/2023-08-03-office-hours-haystack-2.0-status.png"
 
 ---
 
-{{< raw >}}
-<div class='iframe-wrapper'>
-<iframe src="https://drive.google.com/file/d/1PyAlvJ22Z6o1bls07Do5kx2WMTdotsM7/preview" width="100%" height="100%" allow="autoplay"></iframe>
-</div>
-{{< /raw >}}
+{{< googledriveVideo url="https://drive.google.com/file/d/1PyAlvJ22Z6o1bls07Do5kx2WMTdotsM7" >}}
 
 In this [Office Hours](https://discord.com/invite/VBpFzsgRVF) I've presented for the first time to our Discord community a preview of the upcoming 2.0 release of Haystack, which has been in the works since the start of the year. As rumors started to arise at the presence of a `preview` module in the latest Haystack 1.x releases, we took the opportunity to share this early draft of the project to collect early feedback.
 

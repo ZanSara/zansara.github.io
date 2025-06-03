@@ -189,12 +189,7 @@ One of the best frameworks out there to build open-source voice bots right now i
 
 Have fun!
 
-
-{{< raw >}}
-<div class='iframe-wrapper'>
-<iframe src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/notebook-presentation-clip.mp4" width=100% height=100%></iframe>
-</div>
-{{< /raw >}}
+{{< video url="/posts/2024-09-05-building-voice-agents-with-open-source-tools/notebook-presentation-clip.mp4" >}}
 
 _The Pipecat bot in action (from [my talk](/talks/2024-10-29-odsc-west-voice-agents/) at ODSC West 2024, presenting [this same notebook](https://colab.research.google.com/drive/1CUX7JRYMU1MEJBZ6lWMg5EThPew19Zjs?usp=sharing))._
 

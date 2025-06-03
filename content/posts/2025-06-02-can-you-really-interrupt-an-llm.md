@@ -9,27 +9,27 @@ With the recent release of [Voice Mode](https://support.anthropic.com/en/article
 
 It turns out, a lot is still missing. Here is an example:
 
-{{< raw >}}
-<div class='iframe-wrapper' style="width:382px;height:814px; margin: auto;" >
-<iframe src="/posts/2025-06-02-can-you-really-interrupt-an-llm/claude.mp4" style="border: none;"></iframe>
-</div>
-{{< /raw >}}
+{{< video 
+    url="/posts/2025-06-02-can-you-really-interrupt-an-llm/claude.mp4" 
+    height=814
+    width=382
+>}}
 
 Is this an issue with Claude? Have a look at Gemini:
 
-{{< raw >}}
-<div class='iframe-wrapper' style="width:384px;height:796px; margin: auto;">
-<iframe src="/posts/2025-06-02-can-you-really-interrupt-an-llm/gemini.mp4" style="border: none;"></iframe>
-</div>
-{{< /raw >}}
+{{< video 
+    url="/posts/2025-06-02-can-you-really-interrupt-an-llm/gemini.mp4" 
+    height=796
+    width=384
+>}}
 
 or even at the venerable GPT-4o, the most mature Voice AI out there:
 
-{{< raw >}}
-<div class='iframe-wrapper' style="width:382px;height:814px; margin: auto;">
-<iframe src="/posts/2025-06-02-can-you-really-interrupt-an-llm/gpt-4o.mp4" style="border: none;"></iframe>
-</div>
-{{< /raw >}}
+{{< video 
+    url="/posts/2025-06-02-can-you-really-interrupt-an-llm/gpt-4o.mp4" 
+    height=814
+    width=382
+>}}
 
 What's going on?
 
@@ -43,11 +43,11 @@ This means that an LLM will have a very hard time understanding requests that in
 
 For example, here is what GPT-4o (the LLM that handles time best) can do when asked to wait for a few seconds:
 
-{{< raw >}}
-<div class='iframe-wrapper' style="width:382px;height:814px; margin: auto;">
-<iframe src="/posts/2025-06-02-can-you-really-interrupt-an-llm/wait-before-replying.mp4" style="border: none;"></iframe>
-</div>
-{{< /raw >}}
+{{< video 
+    url="/posts/2025-06-02-can-you-really-interrupt-an-llm/wait-before-replying.mp4" 
+    height=814
+    width=382
+>}}
 
 # Problem #2: Interruptions are not a native capability
 

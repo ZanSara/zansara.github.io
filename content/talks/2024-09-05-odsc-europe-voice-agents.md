@@ -18,12 +18,7 @@ and [part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part
 
 _(Note: this is a recording of the notebook walkthrough only. The full recording will be shared soon)._
 
-{{< raw >}}
-<div class='iframe-wrapper'>
-<iframe src="https://drive.google.com/file/d/15Kv8THmDsnnzfVBhHAf2O11RccpzAzYK/preview" width=100% height=100% allow="autoplay"></iframe>
-</div>
-{{< /raw >}}
-
+{{< googledriveVideo url="https://drive.google.com/file/d/15Kv8THmDsnnzfVBhHAf2O11RccpzAzYK" >}}
 
 At [ODSC Europe 2024](https://odsc.com/europe/) I talked about building modern and reliable voice bots using Pipecat, 
 a recently released open source tool. I gave an overview of the general structure of voice bots, of the improvements 

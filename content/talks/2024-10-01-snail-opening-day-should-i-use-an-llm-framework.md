@@ -12,11 +12,7 @@ All resources can also be found in
 
 ---
 
-{{< raw >}}
-<div class='iframe-wrapper'>
-<iframe src="https://drive.google.com/file/d/1AORVusaHVBqNvJ5OtctyB5TWQZSadoqT/preview" width=100% height=100% allow="autoplay"></iframe>
-</div>
-{{< /raw >}}
+{{< googledriveVideo url="https://drive.google.com/file/d/1AORVusaHVBqNvJ5OtctyB5TWQZSadoqT" >}}
 
 Find the transcript [here](https://drive.google.com/file/d/1wwnTFmGOANVmxUaVd1PC3cfztzIfSCEa/view?usp=sharing).
 
