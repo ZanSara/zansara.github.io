@@ -5,6 +5,11 @@ author: "ZanSara"
 featuredImage: "/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/cover.png"
 ---
 
+{{< audio 
+    audioFile="/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/Headless WiFi setup on Raspberry Pi OS Bookworm without the Raspberry Pi Imager - Sara Zan.mp3" 
+    speechifyLink="https://app.speechify.com/share/6a234a55-265b-4a94-82e7-57bbb05b738e"
+>}}
+
 Setting up a Raspberry Pi headless without the Raspberry Pi Imager used to be a fairly simple process for the average Linux user, to the point where a how-to and a few searches on the Raspberry Pi forums would sort the process out. After flashing the image with `dd`, creating `ssh` in the boot partition and populating `wpa_supplicant.conf` was normally enough to get started.
 
 However with the [recently released Raspberry Pi OS 12 "Bookworm"](https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/) this second step [doesn't work anymore](https://www.raspberrypi.com/documentation/computers/configuration.html#connect-to-a-wireless-network) and the only recommendation that users receive is to "just use the Raspberry Pi Imager" (like [here](https://github.com/raspberrypi/bookworm-feedback/issues/72)).

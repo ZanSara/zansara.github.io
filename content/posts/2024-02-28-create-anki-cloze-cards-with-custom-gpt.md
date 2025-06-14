@@ -5,6 +5,11 @@ author: "ZanSara"
 featuredImage: "/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png"
 ---
 
+{{< audio 
+    audioFile="/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/ClozeGPT: Write Anki cloze cards with a custom GPT - Sara Zan.mp3" 
+    speechifyLink="https://app.speechify.com/share/10ebaf1f-dc2f-41ce-a9d6-0ad29238d96e"
+>}}
+
 As everyone who has been serious about studying with [Anki](https://apps.ankiweb.net/) knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
 
 What can we do to make this process less tedious?

@@ -7,7 +7,7 @@ featuredImage: "/posts/2025-06-02-can-you-really-interrupt-an-llm/cover.png"
 
 {{< 
     audio 
-    audioFile="/posts/2025-06-02-can-you-really-interrupt-an-llm/Can you really interrupt an LLM.mp3" 
+    audioFile="/posts/2025-06-02-can-you-really-interrupt-an-llm/Can you really interrupt an LLM - Sara Zan.mp3" 
     speechifyLink="https://app.speechify.com/share/0382cc35-21be-4455-8ff7-dfa6ce99a4f4"
 >}}
 

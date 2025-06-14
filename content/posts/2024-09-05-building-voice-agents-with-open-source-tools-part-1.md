@@ -9,8 +9,8 @@ aliases:
 ---
 
 {{< audio 
-    audioFile="/posts/2024-09-05-building-voice-agents-with-open-source-tools/Building Reliable Voice Bots with Open Source Tools - Part 1.mp3" 
-    speechifyLink="https://app.speechify.com/share/56beca57-948d-4084-8d8c-b704e94a5a2b"
+    audioFile="/posts/2024-09-05-building-voice-agents-with-open-source-tools/Building Reliable Voice Bots with Open Source Tools - Part 1 - Sara Zan.mp3" 
+    speechifyLink="https://app.speechify.com/share/b01db173-8803-4fb1-a1da-702c0cf5e451"
 >}}
 
 *This is part one of the write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-building-voice-agents-with-open-source-tools/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*

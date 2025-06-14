@@ -8,6 +8,11 @@ aliases:
 - /posts/is-rag-all-you-need
 ---
 
+{{< audio 
+    audioFile="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/Is RAG all you need A look at the limits of retrieval augmentation - Sara Zan.mp3" 
+    speechifyLink="https://app.speechify.com/share/ca710e7b-5af7-4733-b3d8-c012758bd171"
+>}}
+
 *This blogpost is a teaser for [my upcoming talk](https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/) at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog [at this link](https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/).*
 
 ---
