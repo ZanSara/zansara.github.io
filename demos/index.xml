@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Demos on Sara Zan</title>
+    <link>https://www.zansara.dev/demos/</link>
+    <description>Recent content in Demos on Sara Zan</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 29 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/demos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Build a Reliable Voice Bot</title>
+      <link>https://www.zansara.dev/demos/2024-10-29-building-reliable-voice-bots-with-open-source-tools/</link>
+      <pubDate>Tue, 29 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2024-10-29-building-reliable-voice-bots-with-open-source-tools/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Who has the best RAG?</title>
+      <link>https://www.zansara.dev/demos/2024-10-01-who-has-the-best-rag/</link>
+      <pubDate>Tue, 01 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2024-10-01-who-has-the-best-rag/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Controlling LLM Translations of Invariant Elements with RAG</title>
+      <link>https://www.zansara.dev/demos/2024-09-18-controlling-llm-translation-of-invariant-elements-with-rag/</link>
+      <pubDate>Wed, 18 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2024-09-18-controlling-llm-translation-of-invariant-elements-with-rag/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Optimizing LLMs with Retrieval Augmented Generation and Haystack 2.0</title>
+      <link>https://www.zansara.dev/demos/2023-12-15-optimizing-llms-with-rag-and-haystack/</link>
+      <pubDate>Fri, 15 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2023-12-15-optimizing-llms-with-rag-and-haystack/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Haystack 2.0: The World of Web RAG</title>
+      <link>https://www.zansara.dev/demos/2023-11-09-the-world-of-web-rag/</link>
+      <pubDate>Thu, 09 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2023-11-09-the-world-of-web-rag/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Haystack 2.0: Indexing data for RAG applications</title>
+      <link>https://www.zansara.dev/demos/2023-11-05-indexing-data-for-rag-applications/</link>
+      <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2023-11-05-indexing-data-for-rag-applications/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Haystack 2.0: RAG Pipelines from scratch</title>
+      <link>https://www.zansara.dev/demos/2023-10-27-rag-pipelines-from-scratch/</link>
+      <pubDate>Fri, 27 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2023-10-27-rag-pipelines-from-scratch/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Haystack 2.0: RAG Pipelines</title>
+      <link>https://www.zansara.dev/demos/2023-10-25-haystack-2.0-rag-pipelines/</link>
+      <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2023-10-25-haystack-2.0-rag-pipelines/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Multimodal Retriever: a live coding demo</title>
+      <link>https://www.zansara.dev/demos/2023-10-07-multimodal-retriever/</link>
+      <pubDate>Sat, 07 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/demos/2023-10-07-multimodal-retriever/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
