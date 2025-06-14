@@ -5,6 +5,12 @@ author: "ZanSara"
 featuredImage: "/posts/2025-06-02-can-you-really-interrupt-an-llm/cover.png"
 ---
 
+{{< 
+    audio 
+    audioFile="/posts/2025-06-02-can-you-really-interrupt-an-llm/Can you really interrupt an LLM.mp3" 
+    speechifyLink="https://app.speechify.com/share/0382cc35-21be-4455-8ff7-dfa6ce99a4f4"
+>}}
+
 With the recent release of [Voice Mode](https://support.anthropic.com/en/articles/11101966-using-voice-mode-on-claude-mobile-apps) for [Claude](https://www.anthropic.com/claude), it seems like Voice AI is a solved problem. Now that LLMs can speak natively, there's apparently no more need for any of the [complex voice pipelines](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) that used to be necessary last year: no need to do voice activity detection, no need to pipe data from the speech-to-text model to the LLM and then back to the text-to-speech engine at blazing speed in order to achieve a natural conversation flow. Modern LLMs can [laugh and sing](https://vimeo.com/945587944): what else could we need?
 
 It turns out, a lot is still missing. Here is an example:
