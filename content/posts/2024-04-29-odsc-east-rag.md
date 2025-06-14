@@ -9,7 +9,7 @@ aliases:
 
 {{< audio 
     audioFile="/posts/2024-04-29-odsc-east-rag/RAG, the bad parts (and the good!) - Sara Zan.mp3" 
-    speechifyLink="https://app.speechify.com/share/317a5326-a8c5-418b-8ea1-5c7e664b8ea3"
+    speechifyLink="https://app.speechify.com/share/1e960694-4227-4da4-9a79-158d4ab1fd35"
 >}}
 
 *This is a writeup of my talk at [ODSC East 2024](/talks/2024-04-25-odsc-east-rag/) and [EuroPython 2024](/talks/2024-07-10-europython-rag/).*
