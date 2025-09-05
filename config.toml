@@ -16,7 +16,7 @@ style = "github-dark"
       unsafe = true
 
 [params]
-  navbar = "Home"
+  navbar = "Sara Zan's Blog"
   author = "Sara Zan"
   info = """
   GenAI and LLMs expert,
@@ -24,7 +24,7 @@ style = "github-dark"
   former [CERN](https://home.cern/) employee. 
   I'm also an opinionated sci-fi reader, hiker, tinkerer and somewhat polyglot. Currently busy trying to learn Portuguese and Hungarian at the same time.
   """
-  description = "Sara Zan's Personal Website"
+  description = "Sara Zan's Personal Blog"
   keywords = "blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai"
   avatarurl = "/me/avatar.svg"
   

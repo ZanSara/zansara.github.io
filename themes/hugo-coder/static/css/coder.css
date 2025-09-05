@@ -3532,7 +3532,12 @@ figure {
     color: #1565c0; }
   .navigation .navigation-title {
     letter-spacing: 0.1rem;
-    text-transform: uppercase; }
+    /* text-transform: uppercase;  */
+  }
+  .navigation .navigation-title:hover {
+    color: #212121!important;
+    text-decoration: none;
+  }
   .navigation .navigation-list {
     float: right;
     list-style: none;

@@ -1,6 +1,8 @@
 <nav class="navigation">
   <section class="container">
+    
     <a class="navigation-title" href="{{ .Site.BaseURL | relLangURL }}">
+      <img src="{{ .Site.BaseURL }}me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
       {{ .Site.Params.navbar }}
     </a>
     {{ if .Site.Menus.main }}
@@ -8,11 +10,11 @@
       <label class="menu-button float-right" for="menu-toggle">
         <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
       </label>
-      <ul class="navigation-list">
+      <ul class="navigation-list" >
         {{ with .Site.Menus.main}}
           {{ range sort . }}
             <li class="navigation-item">
-              <a class="navigation-link" href="{{ index (apply (slice .URL) (.Params.urlFunc | default "relLangURL") ".") 0 }}">{{ .Name }}</a>
+              <a class="navigation-link" style="height: 30px;" href="{{ index (apply (slice .URL) (.Params.urlFunc | default "relLangURL") ".") 0 }}">{{ .Name }}</a>
             </li>
           {{ end }}
         {{ end }}

@@ -183,6 +183,10 @@ body.colorscheme-dark .navigation span {
 body.colorscheme-dark .navigation a:hover, body.colorscheme-dark .navigation a:focus {
   color: #42a5f5; }
 
+body.colorscheme-dark .navigation-title:hover {
+  color: #dadada!important;
+}
+
 @media only screen and (max-width: 768px) {
   body.colorscheme-dark .navigation .navigation-list {
     background-color: #212121;

@@ -1,4 +1,4 @@
-# My personal website
+# My personal blog
 
 Check it out at [zansara.dev](https://zansara.dev).
 
