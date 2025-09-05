@@ -4,12 +4,8 @@
     {{ if (and .Site.Params.since (lt .Site.Params.since now.Year)) }}
       {{ .Site.Params.since }} -
     {{ end }}
-    {{ now.Year }}
-    <a href="/">Sara Zan</a>
-    ·
-    {{ i18n "powered_by" }} <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
-    {{ if (and .Site.Params.commit .GitInfo) }}
-      [<a href="{{ .Site.Params.commit }}/{{ .GitInfo.Hash }}" target="_blank" rel="noopener">{{ .GitInfo.AbbreviatedHash }}</a>]
-    {{ end }}
+    {{ now.Year }} by
+    &MediumSpace;
+    <a href="/"><img src="{{ .Site.BaseURL }}me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">Sara Zan</a>
   </section>
 </footer>
