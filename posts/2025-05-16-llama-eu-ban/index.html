@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Using Llama Models in the EU · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="
+  Listen to this article or read it in the app:
+  
+    
+   
+  
+    Powered by
+    
+  
+
+
+The Llama 4 family has been released over a month ago and I finally found some time to explore it. Or so I wished to do, until I realized one crucial issue with these models:
+They are banned in the EU.
+Apparently Meta can’t be bothered to comply with EU regulations on AI, and therefore opted for a wide ban that should prevent such laws to apply to them. Of course, while this limitation is technically valid for each and every person and company domiciled in the EU, the problem arises primarily for companies that want to use Llama 4 to offer services and for researchers planning to work with these models, be it for evaluation, fine-tuning, distillation or other derivative work. Always keep in mind that I’m not a lawyer, so nothing of what I’m writing here constitutes as legal advice.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Using Llama Models in the EU">
+  <meta name="twitter:description" content="Listen to this article or read it in the app:
+Powered by The Llama 4 family has been released over a month ago and I finally found some time to explore it. Or so I wished to do, until I realized one crucial issue with these models:
+They are banned in the EU.
+Apparently Meta can’t be bothered to comply with EU regulations on AI, and therefore opted for a wide ban that should prevent such laws to apply to them. Of course, while this limitation is technically valid for each and every person and company domiciled in the EU, the problem arises primarily for companies that want to use Llama 4 to offer services and for researchers planning to work with these models, be it for evaluation, fine-tuning, distillation or other derivative work. Always keep in mind that I’m not a lawyer, so nothing of what I’m writing here constitutes as legal advice.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Using Llama Models in the EU">
+  <meta property="og:description" content="Listen to this article or read it in the app:
+Powered by The Llama 4 family has been released over a month ago and I finally found some time to explore it. Or so I wished to do, until I realized one crucial issue with these models:
+They are banned in the EU.
+Apparently Meta can’t be bothered to comply with EU regulations on AI, and therefore opted for a wide ban that should prevent such laws to apply to them. Of course, while this limitation is technically valid for each and every person and company domiciled in the EU, the problem arises primarily for companies that want to use Llama 4 to offer services and for researchers planning to work with these models, be it for evaluation, fine-tuning, distillation or other derivative work. Always keep in mind that I’m not a lawyer, so nothing of what I’m writing here constitutes as legal advice.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-05-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-05-16T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2025-05-16-llama-eu-ban/cover.png">
+  <meta name="og:image" content="/posts/2025-05-16-llama-eu-ban/cover.png">
+  <meta name="twitter:image" content="https://zansara.dev/posts/2025-05-16-llama-eu-ban/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="/">
+      <img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
+      Sara Zan&#39;s Blog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list" >
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/talks/">Talks</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/">
+              Using Llama Models in the EU
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-05-16T00:00:00Z">
+                May 16, 2025
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2025-05-16-llama-eu-ban/cover.png" alt="Featured image"/>
+        
+        <div style="border: 1px solid gray; border-radius: 10px; padding: 5px 15px; font-family: sans; font-style: italic;">
+  <p style="margin:5px 0 10px 0;"><a href="/posts/2025-05-16-llama-eu-ban/Using%20Llama%20Models%20in%20the%20EU%20-%20Sara%20Zan.mp3">Listen to this article</a> or <a href="https://app.speechify.com/share/a3c834c1-2832-4b5e-8f3b-27ae94f33dfe?utm_campaign=partners&utm_content=rewardful&via=zansaradev-blog" target="_blank">read it in the app</a>:</p>
+  <audio controls style="width:100%;">
+    <source src="/posts/2025-05-16-llama-eu-ban/Using%20Llama%20Models%20in%20the%20EU%20-%20Sara%20Zan.mp3" type="audio/mpeg">
+  </audio> 
+  <div style="text-align:right;vertical-align:middle;">
+    <span style="font-style: italic;">Powered by</span>
+    <a href="https://speechify.com/text-to-speech-online/?utm_campaign=partners&utm_content=rewardful&via=zansaradev-blog" target="_blank" style="display:inline;margin-left:5px;"><img src="/global/speechify_logo.svg" alt="Speechify" style="width:150px;background-color:white;margin:0;vertical-align:middle;"/></a>
+  </div>
+</div>
+
+<p><a href="https://ai.meta.com/blog/llama-4-multimodal-intelligence/"  class="external-link" target="_blank" rel="noopener">The Llama 4 family</a> has been released over a month ago and I finally found some time to explore it. Or so I wished to do, until I realized one crucial issue with these models:</p>
+<p><strong>They are banned in the EU.</strong></p>
+<p>Apparently Meta can’t be bothered to comply with EU regulations on AI, and therefore opted for a wide ban that should prevent such laws to apply to them. Of course, while this limitation is technically valid for each and every person and company domiciled in the EU, the problem arises primarily for companies that want to use Llama 4 to offer services and for researchers planning to work with these models, be it for evaluation, fine-tuning, distillation or other derivative work. Always keep in mind that I’m not a lawyer, so nothing of what I’m writing here constitutes as legal advice.</p>
+<h1 id="the-terms">
+  The terms
+  
+</h1>
+<p>The interesting part of this ban can be found by reading the <a href="https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md"  class="external-link" target="_blank" rel="noopener">terms</a> of the Acceptable Usage Policy (AUP):</p>
+<blockquote>
+<p>With respect to any <strong>multimodal models</strong> included in Llama 4, the rights granted under Section 1(a) of the Llama 4 Community License Agreement are not being granted to you if you are an individual domiciled in, or a company with a principal place of business in, the European Union.</p></blockquote>
+<p>As you can see, the restriction applies strictly to multimodal LLMs. Llama4 models are all multimodal, and that’s why the entire family of models is not accessible from the EU. However, if anyone releases a derivative model that is not multimodal, in theory the ban would not apply. I’m yet to see any such derivative model: if you know of any, let me know!</p>
+<p>Interestingly, the terms also state that:</p>
+<blockquote>
+<p>This restriction does not apply to end users of a product or service that incorporates any such multimodal models.</p></blockquote>
+<p>So if you’re a company outside of the EU and provide services based on Llama4 to EU customers, you’re probably off the hook. Such interpretation seems to be confirmed by <a href="https://www.llama.com/faq/"  class="external-link" target="_blank" rel="noopener">Meta’s FAQ</a> about Llama models, which state:</p>
+<blockquote>
+<p><strong>Can a non-EU based company develop a product or service using the Llama multimodal models and distribute such product or service within the EU?</strong></p></blockquote>
+<blockquote>
+<p>Yes, if you are a company with a principal place of business outside of the EU, you may distribute products or services that contain the Llama multimodal models in accordance with your standard global distribution business practices [&hellip;]</p></blockquote>
+<p><a href="https://www.llama.com/faq/"  class="external-link" target="_blank" rel="noopener">Meta’s FAQ</a> are actually quite throughout, so if you have any doubt about your specific case you should head there and read more.</p>
+<h1 id="what-about-other-llamas">
+  What about other Llamas?
+  
+</h1>
+<p>This wide EU ban is not new: it was introduced with <a href="https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/"  class="external-link" target="_blank" rel="noopener">Llama 3.2 Vision</a>, the first multimodal model released by Meta. The clause does not exist for any model older than Llama 3.2.</p>
+<p>To summarize, here is a list of which models can be used in the EU:</p>
+<ul>
+<li>Llama 4: all banned because they&rsquo;re all multimodal (<a href="https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md"  class="external-link" target="_blank" rel="noopener">terms</a>)</li>
+<li>Llama 3.3: allowed because it&rsquo;s not multimodal (<a href="https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/USE_POLICY.md"  class="external-link" target="_blank" rel="noopener">terms</a>)</li>
+<li>Llama 3.2: text only models are allowed, vision models are not allowed (<a href="https://github.com/meta-llama/llama-models/blob/main/models/llama3_2/USE_POLICY.md"  class="external-link" target="_blank" rel="noopener">terms</a>)</li>
+<li>Llama 3.1 and earlier: allowed because there&rsquo;s no such clause (<a href="https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/USE_POLICY.md"  class="external-link" target="_blank" rel="noopener">terms</a>)</li>
+</ul>
+<p>So for now this is the state of Llama licenses. My take is that with the implementation and rollout of the EU AI Act in 2025 and 2026, Meta will eventually adapt to make sure that the models are compliant with the way the Act is enforced in practice and relax, if not lift, the ban on newer models.</p>
+<p>Also, Llama4 has not been shining in the <a href="https://lmarena.ai/?leaderboard"  class="external-link" target="_blank" rel="noopener">benchmarks</a> (scroll down, I promise you it’s there)&hellip; we Europeans may not be missing much.</p>
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">AZ*</a></p>
+      </div>
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025 by
+    &MediumSpace;
+    <a href="/"><img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">Sara Zan</a>
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>
