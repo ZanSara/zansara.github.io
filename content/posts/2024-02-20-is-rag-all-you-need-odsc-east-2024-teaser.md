@@ -1,5 +1,6 @@
 ---
 title: "Is RAG all you need? A look at the limits of retrieval augmentation"
+description: This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25.
 date: 2024-02-21
 author: "ZanSara"
 featuredImage: "/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg"
@@ -12,10 +13,6 @@ aliases:
     audioFile="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/Is RAG all you need A look at the limits of retrieval augmentation - Sara Zan.mp3" 
     speechifyLink="https://app.speechify.com/share/ca710e7b-5af7-4733-b3d8-c012758bd171"
 >}}
-
-*This blogpost is a teaser for [my upcoming talk](https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/) at ODSC East 2024 in Boston, April 23-25. It is published on the ODSC blog [at this link](https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/).*
-
----
 
 Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta [paper](https://arxiv.org/abs/2005.11401) in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on. On top of this, RAG is relatively cheap to implement for the benefit it provides, especially when compared to costly techniques like LLM finetuning. This makes it a no-brainer for a lot of usecases, to the point that nowadays every production system that uses LLMs in production seems to be implemented as some form of RAG.
   

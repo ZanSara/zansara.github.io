@@ -1,5 +1,6 @@
 ---
 title: "The Agent Compass"
+description: Agent means everything and nothing in today's GenAI landscape. Let's shed some light on this topic.
 date: 2024-06-10
 author: "ZanSara"
 featuredImage: "/posts/2024-06-10-the-agent-compass/cover.png"

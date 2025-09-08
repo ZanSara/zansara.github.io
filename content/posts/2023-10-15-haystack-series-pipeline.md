@@ -1,5 +1,6 @@
 ---
 title: "Haystack's Pipeline - A Deep Dive"
+description: What are Haystack's pipelines and how do they work?
 date: 2023-10-15
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]

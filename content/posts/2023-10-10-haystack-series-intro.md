@@ -1,5 +1,6 @@
 ---
 title: "Haystack 2.0: What is it?"
+description: December is finally approaching, and with it the release of a Haystack 2.0.
 date: 2023-10-10
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]

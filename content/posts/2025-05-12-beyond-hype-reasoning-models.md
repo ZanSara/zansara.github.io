@@ -1,5 +1,6 @@
 ---
 title: "Beyond the hype of reasoning models: debunking three common misunderstandings"
+description: "This is a teaser for my upcoming talk at ODSC East 2025, \"LLMs that Think: Demystifying Reasoning Models\". If you want to learn more, join the webinar!"
 date: 2025-05-12
 author: "ZanSara"
 featuredImage: "/posts/2025-05-12-beyond-hype-reasoning-models/cover.png"

@@ -1,5 +1,6 @@
 ---
 title: "RAG, the bad parts (and the good!)"
+description: A summary of my recent talk at ODSC East about RAG, just in case you haven't heard enough of it already.
 date: 2024-04-29
 author: "ZanSara"
 featuredImage: "/posts/2024-04-29-odsc-east-rag/cover.png"

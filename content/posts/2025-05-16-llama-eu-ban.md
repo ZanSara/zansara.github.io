@@ -1,5 +1,6 @@
 ---
 title: "Using Llama Models in the EU"
+description: The ban's terms are surprisingly not well known among users of these popular "open-source" LLMs.
 date: 2025-05-16
 author: "ZanSara"
 featuredImage: "/posts/2025-05-16-llama-eu-ban/cover.png"

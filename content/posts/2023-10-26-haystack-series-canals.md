@@ -1,5 +1,6 @@
 ---
 title: "A New Approach to Haystack Pipelines"
+description: "Haystack 2.0 comes with a brand new pipeline concept. Let's discover it!"
 date: 2023-10-26
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]

@@ -1,12 +1,13 @@
 ---
 title: "RAG Pipelines from scratch"
+description: "Let's build a simple RAG Pipeline with Haystack 2.0 by just connecting three components: a Retriever, a PromptBuilder and a Generator."
 date: 2023-10-27
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-10-27-haystack-series-rag/cover.png"
 ---
 
-*Last updated: 18/01/2023 - Read it on the [Haystack Blog](https://haystack.deepset.ai/blog/rag-pipelines-from-scratch).*
+*Last updated: 18/01/2024 - Read it on the [Haystack Blog](https://haystack.deepset.ai/blog/rag-pipelines-from-scratch).*
 
 ---
 

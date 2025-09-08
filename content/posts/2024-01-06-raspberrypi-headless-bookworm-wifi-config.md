@@ -1,5 +1,6 @@
 ---
 title: "Headless WiFi setup on Raspberry Pi OS \"Bookworm\" without the Raspberry Pi Imager"
+description: Setting up a headless Pi used to be simpler. Is it still possible to do it without the RPi Imager?
 date: 2024-01-06
 author: "ZanSara"
 featuredImage: "/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/cover.png"

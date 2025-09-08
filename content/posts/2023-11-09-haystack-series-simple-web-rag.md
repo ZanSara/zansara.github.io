@@ -1,12 +1,13 @@
 ---
 title: "The World of Web RAG"
+description: What if our RAG application could fetch data directly from the web, live? Let's build this pipeline with Haystack 2.0.
 date: 2023-11-09
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-11-09-haystack-series-simple-web-rag/cover.jpeg"
 ---
 
-*Last updated: 18/01/2023*
+*Last updated: 18/01/2024*
 
 ---
 

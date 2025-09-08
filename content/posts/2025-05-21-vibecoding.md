@@ -1,5 +1,6 @@
 ---
 title: "A simple vibecoding exercise"
+description: "Can GenAI help you finish your side-projects?"
 date: 2025-05-21
 author: "ZanSara"
 featuredImage: "/posts/2025-05-21-vibecoding/cover.png"

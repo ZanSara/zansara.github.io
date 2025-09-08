@@ -1,5 +1,6 @@
 ---
 title: "ClozeGPT: Write Anki cloze cards with a custom GPT"
+description: Writing good Anki cards is a chore. Let's bring LLMs to the rescue.
 date: 2024-02-28
 author: "ZanSara"
 featuredImage: "/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png"

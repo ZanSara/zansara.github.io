@@ -1,12 +1,13 @@
 ---
 title: "Indexing data for RAG applications"
+description: RAG apps need data to work. Let's see how to pre-process our data to make our Haystack 2.0 RAG pipeline perform even better.
 date: 2023-11-05
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
 featuredImage: "/posts/2023-11-05-haystack-series-minimal-indexing/cover.png"
 ---
 
-*Last updated: 18/01/2023*
+*Last updated: 18/01/2024*
 
 ---
 
