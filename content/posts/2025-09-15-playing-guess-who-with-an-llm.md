@@ -136,7 +136,7 @@ Oh wow this is incredible. Ok, time to try a smarter model and have some actual 
 
 ![](/posts/2025-09-15-playing-guess-who-with-an-llm/claude-sonnet-4-example.png)
 
-At this point it started to become unbelievable. Did I fail to explain the game? Is something wrong with the prompts? It couldn't be, because some other models (such as the almightly GPT-4o) do what I expect instead:
+At this point it started to become unbelievable. Did I fail to explain the game? Is something wrong with the prompts? It couldn't be, because some other models (such as the almighty GPT-4o) do what I expect instead:
 
 ![](/posts/2025-09-15-playing-guess-who-with-an-llm/gpt-4o-example.png)
 
