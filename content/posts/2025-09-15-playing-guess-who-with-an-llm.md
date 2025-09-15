@@ -77,7 +77,7 @@ Either way, using a mix of proprietary hosting, [OpenRouter](https://openrouter.
 - Sonoma Dusk Alpha
 - Sonoma Sky Alpha
 
-It may sound like a lot of work, but as you'll see in a minute, for many of them it didn't take long to form an opinion about their skill.
+It may sound like a lot of work, but as you'll see in a minute, for many of them it didn't take me long to form an opinion about their skill.
 
 # The prompts
 
@@ -148,7 +148,7 @@ How can a flagship model like _Claude Opus 4.1_ fail this way? I kept trying sev
 
 # A systematic review
 
-At this point I felt the duty to document this problem across all the models that had enough capabilities (vision + tool calling) to play this game. If I ever want an LLM personal assistant to handle my private data and to act on my behalf, I'd better make sure that they understand they can't give my passwords to the first kind thief that asks them.
+At this point I felt the duty to document this problem across all the models that had enough capabilities (vision + tool calling) to play this game. If I ever want an LLM personal assistant to handle my private data and to act on my behalf, I'd better make sure they understand that they can't just hand out my credentials to the first kind thief that asks them.
 
 Here is a systematic review of the results, ordered roughly from worst to best. However, keep in mind that this is all based on a very small test sample, and although most models consistently fail the same way every time, there were some with a far more erratic behavior, looking very smart at times and incredibly dumb the next. 
 
