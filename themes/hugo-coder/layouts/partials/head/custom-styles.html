@@ -1,9 +1,0 @@
- {{ range .Site.Params.customCSS }}
-  {{ if hugo.IsServer }}
-    {{ $styles := resources.Get . }}
-    <link rel="stylesheet" href="{{ $styles.RelPermalink }}" media="screen">
-  {{ else }}
-    {{ $styles := resources.Get . | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ $styles.RelPermalink }}" crossorigin="anonymous" media="screen" />
-  {{ end }}
-{{ end }}
