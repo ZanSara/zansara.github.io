@@ -19,10 +19,14 @@ style = "github-dark"
   navbar = "Sara Zan's Blog"
   author = "Sara Zan"
   info = """
-  GenAI and LLMs expert,
-  [main contributor](https://github.com/deepset-ai/haystack/graphs/contributors) of [Haystack](https://haystack.deepset.ai/), 
-  former [CERN](https://home.cern/) employee. 
-  I'm also an opinionated sci-fi reader, hiker, tinkerer and somewhat polyglot. Currently busy trying to learn Portuguese and Hungarian at the same time.
+  Experienced Python software engineer with extensive experience with NLP, LLMs GenAI and AI in general. 
+  I worked on projects ranging from air-gapped [RAG pipelines](https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/) 
+  to [voice AI recruiters](https://archive.today/IH48a), 
+  open-source [LLM frameworks](https://github.com/deepset-ai/haystack), 
+  [particle accelerators](/publications/thpv014/) software, 
+  [IoT](/projects/zanzocam/) devices overwintering at several alpine huts, 
+  and small [web apps](/projects/booking-system/). 
+  Open-source [contributor](https://github.com/ZanSara) and former [CERN](https://home.cern/) employee. 
   """
   description = "Sara Zan's Personal Blog"
   keywords = "blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai"
