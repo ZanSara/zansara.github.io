@@ -431,4 +431,4 @@ In the meantime, feel free to try your own favorite LLMs here and form your own 
 However, let's be honest: if we need this level of effort to make Claude play such a simple game as Guess Who without messing up, how can we trust LLMs in general to handle our data and our money in the far more ambiguous and complex world out there? I suppose LLMs are not ready (yet) to be left unsupervised.
 
 
-
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">SDE</a></p>
