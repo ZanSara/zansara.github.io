@@ -1,9 +1,16 @@
 ---
 title: "Why using a reranker?"
-description: "And is the added latency worth it?"
+description: "And is the added latency worth it? Let's understand what they do and how can they improve the quality of your RAG pipelines so drastically."
 date: 2025-10-09
 author: "ZanSara"
+series: ["Practical Questions"]
 featuredImage: "/posts/2025-10-09-rerankers/cover.png"
+---
+
+---
+
+_This is episode 1 of a series of shorter blog posts answering questions I received during the course of my work on Generative AI and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
+
 ---
 
 Retrieval-Augmented Generation (RAG) systems are essential to connect large language models  with external knowledge sources. While in theory the retrieval step is enough to gather documents that are relevant to the user's request, it's often recommended to add an additional ranking step, the _reranking_, to further filter the results.
@@ -51,13 +58,10 @@ Even in this two-tiered system, reranking may turn out to be too expensive for y
 4. **Candidate Filtering and Adaptive k**  
     Rather than always reranking a fixed top-k (like 100 documents), systems can use heuristics or intermediate classifiers to select fewer candidates when confidence in retrieval is high. This adaptive approach can cut reranking costs significantly while preserving precision in challenging cases.
         
-5. **Hybrid Architectures**  
-    Hybrid models combine the speed of bi-encoders with elements of cross-encoder interaction. For example, an initial coarse score comes from dense embeddings, but is refined by token-level features or passage-level similarity from another lightweight model. This allows partial resequencing without requiring a full joint encoding for every candidate.
-    
-6. **Approximate Cross-Attention Mechanisms**  
+5. **Approximate Cross-Attention Mechanisms**  
     Instead of computing full self-attention across combined query and document tokens, some approaches reduce complexity by limiting cross-attention depth or dimensionality — for example, attending only to the top N most informative tokens, or pruning low-importance attention heads. This can drastically lower token computations while maintaining critical interaction signals.
     
-7. **Caching for Frequent Queries**  
+6. **Caching for Frequent Queries**  
     In platforms where certain queries or query patterns repeat, caching reranking results or partial computations can remove the need to rerun the full cross-encoder. Combined with normalization and paraphrase detection, such caches can return precise results instantly for repeated requests.
 
 
