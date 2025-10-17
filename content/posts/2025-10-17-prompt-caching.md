@@ -86,6 +86,14 @@ Effective prompt caching leverages multiple layers with varied lifetimes and hit
    
 A layered approach like balances freshness and reuse, optimizing both cost and performance.
 
+## Automatic prefix caching
+
+If you're using a modern inference engine, prompt caching can also be done through **automatic prefix caching**, where the engine itself takes the responsibility to identify and cache frequently used prefixes. Here you can find more details about the availability of this feature in [vLLM](https://docs.vllm.ai/en/latest/design/prefix_caching.html), [SDLang](https://docs.sglang.ai/advanced_features/hicache_best_practices.html) and [llama.cpp](https://github.com/ggml-org/llama.cpp/discussions/8947), but there are many other engines supporting it.
+
+![](/posts/2025-10-17-prompt-caching/optimizations_table.png)
+
+_A feature comparison across inference engines from [this May 2025 review](https://arxiv.org/pdf/2505.01658)._
+
 ## Semantic caching
 
 In extreme cases where cost, load or latency must be reduced to the maximum, semantic caching can also be employed. Semantic caching allows you to cache also the user queries and the assistant responses by keeping a registry of already processes user queries and performing a semantic search step between the new query and the cached ones. If a match is found, instead of invoking the LLM to generate a new answer, the cached reply is sent to the user immediately.
