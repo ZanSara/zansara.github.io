@@ -9,7 +9,7 @@ featuredImage: "/posts/2025-10-09-rerankers/cover.png"
 
 ---
 
-_This is episode 1 of a series of shorter blog posts answering questions I received during the course of my work on Generative AI and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
+_This is episode 1 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
 
 ---
 
