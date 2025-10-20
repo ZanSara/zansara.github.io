@@ -3,7 +3,6 @@ title: "PyData Global: Building LLM Voice Bots with Open Source Tools"
 date: 2024-12-03
 author: "ZanSara"
 featuredImage: "/talks/2024-12-03-pydata-global-voice-bots.png"
-externalLink: 
 ---
 
 [Announcement](https://global2024.pydata.org/cfp/talk/T3YDBP/), [slides](https://drive.google.com/file/d/1rXb4-m-BWwhAqDCDBXpzw6nJ9OELOpSl/view?usp=sharing), [demo video](https://drive.google.com/file/d/1bja0O8LG7790UIU7HpAYXat-BYXeUbK-/view?usp=sharing) and full video ([Youtube](https://www.youtube.com/watch?v=Td5dFdG0wE4), [backup](https://drive.google.com/file/d/1HTEEs-Zr8mZoJA8a7AuiJf61soGvQNPI/view?usp=sharing)).
