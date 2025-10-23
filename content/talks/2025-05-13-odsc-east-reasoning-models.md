@@ -13,8 +13,4 @@ All resources can also be found in
 
 ---
 
-_Recording coming soon_
-
----
-
 At [ODSC East 2025](https://odsc.com/boston/) I talked about reasoning models: what they are, what they aren't, how they work and when to use them. Is OpenAI's o4 AGI? Is it an AI Agent? Or is it just a glorified chain-of-thought prompt under the hood? To answer these questions, I classified LLMs into a small "taxonomy" based on the post-training steps they go through, in order to highlight how reasoning models differ qualitatively from their predecessors just like instruction-tuned models were not simple text-completion models with a better prompt. I also covered the effect of increasing the reasoning effort of the model, clarifying when it's useful and when it can lead to overthinking.
