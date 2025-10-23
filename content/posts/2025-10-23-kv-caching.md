@@ -122,6 +122,8 @@ Clearly we want to avoid recomputing things like the key and value vectors for p
 
 ![](/posts/2025-10-23-kv-caching/KV-caching-yes.png)
 
+_Computing the QK matrix by reusing the results of earlier passes makes the number of calculations needed at each step nearly linear, speeding up inference several times and preventing slowdowns related to the input size._
+
 In essence, with KV caching the transformer's attention in each layer will take the new token’s query and concatenate it with the cached keys of prior tokens, then do the same for values, and move on immediately. The result is that each generation step’s workload is greatly reduced: the model focuses on what’s new instead of re-hashing the entire context every time.
 
 ## Implementation
