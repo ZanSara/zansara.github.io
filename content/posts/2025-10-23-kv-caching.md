@@ -82,7 +82,7 @@ The first layer, the multi headed masked self attention, sound quite complicated
 
 **Masked self attention** means that we're only looking at tokens that precede the one we're processing (which is not the case, for example, in encoder models such as BERT that encode the whole sentence at once).
 
-**Multi-headed** attention means that the same operation is performed several time with slightly different parameters. Each set of parameters is called an **attention head**.
+**Multi-headed** attention means that the same operation is performed several times with slightly different parameters. Each set of parameters is called an **attention head**.
 
 To understand what attention does, let's take the sentence "I like apples because they're sweet". When processing the token "they", the masked self-attention layer will give a high score to "apples", because that's what "they" refers to. Keep in mind that "sweet" will not be considered while processing "they", because masked self-attention only includes tokens that precede the token in question.
 
