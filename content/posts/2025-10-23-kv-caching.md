@@ -1,7 +1,7 @@
 ---
 title: "How does prompt caching work?"
 description: "Nearly all inference libraries can do it for you. But what's really going on under the hood?"
-date: 2025-10-17
+date: 2025-10-23
 author: "ZanSara"
 series: ["Practical Questions"]
 featuredImage: "/posts/2025-10-23-kv-caching/cover.png"
