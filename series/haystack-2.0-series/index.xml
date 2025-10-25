@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Haystack 2.0 Series on Sara Zan</title>
+    <link>https://www.zansara.dev/series/haystack-2.0-series/</link>
+    <description>Recent content in Haystack 2.0 Series on Sara Zan</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 09 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/series/haystack-2.0-series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The World of Web RAG</title>
+      <link>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</link>
+      <pubDate>Thu, 09 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/</guid>
+      <description>&lt;p&gt;&lt;em&gt;Last updated: 18/01/2024&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In an earlier post of the Haystack 2.0 series, we&amp;rsquo;ve seen how to build RAG and indexing pipelines. An application that uses these two pipelines is practical if you have an extensive, private collection of documents and need to perform RAG on such data only. However, in many cases, you may want to get data from the Internet: from news outlets, documentation pages, and so on.&lt;/p&gt;&#xA;&lt;p&gt;In this post, we will see how to build a Web RAG application: a RAG pipeline that can search the Web for the information needed to answer your questions.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Indexing data for RAG applications</title>
+      <link>https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/</link>
+      <pubDate>Sun, 05 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/</guid>
+      <description>&lt;p&gt;&lt;em&gt;Last updated: 18/01/2024&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In the &lt;a href=&#34;https://www.zansara.dev/posts/2023-10-27-haystack-series-rag&#34; &gt;previous post&lt;/a&gt; of the Haystack 2.0 series, we saw how to build RAG pipelines using a generator, a prompt builder, and a retriever with its document store. However, the content of our document store wasn&amp;rsquo;t extensive, and populating one with clean, properly formatted data is not an easy task. How can we approach this problem?&lt;/p&gt;&#xA;&lt;p&gt;In this post, I will show you how to use Haystack 2.0 to create large amounts of documents from a few web pages and write them a document store that you can then use for retrieval.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>RAG Pipelines from scratch</title>
+      <link>https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/</link>
+      <pubDate>Fri, 27 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-27-haystack-series-rag/</guid>
+      <description>&lt;p&gt;&lt;em&gt;Last updated: 18/01/2024 - Read it on the &lt;a href=&#34;https://haystack.deepset.ai/blog/rag-pipelines-from-scratch&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Haystack Blog&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Retrieval Augmented Generation (RAG) is quickly becoming an essential technique to make LLMs more reliable and effective at answering any question, regardless of how specific. To stay relevant in today&amp;rsquo;s NLP landscape, Haystack must enable it.&lt;/p&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales. At the end of this post, we will have an application that can answer questions about world countries based on data stored in a private database. At that point, the knowledge of the LLM will be only limited by the content of our data store, and all of this can be accomplished without fine-tuning language models.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>A New Approach to Haystack Pipelines</title>
+      <link>https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/</link>
+      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-26-haystack-series-canals/</guid>
+      <description>&lt;p&gt;&lt;em&gt;Updated on 21/12/2023&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;As we have seen in &lt;a href=&#34;https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;the previous episode of this series&lt;/a&gt;, Haystack&amp;rsquo;s Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.&lt;/p&gt;&#xA;&lt;p&gt;What does this mean in practice? Let&amp;rsquo;s look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1.x counterparts, and the pros and cons of this new paradigm.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Haystack&#39;s Pipeline - A Deep Dive</title>
+      <link>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</link>
+      <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/</guid>
+      <description>&lt;p&gt;If you&amp;rsquo;ve ever looked at Haystack before, you must have come across the &lt;a href=&#34;https://docs.haystack.deepset.ai/docs/pipelines&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pipeline&lt;/a&gt;, one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us?&lt;/p&gt;&#xA;&lt;p&gt;In this post, I go into all the details of how the Pipeline abstraction works in Haystack now, why it works this way, and its strengths and weaknesses. This deep dive into the current state of the framework is also a premise for the next episode, where I will explain how Haystack 2.0 addresses this version&amp;rsquo;s shortcomings.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why rewriting Haystack?!</title>
+      <link>https://www.zansara.dev/posts/2023-10-11-haystack-series-why/</link>
+      <pubDate>Wed, 11 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-11-haystack-series-why/</guid>
+      <description>&lt;p&gt;Before even diving into what Haystack 2.0 is, how it was built, and how it works, let&amp;rsquo;s spend a few words about the whats and the whys.&lt;/p&gt;&#xA;&lt;p&gt;First of all, &lt;em&gt;what is&lt;/em&gt; Haystack?&lt;/p&gt;&#xA;&lt;p&gt;And next, why on Earth did we decide to rewrite it from the ground up?&lt;/p&gt;&#xA;&lt;h3 id=&#34;a-pioneer-framework&#34;&gt;&#xA;  A Pioneer Framework&#xA;  &#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Haystack is a relatively young framework, its initial release dating back to &lt;a href=&#34;https://github.com/deepset-ai/haystack/releases/tag/0.1.0&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;November 28th, 2019&lt;/a&gt;. Back then, Natural Language Processing was a field that had just started moving its first step outside of research labs, and Haystack was one of the first libraries that promised enterprise-grade, production-ready NLP features. We were proud to enable use cases such as &lt;a href=&#34;https://medium.com/deepset-ai/what-semantic-search-can-do-for-you-ea5b1e8dfa7f&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;semantic search&lt;/a&gt;, &lt;a href=&#34;https://medium.com/deepset-ai/semantic-faq-search-with-haystack-6a03b1e13053&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FAQ matching&lt;/a&gt;, document similarity, document summarization, machine translation, language-agnostic search, and so on.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Haystack 2.0: What is it?</title>
+      <link>https://www.zansara.dev/posts/2023-10-10-haystack-series-intro/</link>
+      <pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2023-10-10-haystack-series-intro/</guid>
+      <description>&lt;p&gt;December is finally approaching, and with it the release of a &lt;a href=&#34;https://github.com/deepset-ai/haystack&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Haystack&lt;/a&gt; 2.0. At &lt;a href=&#34;https://www.deepset.ai/&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;deepset&lt;/a&gt;, we’ve been talking about it for months, we’ve been iterating on the core concepts what feels like a million times, and it looks like we’re finally getting ready for the approaching deadline.&lt;/p&gt;&#xA;&lt;p&gt;But what is it that makes this release so special?&lt;/p&gt;&#xA;&lt;p&gt;In short, Haystack 2.0 is a complete rewrite. A huge, big-bang style change. Almost no code survived the migration unmodified: we’ve been across the entire 100,000+ lines of the codebase and redone everything in under a year. For our small team, this is a huge accomplishment.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

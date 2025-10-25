@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Why using a reranker? · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="And is the added latency worth it? Let&#39;s understand what they do and how can they improve the quality of your RAG pipelines so drastically.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Why using a reranker?">
+  <meta name="twitter:description" content="And is the added latency worth it? Let&#39;s understand what they do and how can they improve the quality of your RAG pipelines so drastically.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2025-10-09-rerankers/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Why using a reranker?">
+  <meta property="og:description" content="And is the added latency worth it? Let&#39;s understand what they do and how can they improve the quality of your RAG pipelines so drastically.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-09T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-09T00:00:00+00:00">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2025-10-23-kv-caching/">
+      <meta property="og:see_also" content="https://www.zansara.dev/posts/2025-10-17-prompt-caching/">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2025-10-09-rerankers/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2025-10-09-rerankers/cover.png">
+  <meta name="og:image" content="/posts/2025-10-09-rerankers/cover.png">
+  <meta name="twitter:image" content="https://zansara.dev/posts/2025-10-09-rerankers/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="/">
+      <img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
+      Sara Zan&#39;s Blog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list" >
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/talks/">Talks</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2025-10-09-rerankers/">
+              Why using a reranker?
+            </a>
+          </h1>
+          <p style="margin-bottom:0; color:#777;">
+            And is the added latency worth it? Let&#39;s understand what they do and how can they improve the quality of your RAG pipelines so drastically.
+          </p>
+        </div>
+        <div class="post-meta">
+          <div class="date" style="font-style: italic; margin-bottom: 2rem; line-height: 0.8; font-size: medium; color:#777;">
+            <span class="posted-on">
+              
+              <time datetime="2025-10-09T00:00:00Z">
+                by <a href="/">Sara Zan</a>, October 9, 2025
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2025-10-09-rerankers/cover.png" alt="Featured image"/>
+        
+        <hr>
+<p><em>This is episode 1 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: <a href="/series/practical-questions" >Practical Questions</a>.</em></p>
+<hr>
+<p>Retrieval-Augmented Generation (RAG) systems are essential to connect large language models  with external knowledge sources. While in theory the retrieval step is enough to gather documents that are relevant to the user&rsquo;s request, it&rsquo;s often recommended to add an additional ranking step, the <em>reranking</em>, to further filter the results.</p>
+<p>But why do we need rerankers? Isn’t semantic search good enough? The answer lies in understanding the limitations of traditional embedding-based retrieval.</p>
+<h2 id="bi-encoders-vs-cross-encoders">
+  Bi-encoders vs Cross-encoders
+  
+</h2>
+<p>At the heart of modern, scalable semantic search systems lies the <strong>bi-encoder</strong> model. This architecture creates independent vector representations for the query and the document; relevance is then computed through a similarity measure like the dot product or cosine similarity between those vectors.</p>
+<p><img src="/posts/2025-10-09-rerankers/bi-encoders.png" alt=""></p>
+<p>This design scales well: You can precompute document embeddings, store them in your vector DB, and compare any incoming query against millions of documents very efficiently. However, this convenience comes at a cost: <strong>the system never truly reads the document in the context of the query</strong>. There’s no token-level interaction between the query and document embedding to judge whether the document actually answers the question or it simply happen to be talking about the same topic, and therefore semantically similar.</p>
+<p>For example, the query &ldquo;How to protect my application from DDOS attacks?&rdquo; may be semantically close to the statement &ldquo;You should always take steps to protect your systems from DDOS attacks&rdquo;, but the statement does not contain the answer to the question. Without reranking, embedding-based retrieval systems often perform well at recall but poorly at precision.</p>
+<p><strong>Cross-encoders</strong> remedy the limitations of bi-encoders by encoding the query and document together, typically separated by a special token (like <code>[SEP]</code>) using an encoder-only Transformer such as BERT. Then they include an additional fully connected layer that acts as a classifier, learning fine-grained token-level interactions that capture query/document word alignments, answer containment (i.e., does this passage actually answer the question?) and overall contextual relevance.</p>
+<p><img src="/posts/2025-10-09-rerankers/cross-encoders.png" alt=""></p>
+<p>This difference (from separate encodings to a joint representation) gives cross-encoders their power but also their cost. Since relevance depends on the specific query, you can’t precompute the document embeddings: in fact, the concept of &ldquo;query embedding&rdquo; and &ldquo;document embeddings&rdquo; disappears.  Every query-document pair requires a fresh forward pass through the whole model, which can be prohibitively expensive on a large corpus.</p>
+<h2 id="to-each-their-place">
+  To each their place
+  
+</h2>
+<p>No production system can afford to run interaction-rich models such as cross-encoders on millions of documents per query. Therefore, the two-stage retrieval pipeline remains the industry standard:</p>
+<ol>
+<li>
+<p><strong>Semantic Search (Bi-Encoder)</strong> – Quickly narrows a massive corpus (e.g., millions of document chunks) down to a small candidate set (e.g., top 100 chunks). Bi-encoders can be built with any embedding model: popular closed source embedders include OpenAI&rsquo;s, Voyage.ai, Cohere&rsquo;s, Gemini and more, while on the open-source front you can find BGE embedders, Mistral&rsquo;s models, Jina.ai, Gemma, IBM Granite, <a href="https://huggingface.co/models?search=embedding"  class="external-link" target="_blank" rel="noopener">and more</a>.</p>
+</li>
+<li>
+<p><strong>Reranking (Cross-Encoder)</strong> – Evaluates those top 100 candidates more deeply by jointly encoding the query and document. A popular closed source choice for reranking models is Cohere&rsquo;s, while on the open source front you can find several Qwen-based rerankers, Jina.ai models, IBM&rsquo;s Granite rerankers, BGE rerankers, and <a href="https://huggingface.co/models?search=reranker"  class="external-link" target="_blank" rel="noopener">many more</a>.</p>
+</li>
+</ol>
+<p><img src="/posts/2025-10-09-rerankers/two-tiered-system.png" alt=""></p>
+<h2 id="making-reranking-practical">
+  Making Reranking Practical
+  
+</h2>
+<p>Even in this two-tiered system, reranking may turn out to be too expensive for your latency constrains, but several engineering and modeling strategies have emerged to make it viable in production. Let’s break down a few of these methods.</p>
+<ol>
+<li>
+<p><strong>Model Distillation</strong><br>
+Distillation transfers the knowledge from a large, high-performing cross-encoder (often based on 12-layer BERT or similar) into a smaller student model (e.g., 6 layers, or even lighter). The process involves training the smaller model to mimic the scores or output logits of the larger one on large query–document pairs. While distillation inevitably loses some performance, careful tuning, domain-specific data, and intermediate-layer supervision can retain more than 90% of the original ranking quality at a fraction of the inference cost. You can learn more about model distillation <a href="https://www.sbert.net/examples/sentence_transformer/training/distillation/README.html"  class="external-link" target="_blank" rel="noopener">here</a>.</p>
+</li>
+<li>
+<p><strong>Listwise Reranking</strong><br>
+Instead of scoring each query–document pair independently, listwise reranking generates scores for all top-k candidates in a single forward pass. This approach rearranges candidates into a batched tensor, leveraging GPU parallelism to process them together, reducing overhead from repeated encoder calls. Some implementations also use listwise loss functions (such as ListNet or LambdaMART-inspired objectives) to better preserve ranking order during training. To learn more about ML ranking, have a look at <a href="https://towardsdatascience.com/ranking-basics-pointwise-pairwise-listwise-cd5318f86e1b/"  class="external-link" target="_blank" rel="noopener">this post</a>.</p>
+</li>
+<li>
+<p><strong>Late Interaction Models (e.g., ColBERT)</strong><br>
+Late interaction approaches store token-level embeddings of documents from fine-tuned contextual models. At query time, the system encodes the query tokens and performs efficient maximum similarity matching between query tokens and stored document tokens. By avoiding a full joint encoding across all tokens, these models approximate cross-encoder analysis but keep retrieval latency close to bi-encoder speeds. This approach can either substitute or complement cross-encoders by quickly reducing the candidates list returned from the vector database. To learn more about this approach, have a look at <a href="https://medium.com/@aimichael/cross-encoders-colbert-and-llm-based-re-rankers-a-practical-guide-a23570d88548"  class="external-link" target="_blank" rel="noopener">this blog post</a> or <a href="https://arxiv.org/abs/2004.12832"  class="external-link" target="_blank" rel="noopener">the ColBERT paper</a>.</p>
+</li>
+<li>
+<p><strong>Candidate Filtering and Adaptive k</strong><br>
+Rather than always reranking a fixed top-k (like 100 documents), systems can use heuristics or intermediate classifiers to select fewer candidates when confidence in retrieval is high. This adaptive approach can cut reranking costs significantly while preserving precision in challenging cases.</p>
+</li>
+<li>
+<p><strong>Approximate Cross-Attention Mechanisms</strong><br>
+Instead of computing full self-attention across combined query and document tokens, some approaches reduce complexity by limiting cross-attention depth or dimensionality — for example, attending only to the top N most informative tokens, or pruning low-importance attention heads. This can drastically lower token computations while maintaining critical interaction signals.</p>
+</li>
+<li>
+<p><strong>Caching for Frequent Queries</strong><br>
+In platforms where certain queries or query patterns repeat, caching reranking results or partial computations can remove the need to rerun the full cross-encoder. Combined with normalization and paraphrase detection, such caches can return precise results instantly for repeated requests.</p>
+</li>
+</ol>
+<p>In production pipelines, these methods are often stacked: for example, using late interaction for most queries, distillation for cost control, and adaptive candidate selection to minimize unnecessary work. The overarching theme is balancing precision and latency, ensuring that rerankers deliver their interaction-driven relevance boost without overwhelming the system’s budget or responsiveness.</p>
+
+      </div>
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025 by
+    &MediumSpace;
+    <a href="/"><img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">Sara Zan</a>
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>

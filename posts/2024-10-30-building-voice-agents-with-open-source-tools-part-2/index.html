@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Building Reliable Voice Bots with Open Source Tools - Part 2 · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="A practical guide on the best techniques to build performant and cost effective voice bots.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Building Reliable Voice Bots with Open Source Tools - Part 2">
+  <meta name="twitter:description" content="A practical guide on the best techniques to build performant and cost effective voice bots.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Building Reliable Voice Bots with Open Source Tools - Part 2">
+  <meta property="og:description" content="A practical guide on the best techniques to build performant and cost effective voice bots.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-30T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-30T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png">
+  <meta name="og:image" content="/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png">
+  <meta name="twitter:image" content="https://zansara.dev/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="/">
+      <img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
+      Sara Zan&#39;s Blog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list" >
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/talks/">Talks</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/">
+              Building Reliable Voice Bots with Open Source Tools - Part 2
+            </a>
+          </h1>
+          <p style="margin-bottom:0; color:#777;">
+            A practical guide on the best techniques to build performant and cost effective voice bots.
+          </p>
+        </div>
+        <div class="post-meta">
+          <div class="date" style="font-style: italic; margin-bottom: 2rem; line-height: 0.8; font-size: medium; color:#777;">
+            <span class="posted-on">
+              
+              <time datetime="2024-10-30T00:00:00Z">
+                by <a href="/">Sara Zan</a>, October 30, 2024
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png" alt="Featured image"/>
+        
+        <div style="padding: 5px 15px; font-family: sans; font-style: italic;">
+  <p style="margin:5px 0 10px 0;"><a href="/posts/2024-09-05-building-voice-agents-with-open-source-tools/Building%20Reliable%20Voice%20Bots%20with%20Open%20Source%20Tools%20-%20Part%201%20-%20Sara%20Zan.mp3">Listen to this article</a> or <a href="https://app.speechify.com/share/b61c5d80-3b5c-42d7-92b7-bd60607ce454?utm_campaign=partners&utm_content=rewardful&via=zansaradev-blog" target="_blank">read it in the app</a>:</p>
+  <audio controls style="width:100%;">
+    <source src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/Building%20Reliable%20Voice%20Bots%20with%20Open%20Source%20Tools%20-%20Part%201%20-%20Sara%20Zan.mp3" type="audio/mpeg">
+  </audio> 
+  <div style="text-align:right;vertical-align:middle;">
+    <span style="font-style: italic;">Powered by</span>
+    <a href="https://speechify.com/text-to-speech-online/?utm_campaign=partners&utm_content=rewardful&via=zansaradev-blog" target="_blank" style="display:inline;margin-left:5px;"><img src="/global/speechify_logo.svg" alt="Speechify" style="width:150px;background-color:white;margin:0;vertical-align:middle;"/></a>
+  </div>
+</div>
+
+<p><em>This is part two of the write-up of my talk at <a href="/talks/2024-09-05-building-voice-agents-with-open-source-tools/" >ODSC Europe 2024</a> and <a href="/talks/2024-10-29-odsc-west-voice-agents/" >ODSC West 2024</a>.</em></p>
+<hr>
+<p>In the last few years, the world of voice agents saw dramatic leaps forward in the state of the art of all its most basic components. Thanks mostly to OpenAI, bots are now able to understand human speech almost like a human would, they&rsquo;re able to speak back with completely naturally sounding voices, and are able to hold a free conversation that feels extremely natural.</p>
+<p>But building reliable and effective voice bots is far from a solved problem. These improved capabilities are raising the bar, and even users accustomed to the simpler capabilities of old bots now expect a whole new level of quality when it comes to interacting with them.</p>
+<p>In <a href="/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/" >Part 1</a> we&rsquo;ve seen mostly <strong>the challenges</strong> related to building such bot: we discussed the basic structure of most voice bots today, their shortcomings and the main issues that you may face on your journey to improve the quality of the conversation.</p>
+<p>In this post instead we will focus on <strong>the solutions</strong> that are available today and we are going to build our own voice bot using <a href="https://www.pipecat.ai"  class="external-link" target="_blank" rel="noopener">Pipecat</a>, a recently released open-source library that makes building these bots a lot simpler.</p>
+<h1 id="outline">
+  Outline
+  
+</h1>
+<p><em>Start from <a href="/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/" >Part 1</a>.</em></p>
+<ul>
+<li><a href="#a-modern-voice-bot" >A modern voice bot</a>
+<ul>
+<li><a href="#voice-activity-detection-vad" >Voice Activity Detection</a></li>
+<li><a href="#tools" >Tools</a></li>
+<li><a href="#llm-based-intent-detection" >LLM-based intent detection</a>
+<ul>
+<li><a href="#intent-detection" >Intent detection</a></li>
+<li><a href="#prompt-building" >Prompt building</a></li>
+<li><a href="#reply-generation" >Reply generation</a></li>
+</ul>
+</li>
+<li><a href="#what-about-latency" >What about latency</a></li>
+</ul>
+</li>
+<li><a href="#the-code" >The code</a></li>
+<li><a href="#looking-forward" >Looking forward</a></li>
+</ul>
+<h1 id="a-modern-voice-bot">
+  A modern voice bot
+  
+</h1>
+<p>At this point we have a <a href="/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/" >comprehensive view</a> of the issues that we need to solve to create a reliable, usable and natural-sounding voice agents. How can we actually build one?</p>
+<p>First of all, let&rsquo;s take a look at the structure we defined earlier and see how we can improve on it.</p>
+<p><img src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-2.png" alt=""></p>
+<h2 id="voice-activity-detection-vad">
+  Voice Activity Detection (VAD)
+  
+</h2>
+<p>One of the simplest improvements to this architecture is the addition of a robust Voice Activity Detection (VAD) model. VAD gives the bot the ability to hear interruptions from the user and react to them accordingly, helping to break the classic, rigid turn-based interactions of old-style bots.</p>
+<p><img src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-vad.png" alt=""></p>
+<p>However, on its own VAD models are not enough. To make a bot truly interruptible we also need the rest of the pipeline to be aware of the possibility of an interruption and be ready to handle it: speech-to-text models need to start transcribing and the text-to-speech component needs to stop speaking as soon as the VAD picks up speech.</p>
+<p>The logic engine also needs to handle a half-spoken reply in a graceful way: it can&rsquo;t just assume that the whole reply was spoken out, and neither it can drop the whole reply as it never started. Most LLMs can handle this scenario by altering the last message in their conversation history, but implementing this workflow in practice is often not straightorward, because you need to keep track of how much of the reply was heard by the user, and when exactly this interruption happened.</p>
+<p>The quality of your VAD model matters a lot, as well as tuning its parameters appropriately. You don&rsquo;t want the bot to interrupt itself at every ambient sound it detects, but you also want the interruption to happen promptly, with a few hundreds of milliseconds of delay. Some of the best and most used models out there are <a href="https://github.com/snakers4/silero-vad"  class="external-link" target="_blank" rel="noopener">Silero</a>&rsquo;s VAD models, or alternatively <a href="https://picovoice.ai/"  class="external-link" target="_blank" rel="noopener">Picovoice</a>&rsquo;s <a href="https://picovoice.ai/platform/cobra/"  class="external-link" target="_blank" rel="noopener">Cobra</a> models.</p>
+<h2 id="tools">
+  Tools
+  
+</h2>
+<p>Tools are often a major component of you bot&rsquo;s functionality. Modern and effective voice bots today are often able to take basic actions such as looking up data in a database or calling simple functions.</p>
+<p>Function calling is a feature of most of today&rsquo;s LLMs, so it&rsquo;s often a low-hanging fruit in terms of improvements to your bot. Simple actions like looking up the current time, or searching a knowledge base before replying (a technique called <a href="/posts/2024-06-10-the-agent-compass/#agentic-rag" >Agentic RAG</a>), may make a huge difference in terms of the quality of its responses.</p>
+<p><img src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-tools.png" alt=""></p>
+<h2 id="llm-based-intent-detection">
+  LLM-based intent detection
+  
+</h2>
+<p>Despite the <a href="posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/#logic-engine" >distinction we made earlier</a> between tree-based, intent-based and LLM-based bots, often the logic of voice bots is implemented in a blend of more than one style. Intent-based bots may contain small decision trees, as well as LLM prompts. Often these approaches deliver the best results by taking the best of each to compensate for the weaknesss of the others.</p>
+<p>One of the most effective approaches is to use intent detection to help control the flow of an LLM conversation. Let&rsquo;s see how.</p>
+<p><img src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-intent.png" alt=""></p>
+<p>Suppose we&rsquo;re building a general purpose customer support bot.</p>
+<p>A bot like this needs to be able to handle a huge variety of requests: helping the user renew subscriptions, buy or return items, update them on the state of a shipping, telling the opening hours of the certified repair shop closer to their home, explaining the advantages of a promotion, and more.</p>
+<p>If we decide to implement this chatbot based on intents, we risk that in many cases users won&rsquo;t be able to find out how to achieve their goal, because many intent will look similar and there are many corner case requests that the original developers may not have foreseen.</p>
+<p>However, if we decide to implement this chatbot with an LLM, it becomes really hard to check its replies and make sure that the bot is not lying, because the amount of instructions its system prompt will end up containing is huge. The bot may also perform actions that it is not supposed to, like letting users return an item they have no warranty on anymore.</p>
+<p>There is an intermediate solution: <strong>first try to detect intent, then leverage the LLM</strong>.</p>
+<h3 id="intent-detection">
+  Intent detection
+  
+</h3>
+<p>Step one is detecting the intention of the user. This step can be done with an LLM by sending it a message such as this:</p>
+<pre tabindex="0"><code>Given the following conversation, select the intent
+of the user:
+1: Return an item
+2: Help to use the product
+3: Apply for a subscription
+4: Get information about official repair centers
+5: Find the nearest retail center near them
+6: Learn about current promotion campaigns
+
+Conversation:
+assistant: Hello! How can I help you today?
+user: Hello, can you tell me if there&#39;s a repair shop for your product ABC open right now in Queens?
+</code></pre><p>You can see that at this stage we don&rsquo;t need to micromanage the model and we can stick to macro-categories safely. No need to specify &ldquo;Find the opening hours of certified repair shops in New York&rdquo;, bur rather &ldquo;Find information on certified repair shops&rdquo; in general will suffice.</p>
+<p>This first steps narrows down drastically the scope of the conversation and, as a consequence, the amount of instructions that the LLM needs to handle to carry on the conversation effectively.</p>
+<p>So the next step is to retrieve these instructions</p>
+<h3 id="prompt-update">
+  Prompt update
+  
+</h3>
+<p>Once we know what the user&rsquo;s intention is, it&rsquo;s time to build the real prompt that will give us a reply for the user.</p>
+<p>With the general intent identified, we can equip the LLM strictly with the tools and information that it needs to proceed. If the user is asking about repair shops in their area, we can provide the LLM with a tool to search repair shops by zip code, a tool that would be useless if the user was asking about a shipment or a promotional campaign. Same for the background information: we don&rsquo;t need to tell the LLM that &ldquo;you&rsquo;re a customer support bot&rdquo;, but we can narrow down its personality and background knowledge to make it focus a lot more on the task at hand, which is to help the user locating a suitable repair shop. And so on.</p>
+<p>This can be done by mapping each expected intent to a specific system prompt, pre-compiled to match the intent. At the prompt building stage we simply pick from our library of prompts and <strong>replace the system prompt</strong> with the one that we just selected.</p>
+<p>For example, in our case the LLM selected intent n.4, &ldquo;Get information about official repair centers&rdquo;. This intent may correspond to a prompt like the following:</p>
+<pre tabindex="0"><code>You’re a helpful assistant helping a user finding the best
+repair center for them.
+
+You can use the tool `find_repair_center` to get a list of
+centers that match your query. Before calling the tool,
+make sure to ask them for their zip code. If they asked about
+a specific opening time, you can also use the `get_datetime`
+tool to translate relative time (such as &#34;now&#34; or &#34;tomorrow&#34;)
+into a specific date and time (like 2024-01-24 10:24:32)
+Don&#39;t forget about timezones. ...
+</code></pre><h3 id="reply-generation">
+  Reply generation
+  
+</h3>
+<p>With the new, narrower system prompt in place at the head of the conversation, we can finally prompt the LLM again to generate a reply for the user. The LLM, following the instructions of the updated prompt, has an easier time following its instructions (because they&rsquo;re simpler and more focused) and generated better quality answers for both the users and the developers.</p>
+<p>With a prompt like the above, the reply from the LLM is most likely going to be about the zipcode, something that normally an LLM would not attempt to ask for.</p>
+<pre tabindex="0"><code>assistant: Hello! How can I help you today?
+user: Hello, can you tell me if there&#39;s a repair shop for your product ABC open right now in Queens?
+
+assistant: Sure, let me look it up! Can you please tell me your zipcode?
+</code></pre><h2 id="what-about-latency">
+  What about latency?
+  
+</h2>
+<p>With all these additional back-and-forth with the LLM, it&rsquo;s easy to find ourselves into a situation where latency gets out of hand. With only half a second of time to spare, making sure the system works as efficiently as possible is crucial.</p>
+<p>With today&rsquo;s models there are a few technical and non-technical ways to manage the latency of your bots and keep it under control.</p>
+<h3 id="model-colocation">
+  Model colocation
+  
+</h3>
+<p>Colocating models means that, instead of hosting each model on a different server or SaaS provider, you host all of them on the same machine or server rack, very close together.</p>
+<p>Colocation can be helpful to reduce or remove entirely the overhead of network requests, which often is the largest source of latency in your bots. Colocation is very powerful for bringing latency down, however it&rsquo;s not always feasible if you&rsquo;re using proprietary models that don&rsquo;t allow self-hosting.</p>
+<p>Keep in mind also that colocation can backfire if your hardware is not suitable for the needs of the models you&rsquo;re running. If you don&rsquo;t have GPUs available, or they don&rsquo;t fit all the models you need to colocate, your latency might increase dramatically.</p>
+<h3 id="io-streaming">
+  I/O streaming
+  
+</h3>
+<p>Modern LLMs and STT/TTS models are able to stream either their input or their output. The time it takes these models to generate the start of their output is often much faster than the time they take to generate the entire reply, so streaming the output of one into the input of the next will bring down the latency of the whole system by orders of magnitude.</p>
+<p><strong>Endpointing</strong>, for example, is the technical term for the ability of a speech to text model to detect the end of a sentence and send it over to an LLM while it listens for the rest of the user&rsquo;s message. LLMs, while unable to take token-by-token inputs, can stream out their replies in this way. Text to speech then can detect dots and commas in the output stream to aggregate the tokens into sentences or phrases and start reading them out long before the last token is produced by the LLM.</p>
+<p>This is exactly what frameworks like Pipecat enable for all their models, and it&rsquo;s usually possible for all moderns LLMs.</p>
+<h3 id="declaring-the-latency">
+  Declaring the latency
+  
+</h3>
+<p>If all technical solutions fails, one unconventional approach is to make the bot declare its own latency at the very start of the conversation. While it might sound silly, if a bot opens the chat saying <code>I might be a bit slow, so be patient with me</code> users are automatically more keen to wait longer for the bot&rsquo;s response instead of pinging it continuously. While this does not make for the best user experience, being honest about your bot&rsquo;s capabilities is always appreciated.</p>
+<p>This technique, however, is not a band-aid for any sort of delay. Users won&rsquo;t manage to talk to a bot if each reply takes more than one or two seconds to come back to them, regardless of how patient they might be.</p>
+<h3 id="buying-time">
+  Buying time
+  
+</h3>
+<p>Last but not least, occasionally the bot might have a spike in latency due to the usage of a slow tool. When your bot knows that its reply is going to take longer than usual, it&rsquo;s best, again, to warn the user by telling them what&rsquo;s going on. Having the bot say something like <code>Ok, let me look it up, it will take a few seconds</code> is a huge user experience improvement you should not underestimate.</p>
+<h1 id="the-code">
+  The code
+  
+</h1>
+<p>Now that we&rsquo;ve seen all the techniques that can make your bot effective, reliable and fast, it&rsquo;s time to actually implement one!</p>
+<p>One of the best frameworks out there to build open-source voice bots right now is <a href="http://www.pipecat.ai"  class="external-link" target="_blank" rel="noopener">Pipecat</a>, a small library maintained by <a href="https://www.daily.co/"  class="external-link" target="_blank" rel="noopener">Daily.co</a>.</p>
+<p><a href="https://colab.research.google.com/drive/1CUX7JRYMU1MEJBZ6lWMg5EThPew19Zjs?usp=sharing"  class="external-link" target="_blank" rel="noopener">Here</a> you can find a commented Colab notebook to learn how <a href="https://www.pipecat.ai"  class="external-link" target="_blank" rel="noopener">Pipecat</a> can help you build a very basic voice bots, how to implement the intent-detection system we&rsquo;ve outlined above, and try such a bot yourself. Watch out: you&rsquo;ll need a few API keys, but if you don&rsquo;t have a specific one, often the Pipecat documentation can help you find a replacement component for any alternative model provider you may have access to.</p>
+<p>Have fun!</p>
+<div style="display: flex; align-content: center;">
+  <video style="margin:auto;" height="100%" width="100%" controls >
+      <source src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/notebook-presentation-clip.mp4" type="video/mp4">
+  </video>
+</div>
+<p><em>The Pipecat bot in action (from <a href="/talks/2024-10-29-odsc-west-voice-agents/" >my talk</a> at ODSC West 2024, presenting <a href="https://colab.research.google.com/drive/1CUX7JRYMU1MEJBZ6lWMg5EThPew19Zjs?usp=sharing"  class="external-link" target="_blank" rel="noopener">this same notebook</a>).</em></p>
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">WŽH</a></p>
+
+      </div>
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025 by
+    &MediumSpace;
+    <a href="/"><img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">Sara Zan</a>
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>

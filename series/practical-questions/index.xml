@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Practical Questions on Sara Zan</title>
+    <link>https://www.zansara.dev/series/practical-questions/</link>
+    <description>Recent content in Practical Questions on Sara Zan</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 23 Oct 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zansara.dev/series/practical-questions/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How does prompt caching work?</title>
+      <link>https://www.zansara.dev/posts/2025-10-23-kv-caching/</link>
+      <pubDate>Thu, 23 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2025-10-23-kv-caching/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;p&gt;&lt;em&gt;This is episode 3 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href=&#34;https://www.zansara.dev/series/practical-questions&#34; &gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;In the previous post we saw what is prompt caching, what parts of the prompts is useful to cache, and explained at a high level why it&amp;rsquo;s so effective. In this post I want to go one step further and explain &lt;em&gt;how&lt;/em&gt; in practice inference engines cache prompt prefixes. How can you take a complex system like an LLM, cache some of its computations mid-prompt, and reload them?&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>What is prompt caching?</title>
+      <link>https://www.zansara.dev/posts/2025-10-17-prompt-caching/</link>
+      <pubDate>Fri, 17 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2025-10-17-prompt-caching/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;p&gt;&lt;em&gt;This is episode 2 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href=&#34;https://www.zansara.dev/series/practical-questions&#34; &gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;A common piece of advice to improve speed and reduce cost of inference in LLMs is to use prompt caching. However, it&amp;rsquo;s often not clear what this means. What exactly is cached? When and why the improvements are really impactful? Understanding prompt caching starts with a deeper awareness of how computation and costs scale with large contexts.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why using a reranker?</title>
+      <link>https://www.zansara.dev/posts/2025-10-09-rerankers/</link>
+      <pubDate>Thu, 09 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://www.zansara.dev/posts/2025-10-09-rerankers/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;p&gt;&lt;em&gt;This is episode 1 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href=&#34;https://www.zansara.dev/series/practical-questions&#34; &gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Retrieval-Augmented Generation (RAG) systems are essential to connect large language models  with external knowledge sources. While in theory the retrieval step is enough to gather documents that are relevant to the user&amp;rsquo;s request, it&amp;rsquo;s often recommended to add an additional ranking step, the &lt;em&gt;reranking&lt;/em&gt;, to further filter the results.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
