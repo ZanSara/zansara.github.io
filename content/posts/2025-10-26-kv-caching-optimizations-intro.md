@@ -63,4 +63,4 @@ These optimizations work across the stack to provide the best possible support t
 
 ## Conclusion
 
-KV cache optimization is still an open research area, with new techniques and improvements being published regularly. A good overview of what types of optimizations exist can help you make sense of the zoo of acronyms and claims being made about them, and give you the foundations you need to understand if a particular technique is relevant for your situation. Stay tuned for the next posts, where we will dive deeper into each of these categories.
+KV cache optimization is still an open research area, with new techniques and improvements being published regularly. A good overview of what types of optimizations exist can help you make sense of the zoo of acronyms and claims being made about them, and give you the foundations you need to understand if a particular technique is relevant for your situation. Stay tuned for the [next posts](/posts/2025-10-27-kv-caching-optimizations-token-level), where we will dive deeper into each of these categories.

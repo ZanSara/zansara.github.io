@@ -11,15 +11,15 @@ In the previous post we've seen [what the KV cache is](/posts/2025-10-23-kv-cach
 
 ## What is a token-level optimization?
 
-The survey defined token-level optimizations every technique that focuses exclusively on improving the KV cache management based on the **characteristics and patterns of the KV pairs**, without considering enhancements from model architecture improvements or system parallelization techniques. 
+The survey defined token-level optimizations every technique that focuses exclusively on improving the KV cache management based on the **characteristics and patterns of the KV pairs**, without considering enhancements from model architecture improvements or system parallelization techniques.
 
 Here is an overview of the types of optimizations that exist today.
 
 ![](/posts/2025-10-27-kv-caching-optimizations-token-level/token-level.png)
 
-_[Source](https://arxiv.org/pdf/2412.19442#figure.3)._
+_[Source](https://arxiv.org/pdf/2412.19442#figure.3)_
 
-Let's see what's the idea behind each of these categories.
+Let's see what's the idea behind each of these categories. We won't go into the details of the implementations of each: to learn more about a specific approach follow the links to the relevant sections of the survey, where you can find summaries and references.
 
 ### KV Cache Selection
 
@@ -27,7 +27,7 @@ One key characteristic of the attention matrix is **sparsity**: most of its valu
 
 ![](/posts/2025-10-27-kv-caching-optimizations-token-level/sparse-attention.png)
 
-_A simplified view of a cache selection strategy. Often, the KV cache tends to have its highest values clustered near the diagonal (because most tokens refer to other tokens that are relatively close), so most of the lower-left side of the matrix can be safely assumed to be zero. That reduces drastically the number of values to store._
+_A simplified view of a cache selection strategy. In this case, the KV cache tends to have its highest values clustered near the diagonal (because most tokens refer to other tokens that are relatively close), so most of the lower-left side of the matrix can be safely assumed to be zero. That reduces drastically the number of values to store._
 
 The researches identified two main cache selection strategies:
 
@@ -42,7 +42,7 @@ For a more detailed description of each technique, check out [the survey](https:
 
 LLMs are hierarchical, with several layers within layers of computations. Each of these layers is identical in structure, but during training the weights that they learn make some of these layers more important than others and more impactful on the output's quality.
 
-This means that not each of these steps should be compressed equally! If we could identify which layers are more impactful we could reduce the compression of the KV cache for these layers and increase it for the others. In this way the effects of compression on the output quality would be minimized.
+This means that not all of these steps should be compressed equally. If we could identify which layers are more impactful we could reduce the compression of the KV cache for these layers and increase it for the others. In this way the effects of compression on the output quality would be minimized.
 
 Budget allocation strategies tend either of these granularity levels:
 - **Layer-wise budget allocation**, which assigns different compression ratios across the model's decoding layers
@@ -101,3 +101,5 @@ For a more detailed description of each technique, check out [the survey](https:
 This was just a brief overview of the various techniques that have been tested to compress the KV cache, but the exploration of the space between highest accuracy, fastest inference and strongest compression is far from complete. Most of these techniques optimize for just one or two of these properties, with no clear winner that beats them all. Expect a lot more experimentation in this field in the months and years to come.
 
 On the other hand, these are only compression techniques that apply at the token-level, without any support from the model architecture. For model-level approaches to the problem, check out the next post, where we continue exploring the survey to see how the basic architecture of the Transformer's decoding layer can be optimized to reduce the amount of values to cache in the first place.
+
+In the next post we're going to address [model-level](/posts/2025-10-28-kv-caching-optimizations-model-level) optimizations. Stay tuned!
