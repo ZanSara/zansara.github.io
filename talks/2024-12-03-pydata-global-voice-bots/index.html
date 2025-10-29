@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  PyData Global: Building LLM Voice Bots with Open Source Tools · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="Announcement, slides, demo video and full video (Youtube, backup).
+All resources can also be found in
+my archive.
+
+
+  
+  
+
+
+  
+
+
+  Demo
+  
+
+During the talk I showed a recording of a demo built with Intentional, a new library to prompt voice bots in a way that takes inspiration from classic intent-based chatbots. Here are the instructions needed to run this same demo on your own machine and play with it.
+
+  Intentional is still in its very first stages of development and highly unstable!">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="PyData Global: Building LLM Voice Bots with Open Source Tools">
+  <meta name="twitter:description" content="Announcement, slides, demo video and full video (Youtube, backup). All resources can also be found in my archive.
+Demo During the talk I showed a recording of a demo built with Intentional, a new library to prompt voice bots in a way that takes inspiration from classic intent-based chatbots. Here are the instructions needed to run this same demo on your own machine and play with it.
+Intentional is still in its very first stages of development and highly unstable!">
+
+<meta property="og:url" content="https://www.zansara.dev/talks/2024-12-03-pydata-global-voice-bots/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="PyData Global: Building LLM Voice Bots with Open Source Tools">
+  <meta property="og:description" content="Announcement, slides, demo video and full video (Youtube, backup). All resources can also be found in my archive.
+Demo During the talk I showed a recording of a demo built with Intentional, a new library to prompt voice bots in a way that takes inspiration from classic intent-based chatbots. Here are the instructions needed to run this same demo on your own machine and play with it.
+Intentional is still in its very first stages of development and highly unstable!">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="talks">
+    <meta property="article:published_time" content="2024-12-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-03T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/talks/2024-12-03-pydata-global-voice-bots/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/talks/2024-12-03-pydata-global-voice-bots.png">
+  <meta name="og:image" content="/talks/2024-12-03-pydata-global-voice-bots.png">
+  <meta name="twitter:image" content="/talks/2024-12-03-pydata-global-voice-bots.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="/">
+      <img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
+      Sara Zan&#39;s Blog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list" >
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/talks/">Talks</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/talks/2024-12-03-pydata-global-voice-bots/">
+              PyData Global: Building LLM Voice Bots with Open Source Tools
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime="2024-12-03T00:00:00Z">
+                December 3, 2024
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/talks/2024-12-03-pydata-global-voice-bots.png" alt="Featured image"/>
+        
+        <p><a href="https://global2024.pydata.org/cfp/talk/T3YDBP/"  class="external-link" target="_blank" rel="noopener">Announcement</a>, <a href="https://drive.google.com/file/d/1rXb4-m-BWwhAqDCDBXpzw6nJ9OELOpSl/view?usp=sharing"  class="external-link" target="_blank" rel="noopener">slides</a>, <a href="https://drive.google.com/file/d/1bja0O8LG7790UIU7HpAYXat-BYXeUbK-/view?usp=sharing"  class="external-link" target="_blank" rel="noopener">demo video</a> and full video (<a href="https://www.youtube.com/watch?v=Td5dFdG0wE4"  class="external-link" target="_blank" rel="noopener">Youtube</a>, <a href="https://drive.google.com/file/d/1HTEEs-Zr8mZoJA8a7AuiJf61soGvQNPI/view?usp=sharing"  class="external-link" target="_blank" rel="noopener">backup</a>).
+All resources can also be found in
+<a href="https://drive.google.com/drive/folders/1ZPkne2QxOnSXfchv08CWkAZG3duXxd4Z?usp=sharing"  class="external-link" target="_blank" rel="noopener">my archive</a>.</p>
+<hr>
+<h2 id="hahahugoshortcode68s0hbhb">
+  <div class='iframe-wrapper'>
+  <iframe src="https://drive.google.com/file/d/1HTEEs-Zr8mZoJA8a7AuiJf61soGvQNPI/preview" width=100% height=100% allow="autoplay"></iframe>
+</div>
+
+  
+</h2>
+<h2 id="demo">
+  Demo
+  
+</h2>
+<p>During the talk I showed a recording of a demo built with <a href="https://github.com/intentional-ai/intentional"  class="external-link" target="_blank" rel="noopener">Intentional</a>, a new library to prompt voice bots in a way that takes inspiration from classic intent-based chatbots. Here are the instructions needed to run this same demo on your own machine and play with it.</p>
+<div class="notice info">
+  <div class="notice-content"><p><em>Intentional is still in its very first stages of development and highly unstable!</em></p>
+<p><em>I am looking for contributors to help this project come to life, so if you would like to help there are many ways to do so: leave a star on <a href="https://github.com/intentional-ai/intentional"  class="external-link" target="_blank" rel="noopener">the repo</a>, <a href="https://intentional-ai.github.io/intentional/docs/home/"  class="external-link" target="_blank" rel="noopener">test the library</a> on your machine, <a href="https://github.com/intentional-ai/intentional/issues/new"  class="external-link" target="_blank" rel="noopener">open an issue</a>, reach out to me to leave feedback (you can find my contact <a href="/" >on the homepage</a>), <a href="https://github.com/intentional-ai/intentional"  class="external-link" target="_blank" rel="noopener">spread the word</a> about Intentional, or even <a href="https://intentional-ai.github.io/intentional/CONTRIBUTING/"  class="external-link" target="_blank" rel="noopener">contribute to the project</a> with a PR.</em></p>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<p><a class="github-button" href="https://github.com/intentional-ai" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Follow @intentional-ai on GitHub">Follow @intentional-ai</a>
+<a class="github-button" href="https://github.com/intentional-ai/intentional/subscription" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Watch intentional-ai/intentional on GitHub">Watch</a>
+<a class="github-button" href="https://github.com/intentional-ai/intentional" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star intentional-ai/intentional on GitHub">Star</a></p></div>
+</div>
+
+<p>First, install Intentional and the plugin for <a href="https://textual.textualize.io/"  class="external-link" target="_blank" rel="noopener">Textual</a>&rsquo;s UI:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install intentional intentional-textual-ui
+</span></span></code></pre></div><div class="notice info">
+  <div class="notice-content"><em>This demo was only tested on Linux (Ubuntu). You will need <code>portaudio</code> in order for Intentional to handle audio from your microphone, so if you face errors during the installation, try:</em> <code>sudo apt install portaudio19-dev</code></div>
+</div>
+
+<p>Next, you&rsquo;ll need the configuration file where the conversation tree is defined. Intentional bots are, at their core, entirely defined by this configuration file (with the partial exception of tools, as you can see <a href="https://intentional-ai.github.io/intentional/docs/home/"  class="external-link" target="_blank" rel="noopener">in the documentation</a>). Download the demo configuration file <a href="https://drive.google.com/file/d/1dkvxpCH6uny8ew3wrsgh7SPZdqvKuTyd/view?usp=sharing"  class="external-link" target="_blank" rel="noopener">from this link</a> and save it as <code>demo.yml</code>.</p>
+<p>Now, make your OpenAI API key available to the CLI:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">OPENAI_API_KEY</span><span style="color:#ff7b72;font-weight:bold">=</span>&lt;your api key&gt;
+</span></span></code></pre></div><p>Now you&rsquo;re ready to run the bot. Intentional comes with a simple CLI that can directly run bots from a config file and draw their conversation graph. To run the bot and talk to it as shown in the video, run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>intentional demo.yml
+</span></span></code></pre></div><p>You should see a UI such as this coming up (with the chat history empty):</p>
+<p><img src="/talks/2024-12-03-pydata-global-voice-bots-demo-ui.png" alt=""></p>
+<p>Just start speaking and the bot will quickly reply to you.</p>
+<div class="notice info">
+  <div class="notice-content"><em>Occasionally the transcriptions don&rsquo;t work well. The bot is generating such transcriptions exclusively for your convenience, so even if they&rsquo;re mangled, in most cases you can be confident that the model actually heard you well.</em></div>
+</div>
+
+<p>To see the conversation graph, run this command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>intentional demo.yml --draw
+</span></span></code></pre></div><p>The PNG file will be created next to <code>demo.yml</code> and will be called <code>demo.png</code>.</p>
+
+      </div>
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025 by
+    &MediumSpace;
+    <a href="/"><img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">Sara Zan</a>
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>

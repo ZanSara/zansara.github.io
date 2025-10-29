@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Making sense of KV Cache optimizations, Ep. 3: Model-level · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="Let&#39;s make sense of the zoo of model-level techniques that exist out there.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Making sense of KV Cache optimizations, Ep. 3: Model-level">
+  <meta name="twitter:description" content="Let&#39;s make sense of the zoo of model-level techniques that exist out there.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2025-10-28-kv-caching-optimizations-model-level/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Making sense of KV Cache optimizations, Ep. 3: Model-level">
+  <meta property="og:description" content="Let&#39;s make sense of the zoo of model-level techniques that exist out there.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-28T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2025-10-28-kv-caching-optimizations-model-level/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2025-10-28-kv-caching-optimizations-model-level/cover.png">
+  <meta name="og:image" content="/posts/2025-10-28-kv-caching-optimizations-model-level/cover.png">
+  <meta name="twitter:image" content="https://zansara.dev/posts/2025-10-28-kv-caching-optimizations-model-level/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="/">
+      <img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
+      Sara Zan&#39;s Blog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list" >
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/talks/">Talks</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2025-10-28-kv-caching-optimizations-model-level/">
+              Making sense of KV Cache optimizations, Ep. 3: Model-level
+            </a>
+          </h1>
+          <p style="margin-bottom:0; color:#777;">
+            Let&#39;s make sense of the zoo of model-level techniques that exist out there.
+          </p>
+        </div>
+        <div class="post-meta">
+          <div class="date" style="font-style: italic; margin-bottom: 2rem; line-height: 0.8; font-size: medium; color:#777;">
+            <span class="posted-on">
+              
+              <time datetime="2025-10-28T00:00:00Z">
+                by <a href="/">Sara Zan</a>, October 28, 2025
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2025-10-28-kv-caching-optimizations-model-level/cover.png" alt="Featured image"/>
+        
+        <p>In the previous posts we&rsquo;ve seen <a href="/posts/2025-10-23-kv-caching/" >what the KV cache is</a> and what types of <a href="/posts/2025-10-26-kv-caching-optimizations-intro/" >KV Cache management optimizations</a> exist according to a <a href="https://arxiv.org/abs/2412.19442"  class="external-link" target="_blank" rel="noopener">recent survey</a>. In this post we are going to focus on <strong>model-level</strong> KV cache optimizations.</p>
+<h2 id="what-is-a-model-level-optimization">
+  What is a model-level optimization?
+  
+</h2>
+<p>We call a model-level optimization any modification of the architecture of the LLM that enables a more efficient reuse of the KV cache. In most cases, to apply these method to an LLM you need to either retrain or at least finetune the model, so it&rsquo;s not easy to apply and is usually baked in advance in of-the-shelf models.</p>
+<p>Here is an overview of the types of optimizations that exist today.</p>
+<p><img src="/posts/2025-10-28-kv-caching-optimizations-model-level/model-level.png" alt=""></p>
+<p><em><a href="https://arxiv.org/pdf/2412.19442#figure.7"  class="external-link" target="_blank" rel="noopener">Source</a></em></p>
+<p>Let&rsquo;s see what&rsquo;s the idea behind each of these categories. We won&rsquo;t go into the details of the implementations of each: to learn more about a specific approach follow the links to the relevant sections of the survey, where you can find summaries and references.</p>
+<h2 id="attention-grouping-and-sharing">
+  Attention Grouping and Sharing
+  
+</h2>
+<p>One common technique to reduce the size of the KV cache is to group and/or share attention on different levels. There&rsquo;s techniques being developed for different grades of attention grouping:</p>
+<ul>
+<li><strong>Intra-layer grouping</strong>: focuses on grouping query, key, and value heads within individual layers</li>
+<li><strong>Cross-layer sharing</strong>: shares key, value, or attention components across layers</li>
+</ul>
+<p>At the <strong>intra-layer</strong> level, the standard architecture of Transformers calls for full <strong>multi-headed attention</strong> (MHA). As an alternative, it was proposed to have all attention heads share a single key and value, reducing dramatically the amount of compute and space needed. This technique, called <strong>multi-query attention</strong> (MQA) is a radical strategy that would cause not just quality degradation, but also training instability. As a compromise, <strong>grouped-query attention</strong> (GQA) was proposed by dividing the query heads into multiple groups, while each group shares its own keys and values. In addition, an uptraining process has been proposed to efficiently convert existing MHA models to GQA configurations by mean-pooling the key and value heads associated with each group. Empirical evaluations demonstrated that GQA models achieve performance close to the original MHA models.</p>
+<p><img src="/posts/2025-10-28-kv-caching-optimizations-model-level/attention-grouping.png" alt=""></p>
+<p><em>A simplified illustration of different QKV grouping techniques: multi-headed attention (MHA), multi-query attention (MQA) and grouped-query attention (GQA).</em></p>
+<p><strong>Across layers</strong>, cross-layer attention (CLA) was proposed to extends the idea of GQA. Its core idea is to share the key and value heads between adjacent layers. This achieves an additional 2× KV cache size reduction compared to MQA. Several other approaches exist to address cross-layer attention sharing, so check out <a href="https://arxiv.org/pdf/2412.19442#subsection.5.1"  class="external-link" target="_blank" rel="noopener">the survey</a> if you want to learn more.</p>
+<p>In general, the main issue in this line of research regards the model modifications that needs to be applied. Current approaches often fail to generalize well to architecture they were not initially designed on, while more static and general grouping/sharing strategies fail to capture important variations in the various heads and layers, leading to a loss of output quality. In addition, the need to retrain the LLM after the changes limits strongly the portability of these methods.</p>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.5.1"  class="external-link" target="_blank" rel="noopener">the survey</a>.</p>
+<h2 id="architecture-alteration">
+  Architecture Alteration
+  
+</h2>
+<p>Another approach is to make more high-level architectural changes to reduce the required cache size. There seems to be two main directions in this area:</p>
+<ul>
+<li><strong>Enhanced Attention</strong>: methods that refine the attention mechanism for KV cache efficiency. An example is DeepSeek-V2, which introduced Multi-Head Latent Attention (MLA). This technique adopts a low-rank KV joint compression mechanism and replaces the full KV cache with compressed latent vectors. The model adopts trainable projection and expansion matrices to do the compression. This compression mechanism is what enables the model to handle sequences of up to 128K tokens. You can learn more about MLA in <a href="https://magazine.sebastianraschka.com/i/168650848/multi-head-latent-attention-mla"  class="external-link" target="_blank" rel="noopener">this article</a> by Sebastian Raschka.</li>
+<li><strong>Augmented Architecture</strong>: methods that introduce structural changes for better KV management, for example novel decoder structures (such as YOCO, that included a self-decoder and a cross-decoder step).</li>
+</ul>
+<p>Many of these works build upon the broader landscape of efficient attention mechanisms (e.g., Linear Transformer, Performer, LinFormer, etc.) which already have <a href="https://arxiv.org/abs/2404.14294"  class="external-link" target="_blank" rel="noopener">their own survey</a>.</p>
+<p>Although these approaches demonstrate significant progress in enabling longer context windows and faster inference, there are still big challenged ans unknowns. Some techniques in this category, for example, perform very well for some tasks but fail to generalize (for example they work well with RAG but not with non-RAG scenarios).</p>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.5.2"  class="external-link" target="_blank" rel="noopener">the survey</a>.</p>
+<h2 id="non-transformer-architecture">
+  Non-Transformer Architecture
+  
+</h2>
+<p>In this category we group all radical approaches that ditch the Transformers architecture partially or entirely and embrace alternative models, for example RNNs, which don&rsquo;t have quadratic computation bottlenecks at all and sidestep the problem entirely.</p>
+<p>In the case of completely independent architectures, notable examples are:</p>
+<ul>
+<li><a href="https://arxiv.org/abs/2312.00752"  class="external-link" target="_blank" rel="noopener">Mamba</a>, based on state space sequence models (SSMs). Mamba improves SSMs by making parameters input-dependent, allowing information to be selectively propagated or forgotten along the sequence based on the current token. Mamba omits attention entirely.</li>
+<li><a href="http://arxiv.org/abs/2305.13048"  class="external-link" target="_blank" rel="noopener">RWKV</a> (Receptance Weighted Key Value) integrates a linear attention mechanism, enabling parallelizable training like transformers while retaining the efficient inference characteristics of RNNs.</li>
+</ul>
+<p>Efficient non-Transformers also have their own surveys, so check out the paper to learn more.</p>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.5.3"  class="external-link" target="_blank" rel="noopener">the survey</a>.</p>
+<h2 id="conclusion">
+  Conclusion
+  
+</h2>
+<p>Model-level optimizations go from very light touches to the original Transformer model to architecture that have nothing to do with it, therefore not having any KV cache to deal with in the first place. In nearly all cases the principal barrier to adoption is the same: applying these techniques requires a <strong>full retraining of the model</strong>, which can be impractical at best and prohibitively expensive at worst, even for users that have the right data and computing power. Model-level optimizations are mostly useful for LLM developers to get an intuition of the memory efficiency that can be expected from a model that includes one or more of these features out of the box.</p>
+<p>In the next post we&rsquo;re going to address <a href="/posts/2025-10-29-kv-caching-optimizations-system-level" >system-level</a> optimizations. Stay tuned!</p>
+
+      </div>
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025 by
+    &MediumSpace;
+    <a href="/"><img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">Sara Zan</a>
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>
