@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Making sense of KV Cache optimizations, Ep. 1: An overview · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="Let&#39;s make sense of the zoo of techniques that exist out there.">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Making sense of KV Cache optimizations, Ep. 1: An overview">
+  <meta name="twitter:description" content="Let&#39;s make sense of the zoo of techniques that exist out there.">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2025-10-26-kv-caching-optimizations-intro/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Making sense of KV Cache optimizations, Ep. 1: An overview">
+  <meta property="og:description" content="Let&#39;s make sense of the zoo of techniques that exist out there.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-26T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2025-10-26-kv-caching-optimizations-intro/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2025-10-26-kv-caching-optimizations-intro/cover.png">
+  <meta name="og:image" content="/posts/2025-10-26-kv-caching-optimizations-intro/cover.png">
+  <meta name="twitter:image" content="https://zansara.dev/posts/2025-10-26-kv-caching-optimizations-intro/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="/">
+      <img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
+      Sara Zan&#39;s Blog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list" >
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/talks/">Talks</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2025-10-26-kv-caching-optimizations-intro/">
+              Making sense of KV Cache optimizations, Ep. 1: An overview
+            </a>
+          </h1>
+          <p style="margin-bottom:0; color:#777;">
+            Let&#39;s make sense of the zoo of techniques that exist out there.
+          </p>
+        </div>
+        <div class="post-meta">
+          <div class="date" style="font-style: italic; margin-bottom: 2rem; line-height: 0.8; font-size: medium; color:#777;">
+            <span class="posted-on">
+              
+              <time datetime="2025-10-26T00:00:00Z">
+                by <a href="/">Sara Zan</a>, October 26, 2025
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2025-10-26-kv-caching-optimizations-intro/cover.png" alt="Featured image"/>
+        
+        <p>The <a href="/posts/2025-10-23-kv-caching/" >KV cache</a> is an essential mechanism to avoid the quadratic time complexity of LLM inference and make modern LLMs usable despite huge parameters count and context lengths. However, simply caching everything indiscriminately is not a successful strategy. By swapping time for space complexity, now our problem is <strong>GPU memory</strong>. Adding more memory can only bring you so far: at some point, you&rsquo;re going to need much more efficient ways to decide what to cache, when and how. But classic cache management techniques were not designed for LLMs, and they often fall short.</p>
+<p>With time, a veritable zoo of optimization strategies arose to get around this problem, and making sense of which optimizations can be applied to which model can be a challenge in itself. Fortunately a  <a href="https://arxiv.org/abs/2412.19442"  class="external-link" target="_blank" rel="noopener">very comprehensive survey</a> on KV caching recently collected all techniques that make up the state of the art in this field, giving practitioners a handy starting point to understand this field. The amount of techniques reviewed is staggering, so we&rsquo;re going to need more than one post to go through the most interesting approaches and compare them.</p>
+<p>For now, let&rsquo;s see how we can start to make sense of things.</p>
+<h2 id="the-challenges">
+  The challenges
+  
+</h2>
+<p>Most of the techniques we&rsquo;re going to see address one or more of these issues.</p>
+<ul>
+<li><strong>Cache Eviction</strong>: Determining which items to evict when the cache reaches its capacity. Popular policies like Least Recently Used (LRU) or Least Frequently Used (LFU) do not always align with LLM usage patterns, leading to suboptimal performance.</li>
+<li><strong>Memory Management</strong>: The memory required for the KV cache grows linearly with both the input length and the number of layers, which can quickly exceed the hardware memory limits. It&rsquo;s possible to overcome such limits by distributing the storage of this cache across different types of storage hardware (e.g., GPU, CPU or external memory), but this brings its own set of challenges.</li>
+<li><strong>Latency</strong>: Accessing and updating the cache at each decoding step can introduce latency.</li>
+<li><strong>Compression</strong>: Compressing the KV cache can reduce memory usage but may degrade model performance if key information is lost.</li>
+<li><strong>Dynamic Workloads</strong>: Handling dynamic and unpredictable workloads, where access patterns and data requirements frequently change, requires adaptive caching strategies that can respond in real time.</li>
+<li><strong>Distributed Coordination</strong>: In distributed KV caches, maintaining coordination across multiple nodes to ensure consistency, fault tolerance, and efficient resource usage adds significant complexity.</li>
+</ul>
+<h2 id="a-taxonomy">
+  A taxonomy
+  
+</h2>
+<p>In order to make sense of the vast amount of known techniques, the authors categorized them into a comprehensive taxonomy.</p>
+<p><img src="/posts/2025-10-26-kv-caching-optimizations-intro/taxonomy.png" alt=""></p>
+<p><em><a href="https://arxiv.org/pdf/2412.19442#figure.2"  class="external-link" target="_blank" rel="noopener">Source</a></em></p>
+<p>It starts with three major categories:</p>
+<ul>
+<li><strong>Token-Level Optimization</strong>: improving KV cache management efficiency by focusing on the fine-grained selection, organization, and compression at the token level. These techniques can be applied to any model, as they require no architectural changes.</li>
+<li><strong>Model-level Optimization</strong>: designing an efficient model structure to optimize KV cache management. These optimizations are strictly model-dependent, because they&rsquo;re backed into the model&rsquo;s architecture.</li>
+<li><strong>System-level Optimization</strong>: optimizing the KV Cache management through techniques closer to the OS and/or the hardware. These techniques may require specialized hardware to implement, so they&rsquo;re not at everyone&rsquo;s reach.</li>
+</ul>
+<h2 id="token-level-optimizations">
+  Token-Level Optimizations
+  
+</h2>
+<p>Token-level optimizations are the most readily accessible to most developers, as they require no dedicated support from the LLM and no specialized hardware. Therefore, these are usually the most interesting. In this category we find:</p>
+<ul>
+<li><strong>KV cache selection</strong>: focuses on prioritizing and storing only the most relevant tokens.</li>
+<li><strong>KV cache budget allocation</strong>: dynamically distributes memory resources across tokens to ensure efficient cache utilization under limited memory.</li>
+<li><strong>KV cache merging</strong>: reduces redundancy by combining similar or overlapping KV pairs.</li>
+<li><strong>KV cache quantization</strong>: minimizes the memory footprint by reducing the precision of cached KV pairs.</li>
+<li><strong>KV cache low-rank decomposition</strong>: uses low-rank decomposition techniques to reduce cache size.</li>
+</ul>
+<h2 id="model-level-optimizations">
+  Model-Level Optimizations
+  
+</h2>
+<p>Model-level optimizations, as the name says, are baked into the model&rsquo;s architecture and therefore are either not applicable or always present in the models you&rsquo;re running. These optimizations are usually interesting for people that design their own model architecture and train them, rather than developers that work with off-the-shelf models. In this category we find:</p>
+<ul>
+<li><strong>Attention grouping and sharing methods</strong>: examine the redundant functionality of keys and values and group and share KV cache within or across transformer layers.</li>
+<li><strong>Architecture alterations</strong>: emerge to design new attention mechanisms or construct extrinsic modules for KV optimization.</li>
+<li><strong>Non-transformer architectures</strong>: architectures that adopt other memory-efficient designs like recurrent neural networks to optimize the KV cache in traditional transformers.</li>
+</ul>
+<h2 id="system-level-optimizations">
+  System-level Optimizations
+  
+</h2>
+<p>These optimizations work across the stack to provide the best possible support to the LLM&rsquo;s inference, and they&rsquo;re sometimes baked into the inference engine, such as vLLM&rsquo;s PagedAttention. They occasionally require dedicated hardware and OS optimizations, so they&rsquo;re not always readily available for everyday experimentation. They include:</p>
+<ul>
+<li><strong>Memory management</strong>: focuses on architectural innovations like virtual memory adaptation, intelligent prefix sharing, and layer-aware resource allocation.</li>
+<li><strong>Scheduling</strong>: addresses diverse optimization goals through prefix-aware methods for maximizing cache reuse, preemptive techniques for fair context switching, and layer-specific mechanisms for fine-grained cache control.</li>
+<li><strong>Hardware acceleration</strong>: including single/multi-GPU, I/O-based solutions, heterogeneous computing and SSD-based solutions.</li>
+</ul>
+<h2 id="conclusion">
+  Conclusion
+  
+</h2>
+<p>KV cache optimization is still an open research area, with new techniques and improvements being published regularly. A good overview of what types of optimizations exist can help you make sense of the zoo of acronyms and claims being made about them, and give you the foundations you need to understand if a particular technique is relevant for your situation. Stay tuned for the <a href="/posts/2025-10-27-kv-caching-optimizations-token-level" >next posts</a>, where we will dive deeper into each of these categories.</p>
+
+      </div>
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025 by
+    &MediumSpace;
+    <a href="/"><img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">Sara Zan</a>
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>

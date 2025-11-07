@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  A simple vibecoding exercise · Sara Zan
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Sara Zan">
+<meta name="description" content="Can GenAI help you finish your side-projects?">
+<meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="A simple vibecoding exercise">
+  <meta name="twitter:description" content="Can GenAI help you finish your side-projects?">
+
+<meta property="og:url" content="https://www.zansara.dev/posts/2025-05-21-vibecoding/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="A simple vibecoding exercise">
+  <meta property="og:description" content="Can GenAI help you finish your side-projects?">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-05-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-05-21T00:00:00+00:00">
+
+
+<meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+<meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+
+
+<link rel="canonical" href="https://www.zansara.dev/posts/2025-05-21-vibecoding/">
+
+
+<link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/coder.css" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+<link rel="icon" type="image/svg+xml" href="/me/avatar.svg" sizes="any">
+<link rel="icon" type="image/png" href="/me/avatar.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/me/avatar.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/me/avatar.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+  
+  <meta name="image" content="/posts/2025-05-21-vibecoding/cover.png">
+  <meta name="og:image" content="/posts/2025-05-21-vibecoding/cover.png">
+  <meta name="twitter:image" content="https://zansara.dev/posts/2025-05-21-vibecoding/cover.png">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="/">
+      <img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
+      Sara Zan&#39;s Blog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list" >
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/about">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/posts/">Posts</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/projects/">Projects</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/publications/">Publications</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" style="height: 30px;" href="/talks/">Talks</a>
+            </li>
+          
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.zansara.dev/posts/2025-05-21-vibecoding/">
+              A simple vibecoding exercise
+            </a>
+          </h1>
+          <p style="margin-bottom:0; color:#777;">
+            Can GenAI help you finish your side-projects?
+          </p>
+        </div>
+        <div class="post-meta">
+          <div class="date" style="font-style: italic; margin-bottom: 2rem; line-height: 0.8; font-size: medium; color:#777;">
+            <span class="posted-on">
+              
+              <time datetime="2025-05-21T00:00:00Z">
+                by <a href="/">Sara Zan</a>, May 21, 2025
+              </time>
+            </span>
+            
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img style="width:100%;" src="/posts/2025-05-21-vibecoding/cover.png" alt="Featured image"/>
+        
+        <div style="padding: 5px 15px; font-family: sans; font-style: italic;">
+  <p style="margin:5px 0 10px 0;"><a href="/posts/2025-05-21-vibecoding/A%20simple%20vibecoding%20exercise%20-%20Sara%20Zan.mp3">Listen to this article</a> or <a href="https://app.speechify.com/share/d422a5f5-80b9-432f-a40c-68003e520044?utm_campaign=partners&utm_content=rewardful&via=zansaradev-blog" target="_blank">read it in the app</a>:</p>
+  <audio controls style="width:100%;">
+    <source src="/posts/2025-05-21-vibecoding/A%20simple%20vibecoding%20exercise%20-%20Sara%20Zan.mp3" type="audio/mpeg">
+  </audio> 
+  <div style="text-align:right;vertical-align:middle;">
+    <span style="font-style: italic;">Powered by</span>
+    <a href="https://speechify.com/text-to-speech-online/?utm_campaign=partners&utm_content=rewardful&via=zansaradev-blog" target="_blank" style="display:inline;margin-left:5px;"><img src="/global/speechify_logo.svg" alt="Speechify" style="width:150px;background-color:white;margin:0;vertical-align:middle;"/></a>
+  </div>
+</div>
+
+<p>Sometimes, after an entire day of coding, the last thing you want to do is to code some more. It would be so great if I could just sit down and enjoy some Youtube videos&hellip;</p>
+<p>Being abroad, most of the videos I watch are in a foreign language, and it helps immensely to have subtitles when I&rsquo;m not in the mood for hard focus. However, Youtube subtitles are often terrible or missing entirely.</p>
+<p>Can the magic of modern Generative AI fix this problem?</p>
+<p>We&rsquo;ve all heard of <a href="https://x.com/karpathy/status/1886192184808149383"  class="external-link" target="_blank" rel="noopener">vibecoding</a>: sitting in front of your IDE, telling an AI what you want the code to do and letting it loose to create <em>something</em> that achieves that goal. In this case, the goal is rather simple: given a video file, generate subtitles for it using <a href="https://deepgram.com/"  class="external-link" target="_blank" rel="noopener">Deepgram</a>&rsquo;s SDK (since it has a <a href="https://deepgram.com/pricing"  class="external-link" target="_blank" rel="noopener">generous free tier</a>). It seems such a simple task that even an LLM should be able to reach it with minimal or no assistance. Right?</p>
+<h1 id="the-first-shot-openai">
+  The first shot: OpenAI
+  
+</h1>
+<p>For this simple experiment I decided not to use a dedicated IDE or VSCode plugin, but to stick to text based tools. After all, I expected this task to be sorted with a single Python script made by OpenAI&rsquo;s famed <a href="https://openai.com/index/introducing-o3-and-o4-mini/"  class="external-link" target="_blank" rel="noopener"><code>o4-mini-high</code></a>, advertized as &ldquo;Great at coding and visual reasoning&rdquo;.</p>
+<p><img src="/posts/2025-05-21-vibecoding/openai-model-selector.png" alt=""></p>
+<p>The prompt was very simple:</p>
+<blockquote>
+<p>Write me a Python script that, given a video file, returns me an <a href="https://en.wikipedia.org/wiki/SubRip"  class="external-link" target="_blank" rel="noopener">.srt</a> subtitle file using Deepgram&rsquo;s API.</p>
+</blockquote>
+<p>As expected, the model thought about it, did some web searches, and then cooked up a script that used <code>deepgram-sdk</code> and <code>deepgram-captions</code>. Looked good, but as soon as I tried to run it, issues came up. Deepgram&rsquo;s SDK complained about wrong formats, wrong SDK version, HTTP errors&hellip; Copy-pasting the errors back to <code>o4-mini-high</code> was vain: the model seems to understand that the Deepgram API had a major upgrade since the model was trained, but fails to use the new version. After four or five attempts (including one full restart of the chat), I realized this was going nowhere and I looked for another option.</p>
+<h1 id="the-backup-option-claude-code">
+  The backup option: Claude Code
+  
+</h1>
+<p>I&rsquo;ve heard many times that the best LLMs for vibecoding belong to the <a href="https://www.anthropic.com/claude"  class="external-link" target="_blank" rel="noopener">Claude</a> family. On top of that, there&rsquo;s a cool TUI utility called <a href="https://www.anthropic.com/claude-code"  class="external-link" target="_blank" rel="noopener">Claude Code</a> that allows you to vibecode from the terminal, no IDE required. It uses <a href="https://www.anthropic.com/claude/sonnet"  class="external-link" target="_blank" rel="noopener">Claude 3.7 Sonnet</a> under the hood, so the expectations are high.</p>
+<p>Time to give it a try.</p>
+<p>Installing the utility is matter of a single command (<code>npm install -g @anthropic-ai/claude-code</code>) and a few emails to authenticate the utility into my Anthropic account. Once done we&rsquo;re ready to go.</p>
+<p><img src="/posts/2025-05-21-vibecoding/claude-code-intro.gif" alt=""></p>
+<p>The prompt is the same:</p>
+<blockquote>
+<p>Write me a Python script that, given a video file, returns me an .srt subtitle file using Deepgram&rsquo;s API.</p>
+</blockquote>
+<p>Sure enough, Claude&rsquo;s first attempt also fails for the same reason as o4 did: their knowledge is outdated, and they both use the Deepgram&rsquo;s API in a way that&rsquo;s not compabible with its new v3 API. However, after a few attempts, Claude actually produces a script that <em>mostly</em> works.</p>
+<h1 id="results">
+  Results
+  
+</h1>
+<p><a href="https://gist.github.com/ZanSara/4bab5db89376d595128e0688804d694c"  class="external-link" target="_blank" rel="noopener">Here</a> is the output (I pasted the <code>README</code> and the <code>requirements.txt</code> at the top of the file for simplicity). I only needed to replace <a href="https://developers.deepgram.com/docs/models-languages-overview#nova-2"  class="external-link" target="_blank" rel="noopener"><code>nova-2</code></a> with <a href="https://developers.deepgram.com/docs/models-languages-overview#nova-3"  class="external-link" target="_blank" rel="noopener"><code>nova-3</code></a> to get the best possible transcription for Portuguese (other languages may get better transcription with <code>nova-2</code>).</p>
+<p>To summarize:</p>
+<ul>
+<li><strong>Is it perfect? No.</strong> I can easily spot a lot of improvements to the code just by looking at it. It&rsquo;s quite verbose, for example.</li>
+<li><strong>Was it cheap? No.</strong> This script costed me a few dollars worth of tokens and about half a hour of trial and errors, about the hourly rate of a US software engineer.</li>
+<li><strong>Is it enough for my purposes? Absolutely.</strong> Now I am finally able to enjoy my videos with good quality subtitles without too much hassle.</li>
+<li><strong>Could somebody that can&rsquo;t program do this?</strong> I&rsquo;m not so sure. Given how simple this task was, I was a bit disappointed by how long it took and I am rather skeptical about the ability of today&rsquo;s LLMs to handle more complex requests without oversight - at least with the tools I used.</li>
+</ul>
+<p>However, looking at the big picture, the trend is clear. Three years ago, LLMs could just about write coherent sentences. Today, they can write decent helper scripts. Soon the may be able to implement your side projects from start to finish.</p>
+<p>Will it feel like a blessing or a curse? We&rsquo;ll soon find out.</p>
+<p><em>Edit 22/05/2025: Claude 4 has been released the day after I published this post, so here is a video of myself reimplementing this same script with the new model ✨</em></p>
+<div class='iframe-wrapper'>
+  <iframe src="https://drive.google.com/file/d/1cTo-VD8sFYYau900zIwFSCgkxLDt9iWO/preview" width=100% height=100% allow="autoplay"></iframe>
+</div>
+
+<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">{z</a></p>
+
+      </div>
+
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2023 -
+    
+    2025 by
+    &MediumSpace;
+    <a href="/"><img src="https://www.zansara.dev/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">Sara Zan</a>
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  <script src="/js/coder.js"></script>
+
+  
+
+  
+</body>
+
+</html>
