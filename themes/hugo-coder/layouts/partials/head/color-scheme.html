@@ -1,7 +1,0 @@
-{{ if or (eq .Site.Params.colorScheme "auto") (eq .Site.Params.colorScheme "dark") }}
-  {{ if hugo.IsServer }}
-    <link rel="stylesheet" href="/css/coder-dark.css" media="screen">
-  {{ else }}
-    <link rel="stylesheet" href="/css/coder-dark.css" crossorigin="anonymous" media="screen" />
-  {{ end }}
-{{ end }}

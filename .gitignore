@@ -1,4 +1,6 @@
+.claude/*
 resources/
 public/
-.hugo_build.lock
 .vscode
+venv/*
+.venv/*
