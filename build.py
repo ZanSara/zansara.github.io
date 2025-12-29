@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Static site generator to replace Hugo.
+Static site generator.
 Parses markdown files with YAML front matter and generates HTML pages, RSS feeds, and sitemap.
 """
 
@@ -13,6 +13,37 @@ from datetime import datetime
 from collections import defaultdict
 from xml.etree.ElementTree import Element, SubElement, tostring
 from html import escape
+
+
+# Site configuration
+BASE_URL = 'https://www.zansara.dev'
+SITE_TITLE = 'Sara Zan'
+LANGUAGE = 'en'
+NAVBAR_TITLE = "Sara Zan's Blog"
+AUTHOR = 'Sara Zan'
+AUTHOR_INFO = """Experienced Python software engineer with extensive experience with NLP, LLMs GenAI and AI in general.
+I worked on projects ranging from air-gapped [RAG pipelines](https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/)
+to [voice AI recruiters](https://archive.today/IH48a),
+open-source [LLM frameworks](https://github.com/deepset-ai/haystack),
+[particle accelerators](/publications/thpv014/) software,
+[IoT](/projects/zanzocam/) devices overwintering at several alpine huts,
+and small [web apps](/projects/booking-system/).
+Open-source [contributor](https://github.com/ZanSara) and former [CERN](https://home.cern/) employee."""
+DESCRIPTION = "Sara Zan's Personal Blog"
+KEYWORDS = 'blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai'
+AVATAR_URL = '/me/avatar.svg'
+FAVICON_SVG = '/me/avatar.svg'
+FAVICON_32 = '/me/avatar.png'
+SINCE_YEAR = 2023
+COLOR_SCHEME = 'auto'
+
+MENU_ITEMS = [
+    {'name': 'About', 'weight': 1, 'url': 'about'},
+    {'name': 'Posts', 'weight': 2, 'url': 'posts/'},
+    {'name': 'Projects', 'weight': 3, 'url': 'projects/'},
+    {'name': 'Publications', 'weight': 5, 'url': 'publications/'},
+    {'name': 'Talks', 'weight': 6, 'url': 'talks/'},
+]
 
 
 # Template loader
@@ -28,77 +59,6 @@ class TemplateLoader:
             with open(template_path, 'r', encoding='utf-8') as f:
                 cls._cache[template_name] = f.read()
         return cls._cache[template_name]
-
-
-class Config:
-    """Parse and hold configuration from config.toml"""
-
-    def __init__(self, config_path='config.toml'):
-        self.base_url = ""
-        self.title = ""
-        self.language = "en"
-        self.author = ""
-        self.description = ""
-        self.keywords = ""
-        self.navbar = ""
-        self.info = ""
-        self.avatar_url = ""
-        self.favicon_svg = ""
-        self.favicon_32 = ""
-        self.since = 2023
-        self.menu_items = []
-        self.color_scheme = "auto"
-
-        self._parse_toml(config_path)
-
-    def _parse_toml(self, path):
-        """Simple TOML parser for our specific config format"""
-        with open(path, 'r') as f:
-            content = f.read()
-
-        # Parse basic settings
-        self.base_url = self._extract_value(content, 'baseurl')
-        self.title = self._extract_value(content, 'title')
-        self.language = self._extract_value(content, 'languagecode', 'en')
-
-        # Parse params section
-        params_match = re.search(r'\[params\](.*?)(?=\n\[|\n\[\[|$)', content, re.DOTALL)
-        if params_match:
-            params = params_match.group(1)
-            self.navbar = self._extract_value(params, 'navbar')
-            self.author = self._extract_value(params, 'author')
-            self.info = self._extract_multiline_value(params, 'info')
-            self.description = self._extract_value(params, 'description')
-            self.keywords = self._extract_value(params, 'keywords')
-            self.avatar_url = self._extract_value(params, 'avatarurl')
-            self.favicon_svg = self._extract_value(params, 'faviconSVG')
-            self.favicon_32 = self._extract_value(params, 'favicon_32')
-            self.color_scheme = self._extract_value(params, 'colorScheme', 'auto')
-            since = self._extract_value(params, 'since')
-            if since:
-                self.since = int(since)
-
-        # Parse menu items
-        menu_pattern = r'\[\[menu\.main\]\]\s*name = "([^"]+)"\s*weight = (\d+)\s*url\s*=\s*"([^"]+)"'
-        for match in re.finditer(menu_pattern, content):
-            self.menu_items.append({
-                'name': match.group(1),
-                'weight': int(match.group(2)),
-                'url': match.group(3)
-            })
-        self.menu_items.sort(key=lambda x: x['weight'])
-
-    def _extract_value(self, text, key, default=''):
-        """Extract a quoted value from TOML"""
-        pattern = rf'{key}\s*=\s*"([^"]*)"'
-        match = re.search(pattern, text)
-        return match.group(1) if match else default
-
-    def _extract_multiline_value(self, text, key):
-        """Extract a multiline quoted value from TOML"""
-        pattern = rf'{key}\s*=\s*"""(.*?)"""'
-        match = re.search(pattern, text, re.DOTALL)
-        return match.group(1).strip() if match else ''
 
 
 class ContentFile:
@@ -204,9 +164,9 @@ class ContentFile:
 
 
 class ShortcodeProcessor:
-    """Process Hugo shortcodes and convert them to HTML"""
+    """Process shortcodes and convert them to HTML"""
 
-    # Pattern to match Hugo shortcodes
+    # Pattern to match shortcodes
     SHORTCODE_PATTERN = re.compile(
         r'{{<\s*(\w+)\s*(.*?)\s*>}}(.*?){{<\s*/\1\s*>}}',
         re.DOTALL
@@ -328,7 +288,7 @@ class ShortcodeProcessor:
         return f'<iframe src="{url}" width="640" height="480" allow="autoplay"></iframe>'
 
 
-def base_template(content, title, config, meta_tags='', has_mermaid=False):
+def base_template(content, title, meta_tags='', has_mermaid=False):
     """Generate the base HTML template"""
     mermaid_script = '''
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.0/dist/mermaid.min.js" crossorigin="anonymous"></script>
@@ -338,42 +298,42 @@ def base_template(content, title, config, meta_tags='', has_mermaid=False):
 
     template = TemplateLoader.load('base.html')
     return template.format(
-        language=config.language,
+        language=LANGUAGE,
         title=title,
-        site_title=config.title,
-        author=config.author,
-        description=config.description,
-        keywords=config.keywords,
+        site_title=SITE_TITLE,
+        author=AUTHOR,
+        description=DESCRIPTION,
+        keywords=KEYWORDS,
         meta_tags=meta_tags,
-        base_url=config.base_url,
-        favicon_svg=config.favicon_svg,
-        favicon_32=config.favicon_32,
-        color_scheme=config.color_scheme,
-        header=header_partial(config),
+        base_url=BASE_URL,
+        favicon_svg=FAVICON_SVG,
+        favicon_32=FAVICON_32,
+        color_scheme=COLOR_SCHEME,
+        header=header_component(),
         content=content,
-        footer=footer_partial(config),
+        footer=footer_component(),
         mermaid_script=mermaid_script
     )
 
 
-def header_partial(config):
+def header_component():
     """Generate navigation header"""
     menu_html = '\n'.join([
         f'            <li class="navigation-item">\n              <a class="navigation-link" style="height: 30px;" href="/{item["url"]}">{item["name"]}</a>\n            </li>'
-        for item in config.menu_items
+        for item in MENU_ITEMS
     ])
 
     template = TemplateLoader.load('header.html')
     return template.format(
-        navbar=config.navbar,
+        navbar=NAVBAR_TITLE,
         menu_items=menu_html
     )
 
 
-def footer_partial(config):
+def footer_component():
     """Generate footer"""
     year = datetime.now().year
-    since_text = f'{config.since} -' if config.since < year else ''
+    since_text = f'{SINCE_YEAR} -' if SINCE_YEAR < year else ''
 
     template = TemplateLoader.load('footer.html')
     return template.format(
@@ -382,7 +342,7 @@ def footer_partial(config):
     )
 
 
-def post_template(page, config):
+def post_template(page):
     """Generate template for a post page"""
     featured_image = f'<img style="width:100%;" src="{page.featured_image}" alt="Featured image"/>' if page.featured_image else ''
 
@@ -390,7 +350,7 @@ def post_template(page, config):
     if page.featured_image:
         meta_tags = f'''<meta name="image" content="{page.featured_image}">
   <meta name="og:image" content="{page.featured_image}">
-  <meta name="twitter:image" content="{config.base_url}{page.featured_image}">'''
+  <meta name="twitter:image" content="{BASE_URL}{page.featured_image}">'''
 
     template = TemplateLoader.load('post.html')
     content_html = template.format(
@@ -404,10 +364,10 @@ def post_template(page, config):
     )
 
     has_mermaid = '{{< mermaid' in page.content or '<div class="mermaid">' in page.html_content
-    return base_template(content_html, page.title, config, meta_tags, has_mermaid)
+    return base_template(content_html, page.title, meta_tags, has_mermaid)
 
 
-def list_template(section, pages, config):
+def list_template(section, pages):
     """Generate template for section list pages"""
     items_html = '\n'.join([
         f'''    <li>
@@ -423,10 +383,10 @@ def list_template(section, pages, config):
         items=items_html
     )
 
-    return base_template(content_html, section.capitalize(), config)
+    return base_template(content_html, section.capitalize())
 
 
-def home_template(config, recent_posts):
+def home_template(recent_posts):
     """Generate homepage template"""
     recent_html = '\n'.join([
         f'''    <li>
@@ -441,16 +401,16 @@ def home_template(config, recent_posts):
 
     template = TemplateLoader.load('home.html')
     content_html = template.format(
-        avatar_url=config.avatar_url,
-        description=config.description,
+        avatar_url=AVATAR_URL,
+        description=DESCRIPTION,
         social_links=social_links,
         recent_posts=recent_html
     )
 
-    return base_template(content_html, config.title, config)
+    return base_template(content_html, SITE_TITLE)
 
 
-def series_template(series_name, pages, config):
+def series_template(series_name, pages):
     """Generate template for series pages"""
     items_html = '\n'.join([
         f'''    <li>
@@ -466,14 +426,14 @@ def series_template(series_name, pages, config):
         items=items_html
     )
 
-    return base_template(content_html, f'Series: {series_name}', config)
+    return base_template(content_html, f'Series: {series_name}')
 
 
 class RSSGenerator:
     """Generate RSS feeds"""
 
     @staticmethod
-    def generate(pages, config, output_path, section_name=''):
+    def generate(pages, output_path, section_name=''):
         """Generate an RSS feed"""
         rss = Element('rss', version='2.0')
         rss.set('xmlns:atom', 'http://www.w3.org/2005/Atom')
@@ -482,19 +442,19 @@ class RSSGenerator:
 
         # Channel metadata
         if section_name:
-            title_text = f'{section_name.capitalize()} on {config.title}'
-            desc_text = f'Recent content in {section_name} on {config.title}'
-            link_text = f'{config.base_url}/{section_name}/'
+            title_text = f'{section_name.capitalize()} on {SITE_TITLE}'
+            desc_text = f'Recent content in {section_name} on {SITE_TITLE}'
+            link_text = f'{BASE_URL}/{section_name}/'
         else:
-            title_text = config.title
-            desc_text = f'Recent content on {config.title}'
-            link_text = config.base_url + '/'
+            title_text = SITE_TITLE
+            desc_text = f'Recent content on {SITE_TITLE}'
+            link_text = BASE_URL + '/'
 
         SubElement(channel, 'title').text = title_text
         SubElement(channel, 'link').text = link_text
         SubElement(channel, 'description').text = desc_text
         SubElement(channel, 'generator').text = 'Python Static Site Generator'
-        SubElement(channel, 'language').text = config.language
+        SubElement(channel, 'language').text = LANGUAGE
 
         if pages:
             latest_date = max(p.date for p in pages)
@@ -504,9 +464,9 @@ class RSSGenerator:
         for page in sorted(pages, key=lambda x: x.date, reverse=True)[:20]:
             item = SubElement(channel, 'item')
             SubElement(item, 'title').text = page.title
-            SubElement(item, 'link').text = config.base_url + page.url
+            SubElement(item, 'link').text = BASE_URL + page.url
             SubElement(item, 'pubDate').text = page.date.strftime('%a, %d %b %Y %H:%M:%S +0000')
-            SubElement(item, 'guid').text = config.base_url + page.url
+            SubElement(item, 'guid').text = BASE_URL + page.url
             SubElement(item, 'description').text = page.html_content
 
         # Write to file
@@ -520,19 +480,19 @@ class SitemapGenerator:
     """Generate sitemap.xml"""
 
     @staticmethod
-    def generate(pages, config, output_path):
+    def generate(pages, output_path):
         """Generate sitemap"""
         urlset = Element('urlset', xmlns='http://www.sitemaps.org/schemas/sitemap/0.9')
 
         # Add homepage
         url = SubElement(urlset, 'url')
-        SubElement(url, 'loc').text = config.base_url + '/'
+        SubElement(url, 'loc').text = BASE_URL + '/'
         SubElement(url, 'lastmod').text = datetime.now().strftime('%Y-%m-%d')
 
         # Add all pages
         for page in pages:
             url = SubElement(urlset, 'url')
-            SubElement(url, 'loc').text = config.base_url + page.url
+            SubElement(url, 'loc').text = BASE_URL + page.url
             SubElement(url, 'lastmod').text = page.date.strftime('%Y-%m-%d')
 
         # Write to file
@@ -544,8 +504,7 @@ class SitemapGenerator:
 class Builder:
     """Main builder class that orchestrates the build process"""
 
-    def __init__(self, config_path='config.toml'):
-        self.config = Config(config_path)
+    def __init__(self):
         self.pages = []
         self.public_dir = Path('public')
 
@@ -575,10 +534,7 @@ class Builder:
 
         # Generate individual pages
         for page in self.pages:
-            if page.section:
-                html = post_template(page, self.config)
-            else:
-                html = post_template(page, self.config)
+            html = post_template(page)
 
             # Write to public directory
             output_path = self.public_dir / page.url.strip('/') / 'index.html'
@@ -593,7 +549,7 @@ class Builder:
 
         # Generate section list pages
         for section, section_pages in by_section.items():
-            html = list_template(section, section_pages, self.config)
+            html = list_template(section, section_pages)
             output_path = self.public_dir / section / 'index.html'
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(html, encoding='utf-8')
@@ -601,7 +557,7 @@ class Builder:
         # Generate homepage
         all_posts = [p for p in self.pages if p.section in ['posts', 'demos', 'talks']]
         all_posts.sort(key=lambda x: x.date, reverse=True)
-        homepage_html = home_template(self.config, all_posts)
+        homepage_html = home_template(all_posts)
         (self.public_dir / 'index.html').write_text(homepage_html, encoding='utf-8')
 
         # Generate series pages
@@ -612,7 +568,7 @@ class Builder:
 
         for series_name, series_pages in by_series.items():
             slug = series_name.lower().replace(' ', '-')
-            html = series_template(series_name, series_pages, self.config)
+            html = series_template(series_name, series_pages)
             output_path = self.public_dir / 'series' / slug / 'index.html'
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(html, encoding='utf-8')
@@ -623,7 +579,7 @@ class Builder:
         """Generate RSS feeds"""
         # Main feed
         all_pages = [p for p in self.pages if p.section in ['posts', 'talks', 'demos', 'projects', 'publications']]
-        RSSGenerator.generate(all_pages, self.config, self.public_dir / 'index.xml')
+        RSSGenerator.generate(all_pages, self.public_dir / 'index.xml')
 
         # Section feeds
         by_section = defaultdict(list)
@@ -632,13 +588,13 @@ class Builder:
                 by_section[page.section].append(page)
 
         for section, pages in by_section.items():
-            RSSGenerator.generate(pages, self.config, self.public_dir / section / 'index.xml', section)
+            RSSGenerator.generate(pages, self.public_dir / section / 'index.xml', section)
 
         print(f'Generated main RSS feed and {len(by_section)} section feeds')
 
     def generate_sitemap(self):
         """Generate sitemap.xml"""
-        SitemapGenerator.generate(self.pages, self.config, self.public_dir / 'sitemap.xml')
+        SitemapGenerator.generate(self.pages, self.public_dir / 'sitemap.xml')
         print('Generated sitemap.xml')
 
     def copy_static_assets(self):
