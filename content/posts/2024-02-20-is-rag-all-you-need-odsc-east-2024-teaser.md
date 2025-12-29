@@ -9,11 +9,6 @@ aliases:
 - /posts/is-rag-all-you-need
 ---
 
-{{< audio 
-    audioFile="/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/Is RAG all you need A look at the limits of retrieval augmentation - Sara Zan.mp3" 
-    speechifyLink="https://app.speechify.com/share/ca710e7b-5af7-4733-b3d8-c012758bd171"
->}}
-
 Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta [paper](https://arxiv.org/abs/2005.11401) in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on. On top of this, RAG is relatively cheap to implement for the benefit it provides, especially when compared to costly techniques like LLM finetuning. This makes it a no-brainer for a lot of usecases, to the point that nowadays every production system that uses LLMs in production seems to be implemented as some form of RAG.
   
 ![](/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/rag_paper.png)

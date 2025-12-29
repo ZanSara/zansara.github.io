@@ -15,7 +15,7 @@ Did you miss the talk? Check out the write-up's
 and [part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/).
 
 ---
-{{< googledriveVideo url="https://drive.google.com/file/d/1uQTJFmHTinvUvCMHRq9rrbaClNw9I9i2" >}}
+<iframe src="https://drive.google.com/file/d/1uQTJFmHTinvUvCMHRq9rrbaClNw9I9i2" width="640" height="480" allow="autoplay"></iframe>
 ---
 
 At [ODSC West 2024](https://odsc.com/california/) I talked about building modern and reliable voice bots using Pipecat, 

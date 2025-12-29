@@ -6,7 +6,7 @@ author: "ZanSara"
 featuredImage: "/posts/2024-05-06-teranoptia/cover.png"
 ---
 
-{{< raw >}}
+
 <style>
     @font-face {
         font-family: teranoptia;
@@ -37,13 +37,13 @@ featuredImage: "/posts/2024-05-06-teranoptia/cover.png"
     }
 
 </style>
-{{< /raw >}}
+
 
 Having fun with fonts doesn't always mean obsessing over kerning and ligatures. Sometimes, writing text is not even the point!
 
 You don't believe it? Type something in here.
 
-{{< raw >}}
+
 
 <textarea id="test-generated-animal" class="teranoptia" style="width: 100%; line-height: 50pt;"></textarea>
 
@@ -70,13 +70,13 @@ function generateTest(value){
 }
 
 </script>
-{{< /raw >}}
+
 
 [Teranoptia](https://www.tunera.xyz/fonts/teranoptia/) is a cool font that lets you build small creatures by mapping each letter (and a few other characters) to a piece of a creature like a head, a tail, a leg, a wing and so on. By typing words you can create strings of creatures. 
 
 Here is the glyphset:
 
-{{< raw >}}
+
 <div class="glyphset">
     <div><p>A</p><p class="teranoptia">A</p></div>
 
@@ -246,15 +246,15 @@ to more complex, multi-line designs:
 <p class="teranoptia"><wbr> {Ž}</p>
 <p class="teranoptia">F] [Z</p>
 
-{{< /raw >}}
+
 
 Let's play with it a bit and see how we can put together a few "correct" looking creatures.
 
-{{< notice info >}}
-
+<div class="notice info">
+<div class="notice-content">
 _As you're about to notice, I'm no JavaScript developer. Don't expect high-quality JS in this post._
-
-{{< /notice >}}
+</div>
+</div>
 
 ## Mirroring animals
 
@@ -266,7 +266,7 @@ Here are the pairs:
 
 ### Animal mirror
 
-{{< raw >}}
+
 
 <div style="display: flex; gap: 10px;">
     <input id="original-animal" type="text" class="teranoptia" style="width: 50%; text-align:right;" oninput="mirrorAnimal(this.value);" value="WYZ*p»gh"></input>
@@ -290,7 +290,7 @@ function mirrorAnimal(original){
     document.getElementById("mirrored-animal").innerHTML = mirror;
 }
 </script>
-{{< /raw >}}
+
 
 ```javascript
 const mirrorPairs = {"B": "y",  "y": "B", "E": "v",  "v": "E", "H": "s",  "s": "H", "K": "p",  "p": "K", "N": "m",  "m": "N", "R": "i",  "i": "R", "V": "e",  "e": "V", "Z": "a",  "a": "Z", "Ż": "ź",  "ź": "Ż", "A": "z",  "z": "A", "C": "x",  "x": "C", "F": "u",  "u": "F", "I": "r",  "r": "I", "L": "o",  "o": "L", "O": "l",  "l": "O", "S": "h",  "h": "S", "W": "d",  "d": "W", "Ź": "ż",  "ż": "Ź", "v": "E",  "E": "v", "D": "w",  "w": "D", "G": "t",  "t": "G", "J": "q",  "q": "J", "M": "n",  "n": "M", "P": "k",  "k": "P", "Q": "j",  "j": "Q", "T": "g",  "g": "T", "U": "f",  "f": "U", "X": "c",  "c": "X", "Ẋ": "ḅ",  "ḅ": "Ẋ", "Y": "b",  "b": "Y", "Ž": "ž",  "ž": "Ž", "b": "Y",  "Y": "b", "c": "X",  "X": "c", "(": ")",  ")": "(", "[": "]",  "]": "[", "{": "}", "}": "{"};
@@ -322,7 +322,7 @@ This is a problem if we want to make a parametric or random creature generator, 
 
 ### Naive random generator
 
-{{< raw >}}
+
 <div style="display: flex; gap: 10px;">
     Characters to generate:
     <input id="naive-glyph-count" type="number" value=10></input>
@@ -353,7 +353,7 @@ function generateNaive(value){
 generateNaive(document.getElementById('naive-glyph-count').value);
 
 </script>
-{{< /raw >}}
+
 
 ```javascript
 const validChars = "ABCDEFGHIJKLMNOPQRSTUVWXẊYZŹŽŻabḅcdefghijklmnopqrstuvwxyzźžż,*(){}[]‐“”«»$"; // ‘’‹›€ excluded because they're mostly vertical
@@ -394,7 +394,7 @@ To summarize, the rules we have to implement are:
 
 ### Non-chopped animals generator
 
-{{< raw >}}
+
 <div style="display: flex; gap: 10px;">
     Characters to generate:
     <input id="nochop-glyph-count" type="number" value=10></input>
@@ -438,7 +438,7 @@ function generateNoChop(value){
 generateNoChop(document.getElementById("nochop-glyph-count").value);
 
 </script>
-{{< /raw >}}
+
 
 ```javascript
 const charsOpenOnTheRightOnly = "yvspmieaźACFILOSWŹ({[";
@@ -505,7 +505,7 @@ Let's put this all together!
 
 ### Oriented animals generator
 
-{{< raw >}}
+
 <div style="display: flex; gap: 10px;">
     Characters to generate:
     <input id="oriented-glyph-count" type="number" value=10></input>
@@ -570,7 +570,7 @@ function generateOriented(value){
 generateOriented(document.getElementById("oriented-glyph-count").value);
 
 </script>
-{{< /raw >}}
+
 
 ```javascript
 const rightAnimalHeads = "BEHKNRVZŻ";
@@ -675,7 +675,7 @@ This regex is fairly straightforward: the string must start with a (<span class=
 
 ### Left-facing snakes regex
 
-{{< raw >}}
+
 <div style="display: flex; gap: 10px;">
     <input id="left-facing-snakes-input" type="string" class="teranoptia" value="abd" oninput="validateLeftFacingSnake();"></input>
     <p id="left-facing-snakes-result">Valid</p>
@@ -696,7 +696,7 @@ function validateLeftFacingSnake(){
 }
 validateLeftFacingSnake()
 </script>
-{{< /raw >}}
+
 
 What would it take to extend it to snakes that face either side? Luckily, snake bodies are symmetrical, so we can take advantage of that and write:
 
@@ -706,7 +706,7 @@ What would it take to extend it to snakes that face either side? Luckily, snake 
 
 ### Naive snakes
 
-{{< raw >}}
+
 <div style="display: flex; gap: 10px;">
     <input id="naive-snakes-input" type="string" class="teranoptia" value="abdWXZ" oninput="validateNaiveSnake();"></input>
     <p id="naive-snakes-result">Valid</p>
@@ -727,7 +727,7 @@ function validateNaiveSnake(){
 }
 validateNaiveSnake();
 </script>
-{{< /raw >}}
+
 
 That looks super-promising until we realize that there's a problem: this "snake" <span class="small teranoptia">aZ</span> also matches the regex. To generate well-formed animals we need to keep heads and tails separate. In the regex, it would look like:
 
@@ -740,7 +740,7 @@ That looks super-promising until we realize that there's a problem: this "snake"
 
 ### Correct snakes
 
-{{< raw >}}
+
 <div style="display: flex; gap: 10px;">
     <input id="correct-snakes-input" type="string" class="teranoptia" value="abdWXZ" oninput="validateCorrectSnake();"></input>
     <p id="correct-snakes-result">Valid</p>
@@ -761,7 +761,7 @@ function validateCorrectSnake(){
 }
 validateCorrectSnake()
 </script>
-{{< /raw >}}
+
 
 Once here, building the rest of the regex is simply matter of adding the correct characters to each group. We're gonna trade some extra characters for an easier structure by duplicating the symmetric characters when needed.
 
@@ -792,7 +792,7 @@ Once here, building the rest of the regex is simply matter of adding the correct
 
 ### Well-formed animals regex
 
-{{< raw >}}
+
 <div style="display: flex; gap: 10px;">
     <input id="correct-animal-input" type="string" class="teranoptia" value="abu*W«XZ" oninput="validateCorrectAnimal();"></input>
     <p id="correct-animal-result">Valid</p>
@@ -813,7 +813,7 @@ function validateCorrectAnimal(){
 }
 validateCorrectAnimal();
 </script>
-{{< /raw >}}
+
 
 If you play with the above regex, you'll notice a slight discrepancy with what our well-formed animal generator creates. The generator can create "double-headed" monsters where a symmetric body part is inserted, like <span class="small teranoptia">a«Z</span>. However, the regex does not allow it. Extending it to account for these scenarios would make it even more unreadable, so this is left as an exercise for the reader.
 
@@ -825,7 +825,7 @@ Google helpfully compiled a text file with the most frequent 10.000 English word
 
 ### Monster search
 
-{{< raw >}}
+
 <div style="display: flex; gap: 10px;">
     <input id="file-url" type="url" value="https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english.txt" style="width: 100%;"></input>
     <button onclick="searchFile();">Search</button>
@@ -865,7 +865,7 @@ function searchFile(){
     });
 }
 </script>
-{{< /raw >}}
+
 
 Go ahead and put your own vocabulary file to see if your language contains more animals!
 

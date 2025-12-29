@@ -8,11 +8,6 @@ aliases:
 - /posts/2024-09-05-voice-bots-2/
 ---
 
-{{< audio 
-    audioFile="/posts/2024-09-05-building-voice-agents-with-open-source-tools/Building Reliable Voice Bots with Open Source Tools - Part 1 - Sara Zan.mp3" 
-    speechifyLink="https://app.speechify.com/share/b61c5d80-3b5c-42d7-92b7-bd60607ce454"
->}}
-
 *This is part two of the write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-building-voice-agents-with-open-source-tools/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*
 
 ---
@@ -190,7 +185,11 @@ One of the best frameworks out there to build open-source voice bots right now i
 
 Have fun!
 
-{{< video url="/posts/2024-09-05-building-voice-agents-with-open-source-tools/notebook-presentation-clip.mp4" >}}
+<div style="display: flex; align-content: center;">
+  <video style="margin:auto;" width="100%" height="100%" controls>
+    <source src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/notebook-presentation-clip.mp4" type="video/mp4">
+  </video>
+</div>
 
 _The Pipecat bot in action (from [my talk](/talks/2024-10-29-odsc-west-voice-agents/) at ODSC West 2024, presenting [this same notebook](https://colab.research.google.com/drive/1CUX7JRYMU1MEJBZ6lWMg5EThPew19Zjs?usp=sharing))._
 

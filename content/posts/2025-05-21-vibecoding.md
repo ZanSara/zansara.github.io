@@ -6,11 +6,6 @@ author: "ZanSara"
 featuredImage: "/posts/2025-05-21-vibecoding/cover.png"
 ---
 
-{{< audio 
-    audioFile="/posts/2025-05-21-vibecoding/A simple vibecoding exercise - Sara Zan.mp3" 
-    speechifyLink="https://app.speechify.com/share/d422a5f5-80b9-432f-a40c-68003e520044"
->}}
-
 Sometimes, after an entire day of coding, the last thing you want to do is to code some more. It would be so great if I could just sit down and enjoy some Youtube videos...
 
 Being abroad, most of the videos I watch are in a foreign language, and it helps immensely to have subtitles when I'm not in the mood for hard focus. However, Youtube subtitles are often terrible or missing entirely.
@@ -64,7 +59,7 @@ Will it feel like a blessing or a curse? We'll soon find out.
 
 _Edit 22/05/2025: Claude 4 has been released the day after I published this post, so here is a video of myself reimplementing this same script with the new model ✨_
 
-{{< googledriveVideo url="https://drive.google.com/file/d/1cTo-VD8sFYYau900zIwFSCgkxLDt9iWO" >}}
+<iframe src="https://drive.google.com/file/d/1cTo-VD8sFYYau900zIwFSCgkxLDt9iWO" width="640" height="480" allow="autoplay"></iframe>
 
 
 <p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">{z</a></p>

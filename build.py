@@ -107,17 +107,13 @@ class ContentFile:
 
     def render(self):
         """Render markdown content to HTML"""
-        # First process shortcodes
-        processed = ShortcodeProcessor.process(self.content)
-
-        # Then render markdown
         md = markdown.Markdown(extensions=[
             'fenced_code',
             'tables',
             'nl2br',
             'codehilite'
         ])
-        self.html_content = md.convert(processed)
+        self.html_content = md.convert(self.content)
 
     @property
     def title(self):
@@ -161,131 +157,6 @@ class ContentFile:
     def aliases(self):
         a = self.front_matter.get('aliases', [])
         return a if isinstance(a, list) else [a] if a else []
-
-
-class ShortcodeProcessor:
-    """Process shortcodes and convert them to HTML"""
-
-    # Pattern to match shortcodes
-    SHORTCODE_PATTERN = re.compile(
-        r'{{<\s*(\w+)\s*(.*?)\s*>}}(.*?){{<\s*/\1\s*>}}',
-        re.DOTALL
-    )
-
-    # Pattern for self-closing shortcodes
-    SELF_CLOSING_PATTERN = re.compile(
-        r'{{<\s*(\w+)\s*(.*?)\s*>}}',
-        re.DOTALL
-    )
-
-    @classmethod
-    def process(cls, content):
-        """Process all shortcodes in content"""
-        # First process paired shortcodes
-        content = cls.SHORTCODE_PATTERN.sub(cls._replace_shortcode, content)
-        # Then process self-closing ones
-        content = cls.SELF_CLOSING_PATTERN.sub(cls._replace_self_closing, content)
-        return content
-
-    @classmethod
-    def _replace_shortcode(cls, match):
-        """Replace a matched shortcode with HTML"""
-        name = match.group(1)
-        args = match.group(2)
-        inner = match.group(3)
-
-        if name == 'notice':
-            return cls._notice(args, inner)
-        elif name == 'tabgroup':
-            return cls._tabgroup(inner)
-        elif name == 'tab':
-            return cls._tab(args, inner)
-        elif name == 'mermaid':
-            return cls._mermaid(inner)
-        elif name == 'raw':
-            return inner
-
-        return match.group(0)  # Return unchanged if unknown
-
-    @classmethod
-    def _replace_self_closing(cls, match):
-        """Replace self-closing shortcodes"""
-        name = match.group(1)
-        args = match.group(2)
-
-        if name == 'video':
-            return cls._video(args)
-        elif name == 'audio':
-            return cls._audio(args)
-        elif name == 'googledriveVideo':
-            return cls._googledrive_video(args)
-
-        return match.group(0)
-
-    @classmethod
-    def _parse_args(cls, args_str):
-        """Parse shortcode arguments"""
-        params = {}
-        # Match key="value" or key=value
-        for match in re.finditer(r'(\w+)=(?:"([^"]*)"|(\S+))', args_str):
-            key = match.group(1)
-            value = match.group(2) or match.group(3)
-            params[key] = value
-        # Also get positional arguments
-        positional = re.findall(r'"([^"]+)"|\b(\w+)\b', args_str)
-        positional = [p[0] or p[1] for p in positional if p[0] or p[1]]
-        return params, positional
-
-    @classmethod
-    def _notice(cls, args, content):
-        """Generate HTML for notice shortcode"""
-        _, positional = cls._parse_args(args)
-        notice_type = positional[0] if positional else 'note'
-        return f'<div class="notice {notice_type}"><div class="notice-content">{content}</div></div>'
-
-    @classmethod
-    def _video(cls, args):
-        """Generate HTML for video shortcode"""
-        params, _ = cls._parse_args(args)
-        url = params.get('url', '')
-        width = params.get('width', '100%')
-        height = params.get('height', '100%')
-        return f'''<div style="display: flex; align-content: center;">
-  <video style="margin:auto;" width="{width}" height="{height}" controls>
-    <source src="{url}" type="video/mp4">
-  </video>
-</div>'''
-
-    @classmethod
-    def _audio(cls, args):
-        """Generate HTML for audio shortcode"""
-        params, _ = cls._parse_args(args)
-        audio_file = params.get('audioFile', '')
-        return f'<audio controls><source src="{audio_file}" type="audio/mpeg"></audio>'
-
-    @classmethod
-    def _tabgroup(cls, content):
-        """Generate HTML for tabgroup shortcode"""
-        return f'<div class="tabgroup">{content}</div>'
-
-    @classmethod
-    def _tab(cls, args, content):
-        """Generate HTML for tab shortcode"""
-        params, _ = cls._parse_args(args)
-        name = params.get('name', 'Tab')
-        return f'<div class="tab" data-name="{name}">{content}</div>'
-
-    @classmethod
-    def _mermaid(cls, content):
-        """Generate HTML for mermaid shortcode"""
-        return f'<div class="mermaid">{content}</div>'
-
-    @classmethod
-    def _googledrive_video(cls, args):
-        """Generate HTML for googledriveVideo shortcode"""
-        params, _ = cls._parse_args(args)
-        url = params.get('url', '')
-        return f'<iframe src="{url}" width="640" height="480" allow="autoplay"></iframe>'
 
 
 def base_template(content, title, meta_tags='', has_mermaid=False):
@@ -363,7 +234,7 @@ def post_template(page):
         html_content=page.html_content
     )
 
-    has_mermaid = '{{< mermaid' in page.content or '<div class="mermaid">' in page.html_content
+    has_mermaid = '<div class="mermaid">' in page.html_content
     return base_template(content_html, page.title, meta_tags, has_mermaid)
 
 

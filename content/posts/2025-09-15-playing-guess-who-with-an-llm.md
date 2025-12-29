@@ -6,7 +6,7 @@ author: "ZanSara"
 featuredImage: "/posts/2025-09-15-playing-guess-who-with-an-llm/cover.png"
 ---
 
-{{< raw >}}
+
 <style>
     p img {
         max-width: 500px;
@@ -20,7 +20,7 @@ featuredImage: "/posts/2025-09-15-playing-guess-who-with-an-llm/cover.png"
         overflow: wrap;
     }
 </style>
-{{< /raw >}}
+
 
 A few days ago I came to a realization. Modern LLMs can do a lot of things: they can [use a browser](https://www.anthropic.com/news/claude-for-chrome) just like a human, they can ([sometimes](https://dynomight.net/chess/)) [play chess](https://maxim-saplin.github.io/llm_chess/), and they seem to be so smart that they apparently can be trusted as personal assistants: they can read and reply to emails, organize trips, do shopping online on your behalf, and so on.
 

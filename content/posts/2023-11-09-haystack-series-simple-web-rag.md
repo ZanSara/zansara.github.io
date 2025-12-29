@@ -15,17 +15,17 @@ In an earlier post of the Haystack 2.0 series, we've seen how to build RAG and i
 
 In this post, we will see how to build a Web RAG application: a RAG pipeline that can search the Web for the information needed to answer your questions.
 
-{{< notice info >}}
-
+<div class="notice info">
+<div class="notice-content">
 💡 *Do you want to see the code in action? Check out the [Colab notebook](https://colab.research.google.com/drive/1dGMPxReo730j7_zQDZOu-0SGf-pk4XDL?usp=sharing) or the [gist](https://gist.github.com/ZanSara/0907a8f3ae19f62998cc061ed6e8ce53).*
+</div>
+</div>
 
-{{< /notice >}}
-
-{{< notice warning >}}
-
+<div class="notice warning">
+<div class="notice-content">
 <i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.*
-
-{{< /notice >}}
+</div>
+</div>
 
 
 # Searching the Web

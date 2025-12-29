@@ -13,7 +13,7 @@ All resources can also be found in
 
 ---
 
-{{< googledriveVideo url="https://drive.google.com/file/d/1BvcNbsAGWp25EDpiQ5ljYos3_eneo3wu" >}}
+<iframe src="https://drive.google.com/file/d/1BvcNbsAGWp25EDpiQ5ljYos3_eneo3wu" width="640" height="480" allow="autoplay"></iframe>
 
 _Note: this was a tutorial session co-presented with [Christian Lang](https://www.linkedin.com/in/christian-lang-8942b0145/) and [Bruno Bitter](https://www.linkedin.com/in/brunobitter/). My section starts at 01:08._
 

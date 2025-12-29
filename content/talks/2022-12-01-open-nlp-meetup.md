@@ -11,7 +11,7 @@ All the material can also be found [here](https://drive.google.com/drive/folders
 
 ---
 
-{{< googledriveVideo url="https://drive.google.com/file/d/19mxD-xUJ-14G-2XAqXEVpZfqR2MsSZTn" >}}
+<iframe src="https://drive.google.com/file/d/19mxD-xUJ-14G-2XAqXEVpZfqR2MsSZTn" width="640" height="480" allow="autoplay"></iframe>
 
 ## A Practical Introduction to Image Retrieval
 

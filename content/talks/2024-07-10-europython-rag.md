@@ -13,7 +13,7 @@ or read the [write-up](/posts/2024-04-29-odsc-east-rag) of a previous edition of
 
 ---
 
-{{< googledriveVideo url="https://drive.google.com/file/d/1OkYQ7WMt63QkdJTU3GIpSxBZmnLfZti6" >}}
+<iframe src="https://drive.google.com/file/d/1OkYQ7WMt63QkdJTU3GIpSxBZmnLfZti6" width="640" height="480" allow="autoplay"></iframe>
 
 At [EuroPython 2024](https://ep2024.europython.eu/) I talked about RAG: how it works, how it fails, and how to evaluate its performance objectively. I gave an overview of some useful open-source tools for RAG evalution such as [continuous-eval](https://docs.relari.ai/v0.3?utm_campaign=europython-2024) and how to use them with [Haystack](https://haystack.deepset.ai/?utm_campaign=europython-2024), and then offered some ideas on how to expand your RAG architecture further than a simple two-step process.
 

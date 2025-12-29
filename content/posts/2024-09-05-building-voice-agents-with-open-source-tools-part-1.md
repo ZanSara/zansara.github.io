@@ -9,11 +9,6 @@ aliases:
 - /posts/2024-09-05-voice-bots-1/
 ---
 
-{{< audio 
-    audioFile="/posts/2024-09-05-building-voice-agents-with-open-source-tools/Building Reliable Voice Bots with Open Source Tools - Part 1 - Sara Zan.mp3" 
-    speechifyLink="https://app.speechify.com/share/b01db173-8803-4fb1-a1da-702c0cf5e451"
->}}
-
 *This is part one of the write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-building-voice-agents-with-open-source-tools/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*
 
 ---
@@ -79,11 +74,11 @@ Text-to-speech model perform the exact opposite task than speech-to-text models:
 
 Today many companies (such as OpenAI, [Cartesia](https://cartesia.ai/sonic), [ElevenLabs](https://elevenlabs.io/), Azure and many others) offer TTS software with voices that sound nearly indistinguishable to a human. They also have the capability to clone a specific human voice with remarkably little training data (just a few seconds of speech) and to tune accents, inflections, tone and even emotion.
 
-{{< raw >}}
+
 <div>
 <audio controls src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/sonic-tts-sample.wav" style="width: 100%"></audio>
 </div>
-{{< /raw >}}
+
 
 _[Cartesia's Sonic](https://cartesia.ai/sonic) TTS example of a gaming NPC. Note how the model subtly reproduces the breathing in between sentences._
 

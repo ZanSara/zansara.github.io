@@ -6,37 +6,31 @@ author: "ZanSara"
 featuredImage: "/posts/2025-06-02-can-you-really-interrupt-an-llm/cover.png"
 ---
 
-{{< 
-    audio 
-    audioFile="/posts/2025-06-02-can-you-really-interrupt-an-llm/Can you really interrupt an LLM - Sara Zan.mp3" 
-    speechifyLink="https://app.speechify.com/share/0382cc35-21be-4455-8ff7-dfa6ce99a4f4"
->}}
-
 With the recent release of [Voice Mode](https://support.anthropic.com/en/articles/11101966-using-voice-mode-on-claude-mobile-apps) for [Claude](https://www.anthropic.com/claude), it seems like Voice AI is a solved problem. Now that LLMs can speak natively, there's apparently no more need for any of the [complex voice pipelines](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) that used to be necessary last year: no need to do voice activity detection, no need to pipe data from the speech-to-text model to the LLM and then back to the text-to-speech engine at blazing speed in order to achieve a natural conversation flow. Modern LLMs can [laugh and sing](https://vimeo.com/945587944): what else could we need?
 
 It turns out, a lot is still missing. Here is an example:
 
-{{< video 
-    url="/posts/2025-06-02-can-you-really-interrupt-an-llm/claude.mp4" 
-    height=814
-    width=382
->}}
+<div style="display: flex; align-content: center;">
+  <video style="margin:auto;" width="382" height="814" controls>
+    <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/claude.mp4" type="video/mp4">
+  </video>
+</div>
 
 Is this an issue with Claude? Have a look at Gemini:
 
-{{< video 
-    url="/posts/2025-06-02-can-you-really-interrupt-an-llm/gemini.mp4" 
-    height=796
-    width=384
->}}
+<div style="display: flex; align-content: center;">
+  <video style="margin:auto;" width="384" height="796" controls>
+    <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/gemini.mp4" type="video/mp4">
+  </video>
+</div>
 
 or even at the venerable GPT-4o, the most mature Voice AI out there:
 
-{{< video 
-    url="/posts/2025-06-02-can-you-really-interrupt-an-llm/gpt-4o.mp4" 
-    height=814
-    width=382
->}}
+<div style="display: flex; align-content: center;">
+  <video style="margin:auto;" width="382" height="814" controls>
+    <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/gpt-4o.mp4" type="video/mp4">
+  </video>
+</div>
 
 What's going on?
 
@@ -50,11 +44,11 @@ This means that an LLM will have a very hard time understanding requests that in
 
 For example, here is what GPT-4o (the LLM that handles time best) can do when asked to wait for a few seconds:
 
-{{< video 
-    url="/posts/2025-06-02-can-you-really-interrupt-an-llm/wait-before-replying.mp4" 
-    height=814
-    width=382
->}}
+<div style="display: flex; align-content: center;">
+  <video style="margin:auto;" width="382" height="814" controls>
+    <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/wait-before-replying.mp4" type="video/mp4">
+  </video>
+</div>
 
 # Problem #2: Interruptions are not a native capability
 

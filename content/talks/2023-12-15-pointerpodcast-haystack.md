@@ -13,11 +13,11 @@ _The podcast was recorded in Italian for [PointerPodcast](https://pointerpodcast
 
 ---
 
-{{< raw >}}
+
 <div>
 <audio controls src="https://hosting.pointerpodcast.it/records/pointer183.mp3" style="width: 100%"></audio>
 </div>
-{{< /raw >}}
+
 
 Per concludere in grande stile il 2023, in questa puntata ci occupiamo delle LLM che sono state un argomento centrale della scena tech dell'anno che sta per terminare. Abbiamo invitato due esperti del settore, Sara Zanzottera e Stefano Fiorucci.
 

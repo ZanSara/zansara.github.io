@@ -12,7 +12,7 @@ All resources can also be found in
 
 ---
 
-{{< googledriveVideo url="https://drive.google.com/file/d/1AORVusaHVBqNvJ5OtctyB5TWQZSadoqT" >}}
+<iframe src="https://drive.google.com/file/d/1AORVusaHVBqNvJ5OtctyB5TWQZSadoqT" width="640" height="480" allow="autoplay"></iframe>
 
 Find the transcript [here](https://drive.google.com/file/d/1wwnTFmGOANVmxUaVd1PC3cfztzIfSCEa/view?usp=sharing).
 

@@ -6,11 +6,6 @@ author: "ZanSara"
 featuredImage: "/posts/2024-06-10-the-agent-compass/cover.png"
 ---
 
-{{< audio 
-    audioFile="/posts/2024-06-10-the-agent-compass/The Agent Compass - Sara Zan.mp3" 
-    speechifyLink="https://app.speechify.com/share/317a5326-a8c5-418b-8ea1-5c7e664b8ea3"
->}}
-
 The concept of Agent is one of the vaguest out there in the post-ChatGPT landscape. The word has been used to identify systems that seem to have nothing in common with one another, from complex autonomous research systems down to a simple sequence of two predefined LLM calls. Even the distinction between Agents and techniques such as RAG and prompt engineering seems blurry at best.
 
 Let's try to shed some light on the topic by understanding just how much the term "AI Agent" covers and set some landmarks to better navigate the space.
