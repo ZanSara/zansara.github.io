@@ -21,15 +21,8 @@ SITE_TITLE = 'Sara Zan'
 LANGUAGE = 'en'
 NAVBAR_TITLE = "Sara Zan's Blog"
 AUTHOR = 'Sara Zan'
-AUTHOR_INFO = """Experienced Python software engineer with extensive experience with NLP, LLMs GenAI and AI in general.
-I worked on projects ranging from air-gapped [RAG pipelines](https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/)
-to [voice AI recruiters](https://archive.today/IH48a),
-open-source [LLM frameworks](https://github.com/deepset-ai/haystack),
-[particle accelerators](/publications/thpv014/) software,
-[IoT](/projects/zanzocam/) devices overwintering at several alpine huts,
-and small [web apps](/projects/booking-system/).
-Open-source [contributor](https://github.com/ZanSara) and former [CERN](https://home.cern/) employee."""
-DESCRIPTION = "Sara Zan's Personal Blog"
+DESCRIPTION = "Sara Zan's Blog"
+AUTHOR_INFO = """Experienced Python software engineer with extensive experience with NLP, LLMs GenAI and AI in general. I worked on projects ranging from air-gapped <a href="https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/">RAG pipelines</a> to <a href="https://archive.today/IH48a">voice AI recruiters</a>,open-source <a href="https://github.com/deepset-ai/haystack">LLM frameworks</a>, <a href="/publications/thpv014/">particle accelerators</a> software, <a href="/projects/zanzocam/">IoT</a> devices overwintering at several alpine huts, and small <a href="/projects/booking-system/">web apps</a>. Open-source <a href="https://github.com/ZanSara">contributor</a> and former <a href="https://home.cern/">CERN</a> employee."""
 KEYWORDS = 'blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai'
 AVATAR_URL = '/me/avatar.svg'
 FAVICON_SVG = '/me/avatar.svg'
@@ -161,11 +154,13 @@ class ContentFile:
 
 def base_template(content, title, meta_tags='', has_mermaid=False):
     """Generate the base HTML template"""
-    mermaid_script = '''
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.0/dist/mermaid.min.js" crossorigin="anonymous"></script>
-  <script>
-    mermaid.initialize({ startOnLoad: true });
-  </script>''' if has_mermaid else ''
+    mermaid_script = ''
+    if has_mermaid:
+        mermaid_script = '''
+            <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.0/dist/mermaid.min.js" crossorigin="anonymous"></script>
+            <script>
+                mermaid.initialize({ startOnLoad: true });
+            </script>'''
 
     template = TemplateLoader.load('base.html')
     return template.format(
@@ -173,6 +168,7 @@ def base_template(content, title, meta_tags='', has_mermaid=False):
         title=title,
         site_title=SITE_TITLE,
         author=AUTHOR,
+        info=AUTHOR_INFO,
         description=DESCRIPTION,
         keywords=KEYWORDS,
         meta_tags=meta_tags,
@@ -190,7 +186,7 @@ def base_template(content, title, meta_tags='', has_mermaid=False):
 def header_component():
     """Generate navigation header"""
     menu_html = '\n'.join([
-        f'            <li class="navigation-item">\n              <a class="navigation-link" style="height: 30px;" href="/{item["url"]}">{item["name"]}</a>\n            </li>'
+        f'<li class="navigation-item"><a class="navigation-link" style="height: 30px;" href="/{item["url"]}">{item["name"]}</a></li>'
         for item in MENU_ITEMS
     ])
 
@@ -273,7 +269,7 @@ def home_template(recent_posts):
     template = TemplateLoader.load('home.html')
     content_html = template.format(
         avatar_url=AVATAR_URL,
-        description=DESCRIPTION,
+        intro=AUTHOR_INFO,
         social_links=social_links,
         recent_posts=recent_html
     )
