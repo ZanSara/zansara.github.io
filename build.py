@@ -28,7 +28,6 @@ AVATAR_URL = '/me/avatar.svg'
 FAVICON_SVG = '/me/avatar.svg'
 FAVICON_32 = '/me/avatar.png'
 SINCE_YEAR = 2023
-COLOR_SCHEME = 'auto'
 
 MENU_ITEMS = [
     {'name': 'About', 'weight': 1, 'url': 'about'},
@@ -175,7 +174,6 @@ def base_template(content, title, meta_tags='', has_mermaid=False):
         base_url=BASE_URL,
         favicon_svg=FAVICON_SVG,
         favicon_32=FAVICON_32,
-        color_scheme=COLOR_SCHEME,
         header=header_component(),
         content=content,
         footer=footer_component(),
@@ -185,8 +183,9 @@ def base_template(content, title, meta_tags='', has_mermaid=False):
 
 def header_component():
     """Generate navigation header"""
+    menu_item_template = TemplateLoader.load('menu-item.html')
     menu_html = '\n'.join([
-        f'<li class="navigation-item"><a class="navigation-link" style="height: 30px;" href="/{item["url"]}">{item["name"]}</a></li>'
+        menu_item_template.format(url=item['url'], name=item['name'])
         for item in MENU_ITEMS
     ])
 
@@ -211,13 +210,18 @@ def footer_component():
 
 def post_template(page):
     """Generate template for a post page"""
-    featured_image = f'<img style="width:100%;" src="{page.featured_image}" alt="Featured image"/>' if page.featured_image else ''
+    featured_image = ''
+    if page.featured_image:
+        img_template = TemplateLoader.load('featured-image.html')
+        featured_image = img_template.format(src=page.featured_image)
 
     meta_tags = ''
     if page.featured_image:
-        meta_tags = f'''<meta name="image" content="{page.featured_image}">
-  <meta name="og:image" content="{page.featured_image}">
-  <meta name="twitter:image" content="{BASE_URL}{page.featured_image}">'''
+        meta_template = TemplateLoader.load('meta-image.html')
+        meta_tags = meta_template.format(
+            image_url=page.featured_image,
+            base_url=BASE_URL
+        )
 
     template = TemplateLoader.load('post.html')
     content_html = template.format(
@@ -236,11 +240,13 @@ def post_template(page):
 
 def list_template(section, pages):
     """Generate template for section list pages"""
+    item_template = TemplateLoader.load('list-item.html')
     items_html = '\n'.join([
-        f'''    <li>
-      <span class="date">{p.date.strftime('%B %d, %Y')}</span>
-      <a class="title" href="{p.url}">{escape(p.title)}</a>
-    </li>'''
+        item_template.format(
+            date=p.date.strftime('%B %d, %Y'),
+            url=p.url,
+            title=escape(p.title)
+        )
         for p in sorted(pages, key=lambda x: x.date, reverse=True)
     ])
 
@@ -255,11 +261,13 @@ def list_template(section, pages):
 
 def home_template(recent_posts):
     """Generate homepage template"""
+    item_template = TemplateLoader.load('list-item.html')
     recent_html = '\n'.join([
-        f'''    <li>
-      <span class="date">{p.date.strftime('%B %d, %Y')}</span>
-      <a class="title" href="{p.url}">{escape(p.title)}</a>
-    </li>'''
+        item_template.format(
+            date=p.date.strftime('%B %d, %Y'),
+            url=p.url,
+            title=escape(p.title)
+        )
         for p in recent_posts[:5]
     ])
 
@@ -279,11 +287,13 @@ def home_template(recent_posts):
 
 def series_template(series_name, pages):
     """Generate template for series pages"""
+    item_template = TemplateLoader.load('list-item.html')
     items_html = '\n'.join([
-        f'''    <li>
-      <span class="date">{p.date.strftime('%B %d, %Y')}</span>
-      <a class="title" href="{p.url}">{escape(p.title)}</a>
-    </li>'''
+        item_template.format(
+            date=p.date.strftime('%B %d, %Y'),
+            url=p.url,
+            title=escape(p.title)
+        )
         for p in sorted(pages, key=lambda x: x.date)
     ])
 
@@ -491,7 +501,7 @@ class Builder:
     def build(self):
         """Main build process"""
         print('Starting build...')
-        self.clean()
+        # self.clean()
         self.collect_content()
         self.render_content()
         self.generate_pages()

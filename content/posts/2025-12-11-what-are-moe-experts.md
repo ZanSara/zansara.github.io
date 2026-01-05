@@ -51,7 +51,7 @@ According to the authors, this specialization is due to the same tokens being se
 
 It's important to stress again that whether this specialization occurs, and on which dimensions, is irrelevant to the effectiveness of this architecture. The core advantage of MoE is _not_ the presence of recognizable experts, but on the sparsity it introduces: with MoE you can scale up the parameters count without slowing down the inference speed of the resulting model, because not all weights will be used for all tokens.
 
-# Conclusion
+## Conclusion
 
 The term "Mixture of Experts" can easily bring the wrong image into the mind of people unaccustomed with how neural networks, and Transformers in general, work internally. When discussing this type of models, I often find important to stress the difference between how the term "expert" is intended by a non technical audience and what it means in this context.
 

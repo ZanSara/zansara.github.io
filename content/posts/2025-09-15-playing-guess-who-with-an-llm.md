@@ -30,7 +30,7 @@ After all, many simple tabletop games don't require a lot of skill to play. You 
 
 I did not expect any of the results I got.
 
-# Building the game
+## Building the game
 
 In order to be fair to dumber LLMs, I decided to start with a very simple tabletop game: [Guess Who](https://en.wikipedia.org/wiki/Guess_Who%3F). If you are not familiar with "Guess Who", here is a quick recap of the rules:
 
@@ -49,7 +49,7 @@ Feel free to play a few round using your favorite LLM. The game supports OpenAI 
 
 Now for the spoilers.
 
-# Not as many LLMs
+## Not as many LLMs
 
 One of the first surprises was that, in practice, there aren't as many models that are capable of vision and tool calling at the same time. Apart from flagship models such as GPTs and Claude, OSS options were limited. Even GPT-OSS, unfortunately, does not support vision. I was especially surprised to learn that I could not play with any version of popular Chinese models such as Qwen or Deepseek, as they're either text only or unable to call tools.
 
@@ -79,7 +79,7 @@ Either way, using a mix of proprietary hosting, [OpenRouter](https://openrouter.
 
 It may sound like a lot of work, but as you'll see in a minute, for many of them it didn't take me long to form an opinion about their skill.
 
-# The prompts
+## The prompts
 
 Starting from the assumption that playing Guess Who should be within the cognitive abilities of most modern LLMs, I decided to settle for a simple system prompt, something that resembles the way I would explain the game to a fellow human.
 
@@ -122,7 +122,7 @@ The LLM also receives two tools to use:
 - `eliminateCharacter`, described as "Eliminate a character from your board when you learn they cannot be the user's character".
 - `endGame`, described as "When you or the the user guess correctly, call this tool to end the game."
 
-# Playing
+## Playing
 
 With the game implemented and ready to go, I finally started playing a bit. I was especially curious how small models could deal with a game like this, so I began with GPT-5 Mini. Here is what happens:
 
@@ -146,7 +146,7 @@ While others left me shocked:
 
 How can a flagship model like _Claude Opus 4.1_ fail this way? I kept trying several other LLMs in disbelief, slowly coming to terms with the fact that most of them don't readily understand the concept of playing adversarial games, even simple ones as Guess Who.
 
-# A systematic review
+## A systematic review
 
 At this point I felt the duty to document this problem across all the models that had enough capabilities (vision + tool calling) to play this game. If I ever want an LLM personal assistant to handle my private data and to act on my behalf, I'd better make sure they understand that they can't just hand out my credentials to the first kind thief that asks them.
 
@@ -154,7 +154,7 @@ Here is a systematic review of the results, ordered roughly from worst to best. 
 
 First of all I list and disqualify all models that do not hide the identity of their character. Of the survivors, I ranked them by whether or not you can actually play with them in any capacity (many can't see well enough to tell the characters apart) and if the game is actually playable, how easy it is to break it.
 
-## Unplayable models
+### Unplayable models
 
 **Can't understand the instructions at all**
 
@@ -277,7 +277,7 @@ Some models did not volunteer the information but didn't exactly protect it eith
 
 </details>
 
-## Game looks playable but it's actually broken
+### Game looks playable but it's actually broken
 
 **Low vision skills**
 
@@ -337,7 +337,7 @@ Here is an example gameplay.
 </details>
 
 
-## Playable models
+### Playable models
 
 These models seems to understand the game, don't have issues seeing all the features of the characters, but they're still quite vulnerable to basic manipulation attempts. Typical issues are related to **prompt hacking**, where the LLM simply does what I say rather than enforcing the game rules, and **low tool handling ability**, where the LLM doesn't use the available tools when it should or uses them incorrectly.
 
@@ -389,7 +389,7 @@ In this case the `endGame` tool was also invoked correctly.
 
 </details>
 
-# Can this be fixed?
+## Can this be fixed?
 
 My guess was that you can fix this behavior with a better system prompt. After this experiment I went back to the system prompt and described the game in far more detail.
 
@@ -422,7 +422,7 @@ Guess what? There's only one character with gray hair and glasses on the board, 
 
 At this point I gave up. Feel free to iterate on the prompt until you get one that works, and if you manage, I beg you to share it with me.
 
-# Conclusion
+## Conclusion
 
 In the near future I plan to make a proper leaderboard for this simple game, to make an automated system to assess the model's skills and (hopefully) track their progress in this field.
 
@@ -431,4 +431,4 @@ In the meantime, feel free to try your own favorite LLMs here and form your own 
 However, let's be honest: if we need this level of effort to make Claude play such a simple game as Guess Who without messing up, how can we trust LLMs in general to handle our data and our money in the far more ambiguous and complex world out there? I suppose LLMs are not ready (yet) to be left unsupervised.
 
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">SDE</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">SDE</a></p>

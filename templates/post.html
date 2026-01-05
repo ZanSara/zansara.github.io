@@ -1,31 +1,15 @@
-<section class="container post">
-    <article>
-      <header>
-        <div class="post-title">
-          <h1 class="title">
-            <a class="title-link" href="{url}">
-              {title}
-            </a>
-          </h1>
-          <p style="margin-bottom:0; color:#777;">
-            {description}
-          </p>
-        </div>
-        <div class="post-meta">
-          <div class="date" style="font-style: italic; margin-bottom: 2rem; line-height: 0.8; font-size: medium; color:#777;">
-            <span class="posted-on">
-              <time datetime="{datetime}">
-                by <a href="/">Sara Zan</a>, {date_formatted}
-              </time>
-            </span>
-          </div>
-        </div>
-      </header>
+<section>
+  <article>
+    <header>
+      <h1>{title}</h1>
+      <p>
+        {description}
+      </p>
+      <time datetime="{datetime}">by <a href="/">Sara Zan</a>, {date_formatted}</time>
+    </header>
 
-      <div class="post-content">
-        {featured_image}
-        {html_content}
-      </div>
+    {featured_image}
+    {html_content}
 
-    </article>
-  </section>
+  </article>
+</section>

@@ -18,7 +18,7 @@ In this post, we will first describe what RAG is and how it works at a high leve
 
 Let's dive in. 
 
-# Outline
+## Outline
 
 - [What is RAG?](#what-is-rag)
 - [Why should I use it?](#why-should-i-use-it)
@@ -41,7 +41,7 @@ Let's dive in.
 - [Conclusion](#conclusion)
 
 
-# What is RAG?
+## What is RAG?
 
 RAG stands for **R**etrieval **A**ugmented **G**eneration, which can be explained as: "A technique to **augment** LLM’s knowledge beyond its training data by **retrieving** contextual information before a **generating** an answer."
 
@@ -65,7 +65,7 @@ Question: [the user's question]
 
 This prompt is then fed to the last component, called a [**generator**](https://docs.haystack.deepset.ai/docs/components_overview#generators?utm_campaign=odsc-east). A generator is any system that, given a prompt, can answer the question that it contains. In practice, "generator" is an umbrella term for any LLM, be it behind an API like GPT-3.5 or running locally, such as a Llama model. The generator receives the prompt, reads and understands it, and then writes down an answer that can be given back to the user, closing the loop.
 
-# Why should I use it?
+## Why should I use it?
 
 There are three main benefits of using a RAG architecture for your LLM apps instead of querying the LLM directly.
 
@@ -77,7 +77,7 @@ There are three main benefits of using a RAG architecture for your LLM apps inst
 
 To understand these points better, let's see an example. 
 
-## A weather chatbot
+### A weather chatbot
 
 We're making a chatbot for a weather forecast app. Suppose the user asks an LLM directly, "Is it going to rain in Lisbon tomorrow morning?". In that case, the LLM will make up a random answer because it obviously didn't have tomorrow's weather forecast for Lisbon in its training set and knows nothing about it. 
 
@@ -103,7 +103,7 @@ In fact, RAG is the only way to build an LLM-powered system that can answer a qu
 
 In addition, a weather chatbot built with RAG **can be fact-checked**. If users have access to the web pages that the retriever found, they can check the pages directly when the results are not convincing, which helps build trust in the application.
 
-## A real-world example
+### A real-world example
 
 If you want to compare a well-implemented RAG system with a plain LLM, you can put [ChatGPT](https://chat.openai.com/) (the free version, powered by GPT-3.5) and [Perplexity](https://www.perplexity.ai/) to the test. ChatGPT does not implement RAG, while Perplexity is one of the most effective implementations existing today.
 
@@ -119,7 +119,7 @@ While Perplexity says:
 
 Note how ChatGPT clearly says that it doesn't know: this is better than many other LLMs, which would just make up a place and date. On the contrary, Perplexity states some specific facts, and in case of doubt it's easy to verify that it's right by simply checking the sources above. Even just looking at the source's URL can give users a lot more confidence in whether the answer is grounded.
 
-# Failure modes
+## Failure modes
 
 Now that we understand how RAG works, let's see what can go wrong in the process.
 
@@ -145,7 +145,7 @@ First, the retriever searches the dataset (let's imagine, in this case, Wikipedi
 The official language of the Republic of Rose Island was Esperanto.
 ```
 
-## Retrieval failure
+### Retrieval failure
 
 What would happen if the retrieval step didn't go as planned?
 
@@ -173,7 +173,7 @@ When and why can retrieval fail? There are as many answers to this question as r
 
 One caveat with retrieval failures is that if you're using a very powerful LLM such as GPT-4, sometimes your LLM is smart enough to understand that the retrieved context is incorrect and will discard it, **hiding the failure**. This means that it's even more important to make sure retrieval is working well in isolation, something we will see in a moment.
 
-## Generation failure
+### Generation failure
 
 Assuming that retrieval was successful, what would happen if the LLM still hallucinated?
 
@@ -193,7 +193,7 @@ Naturally, each LLM will have different weak points that can trigger issues like
 
 ![](/posts/2024-04-29-odsc-east-rag/lost-in-the-middle.png)
 
-# Evaluation strategies
+## Evaluation strategies
 
 Once we put our RAG system in production, we should keep an eye on its performance at scale. This is where evaluation frameworks come into play.
 
@@ -203,7 +203,7 @@ To properly evaluate the performance of RAG, it's best to perform two evaluation
 
 2. **End to end evaluation**. To ensure the system works well from start to finish, it's best to evaluate it as a whole. End-to-end evaluation brings its own set of challenges, but it correlates more directly to the quality of the overall app.
 
-## Evaluating Retrieval
+### Evaluating Retrieval
 
 Each retrieval method has its own state-of-the-art evaluation method and framework, so it's usually best to refer to those.
 
@@ -211,7 +211,7 @@ For **keyword-based** retrieval algorithms such as TD-IDF, BM25, PageRank, and s
 
 For **vector-based** retrievers like vector DBs, the evaluation is more tricky because checking for matching keywords is not sufficient: the semantics of the question and the answer must evaluated for similarity. We are going to see some libraries that help with this when evaluating generation: in short, they use another LLM to judge the similarity or compute metrics like [semantic similarity](https://docs.ragas.io/en/latest/concepts/metrics/semantic_similarity.html).
 
-## Evaluating Generation
+### Evaluating Generation
 
 ![](/posts/2024-04-29-odsc-east-rag/uptrain-logo.png)
 
@@ -227,7 +227,7 @@ This approach leads to a far more detailed view of what the LLM is good at and w
 </div>
 </div>
 
-## End-to-end evaluation
+### End-to-end evaluation
 
 ![](/posts/2024-04-29-odsc-east-rag/ragas-logo.png)
 
@@ -256,7 +256,7 @@ On top of evaluation metrics, RAGAS also offers the capability to build [synthet
 </div>
 </div>
 
-## Putting it all together
+### Putting it all together
 
 ![](/posts/2024-04-29-odsc-east-rag/haystack-logo.png)
 
@@ -264,11 +264,11 @@ Once you know how you want to evaluate your app, it's time to put it together. A
 
 Haystack supports several evaluation libraries including [UpTrain](https://haystack.deepset.ai/integrations/uptrain?utm_campaign=odsc-east), [RAGAS](https://haystack.deepset.ai/integrations/ragas?utm_campaign=odsc-east) and [DeepEval](https://haystack.deepset.ai/integrations/deepeval?utm_campaign=odsc-east). To understand more about how to implement and evaluate a RAG application with it, check out their tutorial about model evaluation [here](https://haystack.deepset.ai/tutorials/35_model_based_evaluation_of_rag_pipelines?utm_campaign=odsc-east).
 
-# Advanced flavors of RAG
+## Advanced flavors of RAG
 
 Once our RAG app is ready and deployed in production, the natural next step is to look for ways to improve it even further. RAG is a very versatile technique, and many different flavors of "advanced RAG" have been experimented with, many more than I can list here. Depending on the situation, you may focus on different aspects, so let's list some examples of tactics you can deploy to make your pipeline more powerful, context-aware, accurate, and so on.
 
-## Use multiple retrievers
+### Use multiple retrievers
 
 Sometimes, a RAG app needs access to vastly different types of data simultaneously. For example, a personal assistant might need access to the Internet, your Slack, your emails, your personal notes, and maybe even your pictures. Designing a single retriever that can handle data of so many different kinds is possible. Still, it can be a real challenge and require, in many cases, an entire data ingestion pipeline. 
 
@@ -278,7 +278,7 @@ When using many retrievers, however, it's often best to introduce another step c
 
 Here is an [example](https://haystack.deepset.ai/tutorials/33_hybrid_retrieval?utm_campaign=odsc-east) of such a pipeline built with Haystack.
 
-## Self-correction 
+### Self-correction 
 
 We mentioned that one of the most common evaluation strategies for RAG output is "LLM-as-a-judge": the idea of using another LLM to evaluate the answer of the first. However, why use this technique only for evaluation?
 
@@ -286,7 +286,7 @@ Self-correcting RAG apps add one extra step at the end of the pipeline: they tak
 
 Self-correcting LLMs can help improve the accuracy of the answers at the expense of more LLM calls per user question.
 
-## Agentic RAG
+### Agentic RAG
 
 In the LLMs field, the term "agent" or "agentic" is often used to identify systems that use LLMs to make decisions. In the case of a RAG application, this term refers to a system that does not always perform retrieval but decides whether to perform it by reading the question first.
 
@@ -306,7 +306,7 @@ This is the most basic version of agentic RAG. Some advanced LLMs can do better:
 
 For more information about function calling with LLMs, check out [OpenAI's documentation](https://platform.openai.com/docs/guides/function-calling) on the topic or the equivalent documentation of your LLM provider.
 
-## Multihop RAG 
+### Multihop RAG 
 
 Multihop RAG is an even more complex version of agentic RAG. Multihop pipelines often use **chain-of-thought prompts**, a type of prompt that looks like this:
 
@@ -345,7 +345,7 @@ This prompt is very complex, so let's break it down:
 
 Multihop RAG is used for autonomous exploration of a topic, but it can be very expensive because many LLM calls are performed, and the prompts tend to become really long really quickly. The process can also take quite some time, so it's not suitable for low-latency applications. However, the idea is quite powerful, and it can be adapted into other forms.
 
-# A word on finetuning
+## A word on finetuning
 
 It's important to remember that finetuning is not an alternative to RAG. Finetuning can and should be used together with RAG on very complex domains, such as medical or legal. 
 
@@ -353,7 +353,7 @@ When people think about finetuning, they usually focus on finetuning the LLM. In
 
 Finetuning the LLM is also necessary if you need to alter its behavior in production, such as making it more colloquial, more concise, or stick to a specific voice. Prompt engineering can also achieve these effects, but it's often more brittle and can be more easily worked around. Finetuning the LLM has a much more powerful and lasting effect.
 
-# Conclusion
+## Conclusion
 
 RAG is a vast topic that could fill books: this was only an overview of some of the most important concepts to remember when working on a RAG application. For more on this topic, check out my [other blog posts](/posts) and stay tuned for [future talks](/talks)!
 

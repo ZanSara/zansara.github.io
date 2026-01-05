@@ -14,7 +14,7 @@ But what does the Imager really do to configure the OS? Is it really that comple
 
 In this post I'm going to find out first how to get the OS connect to the WiFi without Imager, and then I'm going to dig a bit deeper to find out why such advice is given and how the Imager performs this configuration step.
 
-# Network Manager
+## Network Manager
 
 In the [announcement](https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/) of the new OS release, one of the highlights is the move to [NetworkManager](https://networkmanager.dev/) as the default mechanism to deal with networking. While this move undoubtely brings many advantages, it is the reason why the classic technique of dropping a `wpa_supplicant.conf` file under `/etc/wpa_supplicant/` no longer works. 
 
@@ -67,7 +67,7 @@ echo 'mypassword' | openssl passwd -6 -stdin | awk '{print "myuser:"$1}' > <path
 
 So far it doesn't seem too complicated. However, interestingly, this is **not** what the Raspberry Pi Imager does, because if you use it to flash the image and check the result, these files are nowhere to be found. Is there a better way to go about this?
 
-# Raspberry Pi Imager
+## Raspberry Pi Imager
 
 To find out what the Imager does, my first idea was to have a peek at its [source code](https://github.com/raspberrypi/rpi-imager). Being a Qt application the source might be quite intimidating, but with a some searching it's possible to locate this interesting [snippet](https://github.com/raspberrypi/rpi-imager/blob/6f6a90adbb88c135534d5f20cc2a10f167ea43a3/src/imagewriter.cpp#L1214):
 
@@ -337,7 +337,7 @@ The same patterns repeat a few times to perform the following operations:
 
 It seems like using `raspberrypi-sys-mods` to configure the OS at the first boot is the way to go in this RPi OS version, and it might be true in future versions as well. There are [hints](https://github.com/RPi-Distro/raspberrypi-sys-mods/issues/82#issuecomment-1779109991) that the Raspberry PI OS team is going to move to [`cloud-init`](https://cloudinit.readthedocs.io/en/latest/index.html) in the near future, but for now this seems to be the way that the initial setup is done.
 
-# raspberrypi-sys-mods
+## raspberrypi-sys-mods
 
 So let's check out what `raspberrypi-sys-mods` do! The source code can be found here: [raspberrypi-sys-mods](https://github.com/RPi-Distro/raspberrypi-sys-mods). 
 
@@ -378,7 +378,7 @@ CONNFILE=/etc/NetworkManager/system-connections/preconfigured.nmconnection
 
 So after all this searching, we're back to square one. This utility is doing exactly what we've done at the start: it writes a NetworkManager configuration file called `preconfigured.nmconnection` and it fills it in with the information that we've provided to the Imager, then changes the permissions to make sure NetworkManager can use it.
 
-# Conclusion
+## Conclusion
 
 It would be great if the Raspberry Pi OS team would expand their documentation to include this information, so that users aren't left wondering what makes the RPi Imager so special and whether their manual setup is the right way to go or rather a hack that is likely to break. For now it seems like there is one solid good approach to this problem, and we are going to see what is going to change in the next version of the Raspberry Pi OS.
 
