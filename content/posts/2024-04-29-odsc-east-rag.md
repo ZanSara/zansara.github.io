@@ -3,7 +3,7 @@ title: "RAG, the bad parts (and the good!)"
 description: A summary of my recent talk at ODSC East about RAG, just in case you haven't heard enough of it already.
 date: 2024-04-29
 author: "ZanSara"
-featuredImage: "/posts/2024-04-29-odsc-east-rag/cover.png"
+featured-image: "/posts/2024-04-29-odsc-east-rag/cover.png"
 aliases:
   - 2024-04-29-odsc-east-rag-talk-summary
 ---
@@ -222,9 +222,7 @@ This approach has the benefit that responses are not simply checked strictly for
 This approach leads to a far more detailed view of what the LLM is good at and what aspects of the generation could or should be improved. The criteria to select depend strongly on the application: for example, in medical or legal apps, factual accuracy should be the primary metric to optimize for, while in customer support, user satisfaction and conversation quality are also essential. For personal assistants, it's usually best to focus on conciseness, and so on.
 
 <div class="notice info">
-<div class="notice-content">
-💡 *UpTrain can also be used to evaluate RAG applications end-to-end. Check [its documentation](https://docs.uptrain.ai/getting-started/introduction) for details.*
-</div>
+💡 UpTrain can also be used to evaluate RAG applications end-to-end. Check <a href="https://docs.uptrain.ai/getting-started/introduction">its documentation</a> for details.
 </div>
 
 ### End-to-end evaluation
@@ -242,18 +240,16 @@ A popular framework that can be used for such high-level evaluation is [RAGAS](h
 On top of evaluation metrics, RAGAS also offers the capability to build [synthetic evaluation datasets](https://docs.ragas.io/en/stable/concepts/testset_generation.html) to evaluate your app against. Such datasets spare you the work-intensive process of building a real-world evaluation dataset with human-generated questions and answers but also trade high quality for volume and speed. If your domain is very specific or you need extreme quality, synthetic datasets might not be an option, but for most real-world apps, such datasets can save tons of labeling time and resources.
 
 <div class="notice info">
-<div class="notice-content">
-💡 *RAGAS can also be used to evaluate each step of a RAG application in isolation. Check [its documentation](https://docs.ragas.io/en/stable/getstarted/index.html) for details.*
-</div>
+💡 RAGAS can also be used to evaluate each step of a RAG application in isolation. Check <a href="https://docs.ragas.io/en/stable/getstarted/index.html">its documentation</a> for details.
 </div>
 
 
 <div class="notice info">
-<div class="notice-content">
-💡 *I recently discovered an even more comprehensive framework for end-to-end evaluation called [**continuous-eval**](https://docs.relari.ai/v0.3) from [Relari.ai](https://relari.ai/), which focuses on modular evaluation of RAG pipelines. Check it out if you're interested in this topic and RAGAS doesn't offer enough flexibility for your use case.*
 
-![](/posts/2024-04-29-odsc-east-rag/relari-logo.png)
-</div>
+💡 I recently discovered an even more comprehensive framework for end-to-end evaluation called <a href="https://docs.relari.ai/v0.3">continuous-eval</a> from <a href="https://relari.ai/">Relari.ai</a>, which focuses on modular evaluation of RAG pipelines. Check it out if you're interested in this topic and RAGAS doesn't offer enough flexibility for your use case.
+
+<img src="/posts/2024-04-29-odsc-east-rag/relari-logo.png" alt="Relari.ai logo">
+
 </div>
 
 ### Putting it all together

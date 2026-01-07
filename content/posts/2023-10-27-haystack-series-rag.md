@@ -4,7 +4,7 @@ description: "Let's build a simple RAG Pipeline with Haystack 2.0 by just connec
 date: 2023-10-27
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-27-haystack-series-rag/cover.png"
+featured-image: "/posts/2023-10-27-haystack-series-rag/cover.png"
 ---
 
 *Last updated: 18/01/2024 - Read it on the [Haystack Blog](https://haystack.deepset.ai/blog/rag-pipelines-from-scratch).*
@@ -16,9 +16,7 @@ Retrieval Augmented Generation (RAG) is quickly becoming an essential technique 
 Let's see how to build such applications with Haystack 2.0, from a direct call to an LLM to a fully-fledged, production-ready RAG pipeline that scales. At the end of this post, we will have an application that can answer questions about world countries based on data stored in a private database. At that point, the knowledge of the LLM will be only limited by the content of our data store, and all of this can be accomplished without fine-tuning language models.
 
 <div class="notice info">
-<div class="notice-content">
-💡 *I recently gave a talk about RAG applications in Haystack 2.0, so if you prefer videos to blog posts, you can find the recording [here](https://zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/). Keep in mind that the code shown might be outdated.*
-</div>
+💡 I recently gave a talk about RAG applications in Haystack 2.0, so if you prefer videos to blog posts, you can find the recording <a href="https://zansara.dev/talks/2023-10-12-office-hours-rag-pipelines/">here</a>. Keep in mind that the code shown might be outdated.
 </div>
 
 ## What is RAG?
@@ -39,15 +37,13 @@ As you can see in the image above (taken directly from the original paper), a sy
 Let's build one of these with Haystack 2.0!
 
 <div class="notice info">
-<div class="notice-content">
-💡 *Do you want to see this code in action? Check out the Colab notebook [here](https://colab.research.google.com/drive/1FkDNS3hTO4oPXHFbXQcldls0kf-KTq-r?usp=sharing) or the gist [here](https://gist.github.com/ZanSara/0af1c2ac6c71d0a723c179cc6ec1ac41)*.
-</div>
+💡 Do you want to see this code in action? Check out the Colab notebook <a href="https://colab.research.google.com/drive/1FkDNS3hTO4oPXHFbXQcldls0kf-KTq-r?usp=sharing">here</a> or the gist <a href="https://gist.github.com/ZanSara/0af1c2ac6c71d0a723c179cc6ec1ac41">here</a>.
 </div>
 
 <div class="notice warning">
-<div class="notice-content">
-⚠️ **Warning:** *This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components however stay the same.*
-</div>
+
+⚠️ Warning: This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components however stay the same.
+
 </div>
 
 ## Generators: Haystack's LLM components
@@ -347,9 +343,7 @@ Of course, scaling up a system to production readiness is no simple task that ca
 `InMemoryDocumentStore` is clearly a toy implementation: Haystack supports much more performant document stores that make more sense to use in a production scenario. Since we have built our app with a BM25 retriever, let's select [Elasticsearch](https://haystack.deepset.ai/integrations/elasticsearch-document-store) as our production-ready document store of choice.
 
 <div class="notice warning">
-<div class="notice-content">
-⚠️ **Warning:** *While ES is a valid document store to use in this scenario, nowadays if often makes more sense to choose a more specialized document store such as [Weaviate](https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/weaviate), [Qdrant](https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/qdrant), and so on. Check [this page](https://github.com/deepset-ai/haystack-core-integrations/tree/main) to see which document stores are currently supported for Haystack 2.0.*
-</div>
+⚠️ Warning: While ES is a valid document store to use in this scenario, nowadays if often makes more sense to choose a more specialized document store such as <a href="https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/weaviate">Weaviate</a>, <a href="https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/qdrant">Qdrant</a>, and so on. Check <a href="https://github.com/deepset-ai/haystack-core-integrations/tree/main">this page</a> to see which document stores are currently supported for Haystack 2.0.
 </div>
 
 How do we use Elasticsearch on our pipeline? All it takes is to swap out `InMemoryDocumentStore` and `InMemoryBM25Retriever` with their Elasticsearch counterparts, which offer nearly identical APIs.

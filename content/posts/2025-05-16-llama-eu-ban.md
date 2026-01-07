@@ -3,7 +3,7 @@ title: "Using Llama Models in the EU"
 description: The ban's terms are surprisingly not well known among users of these popular "open-source" LLMs.
 date: 2025-05-16
 author: "ZanSara"
-featuredImage: "/posts/2025-05-16-llama-eu-ban/cover.png"
+featured-image: "/posts/2025-05-16-llama-eu-ban/cover.png"
 ---
 
 [The Llama 4 family](https://ai.meta.com/blog/llama-4-multimodal-intelligence/) has been released over a month ago and I finally found some time to explore it. Or so I wished to do, until I realized one crucial issue with these models:
@@ -12,7 +12,7 @@ featuredImage: "/posts/2025-05-16-llama-eu-ban/cover.png"
 
 Apparently Meta can’t be bothered to comply with EU regulations on AI, and therefore opted for a wide ban that should prevent such laws to apply to them. Of course, while this limitation is technically valid for each and every person and company domiciled in the EU, the problem arises primarily for companies that want to use Llama 4 to offer services and for researchers planning to work with these models, be it for evaluation, fine-tuning, distillation or other derivative work. Always keep in mind that I’m not a lawyer, so nothing of what I’m writing here constitutes as legal advice.
 
-# The terms
+## The terms
 
 The interesting part of this ban can be found by reading the [terms](https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md) of the Acceptable Usage Policy (AUP):
 
@@ -32,7 +32,7 @@ So if you’re a company outside of the EU and provide services based on Llama4 
 
 [Meta’s FAQ](https://www.llama.com/faq/) are actually quite throughout, so if you have any doubt about your specific case you should head there and read more.
 
-# What about other Llamas?
+## What about other Llamas?
 
 This wide EU ban is not new: it was introduced with [Llama 3.2 Vision](https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/), the first multimodal model released by Meta. The clause does not exist for any model older than Llama 3.2.
 

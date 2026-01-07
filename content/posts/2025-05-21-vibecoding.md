@@ -3,7 +3,7 @@ title: "A simple vibecoding exercise"
 description: "Can GenAI help you finish your side-projects?"
 date: 2025-05-21
 author: "ZanSara"
-featuredImage: "/posts/2025-05-21-vibecoding/cover.png"
+featured-image: "/posts/2025-05-21-vibecoding/cover.png"
 ---
 
 Sometimes, after an entire day of coding, the last thing you want to do is to code some more. It would be so great if I could just sit down and enjoy some Youtube videos...
@@ -14,7 +14,7 @@ Can the magic of modern Generative AI fix this problem?
 
 We've all heard of [vibecoding](https://x.com/karpathy/status/1886192184808149383): sitting in front of your IDE, telling an AI what you want the code to do and letting it loose to create _something_ that achieves that goal. In this case, the goal is rather simple: given a video file, generate subtitles for it using [Deepgram](https://deepgram.com/)'s SDK (since it has a [generous free tier](https://deepgram.com/pricing)). It seems such a simple task that even an LLM should be able to reach it with minimal or no assistance. Right?
 
-# The first shot: OpenAI
+## The first shot: OpenAI
 
 For this simple experiment I decided not to use a dedicated IDE or VSCode plugin, but to stick to text based tools. After all, I expected this task to be sorted with a single Python script made by OpenAI's famed [`o4-mini-high`](https://openai.com/index/introducing-o3-and-o4-mini/), advertized as "Great at coding and visual reasoning".
 
@@ -26,7 +26,7 @@ The prompt was very simple:
 
 As expected, the model thought about it, did some web searches, and then cooked up a script that used `deepgram-sdk` and `deepgram-captions`. Looked good, but as soon as I tried to run it, issues came up. Deepgram's SDK complained about wrong formats, wrong SDK version, HTTP errors... Copy-pasting the errors back to `o4-mini-high` was vain: the model seems to understand that the Deepgram API had a major upgrade since the model was trained, but fails to use the new version. After four or five attempts (including one full restart of the chat), I realized this was going nowhere and I looked for another option.
 
-# The backup option: Claude Code
+## The backup option: Claude Code
 
 I've heard many times that the best LLMs for vibecoding belong to the [Claude](https://www.anthropic.com/claude) family. On top of that, there's a cool TUI utility called [Claude Code](https://www.anthropic.com/claude-code) that allows you to vibecode from the terminal, no IDE required. It uses [Claude 3.7 Sonnet](https://www.anthropic.com/claude/sonnet) under the hood, so the expectations are high.
 
@@ -42,7 +42,7 @@ The prompt is the same:
 
 Sure enough, Claude's first attempt also fails for the same reason as o4 did: their knowledge is outdated, and they both use the Deepgram's API in a way that's not compabible with its new v3 API. However, after a few attempts, Claude actually produces a script that _mostly_ works.
 
-# Results
+## Results
 
 [Here](https://gist.github.com/ZanSara/4bab5db89376d595128e0688804d694c) is the output (I pasted the `README` and the `requirements.txt` at the top of the file for simplicity). I only needed to replace [`nova-2`](https://developers.deepgram.com/docs/models-languages-overview#nova-2) with [`nova-3`](https://developers.deepgram.com/docs/models-languages-overview#nova-3) to get the best possible transcription for Portuguese (other languages may get better transcription with `nova-2`).
 

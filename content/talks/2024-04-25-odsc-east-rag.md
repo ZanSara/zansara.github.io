@@ -2,7 +2,7 @@
 title: "ODSC East: RAG, the bad parts (and the good!)"
 date: 2024-04-25
 author: "ZanSara"
-featuredImage: "/talks/2024-04-25-odsc-east-rag.png"
+featured-image: "/talks/2024-04-25-odsc-east-rag.png"
 ---
 
 [Announcement](https://odsc.com/speakers/rag-the-bad-parts-and-the-good-building-a-deeper-understanding-of-this-hot-llm-paradigms-weaknesses-strengths-and-limitations/), 

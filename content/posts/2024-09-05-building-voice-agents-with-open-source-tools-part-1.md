@@ -3,7 +3,7 @@ title: "Building Reliable Voice Bots with Open Source Tools - Part 1"
 description: "A deep look at the main challenges of building performant and cost effective voice bots."
 date: 2024-09-20
 author: "ZanSara"
-featuredImage: "/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png"
+featured-image: "/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png"
 aliases:
 - /posts/2024-09-05-odsc-europe-voice-agents-part-1
 - /posts/2024-09-05-voice-bots-1/
@@ -21,7 +21,7 @@ In this post we're going to focus mostly on **the challenges**: we'll discuss th
 
 In [Part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/) we are going to focus on **the solutions** that are available today, and we are going to build our own voice bot using [Pipecat](https://www.pipecat.ai), a recently released open-source library that makes building these bots a lot simpler.
 
-# Outline
+## Outline
 
 - [What is a voice agent?](#what-is-a-voice-agent)
   - [Speech-to-text (STT)](#speech-to-text-stt)
@@ -41,7 +41,7 @@ In [Part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-
 _Continues in [Part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/)._
 
 
-# What is a voice agent?
+## What is a voice agent?
 
 As the name says, voice agents are programs that are able to carry on a task and/or take actions and decisions on behalf of a user ("software agents") by using voice as their primary mean of communication (as opposed to the much more common text chat format). Voice agents are inherently harder to build than their text based counterparts: computers operate primarily with text, and the art of making machines understand human voices has been an elusive problem for decades.
 
@@ -55,7 +55,7 @@ Today, the basic architecture of a modern voice agent can be decomposed into thr
 
 Let's see the details of each.
 
-## Speech to text (STT)
+### Speech to text (STT)
 
 Speech-to-text software is able to convert the audio stream of a person saying something and produce a transcription of what the person said. Speech-to-text engines have a [long history](https://en.wikipedia.org/wiki/Speech_recognition#History), but their limitations have always been quite severe: they used to require fine-tuning on each individual speaker, have a rather high word error rate (WER) and they mainly worked strictly with native speakers of major languages, failing hard on foreign and uncommon accents and native speakers of less mainstream languages. These issues limited the adoption of this technology for anything else than niche software and research applications.
 
@@ -68,7 +68,7 @@ _The WER (word error rate) of Whisper was extremely impressive at the time of it
 
 Since then, speech-to-text models kept improving at a steady pace. Nowadays the Whisper's family of models sees some competition for the title of best STT model from  companies such as [Deepgram](https://deepgram.com/), but it's still one of the best options in terms of open-source models.
 
-## Text-to-speech (TTS)
+### Text-to-speech (TTS)
 
 Text-to-speech model perform the exact opposite task than speech-to-text models: their goal is to convert written text into an audio stream of synthetic speech. Text-to-speech has [historically been an easier feat](https://en.wikipedia.org/wiki/Speech_synthesis#History) than speech-to-text, but it also recently saw drastic improvements in the quality of the synthetic voices, to the point that it could nearly be considered a solved problem in its most basic form.
 
@@ -84,13 +84,13 @@ _[Cartesia's Sonic](https://cartesia.ai/sonic) TTS example of a gaming NPC. Note
 
 TTS is still improving in quality by the day, but due to the incredibly high quality of the output competition now tends to focus on price and performance.
 
-## Logic engine
+### Logic engine
 
 Advancements in the agent's ability to talk to users goes hand in hand with the progress of natural language understanding (NLU), another field with a [long and complicated history](https://en.wikipedia.org/wiki/Natural_language_understanding#History). Until recently, the bot's ability to understand the user's request has been severely limited and often available only for major languages.
 
 Based on the way their logic is implemented, today you may come across bots that rely on three different categories.
 
-### Tree-based
+#### Tree-based
 
 Tree-based (or rule-based) logic is one of the earliest method of implementing chatbot's logic, still very popular today for its simplicity. Tree-based bots don't really try to understand what the user is saying, but listen to the user looking for a keyword or key sentence that will trigger the next step. For example, a customer support chatbot may look for the keyword "refund" to give the user any information about how to perform a refund, or the name of a discount campaign to explain the user how to take advantage of that.
 
@@ -102,7 +102,7 @@ One of its most effective usecases is as a first-line screening to triage incomi
 
 _Example of a very simple decision tree for a chatbot. While rather minimal, this bot already has several flaws: there's no way to correct the information you entered at a previous step, and it has no ability to recognize synonyms ("I want to buy an item" would trigger the fallback route.)_
 
-### Intent-based
+#### Intent-based
 
 In intent-based bots, **intents** are defined roughly as "actions the users may want to do". With respect to a strict, keyword-based tree structure, intent-based bots may switch from an intent to another much more easily (because they lack a strict tree-based routing) and may use advanced AI techniques to understand what the user is actually trying to accomplish and perform the required action.
 
@@ -112,7 +112,7 @@ Advanced voice assistants such as Siri and Alexa use variations of this intent-b
 
 _Modern voice assistants like Alexa and Siri are often built on the concept of intent (image from Amazon)._
 
-### LLM-based
+#### LLM-based
 
 The introduction of instruction-tuned GPT models like ChatGPT revolutionized the field of natural language understanding and, with it, the way bots can be built today. LLMs are naturally good at conversation and can formulate natural replies to any sort of question, making the conversation feel much more natural than with any technique that was ever available earlier.
 
@@ -124,7 +124,7 @@ The problem of controlling the conversation, one that traditionally was always o
 
 _In a rather [famous instance](https://x.com/ChrisJBakke/status/1736533308849443121), a user managed to convince a Chevrolet dealership chatbot to promise selling him a Chevy Tahoe for a single dollar._
 
-## Audio-to-audio models
+### Audio-to-audio models
 
 On top of all these changes, OpenAI recently made a step further. They latest flagship model, [GPT 4o](https://openai.com/index/hello-gpt-4o/), was allegedly able to understand audio natively, taking away the need for a dedicated speech-to-text model, and to produce audio responses directly, making text-to-speech engines also redundant. 
 
@@ -140,7 +140,7 @@ The problem here is that voice bots built with the traditional stack can be more
 
 However, GPT 4o is surely a step further on the evolutionary path of modern voice bots. With potential future price changes, a model like this could easily become a valid competitor to the architecture we're going to explore in the rest of the post, with its own pros and cons.
 
-# New challenges
+## New challenges
 
 Thanks to all these recent improvements, it would seem that making natural-sounding, smart bots is getting easier and easier. It is indeed much simpler to make a simple bot sound better, understand more and respond appropriately, but there's still a long way to go before users can interact with these new bots as they would with a human.
 
@@ -148,7 +148,7 @@ The issue lays in the fact that **users expectations grow** with the quality of 
 
 What does this mean in practice? What are the expectations that users might have from our bots?
 
-## Real speech is not turn-based
+### Real speech is not turn-based
 
 Traditional bots can only handle turn-based conversations: the user talks, then the bot talks as well, then the user talks some more, and so on. A conversation with another human, however, has no such limitation: people may talk over each other, give audible feedback without interrupting, and more.
 
@@ -164,7 +164,7 @@ Here are some examples of this richer interaction style:
 
 - **Audible clues**. Not everything can be transcribed by a speech-to-text model, but audio carries a lot of nuance that is often used by humans to communicate. A simple example is pitch: humans can often tell if they're talking to a child, a woman or a man by the pitch of their voice, but STT engines don't transcribe that information. So if a child picks up the phone, the model won't pick up the obvious audible clue and will likely assume it is talking to an adult. Similar considerations should be made for tone (to detect mood, sarcasm, etc) or other sounds like laughter, sobs, and more. **Audio-to-audio models** such as GPT 4o don't have this intrinsic limitation, but while they surely can pick up these clues, their ability to use them effectively should not be taken for granted.
 
-## Real conversation flows are not predictable
+### Real conversation flows are not predictable
 
 Tree-based bots, and to some degree intent-based too, work on the implicit assumption that conversation flows are largely predictable. Once the user said something and the bot replied accordingly, they can only follow up with a fixed set of replies and nothing else.
 
@@ -180,7 +180,7 @@ In reality, natural conversations are largely unpredictable. For example, they m
 
 - _**Non sequitur**_. _Non sequitur_ is an umbrella term for a sequence of sentences that bear no relation to each other in a conversation. A simple example is the user asking the bot "What's the capital of France" and the bot replies "It's raining now". When done by the bot, this is often due to a severe transcription issue or a very flawed conversation design. When done by the user, it's often a malicious intent to break the bot's logic, so it should be handled with some care.
 
-## LLMs bring their own problems
+### LLMs bring their own problems
 
 It may seem that some of these issues, especially the ones related to conversation flow, could be easily solved with an LLM. These models, however, bring their own set of issues too:
 
@@ -192,7 +192,7 @@ It may seem that some of these issues, especially the ones related to conversati
 
 - **Prompt hacking**. Often done with malicious intent by experienced users, prompt hacking is the practice of convincing an LLM to reveal its initial instructions, ignore them and perform actions they are explicitly forbidden from. This is especially dangerous and, while a lot of work has gone into this field, this is far from a solved problem.
 
-## The context window
+### The context window
 
 LLMs need to keep track of the whole conversation, or at least most of it, to be effective. However, they often have a limitation to the amount of text they can keep in mind at any given time: this limit is called **context window** and for many models is still relatively low, at about 2000 tokens **(between 1500-1800 words)**. 
 
@@ -230,7 +230,7 @@ and so on.
 
 Although very effective, system prompts have a tendency to become huge in terms of tokens. Adding information to it makes the LLM behave much more like you expect (although it's not infallible), hallucinate less, and can even shape its personality to some degree. But if the system prompt becomes too long (more than 1000 words), this means that the bot will only be able to exchange about 800 words worth of messages with the user before it starts to **forget** either its instructions or the first messages of the conversation. For example, the bot will easily forget its own name and role, or it will forget the user's name and initial demands, which can make the conversation drift completely.
 
-## Working in real time
+### Working in real time
 
 If all these issues weren't enough, there's also a fundamental issue related to voice interaction: **latency**. Voice bots interact with their users in real time: this means that the whole pipeline of transcription, understanding, formulating a reply and synthesizing it back but be very fast.
 
@@ -243,7 +243,7 @@ This means that, even if we had some solutions to all of the above problems (and
 _Time to First Token (TTFT) stats for several LLM inference providers running Llama 2 70B chat. From [LLMPerf leaderboard](https://github.com/ray-project/llmperf-leaderboard). You can see how the time it takes for a reply to even start being produced is highly variable, going up to more than one second in some scenarios._  
 
 
-# To be continued...
+## To be continued...
 
 _Interested? Check out [Part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2)!_ 
 

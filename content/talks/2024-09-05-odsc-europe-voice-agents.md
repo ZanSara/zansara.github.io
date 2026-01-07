@@ -2,7 +2,7 @@
 title: "ODSC Europe: Building Reliable Voice Agents with Open Source tools"
 date: 2024-09-06
 author: "ZanSara"
-featuredImage: "/talks/2024-09-06-odsc-europe-voice-agents.png"
+featured-image: "/talks/2024-09-06-odsc-europe-voice-agents.png"
 ---
 
 [Announcement](https://odsc.com/speakers/building-reliable-voice-agents-with-open-source-tools-2/), 

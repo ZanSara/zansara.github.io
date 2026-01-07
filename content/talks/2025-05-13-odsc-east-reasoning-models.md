@@ -2,7 +2,7 @@
 title: "ODSC East: LLMs that think - Demystifying Reasoning Models"
 date: 2025-05-14
 author: "ZanSara"
-featuredImage: "/talks/2025-05-13-odsc-east-reasoning-models.png"
+featured-image: "/talks/2025-05-13-odsc-east-reasoning-models.png"
 aliases:
  - /talks/2025-05-14-odsc-east-reasoning-models
 ---

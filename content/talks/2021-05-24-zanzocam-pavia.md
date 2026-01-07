@@ -2,7 +2,7 @@
 title: "ZanzoCam: An open-source alpine web camera"
 date: 2021-05-24
 author: "ZanSara"
-featuredImage: "/talks/2021-05-24-zanzocam-pavia.png"
+featured-image: "/talks/2021-05-24-zanzocam-pavia.png"
 ---
 
 Slides: [ZanzoCam: An open-source alpine web camera](/talks/2021-05-24-zanzocam-pavia.pdf)

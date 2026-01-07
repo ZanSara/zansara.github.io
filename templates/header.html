@@ -1,18 +1,9 @@
-<nav>
-  <section>
-
-    <a href="/">
-      <img src="/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
-      {navbar}
-    </a>
-
-    <input type="checkbox" id="menu-toggle" />
-    <label for="menu-toggle">
-      ...
-      <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
-    </label>
-
+<nav style="padding-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+  <a href="/">
+    <img src="/me/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;">
+    {navbar_title}
+  </a>
+  <div>
     {menu_items}
-
-  </section>
+  </div>
 </nav>

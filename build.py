@@ -22,7 +22,16 @@ LANGUAGE = 'en'
 NAVBAR_TITLE = "Sara Zan's Blog"
 AUTHOR = 'Sara Zan'
 DESCRIPTION = "Sara Zan's Blog"
-AUTHOR_INFO = """Experienced Python software engineer with extensive experience with NLP, LLMs GenAI and AI in general. I worked on projects ranging from air-gapped <a href="https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/">RAG pipelines</a> to <a href="https://archive.today/IH48a">voice AI recruiters</a>,open-source <a href="https://github.com/deepset-ai/haystack">LLM frameworks</a>, <a href="/publications/thpv014/">particle accelerators</a> software, <a href="/projects/zanzocam/">IoT</a> devices overwintering at several alpine huts, and small <a href="/projects/booking-system/">web apps</a>. Open-source <a href="https://github.com/ZanSara">contributor</a> and former <a href="https://home.cern/">CERN</a> employee."""
+AUTHOR_INFO = """
+Experienced Python software engineer with extensive experience with NLP, LLMs GenAI and AI in general. 
+I worked on projects ranging from air-gapped <a href="https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/">RAG pipelines</a> 
+to <a href="https://archive.today/IH48a">voice AI recruiters</a>, 
+open-source <a href="https://github.com/deepset-ai/haystack">LLM frameworks</a>, 
+<a href="/publications/thpv014/">particle accelerators</a> software, 
+<a href="/projects/zanzocam/">IoT</a> devices overwintering at several alpine huts, 
+and small <a href="/projects/booking-system/">web apps</a>. 
+Open-source <a href="https://github.com/ZanSara">contributor</a> and former <a href="https://home.cern/">CERN</a> employee.
+"""
 KEYWORDS = 'blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai'
 AVATAR_URL = '/me/avatar.svg'
 FAVICON_SVG = '/me/avatar.svg'
@@ -134,7 +143,7 @@ class ContentFile:
 
     @property
     def featured_image(self):
-        return self.front_matter.get('featuredImage', '')
+        return self.front_matter.get('featured-image', '')
 
     @property
     def series(self):
@@ -143,12 +152,16 @@ class ContentFile:
 
     @property
     def external_link(self):
-        return self.front_matter.get('externalLink', '')
+        return self.front_matter.get('external-link', '')
 
     @property
     def aliases(self):
         a = self.front_matter.get('aliases', [])
         return a if isinstance(a, list) else [a] if a else []
+
+    @property
+    def show_date(self):
+        return bool(self.front_matter.get('show-date', True))
 
 
 def base_template(content, title, meta_tags='', has_mermaid=False):
@@ -191,7 +204,7 @@ def header_component():
 
     template = TemplateLoader.load('header.html')
     return template.format(
-        navbar=NAVBAR_TITLE,
+        navbar_title=NAVBAR_TITLE,
         menu_items=menu_html
     )
 
@@ -224,12 +237,25 @@ def post_template(page):
         )
 
     template = TemplateLoader.load('post.html')
+    desc_line = ''
+    date_line = ''
+    if page.description and not page.section in ["about", "projects"]:
+        desc_template = TemplateLoader.load('description.html')
+        desc_line = desc_template.format(
+            description=escape(page.description)
+        )
+
+    if page.show_date and not page.section in ["about", "projects"]:
+        date_template = TemplateLoader.load('date.html')
+        date_line = date_template.format(
+            datetime=page.date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+            date_formatted=page.date.strftime('%B %d, %Y'),
+        )
     content_html = template.format(
         url=page.url,
         title=escape(page.title),
-        description=escape(page.description),
-        datetime=page.date.strftime('%Y-%m-%dT%H:%M:%SZ'),
-        date_formatted=page.date.strftime('%B %d, %Y'),
+        date=date_line,
+        description=desc_line,
         featured_image=featured_image,
         html_content=page.html_content
     )
@@ -474,6 +500,15 @@ class Builder:
         SitemapGenerator.generate(self.pages, self.public_dir / 'sitemap.xml')
         print('Generated sitemap.xml')
 
+    def generate_404_page(self):
+        """Generate 404 error page"""
+        template = TemplateLoader.load('404.html')
+        html = base_template(template, '404 - Page Not Found')
+
+        output_path = self.public_dir / '404.html'
+        output_path.write_text(html, encoding='utf-8')
+        print('Generated 404.html')
+
     def copy_static_assets(self):
         """Copy static assets to public directory"""
         # Copy from static/
@@ -507,6 +542,7 @@ class Builder:
         self.generate_pages()
         self.generate_feeds()
         self.generate_sitemap()
+        self.generate_404_page()
         self.copy_static_assets()
         print('Build complete!')
 

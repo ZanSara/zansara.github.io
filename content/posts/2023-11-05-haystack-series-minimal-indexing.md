@@ -4,7 +4,7 @@ description: RAG apps need data to work. Let's see how to pre-process our data t
 date: 2023-11-05
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-11-05-haystack-series-minimal-indexing/cover.png"
+featured-image: "/posts/2023-11-05-haystack-series-minimal-indexing/cover.png"
 ---
 
 *Last updated: 18/01/2024*
@@ -16,19 +16,17 @@ In the [previous post](/posts/2023-10-27-haystack-series-rag) of the Haystack 2.
 In this post, I will show you how to use Haystack 2.0 to create large amounts of documents from a few web pages and write them a document store that you can then use for retrieval.
 
 <div class="notice info">
-<div class="notice-content">
-💡 *Do you want to see the code in action? Check out the [Colab notebook](https://colab.research.google.com/drive/155CtcumiK5w3wX6FWyM1dG3OqnhwnCqy?usp=sharing) or the [gist](https://gist.github.com/ZanSara/ba7efd241c61ccfd12ed48195e23bb34).*
-</div>
+💡 Do you want to see the code in action? Check out the <a href="https://colab.research.google.com/drive/155CtcumiK5w3wX6FWyM1dG3OqnhwnCqy?usp=sharing">Colab notebook</a> or the <a href="https://gist.github.com/ZanSara/ba7efd241c61ccfd12ed48195e23bb34">gist</a>.
 </div>
 
 <div class="notice warning">
-<div class="notice-content">
-<i>⚠️ **Warning:**</i> *This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.*
-</div>
+
+<i>⚠️ Warning:</i> This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.
+
 </div>
 
 
-# The task
+## The task
 
 In Haystack's terminology, the process of extracting information from a group of files and storing the data in a document store is called "indexing". The process includes, at the very minimum, reading the content of a file, generating a Document object containing all its text, and then storing it in a document store.
 
@@ -38,7 +36,7 @@ Sounds like a lot of work!
 
 In this post, we will focus on the preprocessing part of the pipeline: cleaning, splitting, and writing documents. I will talk about the other functionalities of indexing pipelines, such as document embedding and multiple file types routing, in later posts.
 
-# Converting files
+## Converting files
 
 As we've just seen, the most important task of this pipeline is to convert files into Documents. Haystack provides several converters for this task: at the time of writing, it supports:
 
@@ -70,7 +68,7 @@ converter.run(sources=[path])
 
 `ByteStream` is a handy Haystack abstraction that makes handling binary streams easier. If a component accepts `ByteStream` as input, you don't necessarily have to save your web pages to file before passing them to this converter. This allows components that retrieve large files from the Internet to pipe their output directly into this component without saving the data to disk first, which can save a lot of time.
 
-# Cleaning the text
+## Cleaning the text
 
 With `HTMLToDocument`, we can convert whole web pages into large Document objects. The converter typically does a decent job of filtering out the markup. Still, it's not always perfect. To compensate for these occasional issues, Haystack offers a component called `DocumentCleaner` that can remove noise from the text of the documents.
 
@@ -90,7 +88,7 @@ Other parameters, like `remove_substrings` or `remove_regex`, work very well but
 
 Finally, `remove_repeated_substrings` is a convenient method that removes headers and footers from long text, for example, books and articles. However, it works only for PDFs and, to a limited degree, for text files because it relies on the presence of form feed characters (`\f`), which are rarely present in web pages.
 
-# Splitting the text
+## Splitting the text
 
 Now that the text is cleaned up, we can move onto a more exciting step: text splitting.
 
@@ -99,13 +97,13 @@ So far, each Document stored the content of an entire file. If a file was a whol
 That's where `DocumentSplitter` comes into play.
 
 <div class="notice info">
-<div class="notice-content">
-💡 *With LLMs in a race to offer the [largest context window](https://magic.dev/blog/ltm-1) and research showing that such a chase is [counterproductive](https://arxiv.org/abs/2307.03172), there is no general consensus about how splitting Documents for RAG impacts the LLM's performance.*
 
-*What you need to keep in mind is that splitting implies a tradeoff. Huge documents will always be slightly relevant for every question, but they will bring a lot of context, which may or may not confuse the model. On the other hand, tiny Documents are much more likely to be retrieved only for questions they're highly relevant for, but they might provide too little context for the LLM to really understand their meaning.*
+💡 With LLMs in a race to offer the <a href="https://magic.dev/blog/ltm-1">largest context window</a> and research showing that such a chase is <a href="https://arxiv.org/abs/2307.03172">counterproductive</a>, there is no general consensus about how splitting Documents for RAG impacts the LLM's performance.
 
-*Tweaking the size of your Documents for the specific LLM you're using and the topic of your documents is one way to optimize your RAG pipeline, so be ready to experiment with different Document sizes before committing to one.*
-</div>
+What you need to keep in mind is that splitting implies a tradeoff. Huge documents will always be slightly relevant for every question, but they will bring a lot of context, which may or may not confuse the model. On the other hand, tiny Documents are much more likely to be retrieved only for questions they're highly relevant for, but they might provide too little context for the LLM to really understand their meaning.
+
+Tweaking the size of your Documents for the specific LLM you're using and the topic of your documents is one way to optimize your RAG pipeline, so be ready to experiment with different Document sizes before committing to one.
+
 </div>
 
 How is it used?
@@ -127,7 +125,7 @@ text_splitter.run(documents=documents)
 
 `split_overlap` is the amount of units that should be included from the previous Document. For example, if the unit is `sentence` and the length is `10`, setting `split_overlap=2` means that the last two sentences of the first document will also be present at the start of the second, which will include only 8 new sentences for a total of 10. Such repetition carries over to the end of the text to split.
 
-# Writing to the store
+## Writing to the store
 
 Once all of this is done, we can finally move on to the last step of our journey: writing the Documents into our document store. We first create the document store:
 
@@ -152,7 +150,7 @@ If you've read my [previous post](/posts/2023-10-27-haystack-series-rag) about R
 
 In fact, the two methods are fully equivalent: `DocumentWriter` does nothing more than calling the `.write_documents()` method of the document store. The difference is that `DocumentWriter` is the way to go if you are using a Pipeline, which is what we're going to do next.
 
-# Putting it all together
+## Putting it all together
 
 We finally have all the components we need to go from a list of web pages to a document store populated with clean and short Document objects. Let's build a Pipeline to sum up this process:
 
@@ -230,7 +228,7 @@ pipe.run({
 
 And suddenly, our chatbot knows everything about Rose Island without us having to feed the data to the document store by hand.
 
-# Wrapping up
+## Wrapping up
 
 Indexing pipelines can be powerful tools, even in their simplest form, like the one we just built. However, it doesn't end here: Haystack offers many more facilities to extend what's possible with indexing pipelines, like doing web searches, downloading files from the web, processing many other file types, and so on.
 

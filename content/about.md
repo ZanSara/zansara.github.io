@@ -1,15 +1,19 @@
 ---
 title: "About"
-description: "A short introduction"
-aliases: ["about-me", "zansara", "contact"]
-author: "ZanSara"
+show-date: false
 ---
 
-I am a Python and GenAI software engineer based in Portugal, currently working for BNP Paribas as a Senior Developer on internal AI tools. I regularly to give [talks](/talks) on the topic of GenAI, LLMs, and related topics.
+I am a Python and GenAI software engineer based in Portugal. I regularly give [talks](/talks) on GenAI, LLMs and similar topics. Currently I'm Agentic AI Lead for [BGBx](https://bgbx.ai/) (part of [BGB Group](https://bgbgroup.com/)).
 
-Earlier in my career I've been Lead AI Engineer for [Kwal](https://www.kwal.ai/) working on voice agents and conversation analysis with LLMs for the recruitment industry. 
+Earlier in my career I've been Senior Developer at BNP Paribas, working on several [internal AI tools](https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/) which won highly competitive company-wide awards.
+
+I've been Lead AI Engineer for [Kwal](https://www.kwal.ai/) working on voice agents and conversation analysis with LLMs for the recruitment industry. 
+
 I've been NLP Engineer at [deepset](https://www.deepset.ai/), a German startup working on NLP [since "before it was cool"](https://www.deepset.ai/about), where I was the [main contributor](https://github.com/deepset-ai/haystack/graphs/contributors) of [Haystack](https://haystack.deepset.ai/), their open-source framework for building highly customizable,  production-ready NLP and LLM applications.
+
 I started my career at [CERN](https://home.cern/), where I had the privilege of driving one [major decision](/publications/tucpr03/) to migrate the graphical interface's software of the accelerator's control systems from Java to PyQt, and then of helping a client department [migrate](/publications/thpv014/) to this stack. I have also worked on other infrastructure and data pipelines, some of which resulted in [publication](/publications/thpv042/).
+
+I also did some pro-bono web and IoT development for the Italian Alpine Club. One notable project is [ZanzoCam](/projects/zanzocam), a Raspberry Pi based set of several webcams that work on solar power and regularly overwinter at very remote huts all over the Italian Alps. Enjoy some of their pictures [at this page](https://www.rifugi.lombardia.it/territorio-lombardo/webcam).
 
 Outside of work I have more [pet projects](/projects) than free time to dedicate to them, just as everyone else; I love science fiction and space exploration, I enjoy hiking and learning languages, as much as such process can be enjoyed.
 

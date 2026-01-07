@@ -4,7 +4,7 @@ description: "Caching prompts can have an outsized impact on the cost and latenc
 date: 2025-10-17
 author: "ZanSara"
 series: ["Practical Questions"]
-featuredImage: "/posts/2025-10-17-prompt-caching/cover.png"
+featured-image: "/posts/2025-10-17-prompt-caching/cover.png"
 ---
 
 ---

@@ -3,7 +3,7 @@ title: "Generating creatures with Teranoptia"
 description: Having fun with fonts doesn’t always mean obsessing over kerning and ligatures. Sometimes, writing text is not even the point!
 date: 2024-05-06
 author: "ZanSara"
-featuredImage: "/posts/2024-05-06-teranoptia/cover.png"
+featured-image: "/posts/2024-05-06-teranoptia/cover.png"
 ---
 
 
@@ -14,14 +14,14 @@ featuredImage: "/posts/2024-05-06-teranoptia/cover.png"
     }
 
     .teranoptia {
-        font-size: 5rem;
+        font-size: 50px;
         font-family: teranoptia;
         hyphens: none!important;
         line-height: 70px;
     }
 
     .small {
-        font-size:3rem;
+        font-size:30px;
         line-height: 40px;
     }
 
@@ -251,9 +251,7 @@ to more complex, multi-line designs:
 Let's play with it a bit and see how we can put together a few "correct" looking creatures.
 
 <div class="notice info">
-<div class="notice-content">
-_As you're about to notice, I'm no JavaScript developer. Don't expect high-quality JS in this post._
-</div>
+As you're about to notice, I'm no JavaScript developer. Don't expect high-quality JS in this post.
 </div>
 
 ## Mirroring animals
@@ -677,7 +675,7 @@ This regex is fairly straightforward: the string must start with a (<span class=
 
 
 <div style="display: flex; gap: 10px;">
-    <input id="left-facing-snakes-input" type="string" class="teranoptia" value="abd" oninput="validateLeftFacingSnake();"></input>
+    <input id="left-facing-snakes-input" type="string" class="teranoptia" value="abd" oninput="validateLeftFacingSnake();" style="width: 100%;"></input>
     <p id="left-facing-snakes-result">Valid</p>
 </div>
 
@@ -708,7 +706,7 @@ What would it take to extend it to snakes that face either side? Luckily, snake 
 
 
 <div style="display: flex; gap: 10px;">
-    <input id="naive-snakes-input" type="string" class="teranoptia" value="abdWXZ" oninput="validateNaiveSnake();"></input>
+    <input id="naive-snakes-input" type="string" class="teranoptia" value="abdWXZ" oninput="validateNaiveSnake();" style="width: 100%;"></input>
     <p id="naive-snakes-result">Valid</p>
 </div>
 
@@ -742,7 +740,7 @@ That looks super-promising until we realize that there's a problem: this "snake"
 
 
 <div style="display: flex; gap: 10px;">
-    <input id="correct-snakes-input" type="string" class="teranoptia" value="abdWXZ" oninput="validateCorrectSnake();"></input>
+    <input id="correct-snakes-input" type="string" class="teranoptia" value="abdWXZ" oninput="validateCorrectSnake();" style="width: 100%;"></input>
     <p id="correct-snakes-result">Valid</p>
 </div>
 
@@ -794,7 +792,7 @@ Once here, building the rest of the regex is simply matter of adding the correct
 
 
 <div style="display: flex; gap: 10px;">
-    <input id="correct-animal-input" type="string" class="teranoptia" value="abu*W«XZ" oninput="validateCorrectAnimal();"></input>
+    <input id="correct-animal-input" type="string" class="teranoptia" value="abu*W«XZ" oninput="validateCorrectAnimal();" style="width: 100%;"></input>
     <p id="correct-animal-result">Valid</p>
 </div>
 
@@ -878,7 +876,6 @@ On my side, I think I'm going to use these neat little monsters as weird [fleuro
 
 <p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">su</a></p>
 
----
 
 _Download Teranoptia at this link: https://www.tunera.xyz/fonts/teranoptia/_
 

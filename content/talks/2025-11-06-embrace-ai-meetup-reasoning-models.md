@@ -2,7 +2,7 @@
 title: "Embrace:AI // 2025.06 - Reasoning LLMs & Multimodal Architecture"
 date: 2025-11-06
 author: "ZanSara"
-featuredImage: "/talks/2025-11-06-embrace-ai-meetup-reasoning-models.png"
+featured-image: "/talks/2025-11-06-embrace-ai-meetup-reasoning-models.png"
 ---
 
 [Announcement](https://www.meetup.com/embrace-ai/events/311629934/), [slides](https://drive.google.com/file/d/1QoUVlA915-7UJqu9DkxKQUc3deJhsB8t/view?usp=sharing).

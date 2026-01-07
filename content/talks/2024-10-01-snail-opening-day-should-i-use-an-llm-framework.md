@@ -2,7 +2,7 @@
 title: "SNAIL Opening Day: Should I use an LLM Framework? (Private Event)"
 date: 2024-10-01
 author: "ZanSara"
-featuredImage: "/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framework.png"
+featured-image: "/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framework.png"
 ---
 
 [Slides](https://drive.google.com/file/d/1GQJ1qEY2hXQ6EBF-rtqzJqZzidfS7HfI/view?usp=sharing), 

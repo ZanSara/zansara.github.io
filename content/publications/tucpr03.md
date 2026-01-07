@@ -2,7 +2,7 @@
 title: "Our Journey From Java to PyQt and Web For CERN Accelerator Control GUIs"
 date: 2020-08-30
 author: "ZanSara"
-featuredImage: "/publications/tucpr03.png"
+featured-image: "/publications/tucpr03.png"
 ---
 
 ## Abstract 

@@ -3,7 +3,7 @@ title: "Is RAG all you need? A look at the limits of retrieval augmentation"
 description: This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25.
 date: 2024-02-21
 author: "ZanSara"
-featuredImage: "/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg"
+featured-image: "/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg"
 canonicalUrl: https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/
 aliases:
 - /posts/is-rag-all-you-need
@@ -17,7 +17,7 @@ Retrieval Augmented Generation (RAG) is by far one of the most popular and effec
 
 However, retrieval augmentation is not a silver bullet that many claim it is. Among all these obvious benefits, RAG brings its own set of weaknesses and limitations, which it’s good to be aware of when scale and accuracy need to be improved further.
 
-# How does a RAG application fail?
+## How does a RAG application fail?
 
 At a high level, RAG introduces a retrieval step right before the LLM generation. This means that we can classify the failure modes of a RAG system into two main categories:
 
@@ -34,14 +34,14 @@ However, as the system scales to larger corpora, lower quality documents, or nic
 
 *The difference between retrieval and generation failures. Identifying where your RAG system is more likely to fail is key to improve the quality of its answers.*
 
-# A case study: customer support chatbots
+## A case study: customer support chatbots
 
 This is one of the most common applications of LLMs is a chatbot that helps users by answering their questions about a product or a service. Apps like this can be used in situations that are more or less sensitive for the user and difficult for the LLM: from simple developer documentation search, customer support for airlines or banks, up to bots that provide legal or medical advice.
 
 These three systems are very similar from a high level perspective: the LLM needs to use snippets retrieved from a a corpus of documents to build a coherent answer for the user. In fact, RAG is a fitting architecture for all of them, so let’s assume that all the three systems are build more or less equally, with a retrieval step followed by a generation one.
 Let’s see what are the challenges involved in each of them.
 
-## Enhanced search for developer documentation
+### Enhanced search for developer documentation
 
 For this usecase, RAG is usually sufficient to achieve good results. A simple proof of concept may even overshoots expectations.
 
@@ -53,7 +53,7 @@ As a bonus, the queries are very likely to always be in English, which happens t
 
 *The MongoDB documentation provides a chatbot interface which is quite useful.*
 
-## Customer support bots for airlines and banks
+### Customer support bots for airlines and banks
 
 In this case, the small annoyances that are already present above have a [much stronger impact](https://www.theguardian.com/world/2024/feb/16/air-canada-chatbot-lawsuit).
 
@@ -63,7 +63,7 @@ Even if your airline or bank’s customer support pages are top notch, hallucina
 
 *You are going to need a very good RAG system and a huge disclaimer to avoid [this scenario](https://www.theguardian.com/world/2024/feb/16/air-canada-chatbot-lawsuit).*
 
-## Bots that provide legal or medical advice
+### Bots that provide legal or medical advice
 
 The third case brings the exact same issues to a whole new level. In these scenarios, vanilla RAG is normally not enough.
 
@@ -75,7 +75,7 @@ Even worse, LLMs often have no reliable background knowledge on these topics, so
 
 *[Research is being done](https://www.sciencedirect.com/science/article/pii/S2949761223000366), but the results are not promising yet.*
 
-# Ok, but what can we do?
+## Ok, but what can we do?
 
 Moving your simple PoC to real world use cases without reducing the quality of the response requires a deeper understanding of how the retrieval and the generation work together. You need to be able to measure your system’s performance, to analyze the causes of the failures, and to plan experiments to improve such metrics. Often you will need to complement it with other techniques that can improve its retrieval and generation abilities to reach the quality thresholds that makes such a system useful at all.
 

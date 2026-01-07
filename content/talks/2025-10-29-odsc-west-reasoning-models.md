@@ -2,7 +2,7 @@
 title: "ODSC West: LLMs that think - Demystifying Reasoning Models"
 date: 2025-10-29
 author: "ZanSara"
-featuredImage: "/talks/2025-10-29-odsc-west-reasoning-models.png"
+featured-image: "/talks/2025-10-29-odsc-west-reasoning-models.png"
 ---
 
 [Announcement](https://odsc.ai/speakers-portfolio/llms-that-think-demystifying-reasoning-models/), [teaser article](https://www.zansara.dev/posts/2025-05-12-beyond-hype-reasoning-models/), [slides](https://drive.google.com/file/d/1x-DobRa7ZrUncTe1kUVHc6BGFzxiTELc/view?usp=sharing).

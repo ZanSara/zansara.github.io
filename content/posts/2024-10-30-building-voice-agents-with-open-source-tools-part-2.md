@@ -3,7 +3,7 @@ title: "Building Reliable Voice Bots with Open Source Tools - Part 2"
 description: "A practical guide on the best techniques to build performant and cost effective voice bots."
 date: 2024-10-30
 author: "ZanSara"
-featuredImage: "/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png"
+featured-image: "/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png"
 aliases:
 - /posts/2024-09-05-voice-bots-2/
 ---
@@ -20,7 +20,7 @@ In [Part 1](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-
 
 In this post instead we will focus on **the solutions** that are available today and we are going to build our own voice bot using [Pipecat](https://www.pipecat.ai), a recently released open-source library that makes building these bots a lot simpler.
 
-# Outline
+## Outline
 
 _Start from [Part 1](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/)._
 
@@ -36,7 +36,7 @@ _Start from [Part 1](/posts/2024-09-05-building-voice-agents-with-open-source-to
 - [Looking forward](#looking-forward)
 
 
-# A modern voice bot
+## A modern voice bot
 
 At this point we have a [comprehensive view](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) of the issues that we need to solve to create a reliable, usable and natural-sounding voice agents. How can we actually build one?
 
@@ -44,7 +44,7 @@ First of all, let's take a look at the structure we defined earlier and see how 
 
 ![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-2.png)
 
-## Voice Activity Detection (VAD)
+### Voice Activity Detection (VAD)
 
 One of the simplest improvements to this architecture is the addition of a robust Voice Activity Detection (VAD) model. VAD gives the bot the ability to hear interruptions from the user and react to them accordingly, helping to break the classic, rigid turn-based interactions of old-style bots.
 
@@ -56,7 +56,7 @@ The logic engine also needs to handle a half-spoken reply in a graceful way: it 
 
 The quality of your VAD model matters a lot, as well as tuning its parameters appropriately. You don't want the bot to interrupt itself at every ambient sound it detects, but you also want the interruption to happen promptly, with a few hundreds of milliseconds of delay. Some of the best and most used models out there are [Silero](https://github.com/snakers4/silero-vad)'s VAD models, or alternatively [Picovoice](https://picovoice.ai/)'s [Cobra](https://picovoice.ai/platform/cobra/) models.
 
-## Tools
+### Tools
 
 Tools are often a major component of you bot's functionality. Modern and effective voice bots today are often able to take basic actions such as looking up data in a database or calling simple functions.
 
@@ -64,7 +64,7 @@ Function calling is a feature of most of today's LLMs, so it's often a low-hangi
 
 ![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-tools.png)
 
-## LLM-based intent detection
+### LLM-based intent detection
 
 Despite the [distinction we made earlier](posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/#logic-engine) between tree-based, intent-based and LLM-based bots, often the logic of voice bots is implemented in a blend of more than one style. Intent-based bots may contain small decision trees, as well as LLM prompts. Often these approaches deliver the best results by taking the best of each to compensate for the weaknesss of the others.
 
@@ -82,7 +82,7 @@ However, if we decide to implement this chatbot with an LLM, it becomes really h
 
 There is an intermediate solution: **first try to detect intent, then leverage the LLM**.
 
-### Intent detection
+#### Intent detection
 
 Step one is detecting the intention of the user. This step can be done with an LLM by sending it a message such as this:
 
@@ -107,7 +107,7 @@ This first steps narrows down drastically the scope of the conversation and, as 
 
 So the next step is to retrieve these instructions
 
-### Prompt update
+#### Prompt update
 
 Once we know what the user's intention is, it's time to build the real prompt that will give us a reply for the user.
 
@@ -130,7 +130,7 @@ into a specific date and time (like 2024-01-24 10:24:32)
 Don't forget about timezones. ...
 ```
 
-### Reply generation
+#### Reply generation
 
 With the new, narrower system prompt in place at the head of the conversation, we can finally prompt the LLM again to generate a reply for the user. The LLM, following the instructions of the updated prompt, has an easier time following its instructions (because they're simpler and more focused) and generated better quality answers for both the users and the developers.
 
@@ -143,13 +143,13 @@ user: Hello, can you tell me if there's a repair shop for your product ABC open 
 assistant: Sure, let me look it up! Can you please tell me your zipcode?
 ```
 
-## What about latency?
+### What about latency?
 
 With all these additional back-and-forth with the LLM, it's easy to find ourselves into a situation where latency gets out of hand. With only half a second of time to spare, making sure the system works as efficiently as possible is crucial.
 
 With today's models there are a few technical and non-technical ways to manage the latency of your bots and keep it under control.
 
-### Model colocation
+#### Model colocation
 
 Colocating models means that, instead of hosting each model on a different server or SaaS provider, you host all of them on the same machine or server rack, very close together.
 
@@ -157,7 +157,7 @@ Colocation can be helpful to reduce or remove entirely the overhead of network r
 
 Keep in mind also that colocation can backfire if your hardware is not suitable for the needs of the models you're running. If you don't have GPUs available, or they don't fit all the models you need to colocate, your latency might increase dramatically.
 
-### I/O streaming
+#### I/O streaming
 
 Modern LLMs and STT/TTS models are able to stream either their input or their output. The time it takes these models to generate the start of their output is often much faster than the time they take to generate the entire reply, so streaming the output of one into the input of the next will bring down the latency of the whole system by orders of magnitude.
 
@@ -165,17 +165,17 @@ Modern LLMs and STT/TTS models are able to stream either their input or their ou
 
 This is exactly what frameworks like Pipecat enable for all their models, and it's usually possible for all moderns LLMs.
 
-### Declaring the latency
+#### Declaring the latency
 
 If all technical solutions fails, one unconventional approach is to make the bot declare its own latency at the very start of the conversation. While it might sound silly, if a bot opens the chat saying `I might be a bit slow, so be patient with me` users are automatically more keen to wait longer for the bot's response instead of pinging it continuously. While this does not make for the best user experience, being honest about your bot's capabilities is always appreciated.
 
 This technique, however, is not a band-aid for any sort of delay. Users won't manage to talk to a bot if each reply takes more than one or two seconds to come back to them, regardless of how patient they might be.
 
-### Buying time
+#### Buying time
 
 Last but not least, occasionally the bot might have a spike in latency due to the usage of a slow tool. When your bot knows that its reply is going to take longer than usual, it's best, again, to warn the user by telling them what's going on. Having the bot say something like `Ok, let me look it up, it will take a few seconds` is a huge user experience improvement you should not underestimate.
 
-# The code
+## The code
 
 Now that we've seen all the techniques that can make your bot effective, reliable and fast, it's time to actually implement one!
 

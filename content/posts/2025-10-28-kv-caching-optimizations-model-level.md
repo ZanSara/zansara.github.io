@@ -3,7 +3,7 @@ title: "Making sense of KV Cache optimizations, Ep. 3: Model-level"
 description: "Let's make sense of the zoo of model-level techniques that exist out there."
 date: 2025-10-28
 author: "ZanSara"
-featuredImage: "/posts/2025-10-28-kv-caching-optimizations-model-level/cover.png"
+featured-image: "/posts/2025-10-28-kv-caching-optimizations-model-level/cover.png"
 ---
 
 In the previous posts we've seen [what the KV cache is](/posts/2025-10-23-kv-caching/) and what types of [KV Cache management optimizations](/posts/2025-10-26-kv-caching-optimizations-intro/) exist according to a [recent survey](https://arxiv.org/abs/2412.19442). In this post we are going to focus on **model-level** KV cache optimizations.

@@ -2,7 +2,7 @@
 title: "EuroPython: Is RAG all you need? A look at the limits of retrieval augmented generation"
 date: 2024-07-10
 author: "ZanSara"
-featuredImage: "/talks/2024-07-10-europython-rag.png"
+featured-image: "/talks/2024-07-10-europython-rag.png"
 ---
 
 [Announcement](https://ep2024.europython.eu/session/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmented-generation), 

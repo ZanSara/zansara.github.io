@@ -3,7 +3,7 @@ title: "An (unofficial) Python SDK for Verbix"
 description: If you need a Python SDK for a verb conjugator, try this one while it's still alive.
 date: 2023-09-10
 author: "ZanSara"
-featuredImage: "/posts/2023-09-10-python-verbix-sdk/cover.png"
+featured-image: "/posts/2023-09-10-python-verbix-sdk/cover.png"
 ---
 
 PyPI package: https://pypi.org/project/verbix-sdk/

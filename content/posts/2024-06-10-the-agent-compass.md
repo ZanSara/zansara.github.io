@@ -3,7 +3,7 @@ title: "The Agent Compass"
 description: Agent means everything and nothing in today's GenAI landscape. Let's shed some light on this topic.
 date: 2024-06-10
 author: "ZanSara"
-featuredImage: "/posts/2024-06-10-the-agent-compass/cover.png"
+featured-image: "/posts/2024-06-10-the-agent-compass/cover.png"
 ---
 
 The concept of Agent is one of the vaguest out there in the post-ChatGPT landscape. The word has been used to identify systems that seem to have nothing in common with one another, from complex autonomous research systems down to a simple sequence of two predefined LLM calls. Even the distinction between Agents and techniques such as RAG and prompt engineering seems blurry at best.

@@ -3,7 +3,7 @@ title: "Headless WiFi setup on Raspberry Pi OS \"Bookworm\" without the Raspberr
 description: Setting up a headless Pi used to be simpler. Is it still possible to do it without the RPi Imager?
 date: 2024-01-06
 author: "ZanSara"
-featuredImage: "/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/cover.png"
+featured-image: "/posts/2024-01-06-raspberrypi-headless-bookworm-wifi-config/cover.png"
 ---
 
 Setting up a Raspberry Pi headless without the Raspberry Pi Imager used to be a fairly simple process for the average Linux user, to the point where a how-to and a few searches on the Raspberry Pi forums would sort the process out. After flashing the image with `dd`, creating `ssh` in the boot partition and populating `wpa_supplicant.conf` was normally enough to get started.

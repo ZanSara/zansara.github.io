@@ -3,7 +3,7 @@ title: "Can you really interrupt an LLM?"
 description: "You never see that in the demos... why?"
 date: 2025-06-02
 author: "ZanSara"
-featuredImage: "/posts/2025-06-02-can-you-really-interrupt-an-llm/cover.png"
+featured-image: "/posts/2025-06-02-can-you-really-interrupt-an-llm/cover.png"
 ---
 
 With the recent release of [Voice Mode](https://support.anthropic.com/en/articles/11101966-using-voice-mode-on-claude-mobile-apps) for [Claude](https://www.anthropic.com/claude), it seems like Voice AI is a solved problem. Now that LLMs can speak natively, there's apparently no more need for any of the [complex voice pipelines](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) that used to be necessary last year: no need to do voice activity detection, no need to pipe data from the speech-to-text model to the LLM and then back to the text-to-speech engine at blazing speed in order to achieve a natural conversation flow. Modern LLMs can [laugh and sing](https://vimeo.com/945587944): what else could we need?
@@ -36,7 +36,7 @@ What's going on?
 
 This simple exercise highlights two core issues that are often overlooked when developing Voice AI agents. Let's see them.
 
-# Problem #1: LLMs don't perceive time
+## Problem #1: LLMs don't perceive time
 
 As algorithms trained to predict the most likely next word, LLMs don't have any concept of time. When dealing with text, this issue is not visible; however as soon as we cross over the domain of voice, their lack of understanding of time becomes a much bigger problem. LLMs still perceive the conversation as a series of tokens, with no concept of speed, pauses, or anything of that sort. They are often trained to control cadence, tone, to imitate pauses and adjust their talking speed, but they don't _perceive_ these features as we do: they are just additional properties of the output tokens.
 
@@ -50,7 +50,7 @@ For example, here is what GPT-4o (the LLM that handles time best) can do when as
   </video>
 </div>
 
-# Problem #2: Interruptions are not a native capability
+## Problem #2: Interruptions are not a native capability
 
 Most Voice AIs out there feature the possibility to interrupt them. However, not having any innate concept of time, the ability to interrupt the model has to be implemented on the application end: and this is where it usually goes wrong.
 
@@ -62,7 +62,7 @@ However, unless the app notifies the LLM of this action, **the LLM has no way to
 
 ![](/posts/2025-06-02-can-you-really-interrupt-an-llm/naive-interruption.png)
 
-# Can it be solved?
+## Can it be solved?
 
 If you paid close attention you may have noticed that GPT-4o, while it still stops at the wrong number, it does not believe it completed the countdown, but it understood that the counting was interrupted at some point before the end.
 
@@ -91,7 +91,7 @@ As we've seen, this is not sufficient to handle interruptions correctly. It's li
 
 In the case of Claude we don't know yet if that's an inherent limitation or a bug in the app, because at the time of writing there is no Live/Realtime API available for Claude.
 
-# Wrapping up
+## Wrapping up
 
 Voice Mode for LLMs is a huge step forward for voice AI, but it's not a silver bullet. LLMs are first and foremost text prediction algorithms, and even when adapted to work with voice, some of their limitations persists. In order to have complete control, building a [full pipeline for voice](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) may still be your best bet if you have the infrastructure to achieve a low enough latency; otherwise, always make sure to test the behavior of your LLMs in these corner cases and stick to more well-tested models (in this case, OpenAI's) for better handling of time.
 

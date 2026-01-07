@@ -3,7 +3,7 @@ title: "Brekeke"
 description: A collection of LLM-powered home automation scripts
 date: 2023-12-01
 author: "ZanSara"
-featuredImage: "/projects/brekeke.jpeg"
+featured-image: "/projects/brekeke.jpeg"
 ---
 
 With the rise of more and more powerful LLMs, I am experimenting with different ways to interact with them in ways that don't necessarily involve a laptop, a keyboard or a screen. 

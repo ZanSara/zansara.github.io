@@ -2,7 +2,7 @@
 title: "PyData Global: Building LLM Voice Bots with Open Source Tools"
 date: 2024-12-03
 author: "ZanSara"
-featuredImage: "/talks/2024-12-03-pydata-global-voice-bots.png"
+featured-image: "/talks/2024-12-03-pydata-global-voice-bots.png"
 ---
 
 [Announcement](https://global2024.pydata.org/cfp/talk/T3YDBP/), [slides](https://drive.google.com/file/d/1rXb4-m-BWwhAqDCDBXpzw6nJ9OELOpSl/view?usp=sharing), [demo video](https://drive.google.com/file/d/1bja0O8LG7790UIU7HpAYXat-BYXeUbK-/view?usp=sharing) and full video ([Youtube](https://www.youtube.com/watch?v=Td5dFdG0wE4), [backup](https://drive.google.com/file/d/1HTEEs-Zr8mZoJA8a7AuiJf61soGvQNPI/view?usp=sharing)).
@@ -19,10 +19,10 @@ All resources can also be found in
 During the talk I showed a recording of a demo built with [Intentional](https://github.com/intentional-ai/intentional), a new library to prompt voice bots in a way that takes inspiration from classic intent-based chatbots. Here are the instructions needed to run this same demo on your own machine and play with it.
 
 <div class="notice info">
-<div class="notice-content">
-_Intentional is still in its very first stages of development and highly unstable!_
 
-_I am looking for contributors to help this project come to life, so if you would like to help there are many ways to do so: leave a star on [the repo](https://github.com/intentional-ai/intentional), [test the library](https://intentional-ai.github.io/intentional/docs/home/) on your machine, [open an issue](https://github.com/intentional-ai/intentional/issues/new), reach out to me to leave feedback (you can find my contact [on the homepage](/)), [spread the word](https://github.com/intentional-ai/intentional) about Intentional, or even [contribute to the project](https://intentional-ai.github.io/intentional/CONTRIBUTING/) with a PR._
+Intentional is still in its very first stages of development and highly unstable!
+
+I am looking for contributors to help this project come to life, so if you would like to help there are many ways to do so: leave a star on <a href="https://github.com/intentional-ai/intentional">the repo</a>, <a href="https://intentional-ai.github.io/intentional/docs/home/">test the library</a> on your machine, <a href="https://github.com/intentional-ai/intentional/issues/new">open an issue</a>, reach out to me to leave feedback (you can find my contact <a href="/">on the homepage</a>), <a href="https://github.com/intentional-ai/intentional">spread the word</a> about Intentional, or even <a href="https://intentional-ai.github.io/intentional/CONTRIBUTING/">contribute to the project</a> with a PR.
 
 
 <!-- Place this tag in your head or just before your close body tag. -->
@@ -32,7 +32,6 @@ _I am looking for contributors to help this project come to life, so if you woul
 <a class="github-button" href="https://github.com/intentional-ai/intentional" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star intentional-ai/intentional on GitHub">Star</a>
 
 </div>
-</div>
 
 First, install Intentional and the plugin for [Textual](https://textual.textualize.io/)'s UI:
 
@@ -41,9 +40,9 @@ pip install intentional intentional-textual-ui
 ```
 
 <div class="notice info">
-<div class="notice-content">
-_This demo was only tested on Linux (Ubuntu). You will need `portaudio` in order for Intentional to handle audio from your microphone, so if you face errors during the installation, try:_ `sudo apt install portaudio19-dev`
-</div>
+
+This demo was only tested on Linux (Ubuntu). You will need `portaudio` in order for Intentional to handle audio from your microphone, so if you face errors during the installation, try: `sudo apt install portaudio19-dev`
+
 </div>
 
 Next, you'll need the configuration file where the conversation tree is defined. Intentional bots are, at their core, entirely defined by this configuration file (with the partial exception of tools, as you can see [in the documentation](https://intentional-ai.github.io/intentional/docs/home/)). Download the demo configuration file [from this link](https://drive.google.com/file/d/1dkvxpCH6uny8ew3wrsgh7SPZdqvKuTyd/view?usp=sharing) and save it as `demo.yml`.
@@ -67,9 +66,7 @@ You should see a UI such as this coming up (with the chat history empty):
 Just start speaking and the bot will quickly reply to you. 
 
 <div class="notice info">
-<div class="notice-content">
-_Occasionally the transcriptions don't work well. The bot is generating such transcriptions exclusively for your convenience, so even if they're mangled, in most cases you can be confident that the model actually heard you well._
-</div>
+Occasionally the transcriptions don't work well. The bot is generating such transcriptions exclusively for your convenience, so even if they're mangled, in most cases you can be confident that the model actually heard you well.
 </div>
 
 To see the conversation graph, run this command:

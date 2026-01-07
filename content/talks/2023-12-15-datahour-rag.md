@@ -2,7 +2,7 @@
 title: "DataHour: Optimizing LLMs with Retrieval Augmented Generation and Haystack 2.0"
 date: 2023-12-15
 author: "ZanSara"
-featuredImage: "/talks/2023-12-15-datahour-rag.png"
+featured-image: "/talks/2023-12-15-datahour-rag.png"
 ---
 
 [Recording](https://drive.google.com/file/d/1OkFr4u9ZOraJRF406IQgQh4YC8GLHbzA/view?usp=drive_link), [slides](https://drive.google.com/file/d/1n1tbiUW2wZPGC49WK9pYEIZlZuCER-hu/view?usp=sharing), [Colab](https://drive.google.com/file/d/17FXuS7X70UF02IYmOr-yEDQYg_gp9cFv/view?usp=sharing), [gist](https://gist.github.com/ZanSara/6075d418c1494e780f7098db32bc6cf6). All the material can also be found on [Analytics Vidhya's community](https://community.analyticsvidhya.com/c/datahour/optimizing-llms-with-retrieval-augmented-generation-and-haystack-2-0) and on [my backup](https://drive.google.com/drive/folders/1KwCEDTCsm9hrRaFUPHpzdTpVsOJSnvGk?usp=drive_link).

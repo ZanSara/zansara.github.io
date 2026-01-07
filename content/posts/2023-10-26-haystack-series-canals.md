@@ -4,7 +4,7 @@ description: "Haystack 2.0 comes with a brand new pipeline concept. Let's discov
 date: 2023-10-26
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-26-haystack-series-canals/cover-updated.png"
+featured-image: "/posts/2023-10-26-haystack-series-canals/cover-updated.png"
 ---
 
 _Updated on 21/12/2023_

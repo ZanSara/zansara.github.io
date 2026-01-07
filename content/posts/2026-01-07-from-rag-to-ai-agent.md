@@ -3,7 +3,7 @@ title: "From RAG to AI Agent"
 description: "A step-by-step guide to transform your RAG pipelines into effective AI agents."
 date: 2026-01-07
 author: "ZanSara"
-featuredImage: "/posts/2026-01-07-from-rag-to-ai-agent/cover.png"
+featured-image: "/posts/2026-01-07-from-rag-to-ai-agent/cover.png"
 draft: true
 ---
 
@@ -69,11 +69,9 @@ This means that even before query rewrite we should add another step, where the 
 
 ![](/posts/2026-01-07-from-rag-to-ai-agent/optional-retrieval.png)
 
-{{< notice info >}}
-
-*Note that this is just a naive implementation. In practice, the decision of retrieving and the query rewrite may be done by the same LLM call to save time. You may also use different LLMs in parallel for different steps, leveraging smarter and more expensive LLMs for the decisional tasks and faster/cheaper ones for the query rewrite and the answer generation.*
-
-{{< /notice >}}
+<div class="notice">
+💡  Note that this is just a naive implementation. In practice, the decision of retrieving and the query rewrite may be done by the same LLM call to save time. You may also use different LLMs in parallel for different steps, leveraging smarter and more expensive LLMs for the decisional tasks and faster/cheaper ones for the query rewrite and the answer generation.
+</div>
 
 This is a critical step towards an AI agent: we are giving the LLM the power to take a decision, however simple the decision may look. This is the point where you should start to adapt your evaluation framework to measure how effective the LLM is at **taking decisions**, rather than its skills at interpreting the retrieved context or the effectiveness of your retrieval step alone. This is what Agent evaluation frameworks will do for you (see the bottom of the article for some suggestions).
 
@@ -89,11 +87,9 @@ The resulting architecture looks like this:
 
 ![](/posts/2026-01-07-from-rag-to-ai-agent/agentic-loop.png)
 
-{{< notice info >}}
-
-*Note that this is also a naive implementation. A few of these decisions can be packed together in a single pass and, again, you can use different LLMs for different tasks.*
-
-{{< /notice >}}
+<div class="notice">
+💡  Note that this is also a naive implementation. A few of these decisions can be packed together in a single pass and, again, you can use different LLMs for different tasks.
+</div>
 
 With the introduction of the agentic loop we've crossed the boundary of what constitutes an **AI Agent**, even though it's still a very simple one. The LLM is now in charge of deciding when the retrieval is good enough, and it can try as many times as it wants (up to a threshold of your choosing) until it's satisfied with the outcome.
 

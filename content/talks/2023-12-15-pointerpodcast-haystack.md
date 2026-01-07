@@ -2,7 +2,7 @@
 title: "Pointer[183]: Haystack, creare LLM Applications in modo facile"
 date: 2023-12-15
 author: "ZanSara"
-featuredImage: "/talks/2023-12-15-pointerpodcast-haystack.png"
+featured-image: "/talks/2023-12-15-pointerpodcast-haystack.png"
 ---
 
 [Episode link](https://pointerpodcast.it/p/pointer183-haystack-creare-llm-applications-in-modo-facile-con-stefano-fiorucci-e-sara-zanzottera). Backup recording [here](https://drive.google.com/file/d/1BOoAhfvWou_J4J7RstgKAHPs3Pre2YAw/view?usp=sharing).

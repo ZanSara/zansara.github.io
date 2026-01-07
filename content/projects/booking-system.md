@@ -3,7 +3,7 @@ title: "CAI Sovico's Website"
 description: Small website and reservations management system
 date: 2016-01-01
 author: "ZanSara"
-featuredImage: "/projects/camerini.png"
+featured-image: "/projects/camerini.png"
 ---
 
 Main website: https://www.caisovico.it

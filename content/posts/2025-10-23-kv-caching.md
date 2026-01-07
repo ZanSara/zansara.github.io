@@ -4,7 +4,7 @@ description: "Nearly all inference libraries can do it for you. But what's reall
 date: 2025-10-23
 author: "ZanSara"
 series: ["Practical Questions"]
-featuredImage: "/posts/2025-10-23-kv-caching/cover.png"
+featured-image: "/posts/2025-10-23-kv-caching/cover.png"
 ---
 
 ---

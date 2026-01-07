@@ -2,7 +2,7 @@
 title: "OpenNLP Meetup: A Practical Introduction to Image Retrieval"
 date: 2022-12-01
 author: "ZanSara"
-featuredImage: "/talks/2022-12-01-open-nlp-meetup.png"
+featured-image: "/talks/2022-12-01-open-nlp-meetup.png"
 ---
 
 [Youtube link](https://www.youtube.com/watch?v=7Idjl3OR0FY),

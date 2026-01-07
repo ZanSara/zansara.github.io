@@ -3,7 +3,7 @@ title: "Trying to play \"Guess Who\" with an LLM"
 description: "I expected a different kind of fun."
 date: 2025-09-15
 author: "ZanSara"
-featuredImage: "/posts/2025-09-15-playing-guess-who-with-an-llm/cover.png"
+featured-image: "/posts/2025-09-15-playing-guess-who-with-an-llm/cover.png"
 ---
 
 

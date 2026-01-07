@@ -4,7 +4,7 @@ description: "And is the added latency worth it? Let's understand what they do a
 date: 2025-10-09
 author: "ZanSara"
 series: ["Practical Questions"]
-featuredImage: "/posts/2025-10-09-rerankers/cover.png"
+featured-image: "/posts/2025-10-09-rerankers/cover.png"
 ---
 
 ---

@@ -2,7 +2,7 @@
 title: "Evaluation of Qt as GUI Framework for Accelerator Controls"
 date: 2018-12-20
 author: "ZanSara"
-featuredImage: "/publications/msc-thesis.png"
+featured-image: "/publications/msc-thesis.png"
 ---
 
 This is the full-text of my MSc thesis, written in collaboration with 

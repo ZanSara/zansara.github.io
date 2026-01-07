@@ -24,20 +24,23 @@
 
   <!-- Theme toggle -->
   <input type="checkbox" id="theme-toggle" hidden>
-  <div class="float-container">
-    <label for="theme-toggle" class="colorscheme-toggle">
-        <i class="fa fa-adjust" aria-hidden="true"></i> 
-    </label>
-  </div>
-
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
   <main>
+
     {header}
 
     {content}
 
     {footer}
-  </main>
-{mermaid_script}
-</body>
 
+  </main>
+
+  {mermaid_script}
+
+</body>
 </html>

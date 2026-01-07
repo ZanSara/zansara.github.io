@@ -2,7 +2,7 @@
 title: "Intentional"
 description: Easy to control, multimodal chatbots that scale.
 date: 2024-12-01
-featuredImage: "/projects/intentional.png"
+featured-image: "/projects/intentional.png"
 ---
 
 [Intentional](https://github.com/intentional-ai/intentional/) is an open-source framework to build reliable chatbots that actually do what you expect from them.

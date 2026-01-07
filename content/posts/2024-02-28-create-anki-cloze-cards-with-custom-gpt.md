@@ -3,14 +3,14 @@ title: "ClozeGPT: Write Anki cloze cards with a custom GPT"
 description: Writing good Anki cards is a chore. Let's bring LLMs to the rescue.
 date: 2024-02-28
 author: "ZanSara"
-featuredImage: "/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png"
+featured-image: "/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png"
 ---
 
 As everyone who has been serious about studying with [Anki](https://apps.ankiweb.net/) knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
 
 What can we do to make this process less tedious?
 
-# Write simple cards
+## Write simple cards
 
 [A lot](https://www.reddit.com/r/Anki/) has been written about the best way to create Anki cards. However, as a [HackerNews commenter](https://news.ycombinator.com/item?id=39002138) once said:
 
@@ -20,7 +20,7 @@ Cards can hardly be [too simple to be effective](https://www.supermemo.com/en/bl
 
 In the case of language learning, if you're an advanced learner one of the easiest way to create such cards is to [copy-paste a sentence](https://www.supermemo.com/en/blog/learn-whole-phrases-supertip-4) with your target word into a card and write the translation of that word (or sentence) on the back. But if you're a beginner, even these cards can be complicated both to write and to review. What if the sentence where you found the new word is too complex? You'll need to write a brand new sentence. But what if you write an incorrect sentence? And so on.
 
-# Automating the process
+## Automating the process
 
 Automated card generation has been often compared to the usage of [pre-made decks](https://www.reddit.com/r/languagelearning/comments/6ysx7g/is_there_value_in_making_your_own_anki_deck_or/), because the students don't see the content of the cards they're adding to their decks before doing so. However, this depends a lot on how much the automation is hiding from the user.
 
@@ -32,7 +32,7 @@ A [quick experiment](https://chat.openai.com/share/89c821b8-6048-45f3-9fc1-c3875
 
 ![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/chatgpt-anki-card-creation.png)
 
-# Custom GPTs
+## Custom GPTs
 
 The natural next step is to store that set of instructions into a custom prompt, or as they're called now, a [custom GPT](https://help.openai.com/en/articles/8554407-gpts-faq#h_40756527ce). Making these small wrapper is [really easy](https://help.openai.com/en/articles/8554397-creating-a-gpt): it requires no coding, only a well crafted prompt and a catchy name. So we called our new GPT "ClozeGPT" and started off with a prompt like this:
 
@@ -86,7 +86,7 @@ This simple prompt already gives very nice results!
 
 ![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/beber-flashcard.png)
 
-# Bells and whistles
+## Bells and whistles
 
 Naturally, once a tool works well it's hard to resist the urge to add some new features to it. So for our ClozeGPT we added a few more abilities:
 
@@ -118,7 +118,7 @@ And finally `Q` is a convenient escape hatch to make this GPT revert back to its
 
 ![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/esquecer-flashcard.png)
 
-# Have fun
+## Have fun
 
 Our small [ClozeGPT](https://chat.openai.com/g/g-wmHCaGcCZ-clozegpt) works only for Portuguese now, but feel free to play with it if you find it useful. And, of course, always keep in mind that LLMs are only [pretending to be humans](https://chat.openai.com/share/07295647-9f43-4346-97a5-b35f62251d55).
 

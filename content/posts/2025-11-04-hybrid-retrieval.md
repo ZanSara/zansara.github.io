@@ -4,7 +4,7 @@ description: "We've been told embedding search strictly superior to BM25 and all
 date: 2025-11-04
 author: "ZanSara"
 series: ["Practical Questions"]
-featuredImage: "/posts/2025-11-04-hybrid-retrieval/cover.png"
+featured-image: "/posts/2025-11-04-hybrid-retrieval/cover.png"
 ---
 
 ---

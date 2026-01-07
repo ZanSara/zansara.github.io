@@ -4,7 +4,7 @@ description: What are Haystack's pipelines and how do they work?
 date: 2023-10-15
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-15-haystack-series-pipeline/cover.png"
+featured-image: "/posts/2023-10-15-haystack-series-pipeline/cover.png"
 ---
 If you've ever looked at Haystack before, you must have come across the [Pipeline](https://docs.haystack.deepset.ai/docs/pipelines), one of the most prominent concepts of the framework. However, this abstraction is by no means an obvious choice when it comes to NLP libraries. Why did we adopt this concept, and what does it bring us? 
 

@@ -4,7 +4,7 @@ description: "Before even diving into what Haystack 2.0 is, how it was built, an
 date: 2023-10-11
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
-featuredImage: "/posts/2023-10-11-haystack-series-why/cover.png"
+featured-image: "/posts/2023-10-11-haystack-series-why/cover.png"
 ---
 
 Before even diving into what Haystack 2.0 is, how it was built, and how it works, let's spend a few words about the whats and the whys.
