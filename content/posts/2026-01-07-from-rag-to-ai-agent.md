@@ -4,7 +4,6 @@ description: "A step-by-step guide to transform your RAG pipelines into effectiv
 date: 2026-01-07
 author: "ZanSara"
 featured-image: "/posts/2026-01-07-from-rag-to-ai-agent/cover.png"
-draft: true
 ---
 
 ---
