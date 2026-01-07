@@ -3,7 +3,7 @@ title: "Guess Who"
 description: Play "Guess Who" with your favorite LLMs!
 date: 2025-09-01
 author: "ZanSara"
-featured-image: "/projects/guess-who.png"
+featured-image: "/projects/guess-who/cover.png"
 ---
 
 LLMs nowadays are headed for superintelligence, they say. They should make good tabletop game partners then, I guess?

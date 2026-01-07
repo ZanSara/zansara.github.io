@@ -3,7 +3,7 @@ title: "Building Reliable Voice Bots with Open Source Tools - Part 1"
 description: "A deep look at the main challenges of building performant and cost effective voice bots."
 date: 2024-09-20
 author: "ZanSara"
-featured-image: "/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png"
+featured-image: "/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/cover.png"
 aliases:
 - /posts/2024-09-05-odsc-europe-voice-agents-part-1
 - /posts/2024-09-05-voice-bots-1/

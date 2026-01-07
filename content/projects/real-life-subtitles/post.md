@@ -3,7 +3,7 @@ title: "Real Life Subtitles"
 description: Transcribe spoken sentences in real time
 date: 2025-05-01
 author: "ZanSara"
-featured-image: "/projects/real-life-subtitles.png"
+featured-image: "/projects/real-life-subtitles/cover.png"
 ---
 
 Have you ever struggled to listen to a native speaker of the language you're learning and wished you could see subtitles in real life as well?

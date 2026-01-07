@@ -2,7 +2,7 @@
 title: "Adopting PyQt For Beam Instrumentation GUI Development At CERN"
 date: 2022-03-01
 author: "ZanSara"
-featured-image: "/publications/thpv014.png"
+featured-image: "/publications/thpv014/cover.png"
 ---
 
 ## Abstract

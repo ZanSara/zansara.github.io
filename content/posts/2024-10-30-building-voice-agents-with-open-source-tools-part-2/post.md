@@ -3,12 +3,12 @@ title: "Building Reliable Voice Bots with Open Source Tools - Part 2"
 description: "A practical guide on the best techniques to build performant and cost effective voice bots."
 date: 2024-10-30
 author: "ZanSara"
-featured-image: "/posts/2024-09-05-building-voice-agents-with-open-source-tools/cover.png"
+featured-image: "/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/cover.png"
 aliases:
 - /posts/2024-09-05-voice-bots-2/
 ---
 
-*This is part two of the write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-building-voice-agents-with-open-source-tools/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*
+*This is part two of the write-up of my talk at [ODSC Europe 2024](/talks/2024-10-30-building-voice-agents-with-open-source-tools-part-2/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*
 
 ---
 
@@ -16,13 +16,13 @@ In the last few years, the world of voice agents saw dramatic leaps forward in t
 
 But building reliable and effective voice bots is far from a solved problem. These improved capabilities are raising the bar, and even users accustomed to the simpler capabilities of old bots now expect a whole new level of quality when it comes to interacting with them.
 
-In [Part 1](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) we've seen mostly **the challenges** related to building such bot: we discussed the basic structure of most voice bots today, their shortcomings and the main issues that you may face on your journey to improve the quality of the conversation.
+In [Part 1](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2-part-1/) we've seen mostly **the challenges** related to building such bot: we discussed the basic structure of most voice bots today, their shortcomings and the main issues that you may face on your journey to improve the quality of the conversation.
 
 In this post instead we will focus on **the solutions** that are available today and we are going to build our own voice bot using [Pipecat](https://www.pipecat.ai), a recently released open-source library that makes building these bots a lot simpler.
 
 ## Outline
 
-_Start from [Part 1](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/)._
+_Start from [Part 1](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2-part-1/)._
 
 - [A modern voice bot](#a-modern-voice-bot)
   - [Voice Activity Detection](#voice-activity-detection-vad)
@@ -38,17 +38,17 @@ _Start from [Part 1](/posts/2024-09-05-building-voice-agents-with-open-source-to
 
 ## A modern voice bot
 
-At this point we have a [comprehensive view](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) of the issues that we need to solve to create a reliable, usable and natural-sounding voice agents. How can we actually build one?
+At this point we have a [comprehensive view](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2-part-1/) of the issues that we need to solve to create a reliable, usable and natural-sounding voice agents. How can we actually build one?
 
 First of all, let's take a look at the structure we defined earlier and see how we can improve on it.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-2.png)
+![](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/structure-of-a-voice-bot-2.png)
 
 ### Voice Activity Detection (VAD)
 
 One of the simplest improvements to this architecture is the addition of a robust Voice Activity Detection (VAD) model. VAD gives the bot the ability to hear interruptions from the user and react to them accordingly, helping to break the classic, rigid turn-based interactions of old-style bots.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-vad.png)
+![](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/structure-of-a-voice-bot-vad.png)
 
 However, on its own VAD models are not enough. To make a bot truly interruptible we also need the rest of the pipeline to be aware of the possibility of an interruption and be ready to handle it: speech-to-text models need to start transcribing and the text-to-speech component needs to stop speaking as soon as the VAD picks up speech. 
 
@@ -62,15 +62,15 @@ Tools are often a major component of you bot's functionality. Modern and effecti
 
 Function calling is a feature of most of today's LLMs, so it's often a low-hanging fruit in terms of improvements to your bot. Simple actions like looking up the current time, or searching a knowledge base before replying (a technique called [Agentic RAG](/posts/2024-06-10-the-agent-compass/#agentic-rag)), may make a huge difference in terms of the quality of its responses.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-tools.png)
+![](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/structure-of-a-voice-bot-tools.png)
 
 ### LLM-based intent detection
 
-Despite the [distinction we made earlier](posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/#logic-engine) between tree-based, intent-based and LLM-based bots, often the logic of voice bots is implemented in a blend of more than one style. Intent-based bots may contain small decision trees, as well as LLM prompts. Often these approaches deliver the best results by taking the best of each to compensate for the weaknesss of the others.
+Despite the [distinction we made earlier](posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2-part-1/#logic-engine) between tree-based, intent-based and LLM-based bots, often the logic of voice bots is implemented in a blend of more than one style. Intent-based bots may contain small decision trees, as well as LLM prompts. Often these approaches deliver the best results by taking the best of each to compensate for the weaknesss of the others.
 
 One of the most effective approaches is to use intent detection to help control the flow of an LLM conversation. Let's see how.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot-intent.png)
+![](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/structure-of-a-voice-bot-intent.png)
 
 Suppose we're building a general purpose customer support bot.
 
@@ -187,7 +187,7 @@ Have fun!
 
 <div style="display: flex; align-content: center;">
   <video style="margin:auto;" width="100%" height="100%" controls>
-    <source src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/notebook-presentation-clip.mp4" type="video/mp4">
+    <source src="/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/notebook-presentation-clip.mp4" type="video/mp4">
   </video>
 </div>
 

@@ -3,7 +3,7 @@ title: "ZanzoCam"
 description: Remote camera for autonomous operation in isolated locations, based on Raspberry Pi.
 date: 2020-01-01
 author: "ZanSara"
-featured-image: "/projects/zanzocam.png"
+featured-image: "/projects/zanzocam/cover.png"
 ---
 
 Main website: https://zanzocam.github.io/
