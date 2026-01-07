@@ -257,6 +257,14 @@ class ContentFile:
     def show_date(self):
         return bool(self.front_matter.get('show-date', True))
 
+    @property
+    def is_draft(self):
+        return bool(self.front_matter.get('draft', False))
+
+    def get_effective_url(self):
+        """Get the effective URL - external link if set, otherwise internal URL"""
+        return self.external_link if self.external_link else self.url
+
 
 def base_template(content, title, meta_tags='', has_mermaid=False):
     """Generate the base HTML template"""
@@ -372,7 +380,7 @@ def list_template(section, pages):
             featured_image=p.featured_image,
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
-            url=p.url,
+            url=p.get_effective_url(),
             title=escape(p.title),
             class_attr=get_invertible_class_attr(p.featured_image)
         )
@@ -396,7 +404,7 @@ def home_template(recent_posts, recent_talks):
             featured_image=p.featured_image,
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
-            url=p.url,
+            url=p.get_effective_url(),
             title=escape(p.title),
             class_attr=get_invertible_class_attr(p.featured_image)
         )
@@ -407,7 +415,7 @@ def home_template(recent_posts, recent_talks):
             featured_image=p.featured_image,
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
-            url=p.url,
+            url=p.get_effective_url(),
             title=escape(p.title),
             class_attr=get_invertible_class_attr(p.featured_image)
         )
@@ -436,7 +444,7 @@ def series_template(series_name, pages):
             featured_image=p.featured_image,
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
-            url=p.url,
+            url=p.get_effective_url(),
             title=escape(p.title),
             class_attr=get_invertible_class_attr(p.featured_image)
         )
@@ -487,9 +495,12 @@ class RSSGenerator:
         for page in sorted(pages, key=lambda x: x.date, reverse=True)[:20]:
             item = SubElement(channel, 'item')
             SubElement(item, 'title').text = page.title
-            SubElement(item, 'link').text = BASE_URL + page.url
+            effective_url = page.get_effective_url()
+            # For external links, use them directly; for internal, prepend BASE_URL
+            link_url = effective_url if page.external_link else BASE_URL + effective_url
+            SubElement(item, 'link').text = link_url
             SubElement(item, 'pubDate').text = page.date.strftime('%a, %d %b %Y %H:%M:%S +0000')
-            SubElement(item, 'guid').text = BASE_URL + page.url
+            SubElement(item, 'guid').text = link_url
             SubElement(item, 'description').text = page.html_content
 
         # Write to file
@@ -512,11 +523,12 @@ class SitemapGenerator:
         SubElement(url, 'loc').text = BASE_URL + '/'
         SubElement(url, 'lastmod').text = datetime.now().strftime('%Y-%m-%d')
 
-        # Add all pages
+        # Add all pages (only internal pages, not external links)
         for page in pages:
-            url = SubElement(urlset, 'url')
-            SubElement(url, 'loc').text = BASE_URL + page.url
-            SubElement(url, 'lastmod').text = page.date.strftime('%Y-%m-%d')
+            if not page.external_link:
+                url = SubElement(urlset, 'url')
+                SubElement(url, 'loc').text = BASE_URL + page.url
+                SubElement(url, 'lastmod').text = page.date.strftime('%Y-%m-%d')
 
         # Write to file
         with open(output_path, 'wb') as f:
@@ -549,14 +561,22 @@ class Builder:
 
     def generate_pages(self):
         """Generate all HTML pages"""
-        # Group pages by section
+        # Filter out drafts
+        published_pages = [p for p in self.pages if not p.is_draft]
+        draft_count = len(self.pages) - len(published_pages)
+
+        # Separate pages with external links (no individual page generation)
+        internal_pages = [p for p in published_pages if not p.external_link]
+        external_link_count = len(published_pages) - len(internal_pages)
+
+        # Group pages by section (include external links for listing)
         by_section = defaultdict(list)
-        for page in self.pages:
+        for page in published_pages:
             if page.section:
                 by_section[page.section].append(page)
 
-        # Generate individual pages
-        for page in self.pages:
+        # Generate individual pages (only for internal pages, not external links)
+        for page in internal_pages:
             html = post_template(page)
 
             # Write to public directory
@@ -578,14 +598,14 @@ class Builder:
             output_path.write_text(html, encoding='utf-8')
 
         # Generate homepage
-        posts = sorted([p for p in self.pages if p.section == "posts"], key=lambda x: x.date, reverse=True)
-        talks = sorted([p for p in self.pages if p.section == "talks"], key=lambda x: x.date, reverse=True)
+        posts = sorted([p for p in published_pages if p.section == "posts"], key=lambda x: x.date, reverse=True)
+        talks = sorted([p for p in published_pages if p.section == "talks"], key=lambda x: x.date, reverse=True)
         homepage_html = home_template(posts, talks)
         (self.public_dir / 'index.html').write_text(homepage_html, encoding='utf-8')
 
         # Generate series pages
         by_series = defaultdict(list)
-        for page in self.pages:
+        for page in published_pages:
             for series in page.series:
                 by_series[series].append(page)
 
@@ -596,17 +616,24 @@ class Builder:
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(html, encoding='utf-8')
 
-        print(f'Generated {len(self.pages)} pages, {len(by_section)} section lists, homepage, and {len(by_series)} series pages')
+        print(f'Generated {len(internal_pages)} pages, {len(by_section)} section lists, homepage, and {len(by_series)} series pages')
+        if draft_count > 0:
+            print(f'Skipped {draft_count} draft pages')
+        if external_link_count > 0:
+            print(f'Skipped {external_link_count} pages with external links (included in listings)')
 
     def generate_feeds(self):
         """Generate RSS feeds"""
+        # Filter out drafts
+        published_pages = [p for p in self.pages if not p.is_draft]
+
         # Main feed
-        all_pages = [p for p in self.pages if p.section in ['posts', 'talks', 'demos', 'projects', 'publications']]
+        all_pages = [p for p in published_pages if p.section in ['posts', 'talks', 'demos', 'projects', 'publications']]
         RSSGenerator.generate(all_pages, self.public_dir / 'index.xml')
 
         # Section feeds
         by_section = defaultdict(list)
-        for page in self.pages:
+        for page in published_pages:
             if page.section:
                 by_section[page.section].append(page)
 
@@ -617,7 +644,9 @@ class Builder:
 
     def generate_sitemap(self):
         """Generate sitemap.xml"""
-        SitemapGenerator.generate(self.pages, self.public_dir / 'sitemap.xml')
+        # Filter out drafts
+        published_pages = [p for p in self.pages if not p.is_draft]
+        SitemapGenerator.generate(published_pages, self.public_dir / 'sitemap.xml')
         print('Generated sitemap.xml')
 
     def generate_404_page(self):
@@ -631,6 +660,9 @@ class Builder:
 
     def copy_static_assets(self):
         """Copy static assets to public directory"""
+        # Create a set of published page paths for quick lookup
+        published_paths = {p.path for p in self.pages if not p.is_draft}
+
         # Copy assets from content directories (images alongside post.md files)
         content_dir = Path('content')
         for section_dir in content_dir.iterdir():
@@ -642,7 +674,12 @@ class Builder:
                     continue
 
                 # Check if this directory contains a post.md file
-                if (item_dir / 'post.md').exists():
+                post_md_path = item_dir / 'post.md'
+                if post_md_path.exists():
+                    # Skip if this is a draft post
+                    if post_md_path not in published_paths:
+                        continue
+
                     # Copy all non-.md files from this directory
                     dest_dir = self.public_dir / section_dir.name / item_dir.name
                     dest_dir.mkdir(parents=True, exist_ok=True)

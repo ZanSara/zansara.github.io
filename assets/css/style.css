@@ -218,6 +218,7 @@ th, td {
 }
 
 .list-entry {
+  text-align: left;
   padding: 20px;
   text-decoration: none;
   border: 1px solid  var(--bg);
