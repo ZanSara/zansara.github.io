@@ -44,4 +44,4 @@ Reasoning models may not be the super-human intelligence some of us are waiting 
 
 If you want to learn more about what reasoning models can do, how they reason, when to use them and more, make sure to attend my talk [LLMs that Think: Demystifying Reasoning Models](https://odsc.com/speakers/llms-that-think-demystifying-reasoning-models/) at this year’s virtual edition of [ODSC East](https://odsc.com/boston/). See you there!
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">ifo</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">ifo</a></p>

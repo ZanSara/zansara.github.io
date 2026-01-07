@@ -874,7 +874,7 @@ In this post I've just put together a few exercises for fun, but these tools can
 On my side, I think I'm going to use these neat little monsters as weird [fleurons](https://en.wikipedia.org/wiki/Fleuron_(typography)) :)
 
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">su</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">su</a></p>
 
 
 _Download Teranoptia at this link: https://www.tunera.xyz/fonts/teranoptia/_

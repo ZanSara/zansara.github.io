@@ -5,7 +5,7 @@ author: "ZanSara"
 featured-image: "/talks/2025-10-29-odsc-west-reasoning-models/cover.png"
 ---
 
-[Announcement](https://odsc.ai/speakers-portfolio/llms-that-think-demystifying-reasoning-models/), [teaser article](https://www.zansara.dev/posts/2025-05-12-beyond-hype-reasoning-models/), [slides](https://drive.google.com/file/d/1x-DobRa7ZrUncTe1kUVHc6BGFzxiTELc/view?usp=sharing). All resources can also be found in [my archive](https://drive.google.com/drive/folders/1-UbjdFxvg5NtCUxUFGg47H4EPkeXLuy_?usp=drive_link).
+[Announcement](https://odsc.ai/speakers-portfolio/llms-that-think-demystifying-reasoning-models/), [teaser article](/posts/2025-05-12-beyond-hype-reasoning-models/), [slides](https://drive.google.com/file/d/1x-DobRa7ZrUncTe1kUVHc6BGFzxiTELc/view?usp=sharing). All resources can also be found in [my archive](https://drive.google.com/drive/folders/1-UbjdFxvg5NtCUxUFGg47H4EPkeXLuy_?usp=drive_link).
 
 ---
 

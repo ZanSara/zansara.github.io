@@ -7,7 +7,7 @@ aliases:
  - /talks/2025-05-14-odsc-east-reasoning-models
 ---
 
-[Announcement](https://odsc.com/speakers/llms-that-think-demystifying-reasoning-models/), [teaser article](https://www.zansara.dev/posts/2025-05-12-beyond-hype-reasoning-models/), [slides](https://drive.google.com/file/d/1Gmxx2G-H0aozBZtACCvGIqJNgybXB716/view?usp=sharing). All resources can also be found in [my archive](https://drive.google.com/drive/folders/1Iy_mJr7MYdrbb-W-g1U38gkPBjrV8dGu?usp=drive_link).
+[Announcement](https://odsc.com/speakers/llms-that-think-demystifying-reasoning-models/), [teaser article](/posts/2025-05-12-beyond-hype-reasoning-models/), [slides](https://drive.google.com/file/d/1Gmxx2G-H0aozBZtACCvGIqJNgybXB716/view?usp=sharing). All resources can also be found in [my archive](https://drive.google.com/drive/folders/1Iy_mJr7MYdrbb-W-g1U38gkPBjrV8dGu?usp=drive_link).
 
 ---
 

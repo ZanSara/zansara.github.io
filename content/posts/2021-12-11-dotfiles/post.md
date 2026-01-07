@@ -6,7 +6,7 @@ author: "ZanSara"
 featured-image: "/posts/2021-12-11-dotfiles/cover.png"
 ---
 
-GitHub Repo: https://github.com/ZanSara/dotfiles
+GitHub Repo: <https://github.com/ZanSara/dotfiles>
 
 ---
 
@@ -15,6 +15,7 @@ What Linux developer would I be if I didn't also have my very own dotfiles repo?
 After many years of iterations I finally found a combination that lasted quite a while, so I figured it's time to treat them as a real project. It was originally optimized for my laptop, but then I realized it works quite well on my three-monitor desk setup as well without major issues.
 
 It sports:
+
 - [i3-wm](https://github.com/Airblader/i3) as window manager (of course, with gaps),
 - The typical trio of [polybar](https://github.com/polybar/polybar) , [rofi](https://github.com/davatorium/rofi) and [dunst](https://github.com/dunst-project/dunst) to handle top bar, start menu and notifications respectively,
 - The odd choice of [Ly](https://github.com/nullgemm/ly) as my display manager. I just love the minimal, TUI aesthetics of it. Don't forget to enable Doom's flames!

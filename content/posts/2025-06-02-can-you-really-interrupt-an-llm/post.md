@@ -96,4 +96,4 @@ In the case of Claude we don't know yet if that's an inherent limitation or a bu
 Voice Mode for LLMs is a huge step forward for voice AI, but it's not a silver bullet. LLMs are first and foremost text prediction algorithms, and even when adapted to work with voice, some of their limitations persists. In order to have complete control, building a [full pipeline for voice](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) may still be your best bet if you have the infrastructure to achieve a low enough latency; otherwise, always make sure to test the behavior of your LLMs in these corner cases and stick to more well-tested models (in this case, OpenAI's) for better handling of time.
 
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">SDH</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">SDH</a></p>

@@ -9,7 +9,7 @@ aliases:
 - /posts/2024-09-05-voice-bots-1/
 ---
 
-*This is part one of the write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-building-voice-agents-with-open-source-tools/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*
+*This is part one of the write-up of my talk at [ODSC Europe 2024](/talks/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) and [ODSC West 2024](/talks/2024-10-29-odsc-west-voice-agents/).*
 
 ---
 
@@ -51,7 +51,7 @@ Today, the basic architecture of a modern voice agent can be decomposed into thr
 - the agent's **logic engine**, which works entirely with text only,
 - a **text-to-speech (TTS)** component, which converts the bot's text responses back into an audio stream of synthetic speech.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/structure-of-a-voice-bot.png)
+![](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/structure-of-a-voice-bot-inv.png)
 
 Let's see the details of each.
 
@@ -61,7 +61,7 @@ Speech-to-text software is able to convert the audio stream of a person saying s
 
 With the [first release of OpenAI's Whisper models](https://openai.com/index/whisper/) in late 2022, the state of the art improved dramatically. Whisper enabled transcription (and even direct translation) of speech from many languages with an impressively low WER, finally comparable to the performance of a human, all with relatively low resources, higher then realtime speed, and no finetuning required. Not only, but the model was free to use, as OpenAI [open-sourced it](https://huggingface.co/openai) together with a [Python SDK](https://github.com/openai/whisper), and the details of its architecture were [published](https://cdn.openai.com/papers/whisper.pdf), allowing the scientific community to improve on it.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/whisper-wer.png)
+![](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/whisper-wer-inv.png)
 
 _The WER (word error rate) of Whisper was extremely impressive at the time of its publication (see the full diagram [here](https://github.com/openai/whisper/assets/266841/f4619d66-1058-4005-8f67-a9d811b77c62))._
 
@@ -76,7 +76,7 @@ Today many companies (such as OpenAI, [Cartesia](https://cartesia.ai/sonic), [El
 
 
 <div>
-<audio controls src="/posts/2024-09-05-building-voice-agents-with-open-source-tools/sonic-tts-sample.wav" style="width: 100%"></audio>
+<audio controls src="/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/sonic-tts-sample.wav" style="width: 100%"></audio>
 </div>
 
 
@@ -98,7 +98,7 @@ Tree-based logic, while somewhat functional, doesn't really resemble a conversat
 
 One of its most effective usecases is as a first-line screening to triage incoming messages.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/tree-based-logic.png)
+![](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/tree-based-logic-inv.png)
 
 _Example of a very simple decision tree for a chatbot. While rather minimal, this bot already has several flaws: there's no way to correct the information you entered at a previous step, and it has no ability to recognize synonyms ("I want to buy an item" would trigger the fallback route.)_
 
@@ -108,7 +108,7 @@ In intent-based bots, **intents** are defined roughly as "actions the users may 
 
 Advanced voice assistants such as Siri and Alexa use variations of this intent-based system. However, as their owners are usually familiar with, interacting with an intent-based bot doesn't always feel natural, especially when the available intents don't match the user's expectation and the bot ends up triggering an unexpected action. In the long run, this ends with users carefully second-guessing what words and sentence structures activate the response they need and eventually leads to a sort of "magical incantation" style of prompting the agent, where the user has to learn what is the "magical sentence" that the bot will recognize to perform a specific intent without misunderstandings.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/amazon-echo.webp)
+![](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/amazon-echo.webp)
 
 _Modern voice assistants like Alexa and Siri are often built on the concept of intent (image from Amazon)._
 
@@ -120,7 +120,7 @@ However, LLMs tend to be harder to control. Their very ability of generating nat
 
 The problem of controlling the conversation, one that traditionally was always on the user's side, is now entirely on the shoulders of the developers and can easily backfire.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/chatgpt-takesies-backsies.png)
+![](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/chatgpt-takesies-backsies.png)
 
 _In a rather [famous instance](https://x.com/ChrisJBakke/status/1736533308849443121), a user managed to convince a Chevrolet dealership chatbot to promise selling him a Chevy Tahoe for a single dollar._
 
@@ -132,7 +132,7 @@ For a long time these capabilities were heavily restricted to a limited number o
 
 At a first glance, the release of such model seemed to shake the foundations of how we build voice bots today. However, at the time of writing, there are still a number of hurdles that prevents immediate adoption, the main one being **price**.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/realtime-api-pricing.png)
+![](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/realtime-api-pricing.png)
 
 _[Pricing of the Realtime API](https://openai.com/api/pricing/) at the time of writing (October 2024)_
 
@@ -238,7 +238,7 @@ How fast? On average, people expect a reply from another person to arrive within
 
 This means that, even if we had some solutions to all of the above problems (and we do have some), these solutions needs to operate at blazing fast speed. Considering that LLM inference alone can take the better part of a second to even start being generated, latency is often one of the major issues that voice bots face when deployed at scale.
 
-![](/posts/2024-09-05-building-voice-agents-with-open-source-tools/ttft.jpg)
+![](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/ttft-inv.jpg)
 
 _Time to First Token (TTFT) stats for several LLM inference providers running Llama 2 70B chat. From [LLMPerf leaderboard](https://github.com/ray-project/llmperf-leaderboard). You can see how the time it takes for a reply to even start being produced is highly variable, going up to more than one second in some scenarios._  
 
@@ -248,4 +248,4 @@ _Time to First Token (TTFT) stats for several LLM inference providers running Ll
 _Interested? Check out [Part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2)!_ 
 
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">F]</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">F]</a></p>

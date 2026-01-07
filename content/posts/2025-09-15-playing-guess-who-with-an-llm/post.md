@@ -41,7 +41,7 @@ In order to be fair to dumber LLMs, I decided to start with a very simple tablet
 
 As you can see we're not talking of a complex game like Catan or a strategy game like chess, but a simple, fun tabletop game suitable for kids too. 
 
-In order to build the game, as I am no frontend developer, I spent a few too many bucks on my favorite vibe-coding tool, [Claude Code](https://www.anthropic.com/claude-code), padded in a bit of [Gemini CLI](https://github.com/google-gemini/gemini-cli) when I run out of credits, made a few tweaks by hand when asking the bots to do so felt overkill, and a few evenings later I had [this nice Guess Who game](https://www.zansara.dev/guess-who/) live.
+In order to build the game, as I am no frontend developer, I spent a few too many bucks on my favorite vibe-coding tool, [Claude Code](https://www.anthropic.com/claude-code), padded in a bit of [Gemini CLI](https://github.com/google-gemini/gemini-cli) when I run out of credits, made a few tweaks by hand when asking the bots to do so felt overkill, and a few evenings later I had [this nice Guess Who game](/guess-who/) live.
 
 ![](/posts/2025-09-15-playing-guess-who-with-an-llm/game-ui.png)
 
@@ -406,7 +406,7 @@ My guess was that you can fix this behavior with a better system prompt. After t
 >
 >    Now you will receive YOUR board and YOUR character. Let's play!
 
-You can load this prompt [in the game](https://www.zansara.dev/guess-who/) by checking the Advanced tab in the settings.
+You can load this prompt [in the game](/guess-who/) by checking the Advanced tab in the settings.
 
 This prompt helps a lot the models understand that they can't reveal the character's identity: however it's also not solving the problem entirely. For example this is what Claude Opus 4.1 does with this prompt:
 

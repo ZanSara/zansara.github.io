@@ -47,4 +47,4 @@ So for now this is the state of Llama licenses. My take is that with the impleme
 
 Also, Llama4 has not been shining in the [benchmarks](https://lmarena.ai/?leaderboard) (scroll down, I promise you it’s there)... we Europeans may not be missing much.
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">AZ*</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">AZ*</a></p>

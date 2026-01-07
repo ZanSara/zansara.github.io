@@ -90,4 +90,4 @@ Another example is hallucinations. It's difficult for many people to understand 
 Building a shared, simple intuition of how LLM works is a very powerful tool. Next time you're asked to explain a technical decision related to LLMs, building a story around it may get the message across in a much more effective way and help everyone be on the same page. Give it a try!
 
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">WYZ</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">WYZ</a></p>

@@ -11,15 +11,15 @@ _Updated on 21/12/2023_
 
 ---
 
-As we have seen in [the previous episode of this series](https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/), Haystack's Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.
+As we have seen in [the previous episode of this series](/posts/2023-10-15-haystack-series-pipeline/), Haystack's Pipeline is a powerful concept that comes with its set of benefits and shortcomings. In Haystack 2.0, the pipeline was one of the first items that we focused our attention on, and it was the starting point of the entire rewrite.
 
 What does this mean in practice? Let's look at what Haystack Pipelines in 2.0 will be like, how they differ from their 1.x counterparts, and the pros and cons of this new paradigm.
 
 ## New Use Cases
 
-I've already written [at length](https://www.zansara.dev/posts/2023-10-15-haystack-series-pipeline/) about what made the original Pipeline concept so powerful and its weaknesses. Pipelines were overly effective for the use cases we could conceive while developing them, but they didn't generalize well on unforeseen situations.
+I've already written [at length](/posts/2023-10-15-haystack-series-pipeline/) about what made the original Pipeline concept so powerful and its weaknesses. Pipelines were overly effective for the use cases we could conceive while developing them, but they didn't generalize well on unforeseen situations.
 
-For a long time, Haystack was able to afford not focusing on use cases that didn't fit its architecture, as I have mentioned in my [previous post](https://www.zansara.dev/posts/2023-10-11-haystack-series-why/) about the reasons for the rewrite. The pipeline was then more than sufficient for its purposes.
+For a long time, Haystack was able to afford not focusing on use cases that didn't fit its architecture, as I have mentioned in my [previous post](/posts/2023-10-11-haystack-series-why/) about the reasons for the rewrite. The pipeline was then more than sufficient for its purposes.
 
 However, the situation flipped as LLMs and Generative AI "entered" the scene abruptly at the end of 2022 (although it's certainly been around for longer). Our `Pipeline` although useable and still quite powerful in many LLM use-cases, seemingly overfit the original use-cases it was designed for.
 
@@ -49,7 +49,7 @@ One of Haystack's primary use cases had been [Extractive Question Answering](htt
 
 By replacing a Reader model with an LLM, we get a Retrieval Augmented Generation Pipeline. Easy!
 
-![Generative vs Extractive QA Pipeline Graph](/posts/2023-10-26-haystack-series-canals/gen-vs-ext-qa-pipeline.png)
+![Generative vs Extractive QA Pipeline Graph](/posts/2023-10-26-haystack-series-canals/gen-vs-ext-qa-pipeline-inv.png)
 
 So far, everything checks out. Supporting RAG with Haystack feels not only possible but natural. Let's take this simple example one step forward: what if, instead of getting the data from a document store, I want to retrieve data from the Internet?
 
@@ -57,15 +57,15 @@ So far, everything checks out. Supporting RAG with Haystack feels not only possi
 
 At first glance, the task may not seem daunting. We surely need a special Retriever that, instead of searching through a DB, searches through the Internet using a search engine. But the core concepts stay the same, and so, we assume, should the pipeline's graph. The end result should be something like this:
 
-![Initial Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/initial-web-rag-pipeline.png)
+![Initial Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/initial-web-rag-pipeline-inv.png)
 
 However, the problem doesn't end there. Search engines return links, which need to be accessed, and the content of the webpage downloaded. Such pages may be extensive and contain artifacts, so the resulting text needs to be cleaned, reduced into paragraphs, potentially embedded by a retrieval model, ranked against the original query, and only the top few resulting pieces of text need to be passed over to the LLM. Just by including these minimal requirements, our pipeline already looks like this:
 
-![Linear Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/linear-web-rag-pipeline.png)
+![Linear Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/linear-web-rag-pipeline-inv.png)
 
 And we still need to consider that URLs may reference not HTML pages but PDFs, videos, zip files, and so on. We need file converters, zip extractors, audio transcribers, and so on.
 
-![Multiple File Type Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/multifile-web-rag-pipeline.png)
+![Multiple File Type Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/multifile-web-rag-pipeline-inv.png)
 
 You may notice how this use case moved quickly from looking like a simple query pipeline into a strange overlap of a query and an indexing pipeline. As we've learned in the previous post, indexing pipelines have their own set of quirks, one of which is that they can't simultaneously process files of different types. But we can only expect the Search Engine to retrieve HTML files or PDFs if we filter them out on purpose, which makes the pipeline less effective. In fact, a pipeline that can read content from different file types, such as the one above, can't really be made to work.
 
@@ -139,10 +139,12 @@ print(results)
 Creating the pipeline requires no special attention: however, you can now pass a `max_loops_allowed` parameter, to limit looping when it's a risk. On the contrary, old Haystack 1.x Pipelines did not support loops at all.
 
 Next, components are added by calling the `Pipeline.add_component(name, component)` method. This is also subject to very similar requirements to the previous `pipeline.add_node`:
+
 - Every component needs a unique name.
 - Some are reserved (for now, only `_debug`).
 - Instances are not reusable.
 - The object needs to be a component.
+
 However, we no longer connect the components to each other using this function because, although it is possible to implement in principle, it feels more awkward to use in the case of loops.
 
 Consequently, we introduced a new method, `Pipeline.connect()`. This method follows the syntax `("producer_component.output_name_", "consumer_component.input_name")`: so we don't simply line up two components one after the other, but we connect one of their outputs to one of their inputs in an explicit manner.
@@ -162,7 +164,7 @@ add_two:
 
 Once the components are connected together, the resulting pipeline can be drawn. Pipeline drawings in Haystack 2.0 show far more details than their predecessors because the components are forced to share much more information about what they need to run, the types of these variables, and so on. The pipeline above draws the following image:
 
-![A Pipeline making two additions](/posts/2023-10-26-haystack-series-canals/two_additions_pipeline.png)
+![A Pipeline making two additions](/posts/2023-10-26-haystack-series-canals/two_additions_pipeline-inv.png)
 
 You can see how the components classes, their inputs and outputs, and all the connections are named and typed.
 

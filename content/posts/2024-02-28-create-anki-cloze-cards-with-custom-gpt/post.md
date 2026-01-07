@@ -127,4 +127,4 @@ Our small [ClozeGPT](https://chat.openai.com/g/g-wmHCaGcCZ-clozegpt) works only 
 _Front: I like orange juice in my morning coffee._
 
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">SDE</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">SDE</a></p>

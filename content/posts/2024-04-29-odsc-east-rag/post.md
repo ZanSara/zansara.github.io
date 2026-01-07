@@ -189,7 +189,7 @@ Naturally, each LLM will have different weak points that can trigger issues like
 
 - **The RAG prompt is not built correctly**. Some LLMs, especially older or smaller ones, may be very sensitive to how the prompt is built. If your model ignores part of the context or misses the question, the prompt might contain contradicting information, or it might be simply too large. LLMs are not always great at [finding a needle in the haystack](https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.arxiv2023.pdf): if you are consistently building huge RAG prompts and you observe generation issues, consider cutting it back to help the LLM focus on the data that actually contains the answer.
 
-![](/posts/2024-04-29-odsc-east-rag/lost-in-the-middle.png)
+![](/posts/2024-04-29-odsc-east-rag/lost-in-the-middle-inv.png)
 
 ## Evaluation strategies
 
@@ -353,4 +353,4 @@ RAG is a vast topic that could fill books: this was only an overview of some of 
 
 
 
-<p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">[K</a></p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">[K</a></p>

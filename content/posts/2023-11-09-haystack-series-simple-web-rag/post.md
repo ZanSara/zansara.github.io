@@ -32,7 +32,7 @@ In this post, we will see how to build a Web RAG application: a RAG pipeline tha
 
 As we've seen [earlier](/posts/2023-10-27-haystack-series-rag), a Haystack RAG Pipeline is made of three components: a Retriever, a PromptBuilder, and a Generator, and looks like this:
 
-![BM25 RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/bm25-rag-pipeline.png)
+![BM25 RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/bm25-rag-pipeline-inv.png)
 
 To make this pipeline use the Web as its data source, we need to change the retriever with a component that does not look into a local document store for information but can search the web.
 
@@ -114,7 +114,7 @@ pipe.run({
 # }
 ```
 
-![Minimal Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/minimal-web-rag-pipeline.png)
+![Minimal Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/minimal-web-rag-pipeline-inv.png)
 
 This solution is already quite effective for simple questions because Google does most of the heavy lifting of reading the content of the top results, extracting the relevant snippets, and packaging them up in a way that is really easy to access and understand by the model.
 
@@ -180,7 +180,7 @@ pipe.run({
 })
 ```
 
-![Incorrect Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/incorrect-web-rag-pipeline.png)
+![Incorrect Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/incorrect-web-rag-pipeline-inv.png)
 
 However, running this pipeline results in a crash.
 
@@ -273,7 +273,7 @@ pipe.run({
 # }
 ```
 
-![Unfiltered Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/unfiltered-web-rag-pipeline.png)
+![Unfiltered Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/unfiltered-web-rag-pipeline-inv.png)
 
 
 Note how the ranker needs to know the question to compare the documents, just like the search and prompt builder components do. So, we need to pass the value to the pipeline's `run()` call.
@@ -354,7 +354,7 @@ pipe.run({
 # }
 ```
 
-![HTML-only Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/html-web-rag-pipeline.png)
+![HTML-only Web RAG Pipeline](/posts/2023-11-09-haystack-series-simple-web-rag/html-web-rag-pipeline-inv.png)
 
 With this last addition, we added quite a bit of robustness to our pipeline, making it less likely to fail.
 
