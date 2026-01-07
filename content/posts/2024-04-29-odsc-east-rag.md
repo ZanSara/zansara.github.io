@@ -4,8 +4,6 @@ description: A summary of my recent talk at ODSC East about RAG, just in case yo
 date: 2024-04-29
 author: "ZanSara"
 featured-image: "/posts/2024-04-29-odsc-east-rag/cover.png"
-aliases:
-  - 2024-04-29-odsc-east-rag-talk-summary
 ---
 
 *This is a writeup of my talk at [ODSC East 2024](/talks/2024-04-25-odsc-east-rag/) and [EuroPython 2024](/talks/2024-07-10-europython-rag/).*

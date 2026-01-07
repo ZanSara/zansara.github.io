@@ -9,7 +9,7 @@ featured-image: "/talks/2023-10-12-office-hours-rag-pipelines.png"
 
 ---
 
-<iframe src="https://drive.google.com/file/d/1UXGi4raiCQmrxOfOexL-Qh0CVbtiSm89" width="640" height="480" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1UXGi4raiCQmrxOfOexL-Qh0CVbtiSm89/preview" width="800" height="500" allow="autoplay"></iframe>
 
 In this [Office Hours](https://discord.com/invite/VBpFzsgRVF) I walk through the LLM support offered by Haystack 2.0 to this date: Generator, PromptBuilder, and how to connect them to different types of Retrievers to build Retrieval Augmented Generation (RAG) applications. 
 

@@ -26,7 +26,7 @@ Let's see how it's done.
 
 Our starting point, what's usually called "basic RAG" to distinguish it from more advanced RAG implementations, is a system with a retrieval step (be it vector-based, keyword-based, web search, hybrid, or anything else) that occurs every time the user sends a message to an LLM. Its architecture might look like this:
 
-![](/posts/2026-01-07-from-rag-to-ai-agent/simple-rag.png)
+![](/posts/2026-01-07-from-rag-to-ai-agent/basic-rag.png)
 
 Systems with more than one retriever and/or a reranker step also fall under this category. What's crucial to distinguish basic RAG from more "agentic" versions of it is the fact that the retrieval step runs *on every user message* and that *the user message is fed directly to the retriever*.
 

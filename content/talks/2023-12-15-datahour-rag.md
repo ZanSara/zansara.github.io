@@ -9,7 +9,7 @@ featured-image: "/talks/2023-12-15-datahour-rag.png"
 
 ---
 
-<iframe src="https://drive.google.com/file/d/1OkFr4u9ZOraJRF406IQgQh4YC8GLHbzA" width="640" height="480" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1OkFr4u9ZOraJRF406IQgQh4YC8GLHbzA/preview" width="800" height="500" allow="autoplay"></iframe>
 
 In this hour-long workshop organized by [Analytics Vidhya](https://www.analyticsvidhya.com/) I give an overview of what RAG is, what problems it solves, and how it works. 
 
@@ -20,6 +20,7 @@ I also mention how to use and implement custom Haystack components, and share a 
 This was my most popular talk to date, with over a hundred attendees watching live and several questions.
 
 Other resources mentioned in the talk are:
+
 - [Blog post about custom components](https://haystack.deepset.ai/blog/customizing-rag-to-summarize-hacker-news-posts-with-haystack2?utm_campaign=developer-relations&utm_source=data-hour-event&utm_medium=webinar)
 - [LLM structured output example](https://haystack.deepset.ai/tutorials/28_structured_output_with_loop?utm_campaign=developer-relations&utm_source=data-hour-event&utm_medium=webinar)
 - [Advent of Haystack](https://haystack.deepset.ai/advent-of-haystack?utm_campaign=developer-relations&utm_source=data-hour-event&utm_medium=webinar)

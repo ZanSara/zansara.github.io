@@ -1,11 +1,11 @@
 ---
 title: "About"
-show-date: false
+description: "A few words about me"
 ---
 
-I am a Python and GenAI software engineer based in Portugal. I regularly give [talks](/talks) on GenAI, LLMs and similar topics. Currently I'm Agentic AI Lead for [BGBx](https://bgbx.ai/) (part of [BGB Group](https://bgbgroup.com/)).
+I am a Python and GenAI software engineer based in Portugal. I regularly write and give [talks](/talks) on GenAI, LLMs and similar topics. Currently I'm Agentic AI Lead for [BGBx](https://bgbx.ai/) (part of [BGB Group](https://bgbgroup.com/)).
 
-Earlier in my career I've been Senior Developer at BNP Paribas, working on several [internal AI tools](https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/) which won highly competitive company-wide awards.
+Earlier in my career I've been Senior Developer at BNP Paribas, working on several [internal AI tools](https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/) used by tens of thousands of employees. One of these tools won a highly competitive company-wide award.
 
 I've been Lead AI Engineer for [Kwal](https://www.kwal.ai/) working on voice agents and conversation analysis with LLMs for the recruitment industry. 
 

@@ -23,14 +23,7 @@ NAVBAR_TITLE = "Sara Zan's Blog"
 AUTHOR = 'Sara Zan'
 DESCRIPTION = "Sara Zan's Blog"
 AUTHOR_INFO = """
-Experienced Python software engineer with extensive experience with NLP, LLMs GenAI and AI in general. 
-I worked on projects ranging from air-gapped <a href="https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/">RAG pipelines</a> 
-to <a href="https://archive.today/IH48a">voice AI recruiters</a>, 
-open-source <a href="https://github.com/deepset-ai/haystack">LLM frameworks</a>, 
-<a href="/publications/thpv014/">particle accelerators</a> software, 
-<a href="/projects/zanzocam/">IoT</a> devices overwintering at several alpine huts, 
-and small <a href="/projects/booking-system/">web apps</a>. 
-Open-source <a href="https://github.com/ZanSara">contributor</a> and former <a href="https://home.cern/">CERN</a> employee.
+
 """
 KEYWORDS = 'blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai'
 AVATAR_URL = '/me/avatar.svg'
@@ -106,15 +99,110 @@ class ContentFile:
         else:
             self.content = content
 
+    def preprocess_html_tags_with_markdown(self, content):
+        """
+        Preprocess HTML tags to convert markdown content between tags when there are empty lines.
+
+        Pattern: <tag>...\n\nmarkdown content\n\n</tag>
+        The markdown content will be converted, but <tag>...markdown...</tag> will be left as-is.
+        """
+        # First pass: Handle content directly between opening and closing tags with empty lines
+        # Pattern: <tag>\n\ncontent\n\n</tag>
+        pattern1 = r'<(\w+)([^>]*)>\n\n(.*?)\n\n</\1>'
+
+        def replace_direct_match(match):
+            tag_name = match.group(1)
+            tag_attrs = match.group(2)
+            inner_content = match.group(3)
+
+            # Create a temporary markdown renderer for the inner content
+            # Don't use nl2br here as it interferes with HTML tags
+            md = markdown.Markdown(extensions=[
+                'fenced_code',
+                'tables',
+                'codehilite'
+            ])
+            # Convert the markdown content
+            rendered_content = md.convert(inner_content)
+
+            # Return the tag with rendered content
+            return f'<{tag_name}{tag_attrs}>\n\n{rendered_content}\n\n</{tag_name}>'
+
+        # Second pass: Handle content between </summary> and </details> specifically
+        # Pattern: </summary>\n\ncontent (can include empty lines)\s*</details>
+        # This handles cases like <details><summary>X</summary>\n\ncontent\n\n</details>
+        # Use .+? to match content (one or more chars, non-greedy) and \s* for trailing whitespace
+        pattern2 = r'</summary>\n\n(.+?)\s*</details>'
+
+        def replace_summary_details_match(match):
+            inner_content = match.group(1)
+
+            # Create a temporary markdown renderer for the inner content
+            # Don't use nl2br here as it interferes with HTML tags
+            md = markdown.Markdown(extensions=[
+                'fenced_code',
+                'tables',
+                'codehilite'
+            ])
+            # Convert the markdown content
+            rendered_content = md.convert(inner_content)
+
+            # Return with rendered content
+            return f'</summary>\n\n{rendered_content}\n\n</details>'
+
+        # Apply both patterns
+        # Use DOTALL flag so . matches newlines within the content
+        processed = re.sub(pattern1, replace_direct_match, content, flags=re.DOTALL)
+        processed = re.sub(pattern2, replace_summary_details_match, processed, flags=re.DOTALL)
+
+        return processed
+
+    def add_invertible_class_to_images(self, html_content):
+        """
+        Add 'invertible' class to images whose filename ends with -inv
+
+        For example: image-inv.png -> <img ... class="invertible">
+        """
+        def replace_img(match):
+            img_tag = match.group(0)
+            src = match.group(1)
+
+            # Check if the filename (before extension) ends with -inv
+            # Pattern: something-inv.ext
+            if re.search(r'-inv\.[^/]*$', src):
+                # Check if class attribute already exists
+                if 'class=' in img_tag:
+                    # Append to existing class attribute
+                    img_tag = re.sub(
+                        r'class="([^"]*)"',
+                        r'class="\1 invertible"',
+                        img_tag
+                    )
+                else:
+                    # Add class attribute before the closing >
+                    img_tag = img_tag[:-1] + ' class="invertible">'
+
+            return img_tag
+
+        # Match <img> tags and capture the src attribute
+        pattern = r'<img[^>]+src="([^"]+)"[^>]*>'
+        return re.sub(pattern, replace_img, html_content)
+
     def render(self):
         """Render markdown content to HTML"""
+        # First preprocess HTML tags with markdown content
+        preprocessed_content = self.preprocess_html_tags_with_markdown(self.content)
+
         md = markdown.Markdown(extensions=[
             'fenced_code',
             'tables',
             'nl2br',
             'codehilite'
         ])
-        self.html_content = md.convert(self.content)
+        html_content = md.convert(preprocessed_content)
+
+        # Add invertible class to images with -inv suffix
+        self.html_content = self.add_invertible_class_to_images(html_content)
 
     @property
     def title(self):
@@ -236,21 +324,21 @@ def post_template(page):
             base_url=BASE_URL
         )
 
-    template = TemplateLoader.load('post.html')
-    desc_line = ''
-    date_line = ''
-    if page.description and not page.section in ["about", "projects"]:
-        desc_template = TemplateLoader.load('description.html')
-        desc_line = desc_template.format(
-            description=escape(page.description)
-        )
+    if page.section in ["posts"]:
+        template = TemplateLoader.load('post.html')
+    else:
+        template = TemplateLoader.load('page.html')
 
-    if page.show_date and not page.section in ["about", "projects"]:
-        date_template = TemplateLoader.load('date.html')
-        date_line = date_template.format(
-            datetime=page.date.strftime('%Y-%m-%dT%H:%M:%SZ'),
-            date_formatted=page.date.strftime('%B %d, %Y'),
-        )
+    desc_template = TemplateLoader.load('description.html')
+    desc_line = desc_template.format(
+        description=escape(page.description)
+    )
+
+    date_template = TemplateLoader.load('date.html')
+    date_line = date_template.format(
+        datetime=page.date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+        date_formatted=page.date.strftime('%B %d, %Y'),
+    )
     content_html = template.format(
         url=page.url,
         title=escape(page.title),
@@ -269,6 +357,8 @@ def list_template(section, pages):
     item_template = TemplateLoader.load('list-item.html')
     items_html = '\n'.join([
         item_template.format(
+            featured_image=p.featured_image,
+            description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.url,
             title=escape(p.title)
@@ -285,16 +375,28 @@ def list_template(section, pages):
     return base_template(content_html, section.capitalize())
 
 
-def home_template(recent_posts):
+def home_template(recent_posts, recent_talks):
     """Generate homepage template"""
     item_template = TemplateLoader.load('list-item.html')
-    recent_html = '\n'.join([
+    recent_posts_html = '\n'.join([
         item_template.format(
+            featured_image=p.featured_image,
+            description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.url,
             title=escape(p.title)
         )
-        for p in recent_posts[:5]
+        for p in recent_posts[:4]
+    ])
+    recent_talks_html = '\n'.join([
+        item_template.format(
+            featured_image=p.featured_image,
+            description=p.description,
+            date=p.date.strftime('%B %d, %Y'),
+            url=p.url,
+            title=escape(p.title)
+        )
+        for p in recent_talks[:4]
     ])
 
     # Load social links template
@@ -305,10 +407,11 @@ def home_template(recent_posts):
         avatar_url=AVATAR_URL,
         intro=AUTHOR_INFO,
         social_links=social_links,
-        recent_posts=recent_html
+        recent_posts=recent_posts_html,
+        recent_talks=recent_talks_html
     )
 
-    return base_template(content_html, SITE_TITLE)
+    return base_template(content_html, "Home")
 
 
 def series_template(series_name, pages):
@@ -316,6 +419,8 @@ def series_template(series_name, pages):
     item_template = TemplateLoader.load('list-item.html')
     items_html = '\n'.join([
         item_template.format(
+            featured_image=p.featured_image,
+            description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.url,
             title=escape(p.title)
@@ -356,7 +461,7 @@ class RSSGenerator:
         SubElement(channel, 'title').text = title_text
         SubElement(channel, 'link').text = link_text
         SubElement(channel, 'description').text = desc_text
-        SubElement(channel, 'generator').text = 'Python Static Site Generator'
+        SubElement(channel, 'generator').text = 'Custom Script'
         SubElement(channel, 'language').text = LANGUAGE
 
         if pages:
@@ -458,9 +563,9 @@ class Builder:
             output_path.write_text(html, encoding='utf-8')
 
         # Generate homepage
-        all_posts = [p for p in self.pages if p.section in ['posts', 'demos', 'talks']]
-        all_posts.sort(key=lambda x: x.date, reverse=True)
-        homepage_html = home_template(all_posts)
+        posts = sorted([p for p in self.pages if p.section == "posts"], key=lambda x: x.date, reverse=True)
+        talks = sorted([p for p in self.pages if p.section == "talks"], key=lambda x: x.date, reverse=True)
+        homepage_html = home_template(posts, talks)
         (self.public_dir / 'index.html').write_text(homepage_html, encoding='utf-8')
 
         # Generate series pages
@@ -529,14 +634,20 @@ class Builder:
     def clean(self):
         """Clean the public directory"""
         if self.public_dir.exists():
-            shutil.rmtree(self.public_dir)
-        self.public_dir.mkdir()
+            # Remove all contents without deleting the directory itself - the webserver is running there
+            for item in self.public_dir.iterdir():
+                if item.is_dir():
+                    shutil.rmtree(item)
+                else:
+                    item.unlink()
+        else:
+            self.public_dir.mkdir()
         print('Cleaned public directory')
 
     def build(self):
         """Main build process"""
         print('Starting build...')
-        # self.clean()
+        self.clean()
         self.collect_content()
         self.render_content()
         self.generate_pages()

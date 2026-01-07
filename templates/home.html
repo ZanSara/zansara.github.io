@@ -1,14 +1,27 @@
 <section>
-  <div style="display: flex;">
+  <div style="display: flex; border-bottom: 1px solid var(--border);">
     <img src="{avatar_url}" alt="avatar" style="max-width: 150px; margin: 50px;">
     <div>
-      <h1>Sara Zan</h1>
-      {intro}
+      <h2 style="text-align: left; margin-bottom: 0; line-height: 150%;">Hello, I'm Sara!</h2>
+      <p style="font-size: medium; line-height: 150%; text-align: justify; margin: 10px 0;">
+        I'm an experienced Python software engineer currently based in Europe. 
+        I <a href="/posts">write</a> and <a href="/talks">give talks</a> about LLMs, NLP, GenAI and AI in general.
+        I'm an open-source <a href="https://github.com/ZanSara">contributor</a> and former <a href="https://home.cern/">CERN</a> employee.
+      </p>
       {social_links}
     </div>
   </div>
   <div>
     <h2>Recent Posts</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, 400px); gap: 20px;">
     {recent_posts}
+    </div>
+    <a href="/posts" style="text-align: center; margin: 20px 0; width: 100%; ">More Posts...</a>
+    
+    <h2 style="padding-top: 20px; border-top: 1px solid var(--border);">Recent Talks</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, 400px); gap: 20px;">
+    {recent_talks}
+    </div>
+    <a href="/talks" style="text-align: center;">More Talks...</a>
   </div>
 </section>

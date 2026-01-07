@@ -98,16 +98,10 @@ After this system prompt, I send two more prompts:
 
 ![](/posts/2025-09-15-playing-guess-who-with-an-llm/full-board.png)
 
-
 > and here is your character:
-
-<div>
-<div style="max-width: 100px; margin: auto;">
 
 ![](/posts/2025-09-15-playing-guess-who-with-an-llm/Amy.png)
 
-</div>
-</div>
 
 Unfortunately these two prompts need to be user prompts (not system prompts) because some LLMs (looking at you, Mistral!) do not support images in their system prompts.
 

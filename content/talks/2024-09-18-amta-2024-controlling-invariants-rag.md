@@ -5,15 +5,11 @@ author: "ZanSara"
 featured-image: "/talks/2024-09-18-amta-2024-controlling-invariants-rag.png"
 ---
 
-[Announcement](https://amtaweb.org/virtual-tutorial-day-program/), 
-[notebook](https://colab.research.google.com/drive/1VMgK3DcVny_zTtAG_V3QSSdfSFBWAgmb?usp=sharing) and 
-[glossary](https://docs.google.com/spreadsheets/d/1A1zk-u-RTSqBfE8LksZxihnp7KxWO7YK/edit?usp=sharing&ouid=102297935451395786183&rtpof=true&sd=true).
-All resources can also be found in 
-[my archive](https://drive.google.com/drive/folders/1Tdq92P_E_77sErGjz7jSPfJ-or9UZXvn?usp=drive_link).
+[Announcement](https://amtaweb.org/virtual-tutorial-day-program/), [notebook](https://colab.research.google.com/drive/1VMgK3DcVny_zTtAG_V3QSSdfSFBWAgmb?usp=sharing) and [glossary](https://docs.google.com/spreadsheets/d/1A1zk-u-RTSqBfE8LksZxihnp7KxWO7YK/edit?usp=sharing&ouid=102297935451395786183&rtpof=true&sd=true). All resources can also be found in [my archive](https://drive.google.com/drive/folders/1Tdq92P_E_77sErGjz7jSPfJ-or9UZXvn?usp=drive_link).
 
 ---
 
-<iframe src="https://drive.google.com/file/d/1BvcNbsAGWp25EDpiQ5ljYos3_eneo3wu" width="640" height="480" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1BvcNbsAGWp25EDpiQ5ljYos3_eneo3wu/preview" width="800" height="500" allow="autoplay"></iframe>
 
 _Note: this was a tutorial session co-presented with [Christian Lang](https://www.linkedin.com/in/christian-lang-8942b0145/) and [Bruno Bitter](https://www.linkedin.com/in/brunobitter/). My section starts at 01:08._
 

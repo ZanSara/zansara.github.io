@@ -5,13 +5,11 @@ author: "ZanSara"
 featured-image: "/talks/2022-12-01-open-nlp-meetup.png"
 ---
 
-[Youtube link](https://www.youtube.com/watch?v=7Idjl3OR0FY),
-[slides](https://gist.github.com/ZanSara/dc4b22e7ffe2a56647e0afba7537c46b), [Colab](https://gist.github.com/ZanSara/9e8557830cc866fcf43a2c5623688c74) (live coding).
-All the material can also be found [here](https://drive.google.com/drive/folders/1_3b8PsvykHeM0jSHsMUWQ-4h_VADutcX?usp=drive_link).
+[Youtube link](https://www.youtube.com/watch?v=7Idjl3OR0FY), [slides](https://gist.github.com/ZanSara/dc4b22e7ffe2a56647e0afba7537c46b), [Colab](https://gist.github.com/ZanSara/9e8557830cc866fcf43a2c5623688c74) (live coding). All the material can also be found [here](https://drive.google.com/drive/folders/1_3b8PsvykHeM0jSHsMUWQ-4h_VADutcX?usp=drive_link).
 
 ---
 
-<iframe src="https://drive.google.com/file/d/19mxD-xUJ-14G-2XAqXEVpZfqR2MsSZTn" width="640" height="480" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/19mxD-xUJ-14G-2XAqXEVpZfqR2MsSZTn/preview" width="800" height="500" allow="autoplay"></iframe>
 
 ## A Practical Introduction to Image Retrieval
 

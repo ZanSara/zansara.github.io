@@ -47,6 +47,7 @@ Sure enough, Claude's first attempt also fails for the same reason as o4 did: th
 [Here](https://gist.github.com/ZanSara/4bab5db89376d595128e0688804d694c) is the output (I pasted the `README` and the `requirements.txt` at the top of the file for simplicity). I only needed to replace [`nova-2`](https://developers.deepgram.com/docs/models-languages-overview#nova-2) with [`nova-3`](https://developers.deepgram.com/docs/models-languages-overview#nova-3) to get the best possible transcription for Portuguese (other languages may get better transcription with `nova-2`).
 
 To summarize:
+
 - **Is it perfect? No.** I can easily spot a lot of improvements to the code just by looking at it. It's quite verbose, for example.
 - **Was it cheap? No.** This script costed me a few dollars worth of tokens and about half a hour of trial and errors, about the hourly rate of a US software engineer.
 - **Is it enough for my purposes? Absolutely.** Now I am finally able to enjoy my videos with good quality subtitles without too much hassle.
@@ -59,7 +60,7 @@ Will it feel like a blessing or a curse? We'll soon find out.
 
 _Edit 22/05/2025: Claude 4 has been released the day after I published this post, so here is a video of myself reimplementing this same script with the new model ✨_
 
-<iframe src="https://drive.google.com/file/d/1cTo-VD8sFYYau900zIwFSCgkxLDt9iWO" width="640" height="480" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1cTo-VD8sFYYau900zIwFSCgkxLDt9iWO/preview" width="800" height="500" allow="autoplay"></iframe>
 
 
 <p class="fleuron"><a href="https://www.zansara.dev/posts/2024-05-06-teranoptia/">{z</a></p>

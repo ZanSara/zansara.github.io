@@ -30,6 +30,18 @@
       <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
     </svg>
   </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {{
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {{
+        themeToggle.checked = true;
+      }}
+    }})();
+  </script>
+
   <main>
 
     {header}
@@ -41,6 +53,28 @@
   </main>
 
   {mermaid_script}
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {{
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {{
+        themeToggle.checked = true;
+      }}
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {{
+        if (this.checked) {{
+          localStorage.setItem('theme', 'dark');
+        }} else {{
+          localStorage.setItem('theme', 'light');
+        }}
+      }});
+    }})();
+  </script>
 
 </body>
 </html>

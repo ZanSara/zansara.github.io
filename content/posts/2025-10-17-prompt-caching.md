@@ -26,6 +26,7 @@ This is a massive inefficiency. For example, with an input cost around $1 per 1 
 Naive API implementations that omit caching force the model to process the entire context anew each time. This "stateless" method is simpler to implement, but wastefully expensive. The system pays repeatedly to recompute static context, which could otherwise be reused.
 
 In contrast, with a stateful cache strategy, the system stores parts of the context and only processes new inputs (queries). Consider the following case:
+
 - the system prompt is 10,000 tokens long 
 - each user message is about 100 tokens
 - each assistant response is about 1000 tokens
@@ -99,6 +100,7 @@ _A feature comparison across inference engines from [this May 2025 review](https
 In extreme cases where cost, load or latency must be reduced to the maximum, semantic caching can also be employed. Semantic caching allows you to cache also the user queries and the assistant responses by keeping a registry of already processes user queries and performing a semantic search step between the new query and the cached ones. If a match is found, instead of invoking the LLM to generate a new answer, the cached reply is sent to the user immediately.
 
 Semantic caching however has several disadvantages that makes it worthwhile only in rare situations:
+
 - **Access control**. Caching must be done per user if each user has access to a different set of resources, to avoid accidental sharing of data and/or resources across users. 
 - **Very high similarity needed**: In order the the reply to be relevant, the semantic similarity between the two must be extremely high, or you risk that the answer returned to the user won't match their question. Semantic similarity tends to overlook details which are often very important to an accurate reply: for example, "What's the sum of these numbers: 1,2,3,4,5,6,7?" and  "What's the sum of these numbers: 1,2,3,4,5,6,7,8?" will have an extremely high similarity, but returning the response of the first to the second would not be a good idea.
 - **Language management**: what to do when the exact same question is asked in two different languages? Semantic similarity may be perfect if your embedder is multilingual, but the user won't be pleased to receive a cached answer in a language different from their own.

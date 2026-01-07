@@ -13,7 +13,6 @@ _The podcast was recorded in Italian for [PointerPodcast](https://pointerpodcast
 
 ---
 
-
 <div>
 <audio controls src="https://hosting.pointerpodcast.it/records/pointer183.mp3" style="width: 100%"></audio>
 </div>
