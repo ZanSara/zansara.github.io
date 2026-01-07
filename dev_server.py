@@ -24,6 +24,8 @@ class RebuildHandler(FileSystemEventHandler):
         self.rebuild_timer = None
         self.rebuild_lock = threading.Lock()
         self.pending_changes = []
+        self.build_in_progress = False
+        self.rebuild_needed_after_current = False
 
     def should_watch(self, event):
         """Determine if a file change should trigger a rebuild"""
@@ -57,6 +59,15 @@ class RebuildHandler(FileSystemEventHandler):
 
     def rebuild(self):
         """Perform the rebuild"""
+        # Check if a build is already in progress
+        if self.build_in_progress:
+            print('⏳ Build already in progress, will rebuild again after current build finishes...')
+            self.rebuild_needed_after_current = True
+            return
+
+        # Mark build as in progress
+        self.build_in_progress = True
+
         print('\n' + '='*60)
         print('🔄 Rebuilding site...')
         print('='*60)
@@ -79,9 +90,19 @@ class RebuildHandler(FileSystemEventHandler):
             import traceback
             traceback.print_exc()
 
-        # Clear pending changes
-        with self.rebuild_lock:
-            self.pending_changes.clear()
+        finally:
+            # Clear pending changes
+            with self.rebuild_lock:
+                self.pending_changes.clear()
+
+            # Mark build as complete
+            self.build_in_progress = False
+
+            # If another rebuild was requested while this one was running, schedule it now
+            if self.rebuild_needed_after_current:
+                self.rebuild_needed_after_current = False
+                print('🔄 Changes detected during build, scheduling another rebuild...')
+                self.schedule_rebuild()
 
     def on_modified(self, event):
         if not event.is_directory and self.should_watch(event):
@@ -115,8 +136,12 @@ def main():
     # Create builder instance
     builder = Builder()
 
+    # Set up file watcher
+    event_handler = RebuildHandler(builder, debounce_seconds=2.0)
+
     # Initial build
     print('\n📦 Running initial build...\n')
+    event_handler.build_in_progress = True
     try:
         builder.build()
         print('\n✅ Initial build complete!')
@@ -125,13 +150,13 @@ def main():
         import traceback
         traceback.print_exc()
         sys.exit(1)
+    finally:
+        event_handler.build_in_progress = False
 
-    # Set up file watcher
-    event_handler = RebuildHandler(builder, debounce_seconds=2.0)
     observer = Observer()
 
     # Watch these directories for changes
-    watch_dirs = ['content', 'templates', 'static', 'assets']
+    watch_dirs = ['content', 'templates', 'static']
     print('\n👀 Watching for changes:')
     for watch_dir in watch_dirs:
         if Path(watch_dir).exists():

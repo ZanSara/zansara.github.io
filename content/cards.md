@@ -4,10 +4,10 @@ description: "Contacts"
 author: "ZanSara"
 ---
 
-[Light - Wide](/me/card-light.png)
+![Light - Wide](/assets/cards/card-light.png)
 
-[Dark - Wide](/me/card-dark.png)
+![Dark - Wide](/assets/cards/card-dark.png)
 
-[Light - Mobile](/me/card-light-mobile.png)
+![Light - Mobile](/assets/cards/card-light-mobile.png)
 
-[Dark - Mobile](/me/card-dark-mobile.png)
+![Dark - Mobile](/assets/cards/card-dark-mobile.png)

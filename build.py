@@ -23,9 +23,9 @@ NAVBAR_TITLE = "Sara Zan's Blog"
 AUTHOR = 'Sara Zan'
 DESCRIPTION = "Sara Zan's Blog"
 KEYWORDS = 'blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai'
-AVATAR_URL = '/me/avatar.svg'
-FAVICON_SVG = '/me/avatar.svg'
-FAVICON_32 = '/me/avatar.png'
+AVATAR_URL = '/assets/avatar/avatar.svg'
+FAVICON_SVG = '/assets/avatar/avatar.svg'
+FAVICON_32 = '/assets/avatar/avatar.png'
 SINCE_YEAR = 2023
 
 MENU_ITEMS = [
@@ -689,12 +689,6 @@ class Builder:
                             shutil.copy2(file, dest_dir / file.name)
 
         print('Copied assets from content directories')
-
-        # Copy from assets/ (CSS, JS, fonts)
-        assets_dir = Path('assets')
-        if assets_dir.exists():
-            shutil.copytree(assets_dir, self.public_dir, dirs_exist_ok=True)
-            print('Copied assets/ (CSS, JS, fonts)')
 
         # Copy from static/ if it still exists (for global assets)
         if Path('static').exists():
