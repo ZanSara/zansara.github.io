@@ -22,9 +22,6 @@ LANGUAGE = 'en'
 NAVBAR_TITLE = "Sara Zan's Blog"
 AUTHOR = 'Sara Zan'
 DESCRIPTION = "Sara Zan's Blog"
-AUTHOR_INFO = """
-
-"""
 KEYWORDS = 'blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai'
 AVATAR_URL = '/me/avatar.svg'
 FAVICON_SVG = '/me/avatar.svg'
@@ -79,7 +76,12 @@ class ContentFile:
 
     def _generate_url(self):
         """Generate the URL path for this content"""
-        stem = self.path.stem
+        # If the file is named post.md, use the parent directory name as the slug
+        if self.path.name == 'post.md':
+            stem = self.path.parent.name
+        else:
+            stem = self.path.stem
+
         if self.section:
             return f"/{self.section}/{stem}/"
         return f"/{stem}/"
@@ -272,7 +274,6 @@ def base_template(content, title, meta_tags='', has_mermaid=False):
         title=title,
         site_title=SITE_TITLE,
         author=AUTHOR,
-        info=AUTHOR_INFO,
         description=DESCRIPTION,
         keywords=KEYWORDS,
         meta_tags=meta_tags,
@@ -419,7 +420,6 @@ def home_template(recent_posts, recent_talks):
     template = TemplateLoader.load('home.html')
     content_html = template.format(
         avatar_url=AVATAR_URL,
-        intro=AUTHOR_INFO,
         social_links=social_links,
         recent_posts=recent_posts_html,
         recent_talks=recent_talks_html
@@ -631,20 +631,45 @@ class Builder:
 
     def copy_static_assets(self):
         """Copy static assets to public directory"""
-        # Copy from static/
-        if Path('static').exists():
-            shutil.copytree('static', self.public_dir, dirs_exist_ok=True)
-            print('Copied static/ assets')
+        # Copy assets from content directories (images alongside post.md files)
+        content_dir = Path('content')
+        for section_dir in content_dir.iterdir():
+            if not section_dir.is_dir():
+                continue
 
-        # Copy from assets/
+            for item_dir in section_dir.iterdir():
+                if not item_dir.is_dir():
+                    continue
+
+                # Check if this directory contains a post.md file
+                if (item_dir / 'post.md').exists():
+                    # Copy all non-.md files from this directory
+                    dest_dir = self.public_dir / section_dir.name / item_dir.name
+                    dest_dir.mkdir(parents=True, exist_ok=True)
+
+                    for file in item_dir.iterdir():
+                        if file.is_file() and not file.name.endswith('.md'):
+                            shutil.copy2(file, dest_dir / file.name)
+
+        print('Copied assets from content directories')
+
+        # Copy from assets/ (CSS, JS, fonts)
         assets_dir = Path('assets')
         if assets_dir.exists():
             shutil.copytree(assets_dir, self.public_dir, dirs_exist_ok=True)
             print('Copied assets/ (CSS, JS, fonts)')
 
+        # Copy from static/ if it still exists (for global assets)
+        if Path('static').exists():
+            shutil.copytree('static', self.public_dir, dirs_exist_ok=True)
+            print('Copied static/ assets')
+
         # Copy robots.txt if exists
-        if Path('static/robots.txt').exists():
-            shutil.copy('static/robots.txt', self.public_dir / 'robots.txt')
+        robots_path = Path('static/robots.txt')
+        if not robots_path.exists():
+            robots_path = Path('content/robots.txt')
+        if robots_path.exists():
+            shutil.copy(robots_path, self.public_dir / 'robots.txt')
 
     def clean(self):
         """Clean the public directory"""
