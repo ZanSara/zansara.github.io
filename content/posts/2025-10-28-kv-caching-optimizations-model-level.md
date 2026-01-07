@@ -3,7 +3,7 @@ title: "Making sense of KV Cache optimizations, Ep. 3: Model-level"
 description: "Let's make sense of the zoo of model-level techniques that exist out there."
 date: 2025-10-28
 author: "ZanSara"
-featured-image: "/posts/2025-10-28-kv-caching-optimizations-model-level/cover.png"
+featured-image: "/posts/2025-10-28-kv-caching-optimizations-model-level/cover-inv.png"
 ---
 
 In the previous posts we've seen [what the KV cache is](/posts/2025-10-23-kv-caching/) and what types of [KV Cache management optimizations](/posts/2025-10-26-kv-caching-optimizations-intro/) exist according to a [recent survey](https://arxiv.org/abs/2412.19442). In this post we are going to focus on **model-level** KV cache optimizations.
@@ -14,7 +14,7 @@ We call a model-level optimization any modification of the architecture of the L
 
 Here is an overview of the types of optimizations that exist today.
 
-![](/posts/2025-10-28-kv-caching-optimizations-model-level/model-level.png)
+![](/posts/2025-10-28-kv-caching-optimizations-model-level/model-level-inv.png)
 
 _[Source](https://arxiv.org/pdf/2412.19442#figure.7)_
   
@@ -29,7 +29,7 @@ One common technique to reduce the size of the KV cache is to group and/or share
 
 At the **intra-layer** level, the standard architecture of Transformers calls for full **multi-headed attention** (MHA). As an alternative, it was proposed to have all attention heads share a single key and value, reducing dramatically the amount of compute and space needed. This technique, called **multi-query attention** (MQA) is a radical strategy that would cause not just quality degradation, but also training instability. As a compromise, **grouped-query attention** (GQA) was proposed by dividing the query heads into multiple groups, while each group shares its own keys and values. In addition, an uptraining process has been proposed to efficiently convert existing MHA models to GQA configurations by mean-pooling the key and value heads associated with each group. Empirical evaluations demonstrated that GQA models achieve performance close to the original MHA models.
 
-![](/posts/2025-10-28-kv-caching-optimizations-model-level/attention-grouping.png)
+![](/posts/2025-10-28-kv-caching-optimizations-model-level/attention-grouping-inv.png)
 
 _A simplified illustration of different QKV grouping techniques: multi-headed attention (MHA), multi-query attention (MQA) and grouped-query attention (GQA)._
 
@@ -42,6 +42,7 @@ For a more detailed description of each technique, check out [the survey](https:
 ## Architecture Alteration
 
 Another approach is to make more high-level architectural changes to reduce the required cache size. There seems to be two main directions in this area:
+
 - **Enhanced Attention**: methods that refine the attention mechanism for KV cache efficiency. An example is DeepSeek-V2, which introduced Multi-Head Latent Attention (MLA). This technique adopts a low-rank KV joint compression mechanism and replaces the full KV cache with compressed latent vectors. The model adopts trainable projection and expansion matrices to do the compression. This compression mechanism is what enables the model to handle sequences of up to 128K tokens. You can learn more about MLA in [this article](https://magazine.sebastianraschka.com/i/168650848/multi-head-latent-attention-mla) by Sebastian Raschka.
 - **Augmented Architecture**: methods that introduce structural changes for better KV management, for example novel decoder structures (such as YOCO, that included a self-decoder and a cross-decoder step).
 
@@ -56,6 +57,7 @@ For a more detailed description of each technique, check out [the survey](https:
 In this category we group all radical approaches that ditch the Transformers architecture partially or entirely and embrace alternative models, for example RNNs, which don't have quadratic computation bottlenecks at all and sidestep the problem entirely.
 
 In the case of completely independent architectures, notable examples are:
+
 - [Mamba](https://arxiv.org/abs/2312.00752), based on state space sequence models (SSMs). Mamba improves SSMs by making parameters input-dependent, allowing information to be selectively propagated or forgotten along the sequence based on the current token. Mamba omits attention entirely.
 - [RWKV](http://arxiv.org/abs/2305.13048) (Receptance Weighted Key Value) integrates a linear attention mechanism, enabling parallelizable training like transformers while retaining the efficient inference characteristics of RNNs.
 

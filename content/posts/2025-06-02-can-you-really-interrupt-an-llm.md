@@ -3,7 +3,7 @@ title: "Can you really interrupt an LLM?"
 description: "You never see that in the demos... why?"
 date: 2025-06-02
 author: "ZanSara"
-featured-image: "/posts/2025-06-02-can-you-really-interrupt-an-llm/cover.png"
+featured-image: "/posts/2025-06-02-can-you-really-interrupt-an-llm/cover-inv.png"
 ---
 
 With the recent release of [Voice Mode](https://support.anthropic.com/en/articles/11101966-using-voice-mode-on-claude-mobile-apps) for [Claude](https://www.anthropic.com/claude), it seems like Voice AI is a solved problem. Now that LLMs can speak natively, there's apparently no more need for any of the [complex voice pipelines](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) that used to be necessary last year: no need to do voice activity detection, no need to pipe data from the speech-to-text model to the LLM and then back to the text-to-speech engine at blazing speed in order to achieve a natural conversation flow. Modern LLMs can [laugh and sing](https://vimeo.com/945587944): what else could we need?
@@ -60,7 +60,7 @@ When a user interrupts the LLM, the app normally stops the playback as soon as p
 
 However, unless the app notifies the LLM of this action, **the LLM has no way to know that only part of the response was played to the user.** This is why most models believe they finished their countdown when in practice they were interrupted earlier.
 
-![](/posts/2025-06-02-can-you-really-interrupt-an-llm/naive-interruption.png)
+![](/posts/2025-06-02-can-you-really-interrupt-an-llm/naive-interruption-inv.png)
 
 ## Can it be solved?
 
@@ -80,7 +80,7 @@ This is possible because OpenAI's Realtime API provides the possibility to tell 
 
 In this event, the `audio_end_ms` is what signals the model that the audio was interrupted at a certain time, before its natural end. This event in turn also trims the transcript to make the LLM know what the user heard and was was never played out. Precision however is not trivial to accomplish, because it's very easy for the application to register the interruption later than when it actually occurred and, like in the case of the ChatGPT app, convince the LLM that the interruption happened in the wrong point.
 
-![](/posts/2025-06-02-can-you-really-interrupt-an-llm/gpt-4o-interruption.png)
+![](/posts/2025-06-02-can-you-really-interrupt-an-llm/gpt-4o-interruption-inv.png)
 
 
 In the case of Gemini, there is a ["Handling Interruptions"](https://ai.google.dev/gemini-api/docs/live#interruptions) section in its Live API documentation. However the feature seems incomplete, as they state:

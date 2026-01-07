@@ -4,7 +4,7 @@ description: "And how can 8 or 16 of them cover all possible domain of expertise
 date: 2025-12-11
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2025-12-11-what-are-moe-experts/cover.png"
+featured-image: "/posts/2025-12-11-what-are-moe-experts/cover-inv.png"
 ---
 
 _This is episode 5 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
@@ -23,17 +23,17 @@ However, this is not the case. Let's figure out how it works under the hood.
 
 In order to understand MoE, you should first be familiar with the basic architecture of decoder-only Transformers. If the diagram below is not familiar to you, have a look at [this detailed description](https://cameronrwolfe.substack.com/p/decoder-only-transformers-the-workhorse) before diving in.
 
-![](/posts/2025-12-11-what-are-moe-experts/decoder-only-transformer.png)
+![](/posts/2025-12-11-what-are-moe-experts/decoder-only-transformer-inv.png)
 
 The main change made by a MoE over the decoder-only transformer architecture is **within the feed-forward component of the transformer block**. In the standard, non MoE architecture, the tokens pass one by one through a have a single feed-forward neural network. In a MoE instead, at this stage there are many feed-forward networks, each with their own weights: they are the "experts".
 
 This means that to create an MoE LLM we first need to convert the transformer’s feed-forward layers to these expert layers. Their internal structure is the same as the original, single network, but copied a few times, with the addition of a routing algorithm to select the expert to use for each input token to process.
 
-![](/posts/2025-12-11-what-are-moe-experts/moe-decoding-step.png)
+![](/posts/2025-12-11-what-are-moe-experts/moe-decoding-step-inv.png)
 
 The core of a routing algorithm is rather simple as well. First the token's embedding passes through a linear transformation (such as a fully connected layer) that outputs a vector as long as the number of experts we have in our system. Then, a softmax is applied and the top-k experts are selected. After the experts produce output, their results are then averaged (using their initial score as weight) and sent to the next decode layer.
 
-![](/posts/2025-12-11-what-are-moe-experts/moe-router.png)
+![](/posts/2025-12-11-what-are-moe-experts/moe-router-inv.png)
 
 Keep in mind that this is a simplification of the actual routing mechanism of real MoE models. If implemented as described here, through the training phase you would observe a **routing collapse**: the routing network would learn to send all tokens to the same expert all the time, reducing your MoE model back to the equivalent of a regular decoder-only Transformer. To make the network learn to distribute the tokens in a more balanced fashion, you would need to add auxiliary loss functions that make the routing network learn to load balance the experts properly. For more details on this process (and much more on MoE in general) see [this detailed overview](https://cameronrwolfe.substack.com/p/moe-llms).
 
@@ -41,9 +41,9 @@ Keep in mind that this is a simplification of the actual routing mechanism of re
 
 Yes and no. On the [OpenMoE paper](https://arxiv.org/abs/2402.01739), the authors investigated in detail whether experts do specialize in any recognizable domain, and they observed interesting results. In their case, experts do not tend to specialize in any particular domain; however, there is some level of expert specialization across natural languages and specific tasks.
 
-![](/posts/2025-12-11-what-are-moe-experts/moe-not-specializing-domains.jpg)
+![](/posts/2025-12-11-what-are-moe-experts/moe-not-specializing-domains-inv.jpg)
 
-![](/posts/2025-12-11-what-are-moe-experts/moe-specializing-domains.jpg)
+![](/posts/2025-12-11-what-are-moe-experts/moe-specializing-domains-inv.jpg)
 
 According to the authors, this specialization is due to the same tokens being sent to the same expert every time, regardless of the context in which it is used. Given that different languages use a very different set of tokens, it's natural to see this sort of specialization emerging, and the same can be said of specific tasks, where the jargon and the word frequency changes strongly. The paper defines this behavior as “Context-Independent Specialization”.
 

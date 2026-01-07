@@ -4,7 +4,7 @@ description: "We've been told embedding search strictly superior to BM25 and all
 date: 2025-11-04
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2025-11-04-hybrid-retrieval/cover.png"
+featured-image: "/posts/2025-11-04-hybrid-retrieval/cover-inv.png"
 ---
 
 ---
@@ -84,7 +84,7 @@ The scores the documents come with are deeply incomparable. BM25 scores depends 
 
 That's where **reciprocal rank fusion (RRF)** comes in. RRF is incredibly simple and boils down to this formula: `score(d) = sum( 1/(k + rank_method_i(d)) )` . As you can see it works on the ranks, not scores, so it’s robust against scale differences and requires no normalization. Platforms like Elastic and Pinecone use it for production hybrid search due to its simplicity and reliability. Being so simple, the additional latency is negligible, which makes it suitable for real-time usecases.
 
-![](/posts/2025-11-04-hybrid-retrieval/hybrid-search.png)
+![](/posts/2025-11-04-hybrid-retrieval/hybrid-search-inv.png)
 
 Or, if you're less concerned about latency, you can consider adding a [reranker](/posts/2025-10-09-rerankers#bi-encoders-vs-cross-encoders).
 

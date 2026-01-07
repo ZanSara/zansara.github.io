@@ -29,7 +29,7 @@ body:has(#theme-toggle:checked) {
 
 /* Invert images with invertible class in dark mode */
 body:has(#theme-toggle:checked) img.invertible {
-  filter: invert(1) brightness(110%);
+  filter: brightness(87%) invert(1);
 }
 
 /* Prevent flash of unstyled content */

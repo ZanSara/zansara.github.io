@@ -6,11 +6,11 @@ author: "ZanSara"
 featured-image: "/posts/2023-09-10-python-verbix-sdk/cover.png"
 ---
 
-PyPI package: https://pypi.org/project/verbix-sdk/
+PyPI package: <https://pypi.org/project/verbix-sdk/>
 
-GitHub Repo: https://github.com/ZanSara/verbix-sdk
+GitHub Repo: <https://github.com/ZanSara/verbix-sdk>
 
-Minimal Docs: https://github.com/ZanSara/verbix-sdk/blob/main/README.md
+Minimal Docs: <https://github.com/ZanSara/verbix-sdk/blob/main/README.md>
 
 ---
 

@@ -179,13 +179,17 @@ class ContentFile:
                         img_tag
                     )
                 else:
-                    # Add class attribute before the closing >
-                    img_tag = img_tag[:-1] + ' class="invertible">'
+                    # Add class attribute before the closing /> or >
+                    # Handle both self-closing and regular tags
+                    if img_tag.endswith('/>'):
+                        img_tag = img_tag[:-2] + ' class="invertible" />'
+                    else:
+                        img_tag = img_tag[:-1] + ' class="invertible">'
 
             return img_tag
 
         # Match <img> tags and capture the src attribute
-        pattern = r'<img[^>]+src="([^"]+)"[^>]*>'
+        pattern = r'<img[^>]+src="([^"]+)"[^>]*/?>'
         return re.sub(pattern, replace_img, html_content)
 
     def render(self):
@@ -309,12 +313,19 @@ def footer_component():
     )
 
 
+def get_invertible_class_attr(image_path):
+    """Check if image path ends with -inv and return class attribute string"""
+    if image_path and re.search(r'-inv\.[^/]*$', image_path):
+        return 'class="invertible"'
+    return ''
+
 def post_template(page):
     """Generate template for a post page"""
     featured_image = ''
     if page.featured_image:
         img_template = TemplateLoader.load('featured-image.html')
-        featured_image = img_template.format(src=page.featured_image)
+        class_attr = get_invertible_class_attr(page.featured_image)
+        featured_image = img_template.format(src=page.featured_image, class_attr=class_attr)
 
     meta_tags = ''
     if page.featured_image:
@@ -361,7 +372,8 @@ def list_template(section, pages):
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.url,
-            title=escape(p.title)
+            title=escape(p.title),
+            class_attr=get_invertible_class_attr(p.featured_image)
         )
         for p in sorted(pages, key=lambda x: x.date, reverse=True)
     ])
@@ -384,7 +396,8 @@ def home_template(recent_posts, recent_talks):
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.url,
-            title=escape(p.title)
+            title=escape(p.title),
+            class_attr=get_invertible_class_attr(p.featured_image)
         )
         for p in recent_posts[:4]
     ])
@@ -394,7 +407,8 @@ def home_template(recent_posts, recent_talks):
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.url,
-            title=escape(p.title)
+            title=escape(p.title),
+            class_attr=get_invertible_class_attr(p.featured_image)
         )
         for p in recent_talks[:4]
     ])
@@ -423,7 +437,8 @@ def series_template(series_name, pages):
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.url,
-            title=escape(p.title)
+            title=escape(p.title),
+            class_attr=get_invertible_class_attr(p.featured_image)
         )
         for p in sorted(pages, key=lambda x: x.date)
     ])

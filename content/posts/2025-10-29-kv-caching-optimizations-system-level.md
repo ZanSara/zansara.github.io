@@ -3,7 +3,7 @@ title: "Making sense of KV Cache optimizations, Ep. 4: System-level"
 description: "Let's make sense of the zoo of system-level techniques that exist out there."
 date: 2025-10-29
 author: "ZanSara"
-featured-image: "/posts/2025-10-29-kv-caching-optimizations-system-level/cover.png"
+featured-image: "/posts/2025-10-29-kv-caching-optimizations-system-level/cover-inv.png"
 ---
 
 In the previous posts we've seen [what the KV cache is](/posts/2025-10-23-kv-caching/) and what types of [KV Cache management optimizations](/posts/2025-10-26-kv-caching-optimizations-intro/) exist according to a [recent survey](https://arxiv.org/abs/2412.19442). In this post we are going to focus on **system-level** KV cache optimizations.
@@ -14,7 +14,7 @@ Real hardware is not only made of "memory" and "compute", but is made of several
 
 Here is an overview of the types of optimizations that exist today.
 
-![](/posts/2025-10-29-kv-caching-optimizations-system-level/system-level.png)
+![](/posts/2025-10-29-kv-caching-optimizations-system-level/system-level-inv.png)
 
 _[Source](https://arxiv.org/pdf/2412.19442#figure.10)_
 

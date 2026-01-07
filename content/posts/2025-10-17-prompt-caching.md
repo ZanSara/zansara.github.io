@@ -4,7 +4,7 @@ description: "Caching prompts can have an outsized impact on the cost and latenc
 date: 2025-10-17
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2025-10-17-prompt-caching/cover.png"
+featured-image: "/posts/2025-10-17-prompt-caching/cover-inv.png"
 ---
 
 ---
@@ -91,7 +91,7 @@ A layered approach like balances freshness and reuse, optimizing both cost and p
 
 If you're using a modern inference engine, prompt caching can also be done through **automatic prefix caching**, where the engine itself takes the responsibility to identify and cache frequently used prefixes. Here you can find more details about the availability of this feature in [vLLM](https://docs.vllm.ai/en/latest/design/prefix_caching.html), [SDLang](https://docs.sglang.ai/advanced_features/hicache_best_practices.html) and [llama.cpp](https://github.com/ggml-org/llama.cpp/discussions/8947), but there are many other engines supporting it.
 
-![](/posts/2025-10-17-prompt-caching/optimizations_table.png)
+![](/posts/2025-10-17-prompt-caching/optimizations_table-inv.png)
 
 _A feature comparison across inference engines from [this May 2025 review](https://arxiv.org/pdf/2505.01658)._
 

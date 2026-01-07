@@ -4,7 +4,7 @@ description: "Nearly all inference libraries can do it for you. But what's reall
 date: 2025-10-23
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2025-10-23-kv-caching/cover.png"
+featured-image: "/posts/2025-10-23-kv-caching/cover-inv.png"
 ---
 
 ---
@@ -25,25 +25,25 @@ Large Language Models are built on the Transformer architecture: a neural networ
 
 The point that interests us is that according to the original implementation, during inference the LLM generate text one token at a time in an _autoregressive_ fashion, meaning each new token is predicted based on **all** previously generated tokens. After producing (or "decoding") a token, that token is appended to the input sequence and the model computes everything all over again to generate the next one. This loop continues until a stopping condition is reached (such as an end-of-sequence token or a length limit).
 
-![](/posts/2025-10-23-kv-caching/auto-regression.png)
+![](/posts/2025-10-23-kv-caching/auto-regression-inv.png)
 
 _In an autoregressive system, the output is generated token by token by appending the previous pass' output to its input and recomputing everything again. Starting from the token "This", the LLM produces "is" as output. Then the output is concatenated to the input in the string "This is", which is fed again to the LLM to produce "a", and so on until an \[END\] token is generated. That halts the loop._
 
 This iterative process is very computationally expensive (quadratic time complexity in the number of tokens, so O(n^2) where n is the number of tokens), and the impact is felt especially for long sequences, because each step must account for an ever-growing history of generated tokens.
  
-![](/posts/2025-10-23-kv-caching/auto-regression-2.png)
+![](/posts/2025-10-23-kv-caching/auto-regression-2-inv.png)
 
 _Simplified view of the increasing computation load. At each pass, the increasing length of the input sentence translated into larger matrices to be handled during inference, where each row corresponds to one input token. This means more computations and, in turn, slower inference._
 
 However, there seems to be an evident chance for optimization here. If we could store the internal state of the LLM after each token's generation and reuse it at the next step, we could save a lot of repeated computations.
 
-![](/posts/2025-10-23-kv-caching/auto-regression-cached.png)
+![](/posts/2025-10-23-kv-caching/auto-regression-cached-inv.png)
 
 _If we could somehow reuse part of the computations we did during earlier passes and only process new information as it arrives, not only the computation speed will increase dramatically, but it will stay constant during the process instead of slowing down as more tokens are generated._
 
 This is not only true during a single request (because we won't be recomputing the whole state from the start of the message for every new token we're generating), but also across requests in the same chat (by storing the state at the end of the last assistant token) and across different chats as well (by storing the state of shared prefixes such as system prompts).
 
-![](/posts/2025-10-23-kv-caching/prefix-caching.png)
+![](/posts/2025-10-23-kv-caching/prefix-caching-inv.png)
 
 _Example of prefix caching in different scenarios (gray text is caches, black is processed). By caching the system prompt, its cache can be reused with every new chat. By also caching by longest prefix, the prompts may occasionally match across chats, although it depends heavily on your applications. In any case, caching the chat as it progresses keeps the number of new tokens to process during the chat to one, making inference much faster._
 
@@ -60,7 +60,7 @@ At a high level, the inference process of a modern decoder-only Transformer such
 - **Sampling**: From this list, one of the top-k best tokens is selected as the next token, gets added to the chat history, and the loop restarts.
 - **End token**: the decoding stops when the LLM picks an END token or some other condition is met (for example, max output length).
 
-![](/posts/2025-10-23-kv-caching/llm-inference.png)
+![](/posts/2025-10-23-kv-caching/llm-inference-inv.png)
 
 _Simplified representation of the inference steps needed for an LLM to generate each output token. The most complex by far is the decoding step, which we are going to analyze in more detail._
 
@@ -71,6 +71,7 @@ As you can see from this breakdown, the LLM computes its internal representation
 LLMs may have a variable number of decoding steps (although it's often 12), but they are all identical, except for the weights they contain. This means that we can look into one and then keep in mind that the same identical process is repeated several times.
 
 Each decoding step contains two parts:
+
 - a multi-headed, masked self-attention layer
 - a feed-forward layer
 
@@ -86,7 +87,7 @@ The first layer, the multi headed masked self attention, sound quite complicated
 
 To understand what attention does, let's take the sentence "I like apples because they're sweet". When processing the token "they", the masked self-attention layer will give a high score to "apples", because that's what "they" refers to. Keep in mind that "sweet" will not be considered while processing "they", because masked self-attention only includes tokens that precede the token in question.
 
-![](/posts/2025-10-23-kv-caching/masked-self-attention.png)
+![](/posts/2025-10-23-kv-caching/masked-self-attention-inv.png)
 
 _A simplified visualization of a masked self-attention head. For each token, the attention calculations will assign a score to each preceding token. The score will be higher for all preceding tokens that have something to do with the current one, highlighting semantic relationships._
 
@@ -100,7 +101,7 @@ Let's now look at how is this score calculated. Self-attention is implemented as
 
 These Q/K/V matrices are computed by multiplying the input of the decoding layer by three matrices (Wq, Wk and Wv) whose values are computed during training and constitute many of the LLM's parameters. These three matrices are addressed together as an attention head, as we mentioned earlier. Modern LLMs usually include several attention heads for each step, so you'll have several different matrices in each decoding step (and that's why they're said to use multi-headed attention).
 
-![](/posts/2025-10-23-kv-caching/Q-K-V.png)
+![](/posts/2025-10-23-kv-caching/Q-K-V-inv.png)
 
 _Simplified view of the Q/K/V matrices in a single self-attention head. The matrices go through a few more steps (softmax, regularization etc) which are not depicted here_.
 
@@ -108,7 +109,7 @@ This process of computing the output vector for each token is called _scaled dot
 
 Let's pay close attention to these computations. We know that LLMs generate output one token at a time. This means that the LLM will recompute the K-V values for the tokens of the prompt over and over again for each new output token it generates. If you have already generated, say, 100 tokens of output, producing the 101st token requires recomputing a forward pass over all 100 tokens. A naive implementation would repeatedly recalculate a lot of the same intermediate results for the older tokens at every step of generation.
 
-![](/posts/2025-10-23-kv-caching/KV-caching-no.png)
+![](/posts/2025-10-23-kv-caching/KV-caching-no-inv.png)
 
 _Detail of the Q/K multiplication. As you can see, the content of the QK matrix is essentially the same at all steps, except for the last row. This means that as soon as we accumulate a few input tokens, most of the QK matrix will be nearly identical every time. Something very similar happens for the final QKV matrix._
 
@@ -120,7 +121,7 @@ Clearly we want to avoid recomputing things like the key and value vectors for p
 
 **KV caching** is an optimization that saves the key and value tensors from previous tokens so that the model doesn’t need to recompute them for each new token. The idea is straightforward: as the model generates tokens one by one, we store the keys and values produced at each layer for each token in a cache (which is just a reserved chunk of memory, typically in GPU RAM for speed). When the model is about to generate the next token, instead of recomputing all keys and values from scratch for the entire sequence, it retrieves the already-computed keys and values for the past tokens from this cache, and only computes the new token’s keys and values. 
 
-![](/posts/2025-10-23-kv-caching/KV-caching-yes.png)
+![](/posts/2025-10-23-kv-caching/KV-caching-yes-inv.png)
 
 _Computing the QK matrix by reusing the results of earlier passes makes the number of calculations needed at each step nearly linear, speeding up inference several times and preventing slowdowns related to the input size._
 
@@ -147,6 +148,7 @@ KV caching exemplifies how understanding the internals of transformer models can
 ## Learn more
 
 Here are some useful resources I used to write this post:
+
 - [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/) by Jay Alammar
 - [The illustrated GPT-2](https://jalammar.github.io/illustrated-gpt2/) by Jay Alammar
 - [Latency optimization tips](https://platform.openai.com/docs/guides/latency-optimization/3-use-fewer-input-tokens#use-fewer-input-tokens) by OpenAI

@@ -4,7 +4,7 @@ description: "And is the added latency worth it? Let's understand what they do a
 date: 2025-10-09
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2025-10-09-rerankers/cover.png"
+featured-image: "/posts/2025-10-09-rerankers/cover-inv.png"
 ---
 
 ---
@@ -21,7 +21,7 @@ But why do we need rerankers? Isn’t semantic search good enough? The answer li
 
 At the heart of modern, scalable semantic search systems lies the **bi-encoder** model. This architecture creates independent vector representations for the query and the document; relevance is then computed through a similarity measure like the dot product or cosine similarity between those vectors.
 
-![](/posts/2025-10-09-rerankers/bi-encoders.png)
+![](/posts/2025-10-09-rerankers/bi-encoders-inv.png)
 
 This design scales well: You can precompute document embeddings, store them in your vector DB, and compare any incoming query against millions of documents very efficiently. However, this convenience comes at a cost: **the system never truly reads the document in the context of the query**. There’s no token-level interaction between the query and document embedding to judge whether the document actually answers the question or it simply happen to be talking about the same topic, and therefore semantically similar.
 
@@ -29,7 +29,7 @@ For example, the query "How to protect my application from DDOS attacks?" may be
 
 **Cross-encoders** remedy the limitations of bi-encoders by encoding the query and document together, typically separated by a special token (like `[SEP]`) using an encoder-only Transformer such as BERT. Then they include an additional fully connected layer that acts as a classifier, learning fine-grained token-level interactions that capture query/document word alignments, answer containment (i.e., does this passage actually answer the question?) and overall contextual relevance.
 
-![](/posts/2025-10-09-rerankers/cross-encoders.png)
+![](/posts/2025-10-09-rerankers/cross-encoders-inv.png)
 
 This difference (from separate encodings to a joint representation) gives cross-encoders their power but also their cost. Since relevance depends on the specific query, you can’t precompute the document embeddings: in fact, the concept of "query embedding" and "document embeddings" disappears.  Every query-document pair requires a fresh forward pass through the whole model, which can be prohibitively expensive on a large corpus.
 ## To each their place
@@ -40,7 +40,7 @@ No production system can afford to run interaction-rich models such as cross-enc
             
 2. **Reranking (Cross-Encoder)** – Evaluates those top 100 candidates more deeply by jointly encoding the query and document. A popular closed source choice for reranking models is Cohere's, while on the open source front you can find several Qwen-based rerankers, Jina.ai models, IBM's Granite rerankers, BGE rerankers, and [many more](https://huggingface.co/models?search=reranker).
 
-![](/posts/2025-10-09-rerankers/two-tiered-system.png)
+![](/posts/2025-10-09-rerankers/two-tiered-system-inv.png)
 
 ## Making Reranking Practical
 

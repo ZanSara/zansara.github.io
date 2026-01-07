@@ -3,7 +3,7 @@ title: "Making sense of KV Cache optimizations, Ep. 2: Token-level"
 description: "Let's make sense of the zoo of token-level techniques that exist out there."
 date: 2025-10-27
 author: "ZanSara"
-featured-image: "/posts/2025-10-27-kv-caching-optimizations-token-level/cover.png"
+featured-image: "/posts/2025-10-27-kv-caching-optimizations-token-level/cover-inv.png"
 ---
 
 In the previous post we've seen [what the KV cache is](/posts/2025-10-23-kv-caching/) and what types of [KV cache management optimizations](/posts/2025-10-26-kv-caching-optimizations-intro/) exist according to a [recent survey](https://arxiv.org/abs/2412.19442). In this post we are going to focus on **token-level** KV cache optimizations.
@@ -14,7 +14,7 @@ The survey defined token-level optimizations every technique that focuses exclus
 
 Here is an overview of the types of optimizations that exist today.
 
-![](/posts/2025-10-27-kv-caching-optimizations-token-level/token-level.png)
+![](/posts/2025-10-27-kv-caching-optimizations-token-level/token-level-inv.png)
 
 _[Source](https://arxiv.org/pdf/2412.19442#figure.3)_
 
@@ -24,7 +24,7 @@ Let's see what's the idea behind each of these categories. We won't go into the 
 
 One key characteristic of the attention matrix is **sparsity**: most of its values are very close to zero, and just a few cells have meaningful values. Instead of retrieving a full matrix of attention values every time (and retrieve a ton of close-to-zero, nearly useless values), KV Cache selection techniques identify the most relevant token pair and cache those only, reducing memory utilization and inference latency.
 
-![](/posts/2025-10-27-kv-caching-optimizations-token-level/sparse-attention.png)
+![](/posts/2025-10-27-kv-caching-optimizations-token-level/sparse-attention-inv.png)
 
 _A simplified view of a cache selection strategy. In this case, the KV cache tends to have its highest values clustered near the diagonal (because most tokens refer to other tokens that are relatively close), so most of the lower-left side of the matrix can be safely assumed to be zero. That reduces drastically the number of values to store._
 
@@ -44,6 +44,7 @@ LLMs are hierarchical, with several layers within layers of computations. Each o
 This means that not all of these steps should be compressed equally. If we could identify which layers are more impactful we could reduce the compression of the KV cache for these layers and increase it for the others. In this way the effects of compression on the output quality would be minimized.
 
 Budget allocation strategies tend either of these granularity levels:
+
 - **Layer-wise budget allocation**, which assigns different compression ratios across the model's decoding layers
 - **Head-wise budget allocation**, which enables precise memory distribution across individual attention heads within each layer.
 
@@ -55,7 +56,8 @@ For a more detailed description of each technique, check out [the survey](https:
 
 The idea behind KV cache merging is to compress or consolidate separate KV caches into a single one without significantly degrading model accuracy. This stems from the observation that the various layers and attention heads often shows redundant patterns that could be merged into one single representation to improve compression.
 
-Just like with the budget allocation techniques, KV cache merging strategies can be categorized into two primary approaches: 
+Just like with the budget allocation techniques, KV cache merging strategies can be categorized into two primary approaches:
+ 
 - **Intra-layer merging**, which focuses on consolidating KV caches within individual layers to reduce memory usage per layer
 - **Cross-layer merging**, which targets redundancy across layers to eliminate unnecessary duplication. 
 
@@ -65,7 +67,7 @@ For a more detailed description of each technique, check out [the survey](https:
 
 ### KV Cache Quantization
 
-![](/posts/2025-10-27-kv-caching-optimizations-token-level/quantization.png)
+![](/posts/2025-10-27-kv-caching-optimizations-token-level/quantization-inv.png)
 
 _A simplified example of cache quantization. Reducing the precision of the values from float to int8 can drastically reduce the memory needs of the cache and accelerate inference._
 

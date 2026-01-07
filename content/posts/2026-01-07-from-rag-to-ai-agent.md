@@ -3,7 +3,7 @@ title: "From RAG to AI Agent"
 description: "A step-by-step guide to transform your RAG pipelines into effective AI agents."
 date: 2026-01-07
 author: "ZanSara"
-featured-image: "/posts/2026-01-07-from-rag-to-ai-agent/cover.png"
+featured-image: "/posts/2026-01-07-from-rag-to-ai-agent/cover-inv.png"
 ---
 
 ---
@@ -26,7 +26,7 @@ Let's see how it's done.
 
 Our starting point, what's usually called "basic RAG" to distinguish it from more advanced RAG implementations, is a system with a retrieval step (be it vector-based, keyword-based, web search, hybrid, or anything else) that occurs every time the user sends a message to an LLM. Its architecture might look like this:
 
-![](/posts/2026-01-07-from-rag-to-ai-agent/basic-rag.png)
+![](/posts/2026-01-07-from-rag-to-ai-agent/basic-rag-inv.png)
 
 Systems with more than one retriever and/or a reranker step also fall under this category. What's crucial to distinguish basic RAG from more "agentic" versions of it is the fact that the retrieval step runs *on every user message* and that *the user message is fed directly to the retriever*.
 
@@ -34,7 +34,7 @@ Systems with more than one retriever and/or a reranker step also fall under this
 
 The first major step towards agentic behavior is the query rewrite step. RAG pipelines with query rewrite don't send the user's message directly to the retriever, but **rewrite it** to improve the outcomes of the retrieval. 
 
-![](/posts/2026-01-07-from-rag-to-ai-agent/query-rewrite.png)
+![](/posts/2026-01-07-from-rag-to-ai-agent/query-rewrite-inv.png)
 
 Query rewrite is a bit of a double-edged sword. In some cases it may make your RAG pipeline less reliable, because the LLM may misunderstand your intent and query the retriever with an unexpected prompt. It also introduces a delay, as there is one more round-trip to the LLM to make. However, a well implemented query rewrite step has a huge impact on **follow-up questions**.
 
@@ -66,7 +66,7 @@ In this case, the LLM needs no additional context to be able to do what the user
 
 This means that even before query rewrite we should add another step, where the LLM gets to decide whether we should do any retrieval or not. The final architecture looks like this:
 
-![](/posts/2026-01-07-from-rag-to-ai-agent/optional-retrieval.png)
+![](/posts/2026-01-07-from-rag-to-ai-agent/optional-retrieval-inv.png)
 
 <div class="notice">
 💡  Note that this is just a naive implementation. In practice, the decision of retrieving and the query rewrite may be done by the same LLM call to save time. You may also use different LLMs in parallel for different steps, leveraging smarter and more expensive LLMs for the decisional tasks and faster/cheaper ones for the query rewrite and the answer generation.
@@ -84,7 +84,7 @@ To build this agentic loop you should add a new step between the retrieval and t
 
 The resulting architecture looks like this:
 
-![](/posts/2026-01-07-from-rag-to-ai-agent/agentic-loop.png)
+![](/posts/2026-01-07-from-rag-to-ai-agent/agentic-loop-inv.png)
 
 <div class="notice">
 💡  Note that this is also a naive implementation. A few of these decisions can be packed together in a single pass and, again, you can use different LLMs for different tasks.
@@ -108,7 +108,7 @@ Once you adopt this mindset, you'll see that the hints were there all along:
 
 Transforming retrieval into a tool simplifies our architecture drastically and moves us fully into AI Agent territory:
 
-![](/posts/2026-01-07-from-rag-to-ai-agent/rag-as-tool.png)
+![](/posts/2026-01-07-from-rag-to-ai-agent/rag-as-tool-inv.png)
 
 As you can see:
 1. The decision step is now part of the LLM's answer generation, which can call it as many times as it wants thanks to the tool calling loop
