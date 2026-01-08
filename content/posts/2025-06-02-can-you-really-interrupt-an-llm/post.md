@@ -10,7 +10,7 @@ With the recent release of [Voice Mode](https://support.anthropic.com/en/article
 
 It turns out, a lot is still missing. Here is an example:
 
-<div style="display: flex; align-content: center;">
+<div style="display: flex;">
   <video style="margin:auto;" width="382" height="814" controls>
     <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/claude.mp4" type="video/mp4">
   </video>
@@ -18,7 +18,7 @@ It turns out, a lot is still missing. Here is an example:
 
 Is this an issue with Claude? Have a look at Gemini:
 
-<div style="display: flex; align-content: center;">
+<div style="display: flex;">
   <video style="margin:auto;" width="384" height="796" controls>
     <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/gemini.mp4" type="video/mp4">
   </video>

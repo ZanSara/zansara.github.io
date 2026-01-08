@@ -114,7 +114,7 @@ Last, when the user presses the Start button, one more system message is sent:
 The LLM also receives two tools to use:
 
 - `eliminateCharacter`, described as "Eliminate a character from your board when you learn they cannot be the user's character".
-- `endGame`, described as "When you or the the user guess correctly, call this tool to end the game."
+- `endGame`, described as "When you or the user guess correctly, call this tool to end the game."
 
 ## Playing
 

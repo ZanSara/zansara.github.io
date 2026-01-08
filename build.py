@@ -276,7 +276,7 @@ class ContentFile:
                 else:
                     # YAML date object - convert to datetime
                     return datetime.combine(d, datetime.min.time())
-            except:
+            except Exception:
                 pass
         return datetime.now()
 
@@ -546,7 +546,7 @@ class RSSGenerator:
 
         if pages:
             latest_date = max(p.date for p in pages)
-            SubElement(channel, 'lastBuildDate').text = latest_date.strftime('%a, %d %b %Y %H:%M:%S %z')
+            SubElement(channel, 'lastBuildDate').text = latest_date.strftime('%a, %d %b %Y %H:%M:%S +0000')
 
         # Add items
         for page in sorted(pages, key=lambda x: x.date, reverse=True)[:20]:

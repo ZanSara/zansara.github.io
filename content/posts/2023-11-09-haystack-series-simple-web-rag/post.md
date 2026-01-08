@@ -23,7 +23,7 @@ In this post, we will see how to build a Web RAG application: a RAG pipeline tha
 
 <div class="notice warning">
 
-⚠️ <b>Warning:</b>This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.
+⚠️ <b>Warning:</b> This code was tested on `haystack-ai==2.0.0b5`. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.
 
 </div>
 

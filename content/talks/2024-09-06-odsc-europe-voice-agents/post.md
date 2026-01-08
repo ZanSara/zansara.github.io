@@ -2,7 +2,9 @@
 title: "ODSC Europe: Building Reliable Voice Agents with Open Source tools"
 date: 2024-09-06
 author: "ZanSara"
-featured-image: "/talks/2024-09-05-odsc-europe-voice-agents/cover.png"
+featured-image: "/talks/2024-09-06-odsc-europe-voice-agents/cover.png"
+aliases:
+ - /talks/2024-09-05-odsc-europe-voice-agents
 ---
 
 [Announcement](https://odsc.com/speakers/building-reliable-voice-agents-with-open-source-tools-2/), [slides](https://drive.google.com/file/d/1ubk7Q_l9C7epQgYrMttHMjW1AVfdm-LT/view?usp=sharing) and [notebook](https://colab.research.google.com/drive/1NCAAs8RB2FuqMChFKMIVWV0RiJr9O3IJ?usp=sharing). All resources can also be found on ODSC's website and in [my archive](https://drive.google.com/drive/folders/1rrXMTbfTZVuq9pMzneC8j-5GKdRQ6l2i?usp=sharing). Did you miss the talk? Check out the write-up's [part 1](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/) and [part 2](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/).

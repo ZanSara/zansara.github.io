@@ -228,7 +228,7 @@ from haystack.dataclasses import Document
 from haystack.document_stores.in_memory import InMemoryDocumentStore
 
 documents = [
-    Document(content="German is the the official language of Germany."), 
+    Document(content="German is the official language of Germany."), 
     Document(content="The capital of France is Paris, and its official language is French."),
     Document(content="Italy recognizes a few official languages, but the most widespread one is Italian."),
     Document(content="Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea.")
@@ -238,7 +238,7 @@ docstore.write_documents(documents=documents)
 
 docstore.filter_documents()
 # returns [
-#     Document(content="German is the the official language of Germany."), 
+#     Document(content="German is the official language of Germany."), 
 #     Document(content="The capital of France is Paris, and its official language is French."),
 #     Document(content="Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea."),
 #     Document(content="Italy recognizes a few official languages, but the most widespread one is Italian."),
@@ -369,7 +369,7 @@ Now, let's write again our four documents into the store. In this case, we speci
 ```python
 from haystack.document_stores import DuplicatePolicy
 documents = [
-    Document(content="German is the the official language of Germany."), 
+    Document(content="German is the official language of Germany."), 
     Document(content="The capital of France is Paris, and its official language is French."),
     Document(content="Italy recognizes a few official languages, but the most widespread one is Italian."),
     Document(content="Esperanto has been adopted as official language for some microstates as well, such as the Republic of Rose Island, a short-lived microstate built on a sea platform in the Adriatic Sea.")
