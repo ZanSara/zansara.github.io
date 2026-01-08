@@ -1,0 +1,26 @@
+---
+title: "My Dotfiles"
+description: What Linux developer would I be if I didn't also have my very own dotfiles repo?
+date: 2021-12-11
+author: "ZanSara"
+featured-image: "/posts/2021-12-11-dotfiles/cover.png"
+---
+
+GitHub Repo: <https://github.com/ZanSara/dotfiles>
+
+---
+
+What Linux developer would I be if I didn't also have my very own dotfiles repo?
+
+After many years of iterations I finally found a combination that lasted quite a while, so I figured it's time to treat them as a real project. It was originally optimized for my laptop, but then I realized it works quite well on my three-monitor desk setup as well without major issues.
+
+It sports:
+
+- [i3-wm](https://github.com/Airblader/i3) as window manager (of course, with gaps),
+- The typical trio of [polybar](https://github.com/polybar/polybar) , [rofi](https://github.com/davatorium/rofi) and [dunst](https://github.com/dunst-project/dunst) to handle top bar, start menu and notifications respectively,
+- The odd choice of [Ly](https://github.com/nullgemm/ly) as my display manager. I just love the minimal, TUI aesthetics of it. Don't forget to enable Doom's flames!
+- A minimalistic animated background from [xscreensaver](https://www.jwz.org/xscreensaver/screenshots/), [Grav](https://www.youtube.com/watch?v=spQRFDmDMeg). It's configured to leave no trails and stay black and white. An odd choice, and yet it manages to use no resources, stay very minimal, and bring a very (in my opinion) futuristic look to the entire setup.
+- [OhMyBash](https://github.com/ohmybash/oh-my-bash/tree/master/themes/font) with the [font](https://github.com/ohmybash/oh-my-bash/tree/master/themes/font) theme,
+- Other small amenities, like [nmtui](https://docs.rockylinux.org/gemstones/nmtui/) for network management, Japanese-numerals as workspace indicators, etc..
+
+Feel free to take what you like. If you end up using any of these, make sure to share the outcomes!
