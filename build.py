@@ -545,6 +545,7 @@ class Builder:
 
     def collect_content(self):
         """Collect all markdown files from content directory"""
+        self.pages = []  # Clear pages list before collecting
         content_dir = Path('content')
         for md_file in content_dir.rglob('*.md'):
             page = ContentFile(md_file)

@@ -111,6 +111,7 @@ Transforming retrieval into a tool simplifies our architecture drastically and m
 ![](/posts/2026-01-07-from-rag-to-ai-agent/rag-as-tool-inv.png)
 
 As you can see:
+
 1. The decision step is now part of the LLM's answer generation, which can call it as many times as it wants thanks to the tool calling loop
 2. The query rewrite comes for free as the LLM invokes the retrieval tool
 3. The retriever's output goes into the chat history to be used to answer the user's request
