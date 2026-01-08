@@ -66,7 +66,7 @@ Function calling is a feature of most of today's LLMs, so it's often a low-hangi
 
 ### LLM-based intent detection
 
-Despite the [distinction we made earlier](posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/#logic-engine) between tree-based, intent-based and LLM-based bots, often the logic of voice bots is implemented in a blend of more than one style. Intent-based bots may contain small decision trees, as well as LLM prompts. Often these approaches deliver the best results by taking the best of each to compensate for the weaknesss of the others.
+Despite the [distinction we made earlier](/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/#logic-engine) between tree-based, intent-based and LLM-based bots, often the logic of voice bots is implemented in a blend of more than one style. Intent-based bots may contain small decision trees, as well as LLM prompts. Often these approaches deliver the best results by taking the best of each to compensate for the weaknesss of the others.
 
 One of the most effective approaches is to use intent detection to help control the flow of an LLM conversation. Let's see how.
 
