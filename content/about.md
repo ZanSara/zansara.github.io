@@ -27,7 +27,7 @@ The best way to get in touch with me is through [email](mailto:blog@zansara.dev)
 <style>
   .social-links {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     gap: 15px;
     margin-top: 50px;
     justify-content: center;

@@ -194,6 +194,52 @@ class ContentFile:
         pattern = r'<img[^>]+src="([^"]+)"[^>]*/?>'
         return re.sub(pattern, replace_img, html_content)
 
+    def add_target_blank_to_external_links(self, html_content):
+        """
+        Add target="_blank" and rel="noopener noreferrer" to external links.
+
+        Internal links (starting with /, #, or the BASE_URL) open in the same window.
+        Special protocols (mailto:, tel:) are left unchanged.
+        External links open in a new tab.
+        """
+        def replace_link(match):
+            link_tag = match.group(0)
+            href = match.group(1)
+
+            # Check if this is an internal link or special protocol
+            is_internal = (
+                href.startswith('/') or
+                href.startswith('#') or
+                href.startswith(BASE_URL) or
+                href.startswith('mailto:') or
+                href.startswith('tel:')
+            )
+
+            # If it's an external link, add target="_blank" and rel="noopener noreferrer"
+            if not is_internal:
+                # Check if target attribute already exists
+                if 'target=' not in link_tag:
+                    # Add target="_blank" before the closing >
+                    link_tag = link_tag[:-1] + ' target="_blank">'
+
+                # Check if rel attribute already exists
+                if 'rel=' in link_tag:
+                    # Append to existing rel attribute
+                    link_tag = re.sub(
+                        r'rel="([^"]*)"',
+                        r'rel="\1 noopener noreferrer"',
+                        link_tag
+                    )
+                else:
+                    # Add rel attribute before the closing >
+                    link_tag = link_tag[:-1] + ' rel="noopener noreferrer">'
+
+            return link_tag
+
+        # Match <a> tags and capture the href attribute
+        pattern = r'<a[^>]+href="([^"]+)"[^>]*>'
+        return re.sub(pattern, replace_link, html_content)
+
     def render(self):
         """Render markdown content to HTML"""
         # First preprocess HTML tags with markdown content
@@ -208,7 +254,10 @@ class ContentFile:
         html_content = md.convert(preprocessed_content)
 
         # Add invertible class to images with -inv suffix
-        self.html_content = self.add_invertible_class_to_images(html_content)
+        html_content = self.add_invertible_class_to_images(html_content)
+
+        # Add target="_blank" to external links
+        self.html_content = self.add_target_blank_to_external_links(html_content)
 
     @property
     def title(self):
@@ -328,6 +377,16 @@ def get_invertible_class_attr(image_path):
         return 'class="invertible"'
     return ''
 
+def get_target_attr_for_url(url):
+    """Check if URL is external and return target attribute string"""
+    # Check if this is an external link (starts with http:// or https://)
+    # Internal links start with / or #
+    if url.startswith('http://') or url.startswith('https://'):
+        # But check if it's our own domain
+        if not url.startswith(BASE_URL):
+            return 'target="_blank" rel="noopener noreferrer"'
+    return ''
+
 def post_template(page):
     """Generate template for a post page"""
     featured_image = ''
@@ -382,7 +441,8 @@ def list_template(section, pages):
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
-            class_attr=get_invertible_class_attr(p.featured_image)
+            class_attr=get_invertible_class_attr(p.featured_image),
+            target_attr=get_target_attr_for_url(p.get_effective_url())
         )
         for p in sorted(pages, key=lambda x: x.date, reverse=True)
     ])
@@ -406,7 +466,8 @@ def home_template(recent_posts, recent_talks):
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
-            class_attr=get_invertible_class_attr(p.featured_image)
+            class_attr=get_invertible_class_attr(p.featured_image),
+            target_attr=get_target_attr_for_url(p.get_effective_url())
         )
         for p in recent_posts[:4]
     ])
@@ -417,22 +478,17 @@ def home_template(recent_posts, recent_talks):
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
-            class_attr=get_invertible_class_attr(p.featured_image)
+            class_attr=get_invertible_class_attr(p.featured_image),
+            target_attr=get_target_attr_for_url(p.get_effective_url())
         )
         for p in recent_talks[:4]
     ])
-
-    # Load social links template
-    social_links = TemplateLoader.load('social-links.html')
-
     template = TemplateLoader.load('home.html')
     content_html = template.format(
         avatar_url=AVATAR_URL,
-        social_links=social_links,
         recent_posts=recent_posts_html,
         recent_talks=recent_talks_html
     )
-
     return base_template(content_html, "Home")
 
 
@@ -446,9 +502,10 @@ def series_template(series_name, pages):
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
-            class_attr=get_invertible_class_attr(p.featured_image)
+            class_attr=get_invertible_class_attr(p.featured_image),
+            target_attr=get_target_attr_for_url(p.get_effective_url())
         )
-        for p in sorted(pages, key=lambda x: x.date)
+        for p in sorted(pages, key=lambda x: x.date, reverse=True)
     ])
 
     template = TemplateLoader.load('series.html')

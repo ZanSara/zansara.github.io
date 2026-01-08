@@ -11,6 +11,6 @@ The CERN accelerators require a large number of instruments, measuring different
 
 ---
 
-Get the full text here: [Evolution of the CERN Beam Instrumentation Offline Analysis Framework (OAF)](/publications/thpv042.pdf)
+Get the full text here: [Evolution of the CERN Beam Instrumentation Offline Analysis Framework (OAF)](/publications/thpv042/thpv042.pdf)
 
 Publisher's entry: [THPV042](https://accelconf.web.cern.ch/icalepcs2021/doi/JACoW-ICALEPCS2021-THPV042.html).

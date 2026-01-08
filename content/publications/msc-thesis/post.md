@@ -10,6 +10,6 @@ This is the full-text of my MSc thesis, written in collaboration with
 
 ---
 
-Get the full text here: [Evaluation of Qt as GUI Framework for Accelerator Controls](/publications/msc-thesis.pdf)
+Get the full text here: [Evaluation of Qt as GUI Framework for Accelerator Controls](/publications/msc-thesis/msc-thesis.pdf)
 
 Publisher's entry: [10589/144860](https://hdl.handle.net/10589/144860).

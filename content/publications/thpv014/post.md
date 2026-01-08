@@ -11,8 +11,8 @@ As Java GUI toolkits become deprecated, the Beam Instrumentation (BI)group at CE
 
 ---
 
-Get the full text here: [Adopting PyQt For Beam Instrumentation GUI Development At CERN](/publications/thpv014.pdf)
+Get the full text here: [Adopting PyQt For Beam Instrumentation GUI Development At CERN](/publications/thpv014/thpv014.pdf)
 
-Get the poster: [PDF](/publications/thpv014-poster.pdf)
+Get the poster: [PDF](/publications/thpv014/thpv014-poster.pdf)
 
 Publisher's entry: [THPV014](https://accelconf.web.cern.ch/icalepcs2021/doi/JACoW-ICALEPCS2021-THPV014.html)
