@@ -123,7 +123,9 @@ class ContentFile:
                 'fenced_code',
                 'tables',
                 'codehilite'
-            ])
+            ], extension_configs={
+                'codehilite': {'guess_lang': False}
+            })
             # Convert the markdown content
             rendered_content = md.convert(inner_content)
 
@@ -145,7 +147,9 @@ class ContentFile:
                 'fenced_code',
                 'tables',
                 'codehilite'
-            ])
+            ], extension_configs={
+                'codehilite': {'guess_lang': False}
+            })
             # Convert the markdown content
             rendered_content = md.convert(inner_content)
 
@@ -250,7 +254,9 @@ class ContentFile:
             'tables',
             'nl2br',
             'codehilite'
-        ])
+        ], extension_configs={
+            'codehilite': {'guess_lang': False}
+        })
         html_content = md.convert(preprocessed_content)
 
         # Add invertible class to images with -inv suffix
