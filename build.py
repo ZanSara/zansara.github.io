@@ -315,7 +315,7 @@ class ContentFile:
         return self.external_link if self.external_link else self.url
 
 
-def base_template(content, title, meta_tags='', has_mermaid=False):
+def base_template(content, title, meta_tags='', has_mermaid=False, page_url='/'):
     """Generate the base HTML template"""
     mermaid_script = ''
     if has_mermaid:
@@ -335,6 +335,7 @@ def base_template(content, title, meta_tags='', has_mermaid=False):
         keywords=KEYWORDS,
         meta_tags=meta_tags,
         base_url=BASE_URL,
+        page_url=page_url,
         favicon_svg=FAVICON_SVG,
         favicon_32=FAVICON_32,
         header=header_component(),
@@ -428,7 +429,7 @@ def post_template(page):
     )
 
     has_mermaid = '<div class="mermaid">' in page.html_content
-    return base_template(content_html, page.title, meta_tags, has_mermaid)
+    return base_template(content_html, page.title, meta_tags, has_mermaid, page.url)
 
 
 def list_template(section, pages):
@@ -453,7 +454,7 @@ def list_template(section, pages):
         items=items_html
     )
 
-    return base_template(content_html, section.capitalize())
+    return base_template(content_html, section.capitalize(), page_url=f'/{section}/')
 
 
 def home_template(recent_posts, recent_talks):
@@ -514,7 +515,8 @@ def series_template(series_name, pages):
         items=items_html
     )
 
-    return base_template(content_html, f'Series: {series_name}')
+    slug = series_name.lower().replace(' ', '-')
+    return base_template(content_html, f'Series: {series_name}', page_url=f'/series/{slug}/')
 
 
 class RSSGenerator:
