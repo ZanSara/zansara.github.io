@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The World of Web RAG · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The World of Web RAG · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="The World of Web RAG">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2023-11-09-haystack-series-simple-web-rag/cover.jpeg">
+  <meta name="og:image" content="/posts/2023-11-09-haystack-series-simple-web-rag/cover.jpeg">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/cover.jpeg">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2023-11-09-haystack-series-simple-web-rag/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">The World of Web RAG</h1>
+      
+<span style="color: var(--muted-text);">What if our RAG application could fetch data directly from the web, live? Let&#x27;s build this pipeline with Haystack 2.0.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2023-11-09T00:00:00Z">by <a href="/">Sara Zan</a>, November 09, 2023</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2023-11-09-haystack-series-simple-web-rag/cover.jpeg" alt="Featured image" />
+
+    <p><em>Last updated: 18/01/2024</em></p>
+<hr />
+<p>In an earlier post of the Haystack 2.0 series, we've seen how to build RAG and indexing pipelines. An application that uses these two pipelines is practical if you have an extensive, private collection of documents and need to perform RAG on such data only. However, in many cases, you may want to get data from the Internet: from news outlets, documentation pages, and so on.</p>
+<p>In this post, we will see how to build a Web RAG application: a RAG pipeline that can search the Web for the information needed to answer your questions.</p>
+<div class="notice info">
+
+<p>💡 Do you want to see the code in action? Check out the <a href="https://colab.research.google.com/drive/1dGMPxReo730j7_zQDZOu-0SGf-pk4XDL?usp=sharing" target="_blank" rel="noopener noreferrer">Colab notebook</a> or the <a href="https://gist.github.com/ZanSara/0907a8f3ae19f62998cc061ed6e8ce53" target="_blank" rel="noopener noreferrer">gist</a>.</p>
+
+</div>
+
+<div class="notice warning">
+
+<p>⚠️ <b>Warning:</b> This code was tested on <code>haystack-ai==2.0.0b5</code>. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.</p>
+
+</div>
+
+<h2>Searching the Web</h2>
+<p>As we've seen <a href="/posts/2023-10-27-haystack-series-rag">earlier</a>, a Haystack RAG Pipeline is made of three components: a Retriever, a PromptBuilder, and a Generator, and looks like this:</p>
+<p><img alt="BM25 RAG Pipeline" src="/posts/2023-11-09-haystack-series-simple-web-rag/bm25-rag-pipeline-inv.png"  class="invertible" /></p>
+<p>To make this pipeline use the Web as its data source, we need to change the retriever with a component that does not look into a local document store for information but can search the web.</p>
+<p>Haystack 2.0 already provides a search engine component called <code>SerperDevWebSearch</code>. It uses <a href="https://serper.dev/" target="_blank" rel="noopener noreferrer">SerperDev's API</a> to query popular search engines and return two types of data: a list of text snippets coming from the search engine's preview boxes and a list of links, which point to the top search results.</p>
+<p>To begin, let's see how to use this component in isolation.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.websearch</span><span class="w"> </span><span class="kn">import</span> <span class="n">SerperDevWebSearch</span>
+
+<span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What&#39;s the official language of the Republic of Rose Island?&quot;</span>
+
+<span class="n">search</span> <span class="o">=</span> <span class="n">SerperDevWebSearch</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">serperdev_api_key</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">question</span><span class="p">)</span>
+<span class="c1"># returns {</span>
+<span class="c1">#     &quot;documents&quot;: [</span>
+<span class="c1">#         Document(content=&#39;Esperanto&#39;, meta={&#39;title&#39;: &#39;Republic of Rose Island - Wikipedia&#39;, &#39;link&#39;: &#39;https://en.wikipedia.org/wiki/Republic_of_Rose_Island&#39;}),</span>
+<span class="c1">#         Document(content=&quot;The Republic of Rose Island was a short-lived micronation on a man-made platform in the Adriatic Sea. It&#39;s a story that few people knew of until recently, ...&quot;, meta={&#39;title&#39;: &#39;Rose Island - The story of a micronation&#39;, &#39;link&#39;: &#39;https://www.rose-island.co/&#39;, &#39;imageUrl&#39;: &#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiRCfTO6OwFS32SX37S-7OadDZCNK6Fy_NZVGsci2gcIS-zcinhOcGhgU&amp;s&#39;, &#39;position&#39;: 1},</span>
+<span class="c1">#         ...</span>
+<span class="c1">#     ], </span>
+<span class="c1">#     &quot;links&quot;: [</span>
+<span class="c1">#         &#39;https://www.rose-island.co/&#39;,</span>
+<span class="c1">#         &#39;https://www.defactoborders.org/places/rose-island&#39;,</span>
+<span class="c1">#         ...</span>
+<span class="c1">#     ]</span>
+<span class="c1"># }</span>
+</code></pre></div>
+
+<p><code>SerperDevWebSearch</code> is a component with a simple interface. Starting from its output, we can see that it returns not one but two different values in the returned dictionary: <code>documents</code> and <code>links</code>.</p>
+<p><code>links</code> is the most straightforward and represents the top results that Google found relevant for the input query. It's a list of strings, each containing a URL. You can configure the number of links to return with the <code>top_k</code> init parameter. </p>
+<p><code>documents</code> instead is a list of already fully formed Document objects. The content of these objects corresponds to the "answer boxes" that Google often returns together with its search results. Given that these code snippets are usually clean and short pieces of text, they're perfect to be fed directly to an LLM without further processing.</p>
+<p>Other than expecting an API key as an init parameter and <code>top_k</code> to control the number of results, <code>SerperDevWebSearch</code> also accepts an <code>allowed_domains</code> parameter, which lets you configure the domains Google is allowed to look into during search, and <code>search_params</code>, a more generic dictionary input that lets you pass any additional search parameter SerperDev's API understand.</p>
+<h2>A Minimal Web RAG Pipeline</h2>
+<p><code>SerperDevWebSearch</code> is actually the bare minimum we need to be able to build our very first Web RAG Pipeline. All we need to do is replace our original example's Retriever with our search component.</p>
+<p>This is the result:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.builders</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.generators</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIGenerator</span>
+
+<span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Question: {{ question }}</span>
+
+<span class="s2">Google Search Answer Boxes:</span>
+<span class="s2">{</span><span class="si">% f</span><span class="s2">or document in documents %}</span>
+<span class="s2">    {{ document.content }}</span>
+<span class="s2">{</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+
+<span class="s2">Please reformulate the information above to </span>
+<span class="s2">answer the user&#39;s question.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;search&quot;</span><span class="p">,</span> <span class="n">SerperDevWebSearch</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">serperdev_api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="n">PromptBuilder</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;llm&quot;</span><span class="p">,</span> <span class="n">OpenAIGenerator</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;search.documents&quot;</span><span class="p">,</span> <span class="s2">&quot;prompt_builder.documents&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="s2">&quot;llm&quot;</span><span class="p">)</span>
+
+<span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What&#39;s the official language of the Republic of Rose Island?&quot;</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">run</span><span class="p">({</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">},</span>
+    <span class="s2">&quot;prompt_builder&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
+<span class="p">})</span>
+<span class="c1"># returns {</span>
+<span class="c1">#     &#39;llm&#39;: {</span>
+<span class="c1">#         &#39;replies&#39;: [</span>
+<span class="c1">#             &quot;The official language of the Republic of Rose Island is Esperanto. This artificial language was chosen by the residents of Rose Island as their national language when they declared independence in 1968. However, it&#39;s important to note that despite having their own language, government, currency, and postal service, Rose Island was never officially recognized as an independent nation by any country.&quot;</span>
+<span class="c1">#         ],</span>
+<span class="c1">#         &#39;metadata&#39;: [...]</span>
+<span class="c1">#     }</span>
+<span class="c1"># }</span>
+</code></pre></div>
+
+<p><img alt="Minimal Web RAG Pipeline" src="/posts/2023-11-09-haystack-series-simple-web-rag/minimal-web-rag-pipeline-inv.png"  class="invertible" /></p>
+<p>This solution is already quite effective for simple questions because Google does most of the heavy lifting of reading the content of the top results, extracting the relevant snippets, and packaging them up in a way that is really easy to access and understand by the model.</p>
+<p>However, there are situations in which this approach is not sufficient. For example, for highly technical or nuanced questions, the answer box does not provide enough context for the LLM to elaborate and grasp the entire scope of the discussion. In these situations, we may need to turn to the second output of <code>SerperDevWebSearch</code>: the links.</p>
+<h2>Fetching URLs</h2>
+<p>Haystack offers components to read the content of a URL: it's <code>LinkContentFetcher</code>. Let's see this component in action.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.fetchers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinkContentFetcher</span>
+
+<span class="n">fetcher</span> <span class="o">=</span> <span class="n">LinkContentFetcher</span><span class="p">()</span>
+<span class="n">fetcher</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">urls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://en.wikipedia.org/wiki/Republic_of_Rose_Island&quot;</span><span class="p">])</span>
+<span class="c1"># returns {</span>
+<span class="c1">#     &quot;streams&quot;: [</span>
+<span class="c1">#         ByteStream(data=b&quot;&lt;DOCTYPE html&gt;\n&lt;...&quot;)</span>
+<span class="c1">#     ]</span>
+<span class="c1"># }</span>
+</code></pre></div>
+
+<p>First, let's notice that <code>LinkContentFetcher</code> outputs a list of <code>ByteStream</code> objects. <code>ByteStream</code> is a Haystack abstraction that makes handling binary streams and files equally easy. When a component produces <code>ByteStream</code> as output, you can directly pass these objects to a Converter component that can extract its textual content without saving such binary content to a file.</p>
+<p>These features come in handy to connect <code>LinkContentFetcher</code> to a component we've already met before: <code>HTMLToDocument</code>.</p>
+<h2>Processing the page</h2>
+<p>In a <a href="/posts/2023-11-05-haystack-series-minimal-indexing">previous post</a>, we've seen how Haystack can convert web pages into clean Documents ready to be stored in a Document Store. We will reuse many of the components we have discussed there, so if you missed it, make sure to check it out.</p>
+<p>From the pipeline in question, we're interested in three of its components: <code>HTMLToDocument</code>, <code>DocumentCleaner</code>, and <code>DocumentSplitter</code>. Once the search component returns the links and <code>LinkContentFetcher</code> downloaded their content, we can connect it to <code>HTMLToDocument</code> to extract the text and <code>DocumentCleaner</code> and <code>DocumentSplitter</code> to clean and chunk the content, respectively. These documents then can go to the <code>PromptBuilder</code>, resulting in a pipeline such as this:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Question: {{ question }}</span>
+
+<span class="s2">Context:</span>
+<span class="s2">{</span><span class="si">% f</span><span class="s2">or document in documents %}</span>
+<span class="s2">    {{ document.content }}</span>
+<span class="s2">{</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+
+<span class="s2">Please reformulate the information above to answer the user&#39;s question.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;search&quot;</span><span class="p">,</span> <span class="n">SerperDevWebSearch</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">serperdev_api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;fetcher&quot;</span><span class="p">,</span> <span class="n">LinkContentFetcher</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;converter&quot;</span><span class="p">,</span> <span class="n">HTMLToDocument</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;cleaner&quot;</span><span class="p">,</span> <span class="n">DocumentCleaner</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;splitter&quot;</span><span class="p">,</span> <span class="n">DocumentSplitter</span><span class="p">(</span><span class="n">split_by</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">split_length</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="n">PromptBuilder</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;llm&quot;</span><span class="p">,</span> <span class="n">OpenAIGenerator</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;search.links&quot;</span><span class="p">,</span> <span class="s2">&quot;fetcher&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;fetcher&quot;</span><span class="p">,</span> <span class="s2">&quot;converter&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;converter&quot;</span><span class="p">,</span> <span class="s2">&quot;cleaner&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;cleaner&quot;</span><span class="p">,</span> <span class="s2">&quot;splitter&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;splitter&quot;</span><span class="p">,</span> <span class="s2">&quot;prompt_builder.documents&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="s2">&quot;llm&quot;</span><span class="p">)</span>
+
+<span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What&#39;s the official language of the Republic of Rose Island?&quot;</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">run</span><span class="p">({</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">},</span>
+    <span class="s2">&quot;prompt_builder&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div>
+
+<p><img alt="Incorrect Web RAG Pipeline" src="/posts/2023-11-09-haystack-series-simple-web-rag/incorrect-web-rag-pipeline-inv.png"  class="invertible" /></p>
+<p>However, running this pipeline results in a crash.</p>
+<div class="codehilite"><pre><span></span><code>PipelineRuntimeError: llm raised &#39;InvalidRequestError: This model&#39;s maximum context 
+length is 4097 tokens. However, your messages resulted in 4911 tokens. Please reduce 
+the length of the messages.&#39;
+</code></pre></div>
+
+<p>Reading the error message reveals the issue right away: the LLM received too much text. And that's to be expected because we just passed the entire content of several web pages to it.</p>
+<p>We need to find a way to filter only the most relevant documents from the long list that is generated by <code>DocumentSplitter</code>.</p>
+<h2>Ranking Documents on the fly</h2>
+<p>Retrievers are optimized to use the efficient retrieval engines of document stores to sift quickly through vast collections of Documents. However, Haystack also provides smaller, standalone components that work very well on shorter lists and don't require a full-blown vector database engine to function.</p>
+<p>These components are called rankers. One example of such a component is <code>TransformersSimilarityRanker</code>: a ranker that uses a model from the <code>transformers</code> library to rank Documents by their similarity to a given query.</p>
+<p>Let's see how it works:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.rankers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformersSimilarityRanker</span>
+
+<span class="n">ranker</span> <span class="o">=</span> <span class="n">TransformersSimilarityRanker</span><span class="p">()</span>
+<span class="n">ranker</span><span class="o">.</span><span class="n">warm_up</span><span class="p">()</span>
+<span class="n">ranker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;What&#39;s the official language of the Republic of Rose Island?&quot;</span><span class="p">,</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+    <span class="n">top_k</span><span class="o">=</span><span class="mi">1</span>
+  <span class="p">)</span>
+<span class="c1"># returns {</span>
+<span class="c1">#     &#39;documents&#39;: [</span>
+<span class="c1">#         Document(content=&quot;Island under construction\nRepublic of Rose Island\nThe Republic of Rose Island ( Esperanto : Respubliko de la Insulo de la Rozoj; Italian : Repubblica dell&#39;Isola delle Rose) was a short-lived micronation on a man-made platform in the Adriatic Sea , 11 kilometres (6.8\xa0mi) off the coast of the province of Rimini , Italy, built by Italian engineer Giorgio Rosa, who made himself its president and declared it an independent state on 1 May 1968. [1] [2] Rose Island had its own government, currency, post office, and commercial establishments, and the official language was Esperanto .&quot;, meta={&#39;source_id&#39;: &#39;03bfe5f7b7a7ec623e854d2bc5eb36ba3cdf06e1e2771b3a529eeb7e669431b6&#39;}, score=7.594357490539551)</span>
+<span class="c1">#     ]</span>
+<span class="c1"># }</span>
+</code></pre></div>
+
+<p>This component has a feature we haven't encountered before: the <code>warm_up()</code> method.</p>
+<p>Components that need to initialize heavy resources, such as a language model, always perform this operation after initializing them in the <code>warm_up()</code> method. When they are used in a Pipeline, <code>Pipeline.run()</code> takes care of calling <code>warm_up()</code> on all components before running; when used standalone, users need to call <code>warm_up()</code> explicitly to prepare the object to run.</p>
+<p><code>TransformersSimilarityRanker</code> accepts a few parameters. When initialized, it accepts a <code>model_name_or_path</code> with the HuggingFace ID of the model to use for ranking: this value defaults to <code>cross-encoder/ms-marco-MiniLM-L-6-v2</code>. It also takes <code>token</code>, to allow users to download private models from the Models Hub, <code>device</code>, to let them leverage PyTorch's ability to select the hardware to run on, and <code>top_k</code>, the maximum number of documents to return. <code>top_k</code>, as we see above, can also be passed to <code>run()</code>, and the latter overcomes the former if both are set. This value defaults to 10.</p>
+<p>Let's also put this component in the pipeline: its place is between the splitter and the prompt builder.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Question: {{ question }}</span>
+
+<span class="s2">Context:</span>
+<span class="s2">{</span><span class="si">% f</span><span class="s2">or document in documents %}</span>
+<span class="s2">    {{ document.content }}</span>
+<span class="s2">{</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+
+<span class="s2">Please reformulate the information above to answer the user&#39;s question.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;search&quot;</span><span class="p">,</span> <span class="n">SerperDevWebSearch</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">serperdev_api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;fetcher&quot;</span><span class="p">,</span> <span class="n">LinkContentFetcher</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;converter&quot;</span><span class="p">,</span> <span class="n">HTMLToDocument</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;cleaner&quot;</span><span class="p">,</span> <span class="n">DocumentCleaner</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;splitter&quot;</span><span class="p">,</span> <span class="n">DocumentSplitter</span><span class="p">(</span><span class="n">split_by</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">split_length</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;ranker&quot;</span><span class="p">,</span> <span class="n">TransformersSimilarityRanker</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="n">PromptBuilder</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;llm&quot;</span><span class="p">,</span> <span class="n">OpenAIGenerator</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;search.links&quot;</span><span class="p">,</span> <span class="s2">&quot;fetcher&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;fetcher&quot;</span><span class="p">,</span> <span class="s2">&quot;converter&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;converter&quot;</span><span class="p">,</span> <span class="s2">&quot;cleaner&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;cleaner&quot;</span><span class="p">,</span> <span class="s2">&quot;splitter&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;splitter&quot;</span><span class="p">,</span> <span class="s2">&quot;ranker&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;ranker&quot;</span><span class="p">,</span> <span class="s2">&quot;prompt_builder.documents&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="s2">&quot;llm&quot;</span><span class="p">)</span>
+
+<span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What&#39;s the official language of the Republic of Rose Island?&quot;</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">run</span><span class="p">({</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">},</span>
+    <span class="s2">&quot;ranker&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">},</span>
+    <span class="s2">&quot;prompt_builder&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
+<span class="p">})</span>
+<span class="c1"># returns {</span>
+<span class="c1">#     &#39;llm&#39;: {</span>
+<span class="c1">#         &#39;replies&#39;: [</span>
+<span class="c1">#             &#39;The official language of the Republic of Rose Island was Esperanto.&#39;</span>
+<span class="c1">#         ],</span>
+<span class="c1">#         &#39;metadata&#39;: [...]</span>
+<span class="c1">#     }</span>
+<span class="c1"># }</span>
+</code></pre></div>
+
+<p><img alt="Unfiltered Web RAG Pipeline" src="/posts/2023-11-09-haystack-series-simple-web-rag/unfiltered-web-rag-pipeline-inv.png"  class="invertible" /></p>
+<p>Note how the ranker needs to know the question to compare the documents, just like the search and prompt builder components do. So, we need to pass the value to the pipeline's <code>run()</code> call.</p>
+<h2>Filtering file types</h2>
+<p>The pipeline we just built works great in most cases. However, it may occasionally fail if the search component happens to return some URL that does not point to a web page but, for example, directly to a video, a PDF, or a PPTX.</p>
+<p>Haystack does offer some facilities to deal with these file types, but we will see these converters in another post. For now, let's only filter those links out to prevent <code>HTMLToDocument</code> from crashing.</p>
+<p>This task could be approached with Haystack in several ways, but the simplest in this scenario is to use a component that would typically be used for a slightly different purpose. This component is called <code>FileTypeRouter</code>.</p>
+<p><code>FileTypeRouter</code> is designed to route different files to their appropriate converters by checking their mime type. It does so by inspecting the content or the extension of the files it receives in input and producing an output dictionary with a separate list for each identified type.</p>
+<p>However, we can also conveniently use this component as a filter. Let's see how!</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.routers</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileTypeRouter</span>
+
+<span class="n">router</span> <span class="o">=</span> <span class="n">FileTypeRouter</span><span class="p">(</span><span class="n">mime_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;text/html&quot;</span><span class="p">])</span>
+<span class="n">router</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Republic_of_Rose_Island.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;Republic_of_Rose_Island.html&quot;</span><span class="p">])</span>
+<span class="c1"># returns defaultdict(list,</span>
+<span class="c1">#         {&#39;unclassified&#39;: [PosixPath(&#39;Republic_of_Rose_Island.txt&#39;)],</span>
+<span class="c1">#          &#39;text/html&#39;: [PosixPath(&#39;Republic_of_Rose_Island.html&#39;)]})</span>
+</code></pre></div>
+
+<p><code>FileTypeRouter</code> must always be initialized with the list of mime types it is supposed to handle. Not only that, but this component can also deal with files that do not match any of the expected mime types by putting them all under the <code>unclassified</code> category.</p>
+<p>By putting this component between <code>LinkContentFetcher</code> and <code>HTMLToDocument</code>, we can make it forward along the pipeline only the files that match the <code>text/html</code> mime type and silently discard all others.</p>
+<p>Notice how, in the pipeline below, I explicitly connect the <code>text/html</code> output only:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Question: {{ question }}</span>
+
+<span class="s2">Google Search Answer Boxes:</span>
+<span class="s2">{</span><span class="si">% f</span><span class="s2">or document in documents %}</span>
+<span class="s2">    {{ document.content }}</span>
+<span class="s2">{</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+
+<span class="s2">Please reformulate the information above to answer the user&#39;s question.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;search&quot;</span><span class="p">,</span> <span class="n">SerperDevWebSearch</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">serperdev_api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;fetcher&quot;</span><span class="p">,</span> <span class="n">LinkContentFetcher</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;filter&quot;</span><span class="p">,</span> <span class="n">FileTypeRouter</span><span class="p">(</span><span class="n">mime_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;text/html&quot;</span><span class="p">]))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;converter&quot;</span><span class="p">,</span> <span class="n">HTMLToDocument</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;cleaner&quot;</span><span class="p">,</span> <span class="n">DocumentCleaner</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;splitter&quot;</span><span class="p">,</span> <span class="n">DocumentSplitter</span><span class="p">(</span><span class="n">split_by</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">split_length</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;ranker&quot;</span><span class="p">,</span> <span class="n">TransformersSimilarityRanker</span><span class="p">())</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="n">PromptBuilder</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;llm&quot;</span><span class="p">,</span> <span class="n">OpenAIGenerator</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;search.links&quot;</span><span class="p">,</span> <span class="s2">&quot;fetcher&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;fetcher&quot;</span><span class="p">,</span> <span class="s2">&quot;filter&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filter.text/html&quot;</span><span class="p">,</span> <span class="s2">&quot;converter&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;converter&quot;</span><span class="p">,</span> <span class="s2">&quot;cleaner&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;cleaner&quot;</span><span class="p">,</span> <span class="s2">&quot;splitter&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;splitter&quot;</span><span class="p">,</span> <span class="s2">&quot;ranker&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;ranker&quot;</span><span class="p">,</span> <span class="s2">&quot;prompt_builder.documents&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="s2">&quot;llm&quot;</span><span class="p">)</span>
+
+<span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What&#39;s the official language of the Republic of Rose Island?&quot;</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">run</span><span class="p">({</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">},</span>
+    <span class="s2">&quot;ranker&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">},</span>
+    <span class="s2">&quot;prompt_builder&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
+<span class="p">})</span>
+<span class="c1"># returns {</span>
+<span class="c1">#     &#39;llm&#39;: {</span>
+<span class="c1">#         &#39;replies&#39;: [</span>
+<span class="c1">#             &#39;The official language of the Republic of Rose Island was Esperanto.&#39;</span>
+<span class="c1">#         ],</span>
+<span class="c1">#         &#39;metadata&#39;: [...]</span>
+<span class="c1">#     }</span>
+<span class="c1"># }</span>
+</code></pre></div>
+
+<p><img alt="HTML-only Web RAG Pipeline" src="/posts/2023-11-09-haystack-series-simple-web-rag/html-web-rag-pipeline-inv.png"  class="invertible" /></p>
+<p>With this last addition, we added quite a bit of robustness to our pipeline, making it less likely to fail.</p>
+<h2>Wrapping up</h2>
+<p>Web RAG is a use case that can be expanded to cover many use cases, resulting in very complex pipelines. Haystack helps make sense of their complexity by pipeline graphs and detailed error messages in case of mismatch connections. However, pipelines this large can become overwhelming, especially when more branches are added.</p>
+<p>In one of our next posts, we will see how to cover such use cases while keeping the resulting complexity as low as possible.</p>
+<hr />
+<p><em>Previous: <a href="/posts/2023-11-05-haystack-series-minimal-indexing">Indexing data for RAG applications</a></em></p>
+<p><em>See the entire series here: <a href="/series/haystack-2.0-series/">Haystack 2.0 series</a></em></p>
+<p><small><em>Cover image from <a href="https://commons.wikimedia.org/wiki/File:Isola_delle_Rose_1968.jpg" target="_blank" rel="noopener noreferrer">Wikipedia</a></em></small></p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

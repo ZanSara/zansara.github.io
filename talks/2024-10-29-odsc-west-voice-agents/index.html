@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ODSC West: Building Reliable Voice Agents with Open Source tools · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ODSC West: Building Reliable Voice Agents with Open Source tools · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/talks/2024-10-29-odsc-west-voice-agents/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="ODSC West: Building Reliable Voice Agents with Open Source tools">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/talks/2024-10-29-odsc-west-voice-agents/cover.png">
+  <meta name="og:image" content="/talks/2024-10-29-odsc-west-voice-agents/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/talks/2024-10-29-odsc-west-voice-agents/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/talks/2024-10-29-odsc-west-voice-agents/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1>ODSC West: Building Reliable Voice Agents with Open Source tools</h1>
+    </header>
+    <img style="width:100%; margin: 20px 0 0 0;" src="/talks/2024-10-29-odsc-west-voice-agents/cover.png" alt="Featured image" />
+    <p><a href="https://odsc.com/speakers/building-reliable-voice-agents-with-open-source-tools-2/" target="_blank" rel="noopener noreferrer">Announcement</a>, <a href="https://drive.google.com/file/d/1H_8PKQY_kFIzwxakZc-RJU8Rtwnjajhl/view?usp=sharing" target="_blank" rel="noopener noreferrer">slides</a>, <a href="https://colab.research.google.com/drive/1CUX7JRYMU1MEJBZ6lWMg5EThPew19Zjs?usp=sharing" target="_blank" rel="noopener noreferrer">notebook</a>. All resources can also be found in <a href="https://drive.google.com/drive/folders/1baO1Gv55CIjLT-KPWtSm2z4IOBdXkHjn?usp=drive_link" target="_blank" rel="noopener noreferrer">my archive</a>. Did you miss the talk? Check out the write-up's <a href="/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/">part 1</a> and <a href="/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/">part 2</a>.</p>
+<hr />
+<iframe src="https://drive.google.com/file/d/1uQTJFmHTinvUvCMHRq9rrbaClNw9I9i2/preview" width="800" height="500" allow="autoplay"></iframe>
+<hr />
+<p>At <a href="https://odsc.com/california/" target="_blank" rel="noopener noreferrer">ODSC West 2024</a> I talked about building modern and reliable voice bots using Pipecat, a recently released open source tool. I gave an overview of the general structure of voice bots, of the improvements their underlying tech recently saw, from the first Whisper release to GPT 4o Realtime, and the new challenges that developers face when implementing one of these systems.</p>
+<p>The main highlight of the talk is the <a href="https://colab.research.google.com/drive/1CUX7JRYMU1MEJBZ6lWMg5EThPew19Zjs?usp=sharing" target="_blank" rel="noopener noreferrer">notebook</a> where I implement first a simple Pipecat bot from scratch, and then I give an overview of how to blend intent detection and system prompt switching to improve our control of how LLM bots interact with users.</p>
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

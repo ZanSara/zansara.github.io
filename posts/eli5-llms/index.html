@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Explain me LLMs like I'm five: build a story to help anyone get the idea · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Explain me LLMs like I'm five: build a story to help anyone get the idea · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2024-04-14-eli5-llms/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Explain me LLMs like I'm five: build a story to help anyone get the idea">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2024-04-14-eli5-llms/cover.png">
+  <meta name="og:image" content="/posts/2024-04-14-eli5-llms/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2024-04-14-eli5-llms/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2024-04-14-eli5-llms/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Explain me LLMs like I&#x27;m five: build a story to help anyone get the idea</h1>
+      
+<span style="color: var(--muted-text);">Let&#x27;s explore a high-level way to tell clearly what LLMs are good for to the average pedestrian and help them reason about it.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2024-04-14T00:00:00Z">by <a href="/">Sara Zan</a>, April 14, 2024</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2024-04-14-eli5-llms/cover.png" alt="Featured image" />
+
+    <p>These days everyone's boss seems to want some form of GenAI in their products. That doesn't always make sense: however, understanding when it does and when it doesn't is not obvious even for us experts, and nearly impossible for everyone else.</p>
+<p>How can we help our colleagues understand the pros and cons of this tech, and figure out when and how it makes sense to use it? </p>
+<p>In this post I am going to outline a narrative that explains LLMs without tecnicalities and help you frame some high level technical decisions, such as RAG vs finetuning, or which specific model size to use, in a way that a non-technical audience can not only grasp but also reason about. We'll start by "translating" a few terms into their "human equivalent" and then use this metaphor to reason about the differences between RAG and finetuning.</p>
+<p>Let's dive in!</p>
+<h2>LLMs are high-school students</h2>
+<p>Large Language Models are often described as "super-intelligent" entities that know far more than any human could possibly know. This makes a lot of people think that they are also extremely intelligent and are able to reason about anything in a super-human way. The reality is very different: LLMs are able to memorize and repeat far more facts that humans do, but in their abilities to reason they are often inferior to the average person.</p>
+<p>Rather than describing LLMs as all-knowing geniuses, it's much better to frame them as <strong>an average high-school student</strong>. They're not the smartest humans on the planet, but they can help a lot if you guide them through the process. And just as a normal person might, sometimes they forget things, and occasionally they remember them wrong.</p>
+<h2>Some LLMs are smarter than others</h2>
+<p>Language models are not all born equal. Some are inherently able to do more complex reasoning, to learn more facts and to talk more smoothly in more languages.</p>
+<p>The <strong>"IQ"</strong> of an LLM can be approximated, more or less, to its <strong>parameter count</strong>. An LLM with 7 billion parameters is almost always less clever than a 40 billion parameter model, will have a harder time learning more facts, and will be harder to reason with. </p>
+<p>However, just like with real humans, there are exceptions. Recent "small" models can easily outperform older and larger models, due to improvements in the way they're built. Also, some small models are very good at some very specialized job and can outperform a large, general purpose model on that task.</p>
+<h2>LLMs learn by "studying"</h2>
+<p>Another similarity to human students is that LLMs also learn all the fact they know by <strong>"going to school"</strong> and studying a ton of general and unrelated facts. This is what <strong>training</strong> an LLM means. This implies that, just like with students, an LLM needs a lot of varied material to study from. This material is what is usually called "training data" or "training dataset".</p>
+<p>They can also learn more than what they currently know and <strong>specialize</strong> on a topic: all they need to do is to study further on it. This is what <strong>finetuning</strong> represents, and as you would expect, it also needs some study material. This is normally called "finetuning data/datasets".</p>
+<p>The distinction between training and fine tuning is not much about how it's done, but mostly about <strong>the size and contents of the dataset required</strong>. The initial training usually takes a lot of time, computing power, and tons of very varied data, just like what's needed to bring a baby to the level of a high-schooler. Fine tuning instead looks like preparing for a specific test or exam: the study material is a lot less and a lot more specific. </p>
+<p>Keep in mind that, just like for humans, studying more can make a student a bit smarter, but it won't make it a genius. In many cases, no amount of training and/or finetuning can close the gap between the 7 billion parameter version of an LLM and the 40 billion one.</p>
+<h2>Every chat is an exam</h2>
+<p>One of the most common usecases for LLMs is question answering, an NLP task where users ask questions to the model and expect a correct answer back. The fact that the answer must be correct means that this interaction is very similar to an <strong>exam</strong>: the LLM is being tested by the user on its knowledge. </p>
+<p>This means that, just like a student, when the LLM is used directly it has to rely on its knowledge to answer the question. If it studied the topic well it will answer accurately most of the times. However if it didn't study the subject, it will do what students always do: they will <strong>make up stuff that sounds legit</strong>, hoping that the teacher will not notice how little they know. This is what we call <strong>hallucinations</strong>.</p>
+<p>When the answer is known to the user the answer of the LLM can be graded, just like in a real exam, to make the LLM improve. This process is called <strong>evaluation</strong>. Just like with humans, there are many ways in which the answer can be graded: the LLM can be graded on the accuracy of the facts it recalled, or the fluency it delivered its answer with, or it can be scored on the correctness of a reasoning exercise, like a math problem. These ways of grading an LLM are called <strong>metrics</strong>.</p>
+<h2>Making the exams easier</h2>
+<p>Hallucinations are very dangerous if the user doesn't know what the LLM was supposed to reply, so they need to be reduced, possibly eliminated entirely. It's like we really need the students to pass the exam with flying colors, no matter how much they studied.</p>
+<p>Luckily there are many ways to help our student succeed. One way to improve the score is, naturally, to make them study more and better. Giving them more time to study (<strong>more finetuning</strong>) and better material (<strong>better finetuning datasets</strong>) is one good way to make LLMs reply correctly more often. The issue is that this method is <strong>expensive</strong>, because it needs a lot of computing power and high quality data, and the student may still forget something during the exam.</p>
+<p>We can make the exams even easier by converting them into <strong>open-book exams</strong>. Instead of asking the students to memorize all the facts and recall them during the exam, we can let them bring the book and lookup the information they need when the teacher asks the question. This method can be applied to LLMs too and is called <strong>RAG</strong>, which stands for "retrieval augmented generation". </p>
+<p>RAG has a few interesting properties. First of all, it can make very easy even for "dumb", small LLMs to recall nearly all the important facts correctly and consistently. By letting your students carry their history books to the exam, all of them will be able to tell you the date of any historical event by just looking it up, regardless of how smart they are or how much they studied.</p>
+<p>RAG doesn't need a lot of data, but you need an <strong>efficient way to access it</strong>. In our metaphor, you need a well structured book with a good index to help the student find the correct facts when asked, or they might fail to find the information they need when they're quizzed.</p>
+<p>A trait that makes RAG unique is that is can be used to keep the LLM up-to-date with <strong>information that can't be "studied"</strong> because it changes too fast. Let's imagine a teacher that wants to quiz the students about today's stock prices. They can't expect the pupils to know them if they don't have access to the latest financial data. Even if they were to study the prices every hour the result would be quite pointless, because all the knowledge they acquire becomes immediately irrelevant and might even confuse them.</p>
+<p>Last but not least, RAG can be used <em>together</em> with finetuning. Just as a teacher can make students study the topic and then also bring the book to the exam to make sure they will answer correctly, you can also use RAG and finetuning together.</p>
+<p>However, there are situations where RAG doesn't help. For example, it's pointless if the questions are asked in language that the LLM doesn't know, or if the exam is made of tasks that require complex reasoning. This is true for human students too: books won't help them much to understand a foreign language to the point that they can take an exam in it, and won't be useful to crack a hard math problem. For these sort of exams the students just need to be smart and study more, which in LLM terms means that you should prefer a large model and you probably need to finetune it.</p>
+<h2>Telling a story</h2>
+<p>Let's recap the terminology we used:</p>
+<ul>
+<li>The <strong>LLM</strong> is a <strong>student</strong></li>
+<li>The <strong>LLM's IQ</strong> corresponds to its <strong>parameter count</strong></li>
+<li><strong>Training</strong> an LLM is the same as making a student <strong>go to school</strong></li>
+<li><strong>Finetuning</strong> it means to make it <strong>specialize on a subject</strong> by making it study only books and other material on the subject</li>
+<li>A <strong>training dataset</strong> is the <strong>books and material</strong> the student needs to study on</li>
+<li><strong>User interactions</strong> are like <strong>university exams</strong></li>
+<li><strong>Evaluating</strong> an LLM means to <strong>score its answers</strong> as if they were the responses to a test</li>
+<li>A <strong>metric</strong> is a <strong>type of evaluation</strong> that focuses on a specific trait of the answer</li>
+<li>A <strong>hallucination</strong> is a <strong>wrong answer</strong> that the LLM makes up just like a student would, to in order to try passing an exam when it doesn't know the answer or can't recall it in that moment</li>
+<li><strong>RAG (retrieval augmented generation)</strong> is like an <strong>open-book exam</strong>: it gives the LLM access to some material on the question's topic, so it won't need to hallucinate an answer. It will help the LLM recall facts, but it won't make it smarter.</li>
+</ul>
+<p>By drawing a parallel with a human student it can be a lot easier to explain to non-technical audience why some decisions were taken.</p>
+<p>For example, it might not be obvious why RAG is cheaper than finetuning, because both need domain-specific data. By explaining that RAG is like an open-book exam versus a closed-book one, the difference is clearer: the students need less time and effort to prepare and they're less likely to make trivial mistakes if they can bring the book with them at the exam. </p>
+<p>Another example is hallucinations. It's difficult for many people to understand why LLMs don't like to say "I don't know", until they realise that from the LLM's perspective every question is like an exam: better make up something that admit they're unprepared! And so on.</p>
+<p>Building a shared, simple intuition of how LLM works is a very powerful tool. Next time you're asked to explain a technical decision related to LLMs, building a story around it may get the message across in a much more effective way and help everyone be on the same page. Give it a try!</p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">WYZ</a></p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
