@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>What's hybrid retrieval good for? · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What's hybrid retrieval good for? · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2025-11-04-hybrid-retrieval/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="What's hybrid retrieval good for?">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2025-11-04-hybrid-retrieval/cover-inv.png">
+  <meta name="og:image" content="/posts/2025-11-04-hybrid-retrieval/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2025-11-04-hybrid-retrieval/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2025-11-04-hybrid-retrieval/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">What&#x27;s hybrid retrieval good for?</h1>
+      
+<span style="color: var(--muted-text);">We&#x27;ve been told embedding search strictly superior to BM25 and all other keyword-search algorithms. But they still have a role in modern search pipelines.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2025-11-04T00:00:00Z">by <a href="/">Sara Zan</a>, November 04, 2025</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2025-11-04-hybrid-retrieval/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <hr />
+<p><em>This is episode 4 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: <a href="/series/practical-questions">Practical Questions</a>.</em></p>
+<hr />
+<p>It has been a long time since TF-IDF or even BM25 were the state of the art for information retrieval. These days the baseline has moved to <a href="/posts/2025-10-09-rerankers#bi-encoders-vs-cross-encoders">embedding similarity search</a>, where each unit of information, be it a sentence, a paragraph or a page is first encoded in an embedding and then compared with the embedding of the user's query. </p>
+<p>From this baseline there are often two pieces of advice to help you increase the performance of your search system: one is to go the deep end with the embedding approach and consider a reranker, finetune your embedding model, and so on. The other, usually called hybrid retrieval or hybrid search, is to bring back good old keyword search algorithms and use them to complement your results. Often the best scenario is to use both of these enhancements, which nicely complement each other.</p>
+<p>But why would this arrangement help improve the results? Isn't embedding search strictly superior to keyword-based retrieval algorithms?</p>
+<h2>Semantic vs Lexical</h2>
+<p>When you embed a sentence, the resulting embedding encodes its <em>meaning</em>, not its exact phrasing. That’s their strength! But it can often be a limitation as well. </p>
+<p>For example a semantic model can understand that "latest iPhone" is similar to "iPhone 17 Pro Max", which is great if the first sentence is a query and the second the search result. But a semantic model will also say that "iPhone 17 Pro Max" and "iPhone 11 Pro Max" are very similar, which is <em>not</em> great if the first sentence is a query and the second a search result.</p>
+<p>In short, <strong>semantic</strong> similarity is great if you are starting from a generic query and you want a set precise result all matching the generic description, or if you start from a general question and want to retrieve all very particular results that fall under the same general concept. For "latest iPhone", "iPhone 17 Pro Max", "iPhone 17 Pro" and ideally "iPhone Air" and  are all valid search results.</p>
+<p>On the other hand, <strong>lexical</strong> similarity is what allows your system to retrieve extremely precise results in response to a very specific query. "latest iPhone" will return garbage results with a lexical algorithm such as BM25 (essentially any iPhone would match), but if the search string is "iPhone 17 Plus Max", BM25 will return the best results.</p>
+<p>To visualize it better, here's the expected results for each of the two queries in a dataset of iPhone names:</p>
+<table style="width:100%; border: 2px solid black;">
+<tr>
+    <th>User Query</th>
+    <th>Semantic Search Results</th>
+    <th>Keyword Search Results</th>
+</tr>
+<tr>
+    <td>"latest iPhone"</td>
+    <td>
+        <ol>
+            <li>iPhone 17 Pro
+            <li>iPhone 17 Pro Max
+            <li>iPhone Air
+        <ol>
+    </td>
+    <td>
+        <ol>
+            <li>iPhone 11 Pro Max
+            <li>iPhone 4
+            <li>iPhone SE
+        <ol>
+    </td>
+</tr>
+<tr>
+    <td>"iPhone 17 Pro Max"</td>
+    <td>
+        <ol>
+            <li>iPhone 17 Pro
+            <li>iPhone 17 Pro Max
+            <li>iPhone Air
+        <ol>
+    </td>
+    <td>
+        <ol>
+            <li>iPhone 17 Pro Max
+        <ol>
+    </td>
+</tr>
+
+</table>
+
+<p>As you can see, the problem is that neither of the two approaches works best with both types of queries: each has its strong pros and cons and works best only on a subset of the questions your system may receive.</p>
+<p>So why not using them both?</p>
+<h2>Combining them</h2>
+<p>A hybrid search system is simply a system that does the same search twice: once with a keyword algorithm such as BM25, and once with vector search. But how to merge the two lists of results?</p>
+<p>The scores the documents come with are deeply incomparable. BM25 scores depends on terms frequency and keyword matching, and are not bound to any range. On the contrary, cosine similarity usually clusters between 0.5 and 0.9, which gets even narrower if the sequences are longer.</p>
+<p>That's where <strong>reciprocal rank fusion (RRF)</strong> comes in. RRF is incredibly simple and boils down to this formula: <code>score(d) = sum( 1/(k + rank_method_i(d)) )</code> . As you can see it works on the ranks, not scores, so it’s robust against scale differences and requires no normalization. Platforms like Elastic and Pinecone use it for production hybrid search due to its simplicity and reliability. Being so simple, the additional latency is negligible, which makes it suitable for real-time usecases.</p>
+<p><img alt="" src="/posts/2025-11-04-hybrid-retrieval/hybrid-search-inv.png"  class="invertible" /></p>
+<p>Or, if you're less concerned about latency, you can consider adding a <a href="/posts/2025-10-09-rerankers#bi-encoders-vs-cross-encoders">reranker</a>.</p>
+<p>Having two independent and complementary search techniques is the reason why adding a reranker to your hybrid pipeline is so effective. By using these two wildly different methods, it's not obvious whether even the rankings are comparable. Rerankers can have a more careful look at the retrieved documents and make sure the most relevant documents are to the top of the pile, allowing you to cut away the least relevant ones.</p>
+<h2>Conclusion</h2>
+<p>Hybrid search isn’t a patch for outdated systems, but a default strategy for any high-quality retrieval engine. Dense embeddings bring rich contextual understanding, while sparse retrieval ensures accuracy for unique identifiers, numeric codes, acronyms, or exact strings that embeddings gloss over. In a world where search systems must serve both humans and machine agents, hybrid search is the recall multiplier that guarantees we get both meaning and precision.</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

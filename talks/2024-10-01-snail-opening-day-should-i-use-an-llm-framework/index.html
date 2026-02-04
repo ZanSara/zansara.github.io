@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SNAIL Opening Day: Should I use an LLM Framework? (Private Event) · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SNAIL Opening Day: Should I use an LLM Framework? (Private Event) · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framework/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="SNAIL Opening Day: Should I use an LLM Framework? (Private Event)">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framework/cover.png">
+  <meta name="og:image" content="/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framework/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framework/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framework/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1>SNAIL Opening Day: Should I use an LLM Framework? (Private Event)</h1>
+    </header>
+    <img style="width:100%; margin: 20px 0 0 0;" src="/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framework/cover.png" alt="Featured image" />
+    <p><a href="https://drive.google.com/file/d/1GQJ1qEY2hXQ6EBF-rtqzJqZzidfS7HfI/view?usp=sharing" target="_blank" rel="noopener noreferrer">Slides</a>, <a href="https://colab.research.google.com/drive/11aOq-43wEWhSlxtkdXEAwPEarC0IQ3eN?usp=sharing" target="_blank" rel="noopener noreferrer">notebook</a>, <a href="https://huggingface.co/datasets/ZanSara/seven-wonders" target="_blank" rel="noopener noreferrer">RAG dataset</a> and <a href="https://huggingface.co/datasets/ZanSara/seven-wonders-eval" target="_blank" rel="noopener noreferrer">evaluation dataset</a>. All resources can also be found in <a href="https://drive.google.com/drive/folders/1anl3adpxgbwq5nsFn8QXuofIWXX0jRKo?usp=sharing" target="_blank" rel="noopener noreferrer">my archive</a>.</p>
+<hr />
+<iframe src="https://drive.google.com/file/d/1AORVusaHVBqNvJ5OtctyB5TWQZSadoqT/preview" width="800" height="500" allow="autoplay"></iframe>
+
+<p>Find the transcript <a href="https://drive.google.com/file/d/1wwnTFmGOANVmxUaVd1PC3cfztzIfSCEa/view?usp=sharing" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<hr />
+<p>For the <a href="https://group.springernature.com/gp/group" target="_blank" rel="noopener noreferrer">Springer Nature</a> AI Lab Opening Day I talk about LLM frameworks: what they are, when they can be useful, and how to choose and compare one framework to the other.</p>
+<p>After an overview of six application frameworks (<a href="https://www.langchain.com/" target="_blank" rel="noopener noreferrer">LangChain</a>, <a href="https://www.llamaindex.ai/" target="_blank" rel="noopener noreferrer">LlamaIndex</a>, <a href="https://haystack.deepset.ai/" target="_blank" rel="noopener noreferrer">Haystack</a>, <a href="https://neuml.github.io/txtai/" target="_blank" rel="noopener noreferrer">txtai</a>, <a href="https://dspy-docs.vercel.app/" target="_blank" rel="noopener noreferrer">DSPy</a> and <a href="https://www.crewai.com/" target="_blank" rel="noopener noreferrer">CrewAI</a>), we run a notebook where we used <a href="https://docs.ragas.io/en/latest/" target="_blank" rel="noopener noreferrer">RAGAS</a> to compare four small RAG applications and see which one performs better.</p>
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
