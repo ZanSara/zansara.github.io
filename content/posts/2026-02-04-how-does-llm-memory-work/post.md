@@ -1,6 +1,6 @@
 ---
 title: "How does LLM memory work?"
-description: "All LLMs can keep track of a short conversation. But how do they remember things from past chats?"
+description: "All LLMs can keep track of a short conversation. But how do they remember things long-term?"
 date: 2026-02-04
 author: "ZanSara"
 series: ["Practical Questions"]
