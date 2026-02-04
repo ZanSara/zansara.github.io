@@ -19,6 +19,7 @@ A common piece of advice to improve speed and reduce cost of inference in LLMs i
 
 Each time an LLM processes input, it handles every token of the provided context. LLMs are stateless: this means that for every new message added to an existing chat, your application needs to submit the whole history which could include system prompts, documents, examples, and all the chat history. 
 The model recomputes all of those tokens each time. 
+
 This is a massive inefficiency. For example, with an input cost around $1 per 1 million tokens, sending 100,000 tokens across 1,000 requests would cost approximately $100, while about 95% of those tokens remain unchanged across requests. In essence, a large portion of computation is wasted on repeatedly processing information that never changes: the message history.
 
 ## Stateless vs stateful design
@@ -112,3 +113,5 @@ In my personal experience, semantic caching is only useful for extremely high vo
 ## Conclusion
 
 Prompt caching is not just about cutting costs or speeding things up: it is a necessary architectural approach that addresses the quadratic computational cost inherent in large-context LLM processing. Without it, your backend will repeatedly recompute largely static information, wasting resources and imposing latency penalties that impact your user's experience. By adopting hierarchical, stateful caching and carefully designing prompts, you can reduce token processing costs and response speed by orders of magnitude, which is key for building sustainable, high-performance applications.
+
+In the next post we will talk in detail about [how prompt caching works](/posts/2025-10-23-kv-caching/). Be ready for a more technical deep dive into the architecture of LLMs!
