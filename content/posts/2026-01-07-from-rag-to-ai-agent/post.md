@@ -8,7 +8,7 @@ featured-image: "/posts/2026-01-07-from-rag-to-ai-agent/cover-inv.png"
 
 ---
 
-*If you're interested in this topic, I'll hold a workshop with a real implementation of all the steps at the virtual [Agentic AI Summit](https://www.summit.ai/) on the 21st of January, 2026. The code will be released afterwards, so stay tuned!*
+*If you're interested in this topic, you can check out the [Colab notebook](https://colab.research.google.com/drive/1YVN5GrmZMM7qpI-dbeV-HIYig9XoSk6W?usp=sharing) as well.*
 
 ---
 

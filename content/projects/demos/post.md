@@ -8,6 +8,7 @@ featured-image: "/projects/demos/cover.png"
 
 I often write small demos and Python notebooks to illustrate the concepts explained in more technical blog posts and talks. Here is a collection of some of these notebooks.
 
+- Jan. 26, 2026: [From RAG to AI Agents](https://colab.research.google.com/drive/1YVN5GrmZMM7qpI-dbeV-HIYig9XoSk6W?usp=sharing)
 - Oct. 29th, 2024: [How to Build a Reliable Voice Bot](https://colab.research.google.com/drive/1CUX7JRYMU1MEJBZ6lWMg5EThPew19Zjs?usp=sharing)
 - Oct. 1st, 2024: [Who has the best RAG?](https://colab.research.google.com/drive/11aOq-43wEWhSlxtkdXEAwPEarC0IQ3eN?usp=sharing)
 - Sep. 18th, 2024: [Controlling LLM Translations of Invariant Elements with RAG](https://colab.research.google.com/drive/1VMgK3DcVny_zTtAG_V3QSSdfSFBWAgmb?usp=sharing)
