@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>OpenNLP Meetup: A Practical Introduction to Image Retrieval · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="OpenNLP Meetup: A Practical Introduction to Image Retrieval · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="OpenNLP Meetup: A Practical Introduction to Image Retrieval">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/talks/2022-12-01-open-nlp-meetup/cover.png">
+  <meta name="og:image" content="/talks/2022-12-01-open-nlp-meetup/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/talks/2022-12-01-open-nlp-meetup/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1>OpenNLP Meetup: A Practical Introduction to Image Retrieval</h1>
+    </header>
+    <img style="width:100%; margin: 20px 0 0 0;" src="/talks/2022-12-01-open-nlp-meetup/cover.png" alt="Featured image" />
+    <p><a href="https://www.youtube.com/watch?v=7Idjl3OR0FY" target="_blank" rel="noopener noreferrer">Youtube link</a>, <a href="https://gist.github.com/ZanSara/dc4b22e7ffe2a56647e0afba7537c46b" target="_blank" rel="noopener noreferrer">slides</a>, <a href="https://gist.github.com/ZanSara/9e8557830cc866fcf43a2c5623688c74" target="_blank" rel="noopener noreferrer">Colab</a> (live coding). All the material can also be found <a href="https://drive.google.com/drive/folders/1_3b8PsvykHeM0jSHsMUWQ-4h_VADutcX?usp=drive_link" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<hr />
+<iframe src="https://drive.google.com/file/d/19mxD-xUJ-14G-2XAqXEVpZfqR2MsSZTn/preview" width="800" height="500" allow="autoplay"></iframe>
+
+<h2>A Practical Introduction to Image Retrieval</h2>
+<p><em>by Sara Zanzottera from deepset</em></p>
+<p>Search should not be limited to text only. Recently, Transformers-based NLP models started crossing the boundaries of text data and exploring the possibilities of other modalities, like tabular data, images, audio files, and more. Text-to-text generation models like GPT now have their counterparts in text-to-image models, like Stable Diffusion. But what about search? In this talk we're going to experiment with CLIP, a text-to-image search model, to look for animals matching specific characteristics in a dataset of pictures. Does CLIP know which one is "The fastest animal in the world"?</p>
+<hr />
+<p>For the 7th <a href="https://www.meetup.com/open-nlp-meetup/" target="_blank" rel="noopener noreferrer">OpenNLP meetup</a> I presented the topic of Image Retrieval, a feature that I've recently added to Haystack in the form of a <a href="https://docs.haystack.deepset.ai/docs/retriever#multimodal-retrieval" target="_blank" rel="noopener noreferrer">MultiModal Retriever</a> (see the <a href="https://haystack.deepset.ai/tutorials/19_text_to_image_search_pipeline_with_multimodal_retriever" target="_blank" rel="noopener noreferrer">Tutorial</a>).</p>
+<p>The talk consists of 5 parts:</p>
+<ul>
+<li>An introduction of the topic of Image Retrieval</li>
+<li>A mention of the current SOTA model (CLIP)</li>
+<li>An overview of Haystack</li>
+<li>A step-by-step description of how image retrieval applications can be implemented with Haystack</li>
+<li>A live coding session where I start from a blank Colab notebook and build a fully working image retrieval system from the ground up, to the point where I can run queries live.</li>
+</ul>
+<p>Towards the end I mention briefly an even more advanced version of this image retrieval system, which I had no time to implement live. However, I later built a notebook implementing such system and you can find it here: <a href="https://gist.github.com/ZanSara/31ed3fc8252bb74b1952f2d0fe253ed0" target="_blank" rel="noopener noreferrer">Cheetah.ipynb</a></p>
+<p>The slides were generated from the linked Jupyter notebook with <code>jupyter nbconvert Dec_1st_OpenNLP_Meetup.ipynb --to slides --post serve</code>.</p>
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

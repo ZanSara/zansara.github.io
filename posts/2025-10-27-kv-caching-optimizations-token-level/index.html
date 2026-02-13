@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Making sense of KV Cache optimizations, Ep. 2: Token-level · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Making sense of KV Cache optimizations, Ep. 2: Token-level · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2025-10-27-kv-caching-optimizations-token-level/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Making sense of KV Cache optimizations, Ep. 2: Token-level">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2025-10-27-kv-caching-optimizations-token-level/cover-inv.png">
+  <meta name="og:image" content="/posts/2025-10-27-kv-caching-optimizations-token-level/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2025-10-27-kv-caching-optimizations-token-level/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2025-10-27-kv-caching-optimizations-token-level/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Making sense of KV Cache optimizations, Ep. 2: Token-level</h1>
+      
+<span style="color: var(--muted-text);">Let&#x27;s make sense of the zoo of token-level techniques that exist out there.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2025-10-27T00:00:00Z">by <a href="/">Sara Zan</a>, October 27, 2025</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2025-10-27-kv-caching-optimizations-token-level/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <p>In the previous post we've seen <a href="/posts/2025-10-23-kv-caching/">what the KV cache is</a> and what types of <a href="/posts/2025-10-26-kv-caching-optimizations-intro/">KV cache management optimizations</a> exist according to a <a href="https://arxiv.org/abs/2412.19442" target="_blank" rel="noopener noreferrer">recent survey</a>. In this post we are going to focus on <strong>token-level</strong> KV cache optimizations.</p>
+<h2>What is a token-level optimization?</h2>
+<p>The survey defined token-level optimizations every technique that focuses exclusively on improving the KV cache management based on the <strong>characteristics and patterns of the KV pairs</strong>, without considering enhancements from model architecture improvements or system parallelization techniques.</p>
+<p>Here is an overview of the types of optimizations that exist today.</p>
+<p><img alt="" src="/posts/2025-10-27-kv-caching-optimizations-token-level/token-level-inv.png"  class="invertible" /></p>
+<p><em><a href="https://arxiv.org/pdf/2412.19442#figure.3" target="_blank" rel="noopener noreferrer">Source</a></em></p>
+<p>Let's see what's the idea behind each of these categories. We won't go into the details of the implementations of each: to learn more about a specific approach follow the links to the relevant sections of the survey, where you can find summaries and references.</p>
+<h3>KV Cache Selection</h3>
+<p>One key characteristic of the attention matrix is <strong>sparsity</strong>: most of its values are very close to zero, and just a few cells have meaningful values. Instead of retrieving a full matrix of attention values every time (and retrieve a ton of close-to-zero, nearly useless values), KV Cache selection techniques identify the most relevant token pair and cache those only, reducing memory utilization and inference latency.</p>
+<p><img alt="" src="/posts/2025-10-27-kv-caching-optimizations-token-level/sparse-attention-inv.png"  class="invertible" /></p>
+<p><em>A simplified view of a cache selection strategy. In this case, the KV cache tends to have its highest values clustered near the diagonal (because most tokens refer to other tokens that are relatively close), so most of the lower-left side of the matrix can be safely assumed to be zero. That reduces drastically the number of values to store.</em></p>
+<p>The researches identified two main cache selection strategies:</p>
+<ul>
+<li><strong>Static KV cache selection</strong>. In this family of optimizations, the KV cache compression only happens during the first decoding pass (when most of the prompt is loaded in the LLM state, also called <strong>prefill phase</strong>) and remain fixed during all subsequent decoding steps, with no more compressions as the inference proceeds.</li>
+<li><strong>Dynamic KV cache selection</strong>, which continuously updates and compresses the KV cache during all inference passes, enabling adaptive cache management. In dynamic KV cache selection, KV cache tokens that are not selected may be either permanently evicted or offloaded to hierarchical caching devices such as CPU memory. While more efficient in terms of memory usage, real-time KV cache selection during decoding may incur substantial computational overhead, which is usually the focus of any new technique developed in this space.</li>
+</ul>
+<p>The tradeoff between static and dynamic KV cache selection is again one of <strong>latency versus efficiency</strong>, or time vs space usage. Static KV cache selection is faster and slightly less efficient; dynamic KV cache compression is more efficient in terms of memory usage but has a sensible impact on inference speed and may cause issues due to excessive compression, throwing away or putting in cold caches token pairs that are actually relevant. A clear consensus about where the sweet spot lays hasn't been found yet, and it's mostly still open to investigation.</p>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.4.1" target="_blank" rel="noopener noreferrer">the survey</a>.</p>
+<h3>KV Cache Budget Allocation</h3>
+<p>LLMs are hierarchical, with several layers within layers of computations. Each of these layers is identical in structure, but during training the weights that they learn make some of these layers more important than others and more impactful on the output's quality.</p>
+<p>This means that not all of these steps should be compressed equally. If we could identify which layers are more impactful we could reduce the compression of the KV cache for these layers and increase it for the others. In this way the effects of compression on the output quality would be minimized.</p>
+<p>Budget allocation strategies tend either of these granularity levels:</p>
+<ul>
+<li><strong>Layer-wise budget allocation</strong>, which assigns different compression ratios across the model's decoding layers</li>
+<li><strong>Head-wise budget allocation</strong>, which enables precise memory distribution across individual attention heads within each layer.</li>
+</ul>
+<p>Despite recent advances and growing attention in this subset of techniques, there are still big question marks about how to distribute this computing budget in an effective way. For instance, a notable discrepancy exists between pyramid-shaped allocation strategies that advocate larger budgets for lower layers, and retrieval head-based studies, which demonstrate that lower layers rarely exhibit retrieval head characteristics and thus require minimal cache resources. On top of this, there is a lack of comprehensive experimental comparisons, such as the compatibility and performance benefits of head-wise budget allocation strategies with state-of-the-art frameworks like vLLM.</p>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.4.2" target="_blank" rel="noopener noreferrer">the survey</a>.</p>
+<h3>KV Cache Merging</h3>
+<p>The idea behind KV cache merging is to compress or consolidate separate KV caches into a single one without significantly degrading model accuracy. This stems from the observation that the various layers and attention heads often shows redundant patterns that could be merged into one single representation to improve compression.</p>
+<p>Just like with the budget allocation techniques, KV cache merging strategies can be categorized into two primary approaches:</p>
+<ul>
+<li><strong>Intra-layer merging</strong>, which focuses on consolidating KV caches within individual layers to reduce memory usage per layer</li>
+<li><strong>Cross-layer merging</strong>, which targets redundancy across layers to eliminate unnecessary duplication. </li>
+</ul>
+<p>In general, KV cache merging can be very effective at optimizing memory utilization in LLMs by consolidating KV caches while maintaining high model accuracy, and it's an active research direction that could provide more results in the near future by addressing narrower niches such as fine-tuning and adaptive merging strategies.</p>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.4.3" target="_blank" rel="noopener noreferrer">the survey</a>.</p>
+<h3>KV Cache Quantization</h3>
+<p><img alt="" src="/posts/2025-10-27-kv-caching-optimizations-token-level/quantization-inv.png"  class="invertible" /></p>
+<p><em>A simplified example of cache quantization. Reducing the precision of the values from float to int8 can drastically reduce the memory needs of the cache and accelerate inference.</em></p>
+<p>Quantization techniques aim to convert full-precision values into integers, reducing computational and storage requirements. Quantization has also been used on other aspects of the LLM inference and training processes, such as with model parameters and data features quantization. KV cache quantization works in a similar way: by reducing the precision of numerical representations (e.g., from FP32 to INT8 or INT4) we can drastically compress the size of the KV cache and achieve up to 4x or more memory savings with respect to the full-precision floating point representation.</p>
+<p>One of the main challenges of KV cache quantization is the presence of outliers, especially when quantizing to a very low-bit representation. These extreme values, when reduced to a smaller magnitude, can lead to a substantial performance degradation. </p>
+<p>Depending on how they address this issue, quantization techniques can be grouped into three types:</p>
+<ul>
+<li><strong>Fixed-precision quantization</strong>, where all Keys and Values are quantized to the same bit-width.</li>
+<li><strong>Mixed-precision quantization</strong>, which assigns higher precision to critical parts of the cache while using lower precision for less important components.</li>
+<li><strong>Outlier redistribution</strong>, which redistributes or smooths the outliers in Keys and Values to improve quantization quality. Some approaches to outliers redistribution include redistributing the outliers into newly appended virtual tokens or applying equivalent transformation functions to smooth the keys and values for improved quantization accuracy. </li>
+</ul>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.4.4" target="_blank" rel="noopener noreferrer">the survey</a>.</p>
+<h3>KV Cache Low-rank Decomposition</h3>
+<p>Existing studies have demonstrated that the majority of information within KV caches can be captured by a small subset of their singular elements or sub-matrices with a smaller dimension, called <strong>low-rank components</strong>. Decomposing the matrix into low-rank components can effectively reduce memory requirements while preserving output quality by "picking out" the components of the KV matrix that matter the most and throwing out the rest.</p>
+<p>Currently there are three main ways to perform low-rank decomposition of the cached KV matrix:</p>
+<ul>
+<li><strong>Singular Value Decomposition (SVD)</strong>: retains the most critical singular values.</li>
+<li><strong>Tensor Decomposition</strong>: factorizes KV matrices into smaller matrices/tensors.</li>
+<li><strong>Learned Low-rank Approximation</strong>: adaptive mechanisms to optimize compression based on learned low-rank representations. </li>
+</ul>
+<p>Current methods primarily rely on fixed low-rank approximations applied uniformly across all layers or tokens, but future advancements could focus on dynamic rank adjustment, where the rank is tailored based on token importance, sequence length, or layer-specific properties.</p>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.4.5" target="_blank" rel="noopener noreferrer">the survey</a>.</p>
+<h2>Conclusion</h2>
+<p>This was just a brief overview of the various techniques that have been tested to compress the KV cache, but the exploration of the space between highest accuracy, fastest inference and strongest compression is far from complete. Most of these techniques optimize for just one or two of these properties, with no clear winner that beats them all. Expect a lot more experimentation in this field in the months and years to come.</p>
+<p>On the other hand, these are only compression techniques that apply at the token-level, without any support from the model architecture. For model-level approaches to the problem, check out the next post, where we continue exploring the survey to see how the basic architecture of the Transformer's decoding layer can be optimized to reduce the amount of values to cache in the first place.</p>
+<p>In the next post we're going to address <a href="/posts/2025-10-28-kv-caching-optimizations-model-level">model-level</a> optimizations. Stay tuned!</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

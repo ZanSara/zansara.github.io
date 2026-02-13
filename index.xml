@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sara Zan</title><link>https://www.zansara.dev/</link><description>Recent content on Sara Zan</description><generator>Custom Script</generator><language>en</language><lastBuildDate>Tue, 19 May 2026 00:00:00 +0000</lastBuildDate><item><title>[UPCOMING] AI Impact Summit - Smarter systems, leaner models: reducing compute costs without sacrificing quality</title><link>https://events.economist.com/ai-compute/programme/#day1+cat-10+smarter-systems-leaner-models-reducing-compute-costs-without-sacrificing-quality</link><pubDate>Tue, 19 May 2026 00:00:00 +0000</pubDate><guid>https://events.economist.com/ai-compute/programme/#day1+cat-10+smarter-systems-leaner-models-reducing-compute-costs-without-sacrificing-quality</guid><description>&lt;p&gt;...&lt;/p&gt;</description></item><item><title>ODSC AI East - From RAG to AI Agent</title><link>https://schedule.odsc.ai/</link><pubDate>Wed, 29 Apr 2026 00:00:00 +0000</pubDate><guid>https://schedule.odsc.ai/</guid><description>&lt;p&gt;...&lt;/p&gt;</description></item><item><title>How does LLM memory work?</title><link>https://www.zansara.dev/posts/2026-02-04-how-does-llm-memory-work/</link><pubDate>Wed, 04 Feb 2026 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2026-02-04-how-does-llm-memory-work/</guid><description>&lt;p&gt;&lt;em&gt;This is episode 6 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href="/series/practical-questions"&gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;People often talk about an LLM "remembering" (or more often "forgetting") things. But how is that possible? LLMs are stateless algorithms that don't inherently have the ability to "remember" anything they see after their training is over. They don't have anything like databases, caches, logs. At inference time, LLMs produce the next token based only on its trained parameters and whatever text you include in the current request.&lt;/p&gt;
+&lt;p&gt;So what is "memory" in the context of LLM inference?&lt;/p&gt;
+&lt;h2&gt;The chat history&lt;/h2&gt;
+&lt;p&gt;When you're having a conversation with an LLM, the LLM does not remember what you've said in your previous messages. Every time it needs to generate a new token it &lt;strong&gt;re-reads everything&lt;/strong&gt; that happened in the conversation so far, plus everything it has generated up to that point, to be able to decide what's the most likely next token. LLMs don't have any internal state: everything is recomputed from scratch for each output token.&lt;/p&gt;
+&lt;div class="notice info"&gt;
+
+&lt;p&gt;💡 Methods exist to reduce the time complexity of LLM inference, mostly in the form of smart caching techniques (usually called &lt;a href="/posts/2025-10-17-prompt-caching/"&gt;prompt caching&lt;/a&gt;), but that's a story &lt;a href="/posts/2025-10-23-kv-caching/"&gt;for another blog post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;This means that the chat history is not part of the LLM, but it's &lt;strong&gt;managed by the application built on top of it&lt;/strong&gt;. It's the app's responsibility to store the chat history across turns and send it back to the LLM each time the user adds a new message to it. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-02-04-how-does-llm-memory-work/naive-chat-history-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;The storage of the chat history is the simplest implementation of what "memory" means for an LLM. We can call it &lt;strong&gt;short-term memory&lt;/strong&gt; and it allows the LLM to have a coherent conversation for many turns.&lt;/p&gt;
+&lt;p&gt;However, this approach has a limit: the length of the conversation.&lt;/p&gt;
+&lt;h2&gt;The context window&lt;/h2&gt;
+&lt;p&gt;LLMs can only process a fixed maximum amount of text at once. This limit is called &lt;strong&gt;context window&lt;/strong&gt; and includes both the user's input (which in turn includes all the chat history up to that point) plus the output tokens the LLM is generating. This is an unavoidable limitation of the architecture of Transformer-based LLMs (which includes all the LLMs you're likely to ever come across). &lt;/p&gt;
+&lt;p&gt;So, what happens when the context window fills up? In short, the &lt;strong&gt;LLM will crash&lt;/strong&gt;. &lt;/p&gt;
+&lt;p&gt;To prevent a hard system crash, various LLM applications handle context window overflows differently. The two most basic approaches are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Hard failure (common in APIs):&lt;/strong&gt; If you exceed the model’s context window, the request fails.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Truncation/sliding window (common in chat apps):&lt;/strong&gt; The application drops older parts of the conversation so the latest turns fit. This means that for each new token you or the LLM are adding to the chat, an older token disappears from the history, and the LLM "forgets" it. In practice, during a conversation this may look like the LLM forgetting older topics of conversation, or losing sight of its original goal, or forgetting the system prompt and other custom instruction you might have given at the start of the chat.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-02-04-how-does-llm-memory-work/context-window-overflow-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;However, both of these are just patches over the fundamental problem that LLMs can't remember more than the content of their context window. How do we get around that to achieve long-term memory?&lt;/p&gt;
+&lt;h2&gt;LLM memory is context engineering&lt;/h2&gt;
+&lt;p&gt;Making LLMs able to remember very long conversations is a &lt;strong&gt;context engineering&lt;/strong&gt; problem: the science of choosing what to put in the LLM's context window at each inference pass. The context window is a limited resource, and the best LLMs applications out there usually shine due to their superior approach to context engineering. The more you can compress the right information into the smallest possible context, the faster, better and cheaper your AI system will be.&lt;/p&gt;
+&lt;p&gt;In the case of long-term memory, the core of the problem is choosing what to remember and how to make it fit into the context window. There are three common approaches: &lt;strong&gt;summarization&lt;/strong&gt;, &lt;strong&gt;scratchpad/state&lt;/strong&gt;, and &lt;strong&gt;RAG&lt;/strong&gt;. These are not mutually exclusive, you can mix and match them as needed.&lt;/p&gt;
+&lt;h3&gt;Summarization&lt;/h3&gt;
+&lt;p&gt;In the case of summarization-style memory, the idea is to "compress the past" to make it fit the context window. You keep recent messages verbatim, but you also maintain a rolling summary of older conversations and/or older messages in the same conversation. When the chat gets long, you update the summary and discard raw older turns.&lt;/p&gt;
+&lt;p&gt;This is a pragmatic fit for simple chatbots: most users don't expect perfect recall, but are happy with an LLM that sort of remembers a summary of what they talked about in the past. It's also rather cheap and very simple to implement, which makes it a perfect fit for a quick, initial implementation.&lt;/p&gt;
+&lt;p&gt;The main issue with summarization memory is that LLMs often don't know what details must be remembered and what can be discarded, so they're likely to forget some important details and this might frustrate the users. &lt;/p&gt;
+&lt;p&gt;In short, summarization memory achieves something very like human memory: infinitely compressible but likely to lose details in arbitrary ways. This works for role-playing chatbots for example, but not for personal assistants that are supposed to remember everything perfectly.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-02-04-how-does-llm-memory-work/summarization-memory-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;h3&gt;Scratchpad&lt;/h3&gt;
+&lt;p&gt;In order to overcome the fallacies of human memory, people use post-its and notebooks to store important details that can't be forgotten. Turns out that LLMs can do this too! This is called &lt;strong&gt;scratchpad / state&lt;/strong&gt; approach and means that the LLM is now in charge of maintaining a small, structured "state" that represents what the assistant should not forget, such as user preferences current goals, open tasks, todo lists, key decisions, definitions and terminology agreed upon, and more.&lt;/p&gt;
+&lt;p&gt;This approach can be implemented in two ways:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;by giving a scratchpad tool to the LLMs, where the model can choose to write, edit or delete its content at all times,&lt;/li&gt;
+&lt;li&gt;by having a separate LLM regularly review the conversation and populate the scratchpad.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In either case, the scratchpad content is then added to the conversation history (for example in the system prompt or in other dedicated sections) and older conversation messages are dropped.&lt;/p&gt;
+&lt;p&gt;This approach is far more controllable than summaries, because the LLM can be instructed carefully as of what it's critical to remember and how to save it into the scratchpad. Not only, but the users themselves can be allowed to read and edit the scratchpad to check what the LLM remembers, add more information, or even correct errors.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-02-04-how-does-llm-memory-work/scratchpad-memory-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;h3&gt;RAG Memory&lt;/h3&gt;
+&lt;p&gt;But what if the scratchpad becomes itself huge and occupies a large share of the context window, or even overflows it? For agents that need to take on huge tasks (for example coding agents and deep research systems) the scratchpad approach might not be enough. &lt;/p&gt;
+&lt;p&gt;In this case we can start to treat memory as yet another data source and perform RAG over the scratchpad and/or the conversation history, stored in a vector DB and indexed regularly.&lt;/p&gt;
+&lt;p&gt;The advantage of RAG memory is that you can reuse all well-known patterns for RAG, with the only difference that the content to be retrieved is the chat history itself and/or the LLM's notes. &lt;/p&gt;
+&lt;p&gt;However, RAG memory suffers from the shortcomings of retrieval: as the retrieval pipeline is never absolutely perfect, you can't expect perfect recall. You'll have to pay attention to the quality of the memory retrieval, evaluate it carefully and regularly, and so on. This adds a new dimension to your agent's evaluation and in general quite a bit of complexity.&lt;/p&gt;
+&lt;p&gt;In addition, you may run into an additional problem that's unique to RAG memory: &lt;strong&gt;context stuffing&lt;/strong&gt;. Context stuffing is the presence of retrieved snippets of context that look like prompts: they can cause problems because they might confuse the LLM into following the instruction contained in the retrieved snippet instead of the user's instruction. &lt;/p&gt;
+&lt;p&gt;While context stuffing can happen with malicious context snippets in regular RAG, it's also very likely to happen accidentally when implementing RAG-based memory that searches directly into the chat history. This happens because all the retrieved snippets were indeed user's prompts in the past! In this case, it's essential to make sure that the prompt identifies clearly the retrieved snippets as context and not prompts.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-02-04-how-does-llm-memory-work/rag-memory-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;That's it! With any of these three approaches, your LLM-base application is now able to remember things long-term.&lt;/p&gt;
+&lt;p&gt;However, don't forget that the moment when you add memory to your LLM powered application, you're now &lt;strong&gt;storing user data&lt;/strong&gt;, with all the problems that this brings. You will need to take care of retention, user control over the memorized data, you'll be storing PII and secrets, and in many cases this process needs to be compliant to whatever policy for data retention you may be subject to.&lt;/p&gt;</description></item><item><title>Agentic AI Summit - From RAG to AI Agent</title><link>https://www.zansara.dev/talks/2026-01-21-agentic-ai-summit-from-rag-to-ai-agents/</link><pubDate>Wed, 21 Jan 2026 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/talks/2026-01-21-agentic-ai-summit-from-rag-to-ai-agents/</guid><description>&lt;p&gt;&lt;a href="https://www.summit.ai/#w-dropdown-toggle-30" target="_blank" rel="noopener noreferrer"&gt;Announcement&lt;/a&gt;, &lt;a href="https://colab.research.google.com/drive/1YVN5GrmZMM7qpI-dbeV-HIYig9XoSk6W?usp=sharing" target="_blank" rel="noopener noreferrer"&gt;interactive notebook&lt;/a&gt;, &lt;a href="https://colab.research.google.com/drive/1W3OsRSGxntPRnMFweY-LwU_qVWXsp-RW?usp=drive_link" target="_blank" rel="noopener noreferrer"&gt;presentation&lt;/a&gt;. All resources can also be found in &lt;a href="https://drive.google.com/drive/folders/1swGeBLjWWu6mueFFwlvr11761RgMLOBq?usp=drive_link" target="_blank" rel="noopener noreferrer"&gt;my archive&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;At the &lt;a href="https://summit.ai/" target="_blank" rel="noopener noreferrer"&gt;Agentic AI Summit 2026&lt;/a&gt; I show how you can take your RAG pipeline and, step by step, convert it into an AI agent. &lt;/p&gt;
+&lt;p&gt;The workshop is based on an earlier &lt;a href="https://www.zansara.dev/posts/2026-01-07-from-rag-to-ai-agent/"&gt;blog article&lt;/a&gt; and goes through &lt;a href="https://colab.research.google.com/drive/1YVN5GrmZMM7qpI-dbeV-HIYig9XoSk6W?usp=sharing" target="_blank" rel="noopener noreferrer"&gt;this Colab notebook&lt;/a&gt; where in under a hour we build from scratch a chatbot, a RAG pipeline, and then we progressively upgrade it to an AI Agent. Every step of the way is hand-on and you can take the notebook and adapt it to your stack for a more realistic example.&lt;/p&gt;</description></item><item><title>Jupyter Chat Widget</title><link>https://www.zansara.dev/projects/jupyter-chat-widget/</link><pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/projects/jupyter-chat-widget/</guid><description>&lt;p&gt;For my workshop at the &lt;a href="https://summit.ai" target="_blank" rel="noopener noreferrer"&gt;Agentic AI Summit&lt;/a&gt; I vibe-coded this small Jupyter Notebook widget on top of ipywidgets&amp;lt;8.0.0, for easy compatibility with Colab.&lt;/p&gt;
+&lt;p&gt;Install it with:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pip install jupyter-chat-widget
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;See the &lt;a href="https://www.zansara.dev/jupyter-chat-widget/"&gt;documentation&lt;/a&gt; and the &lt;a href="https://github.com/ZanSara/jupyter-chat-widget" target="_blank" rel="noopener noreferrer"&gt;GitHub repo&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>From RAG to AI Agent</title><link>https://www.zansara.dev/posts/2026-01-07-from-rag-to-ai-agent/</link><pubDate>Wed, 07 Jan 2026 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2026-01-07-from-rag-to-ai-agent/</guid><description>&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;If you're interested in this topic, you can check out the &lt;a href="https://colab.research.google.com/drive/1YVN5GrmZMM7qpI-dbeV-HIYig9XoSk6W?usp=sharing" target="_blank" rel="noopener noreferrer"&gt;Colab notebook&lt;/a&gt; as well.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;2025 was the year of LLM reasoning. Most LLM providers focused on improving the ability of their LLMs to reason, make decisions, and carry out long-horizon tasks with the least possible amount of human intervention. RAG pipelines, so hyped in the last couple of years, are now a thing of the past: the focus shifted on AI agents, a term that only recently seems to have acquired a &lt;a href="https://simonwillison.net/2025/Sep/18/agents/" target="_blank" rel="noopener noreferrer"&gt;relatively well-defined meaning&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An LLM agent runs tools in a loop to achieve a goal.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;While simple, the concept at a first glance might seem to you very far from the one of RAG. But is it?&lt;/p&gt;
+&lt;p&gt;In this post I want to show you how you can extend your RAG pipelines step by step to become agents without having to throw away everything you've built so far. In fact, if you have a very good RAG system today, your future agents are bound to have great research skills right away. You may even find that you may be already half-way through the process of converting your pipeline into an agent without knowing it.&lt;/p&gt;
+&lt;p&gt;Let's see how it's done.&lt;/p&gt;
+&lt;h3&gt;1. Start from basic RAG&lt;/h3&gt;
+&lt;p&gt;Our starting point, what's usually called "basic RAG" to distinguish it from more advanced RAG implementations, is a system with a retrieval step (be it vector-based, keyword-based, web search, hybrid, or anything else) that occurs every time the user sends a message to an LLM. Its architecture might look like this:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/basic-rag-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;Systems with more than one retriever and/or a reranker step also fall under this category. What's crucial to distinguish basic RAG from more "agentic" versions of it is the fact that the retrieval step runs &lt;em&gt;on every user message&lt;/em&gt; and that &lt;em&gt;the user message is fed directly to the retriever&lt;/em&gt;.&lt;/p&gt;
+&lt;h3&gt;2. Add Query Rewrite&lt;/h3&gt;
+&lt;p&gt;The first major step towards agentic behavior is the query rewrite step. RAG pipelines with query rewrite don't send the user's message directly to the retriever, but &lt;strong&gt;rewrite it&lt;/strong&gt; to improve the outcomes of the retrieval. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/query-rewrite-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;Query rewrite is a bit of a double-edged sword. In some cases it may make your RAG pipeline less reliable, because the LLM may misunderstand your intent and query the retriever with an unexpected prompt. It also introduces a delay, as there is one more round-trip to the LLM to make. However, a well implemented query rewrite step has a huge impact on &lt;strong&gt;follow-up questions&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Think about a conversation like this:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;User: What do the style guidelines say about the use of colors on our website?&lt;/p&gt;
+&lt;p&gt;Assistant: The style guidelines say that all company websites should use a specific palette made of these colors: ....&lt;/p&gt;
+&lt;p&gt;User: Why?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The first questions from the user is clear and detailed, so retrieval would probably return relevant results regardless of whether the query gets rewritten or not. However, the second question alone has far too little information to make sense on its own: sending the string "Why?" to a retriever is bound to return only garbage results, which may make the LLM respond something unexpected (and likely wrong). &lt;/p&gt;
+&lt;p&gt;In this case, query rewrite fixes the issue by expanding the "Why?" into a more reasonable query, such as "What's the reason the company mandated a specific color palette?" or "Rationale behind the company's brand color palette selection". This query helps the retriever find the type of information that's actually relevant and provide good context for the answer.&lt;/p&gt;
+&lt;h3&gt;3. Optional Retrieval&lt;/h3&gt;
+&lt;p&gt;Once query rewrite is in place, the next step is to give the pipeline some very basic decisional power. Specifically, I'm talking about &lt;strong&gt;skipping retrieval&lt;/strong&gt; when it's not necessary.&lt;/p&gt;
+&lt;p&gt;Think about a conversation like this:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;User: What do the style guidelines say about the use of colors on our website?&lt;/p&gt;
+&lt;p&gt;Assistant: The style guidelines say that all company websites should use a specific palette made of these colors: ....&lt;/p&gt;
+&lt;p&gt;User: List the colors as a table.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In this case, the LLM needs no additional context to be able to do what the user asks: it's actually better if the retrieval is skipped in order to save time, resources, and avoid potential failures during retrieval that might confuse it (such as the retriever bringing up irrelevant context snippets).&lt;/p&gt;
+&lt;p&gt;This means that even before query rewrite we should add another step, where the LLM gets to decide whether we should do any retrieval or not. The final architecture looks like this:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/optional-retrieval-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;div class="notice"&gt;
+💡  Note that this is just a naive implementation. In practice, the decision of retrieving and the query rewrite may be done by the same LLM call to save time. You may also use different LLMs in parallel for different steps, leveraging smarter and more expensive LLMs for the decisional tasks and faster/cheaper ones for the query rewrite and the answer generation.
+&lt;/div&gt;
+
+&lt;p&gt;This is a critical step towards an AI agent: we are giving the LLM the power to take a decision, however simple the decision may look. This is the point where you should start to adapt your evaluation framework to measure how effective the LLM is at &lt;strong&gt;taking decisions&lt;/strong&gt;, rather than its skills at interpreting the retrieved context or the effectiveness of your retrieval step alone. This is what Agent evaluation frameworks will do for you (see the bottom of the article for some suggestions).&lt;/p&gt;
+&lt;h3&gt;4. The Agentic Loop&lt;/h3&gt;
+&lt;p&gt;Once we have this structure in place, we're ready to give the LLM even more autonomy by introducing an &lt;strong&gt;agentic loop&lt;/strong&gt;. &lt;/p&gt;
+&lt;p&gt;Since the LLM is now able to take the decision to retrieve or not retrieve based on the chat history, how about we let the LLM also review what context snippets were returned by the retriever, and decide whether the retrieval was successful or not?&lt;/p&gt;
+&lt;p&gt;To build this agentic loop you should add a new step between the retrieval and the generation step, where the retrieved context is sent to the LLM for review. If the LLM believes the context is relevant to the question and sufficient to answer it, the LLM can decide to proceed to the answer generation. If not, the process loops back to the query rewrite stage, and the retrieval runs again with a different query in the hope that better context will be found.&lt;/p&gt;
+&lt;p&gt;The resulting architecture looks like this:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/agentic-loop-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;div class="notice"&gt;
+💡  Note that this is also a naive implementation. A few of these decisions can be packed together in a single pass and, again, you can use different LLMs for different tasks.
+&lt;/div&gt;
+
+&lt;p&gt;With the introduction of the agentic loop we've crossed the boundary of what constitutes an &lt;strong&gt;AI Agent&lt;/strong&gt;, even though it's still a very simple one. The LLM is now in charge of deciding when the retrieval is good enough, and it can try as many times as it wants (up to a threshold of your choosing) until it's satisfied with the outcome.&lt;/p&gt;
+&lt;p&gt;If your retrieval step is well done and effective, this whole architecture may sound pointless. The LLM can hardly get better results by trying again if retrieval is already optimized and query rewriting is not making mistakes, so what's the point? In this case, the introduction of the agentic loop can be seen just as a necessary stepping stone towards the next upgrade: transforming retrieval into a tool.&lt;/p&gt;
+&lt;h3&gt;5. Retrieval as a Tool&lt;/h3&gt;
+&lt;p&gt;In many advanced RAG pipelines, retrieval of context and tool usage is seen as two very different operations. RAG is usually always on, highly custom, etc. while tools tend to be very small and simple, rarely called by the LLM, and sometimes implemented on standardized protocols like &lt;a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer"&gt;MCP&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This distinction is arbitrary and simply due to historical baggage. &lt;strong&gt;Retrieval can be a tool&lt;/strong&gt;, so it's best to treat it like one!&lt;/p&gt;
+&lt;p&gt;Once you adopt this mindset, you'll see that the hints were there all along:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We made retrieval optional, so the LLM can choose to either call it or not - like every other tool&lt;/li&gt;
+&lt;li&gt;Query rewrite is the LLM choosing what input to provide to the retriever - as it does when it decides to call any other tool&lt;/li&gt;
+&lt;li&gt;The retriever returns output that goes into the chat history to be used for the answer's generation - like the output of all other tools.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Transforming retrieval into a tool simplifies our architecture drastically and moves us fully into AI Agent territory:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/rag-as-tool-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;As you can see:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The decision step is now part of the LLM's answer generation, which can call it as many times as it wants thanks to the tool calling loop&lt;/li&gt;
+&lt;li&gt;The query rewrite comes for free as the LLM invokes the retrieval tool&lt;/li&gt;
+&lt;li&gt;The retriever's output goes into the chat history to be used to answer the user's request&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;At this point it's time to address a common concern. You may have heard elsewhere that implementing retrieval as a tool makes the LLM "forget" to retrieve context when it should rather do it, so the effectiveness of your RAG worsens. This was very real a couple of years ago, but in my experience it's no longer relevant: modern LLMs are now trained to reach for tools all the time, so this problem has largely disappeared.&lt;/p&gt;
+&lt;h3&gt;6. Add more tools&lt;/h3&gt;
+&lt;p&gt;Congratulations! At this point you can call your system a true AI Agent. However, an agent with only a retrieval tool has limited use. It's time to add other tools!&lt;/p&gt;
+&lt;p&gt;To begin with, if your retrieval pipeline has a lot of moving parts (hybrid retriever, web search, image search, SQL queries, etc...) you can consider separating each of them into separate search tools for the LLM to use, or to expose more parameters to let the LLM customize the output mix.&lt;/p&gt;
+&lt;p&gt;Once that's done, adding other tools is trivial on a technical level, especially with protocols such as &lt;a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer"&gt;MCP&lt;/a&gt;. Using popular, open source MCPs may let you simplify your retrieval tool drastically: for example by leveraging &lt;a href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener noreferrer"&gt;GitHub's MCP&lt;/a&gt; instead of doing code search yourself, or &lt;a href="https://github.com/atlassian/atlassian-mcp-server" target="_blank" rel="noopener noreferrer"&gt;Atlassian's MCPs&lt;/a&gt; instead of custom Jira/Confluence/BitBucket integrations, and so on.&lt;/p&gt;
+&lt;p&gt;However, keep in mind that adding too many tools and MCPs can &lt;strong&gt;overwhelm the LLM&lt;/strong&gt;. You should carefully select which tools can expand the most your LLM's ability to solve your user's problems. For example, a GitHub MCP is irrelevant if only very few of your users are developers, and an image generation tool is useless if you're serving only developers. It's easy to overdo it, so make sure to review regularly the tools you make available to your LLM and add/remove them as necessary.&lt;/p&gt;
+&lt;p&gt;And in the rare case in which you actually need a lot of tools, consider letting the user plug them in as needed (like the ChatGPT UI does), or adopt a &lt;a href="https://blog.cloudflare.com/code-mode/" target="_blank" rel="noopener noreferrer"&gt;more sophisticated tool calling approach&lt;/a&gt; to make sure to manage the context window effectively.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;That's it! You successfully transformed your RAG pipeline into a simple AI Agent. From here you can expand further by implementing planning steps, sub-agents, and more.&lt;/p&gt;
+&lt;p&gt;However, before going further you should remember that your retrieval-oriented metrics now are not sufficient anymore to evaluate the decision making skills of your system. If you've been using a RAG-only eval framework such as RAGAS it's now a good time to move on to a more general-purpose or agent-oriented eval framework, such as &lt;a href="https://deepeval.com" target="_blank" rel="noopener noreferrer"&gt;DeepEval&lt;/a&gt;, &lt;a href="https://galileo.ai/" target="_blank" rel="noopener noreferrer"&gt;Galileo&lt;/a&gt;, &lt;a href="https://arize.com/" target="_blank" rel="noopener noreferrer"&gt;Arize.ai&lt;/a&gt; or any other AI Agent framework of your choice.&lt;/p&gt;
+&lt;p&gt;Last but not least: if you want to see this entire process implemented in code, don't miss my workshop at the virtual &lt;a href="https://www.summit.ai/" target="_blank" rel="noopener noreferrer"&gt;Agentic AI Summit&lt;/a&gt; on the 21st of January, 2026! I'll be walking you through the entire process and show you some additional implementation details. See you there!&lt;/p&gt;</description></item><item><title>Single Page Helpers</title><link>https://www.zansara.dev/projects/single-page-helpers/</link><pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/projects/single-page-helpers/</guid><description>&lt;p&gt;Inspired by &lt;a href="https://tools.simonwillison.net/" target="_blank" rel="noopener noreferrer"&gt;Simon Willison's collection&lt;/a&gt;, I am also building a small collection of small helpers for common tasks that I usually get done using some free web tool. In this collection I list a series of webpages, each completely self-sufficient, that can be used to perform a basic task like cropping an image, generating a QR code, or visualizing timezones. All the tools are &lt;a href="https://github.com/ZanSara/single-page-helpers" target="_blank" rel="noopener noreferrer"&gt;open-source&lt;/a&gt;, so feel free to copy them for your own personal use.&lt;/p&gt;
+&lt;p&gt;You can find them here: &lt;a href="/single-page-helpers"&gt;Single Page Helpers&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>What are the "experts" in Mixture-of-Experts LLMs?</title><link>https://www.zansara.dev/posts/2025-12-11-what-are-moe-experts/</link><pubDate>Thu, 11 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-12-11-what-are-moe-experts/</guid><description>&lt;p&gt;&lt;em&gt;This is episode 5 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href="/series/practical-questions"&gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;Nearly all popular LLMs share the same internal structure: they are decoder-only Transformers. However, they are not completely identical: in order to speed up training, increase intelligence or improve inference speed and cost, this base template is sometimes modified a bit.&lt;/p&gt;
+&lt;p&gt;One popular variant is the so-called &lt;strong&gt;MoE (Mixture of Experts)&lt;/strong&gt; architecture: a neural network design that divides the model into multiple independent sub-networks called "experts". For each input, a routing algorithm (also called gating network) determines which experts to activate, so only a subset of the model's parameters is used during each inference pass. This leads to efficient scaling: models can grow significantly in parameter size without a proportional increase in computational resources per token or query. In short, it enables large models to perform as quickly as smaller ones without sacrificing accuracy.&lt;/p&gt;
+&lt;p&gt;But what are these expert networks, and how are they built? One common misconception is that the "experts" of MoE are specialized in a well defined, recognizable type of task: that the model includes a "math expert", a "poetry expert", and so on​. The query would then be routed to the appropriate expert after the type of request is classified. &lt;/p&gt;
+&lt;p&gt;However, this is not the case. Let's figure out how it works under the hood.&lt;/p&gt;
+&lt;h2&gt;The MoE architecture&lt;/h2&gt;
+&lt;p&gt;In order to understand MoE, you should first be familiar with the basic architecture of decoder-only Transformers. If the diagram below is not familiar to you, have a look at &lt;a href="https://cameronrwolfe.substack.com/p/decoder-only-transformers-the-workhorse" target="_blank" rel="noopener noreferrer"&gt;this detailed description&lt;/a&gt; before diving in.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-12-11-what-are-moe-experts/decoder-only-transformer-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;The main change made by a MoE over the decoder-only transformer architecture is &lt;strong&gt;within the feed-forward component of the transformer block&lt;/strong&gt;. In the standard, non MoE architecture, the tokens pass one by one through a have a single feed-forward neural network. In a MoE instead, at this stage there are many feed-forward networks, each with their own weights: they are the "experts".&lt;/p&gt;
+&lt;p&gt;This means that to create an MoE LLM we first need to convert the transformer’s feed-forward layers to these expert layers. Their internal structure is the same as the original, single network, but copied a few times, with the addition of a routing algorithm to select the expert to use for each input token to process.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-12-11-what-are-moe-experts/moe-decoding-step-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;The core of a routing algorithm is rather simple as well. First the token's embedding passes through a linear transformation (such as a fully connected layer) that outputs a vector as long as the number of experts we have in our system. Then, a softmax is applied and the top-k experts are selected. After the experts produce output, their results are then averaged (using their initial score as weight) and sent to the next decode layer.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-12-11-what-are-moe-experts/moe-router-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;Keep in mind that this is a simplification of the actual routing mechanism of real MoE models. If implemented as described here, through the training phase you would observe a &lt;strong&gt;routing collapse&lt;/strong&gt;: the routing network would learn to send all tokens to the same expert all the time, reducing your MoE model back to the equivalent of a regular decoder-only Transformer. To make the network learn to distribute the tokens in a more balanced fashion, you would need to add auxiliary loss functions that make the routing network learn to load balance the experts properly. For more details on this process (and much more on MoE in general) see &lt;a href="https://cameronrwolfe.substack.com/p/moe-llms" target="_blank" rel="noopener noreferrer"&gt;this detailed overview&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;So experts never specialize?&lt;/h2&gt;
+&lt;p&gt;Yes and no. On the &lt;a href="https://arxiv.org/abs/2402.01739" target="_blank" rel="noopener noreferrer"&gt;OpenMoE paper&lt;/a&gt;, the authors investigated in detail whether experts do specialize in any recognizable domain, and they observed interesting results. In their case, experts do not tend to specialize in any particular domain; however, there is some level of expert specialization across natural languages and specific tasks.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-12-11-what-are-moe-experts/moe-not-specializing-domains-inv.jpg"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-12-11-what-are-moe-experts/moe-specializing-domains-inv.jpg"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;According to the authors, this specialization is due to the same tokens being sent to the same expert every time, regardless of the context in which it is used. Given that different languages use a very different set of tokens, it's natural to see this sort of specialization emerging, and the same can be said of specific tasks, where the jargon and the word frequency changes strongly. The paper defines this behavior as “Context-Independent Specialization”.&lt;/p&gt;
+&lt;p&gt;It's important to stress again that whether this specialization occurs, and on which dimensions, is irrelevant to the effectiveness of this architecture. The core advantage of MoE is &lt;em&gt;not&lt;/em&gt; the presence of recognizable experts, but on the sparsity it introduces: with MoE you can scale up the parameters count without slowing down the inference speed of the resulting model, because not all weights will be used for all tokens.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The term "Mixture of Experts" can easily bring the wrong image into the mind of people unaccustomed with how neural networks, and Transformers in general, work internally. When discussing this type of models, I often find important to stress the difference between how the term "expert" is intended by a non technical audience and what it means in this context.&lt;/p&gt;
+&lt;p&gt;If you want to learn more about MoEs and how they're implemented in practice, I recommend this  &lt;a href="https://cameronrwolfe.substack.com/p/moe-llms" target="_blank" rel="noopener noreferrer"&gt;this very detailed article&lt;/a&gt; by Cameron Wolfe, where he dissects the architecture in far more detail and adds plenty of examples and references to dig further.&lt;/p&gt;
+&lt;p&gt;​&lt;/p&gt;</description></item><item><title>Embrace:AI // 2025.06 - Reasoning LLMs &amp; Multimodal Architecture</title><link>https://www.zansara.dev/talks/2025-11-06-embrace-ai-meetup-reasoning-models/</link><pubDate>Thu, 06 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/talks/2025-11-06-embrace-ai-meetup-reasoning-models/</guid><description>&lt;p&gt;&lt;a href="https://www.meetup.com/embrace-ai/events/311629934/" target="_blank" rel="noopener noreferrer"&gt;Announcement&lt;/a&gt;, &lt;a href="https://drive.google.com/file/d/1QoUVlA915-7UJqu9DkxKQUc3deJhsB8t/view?usp=sharing" target="_blank" rel="noopener noreferrer"&gt;slides&lt;/a&gt;. All resources can also be found in &lt;a href="https://docs.google.com/presentation/d/1RzJOwSwaLcNFkkPuvpR9e9pRzf0mnz23l8H29X9UDSA/edit?usp=drive_link" target="_blank" rel="noopener noreferrer"&gt;my archive&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;At &lt;a href="https://www.meetup.com/embrace-ai/" target="_blank" rel="noopener noreferrer"&gt;Embrace.ai's November Meetup&lt;/a&gt;, part of the &lt;a href="https://lisbonaiweek.com/" target="_blank" rel="noopener noreferrer"&gt;Lisbon AI Week&lt;/a&gt; I talked about reasoning models: what they are, what they aren't, how they work and when to use them. Is GPT-5 AGI? Is it an AI Agent? Or is it just a glorified chain-of-thought prompt under the hood? &lt;/p&gt;
+&lt;p&gt;To answer these questions, I classified LLMs into a small "taxonomy" based on the post-training steps they go through, in order to highlight how reasoning models differ qualitatively from their predecessors just like instruction-tuned models were not simple text-completion models with a better prompt. &lt;/p&gt;
+&lt;p&gt;I also covered the effect of increasing the reasoning effort of the model, clarifying when it's useful and when it can lead to overthinking.&lt;/p&gt;</description></item><item><title>What's hybrid retrieval good for?</title><link>https://www.zansara.dev/posts/2025-11-04-hybrid-retrieval/</link><pubDate>Tue, 04 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-11-04-hybrid-retrieval/</guid><description>&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;This is episode 4 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href="/series/practical-questions"&gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;It has been a long time since TF-IDF or even BM25 were the state of the art for information retrieval. These days the baseline has moved to &lt;a href="/posts/2025-10-09-rerankers#bi-encoders-vs-cross-encoders"&gt;embedding similarity search&lt;/a&gt;, where each unit of information, be it a sentence, a paragraph or a page is first encoded in an embedding and then compared with the embedding of the user's query. &lt;/p&gt;
+&lt;p&gt;From this baseline there are often two pieces of advice to help you increase the performance of your search system: one is to go the deep end with the embedding approach and consider a reranker, finetune your embedding model, and so on. The other, usually called hybrid retrieval or hybrid search, is to bring back good old keyword search algorithms and use them to complement your results. Often the best scenario is to use both of these enhancements, which nicely complement each other.&lt;/p&gt;
+&lt;p&gt;But why would this arrangement help improve the results? Isn't embedding search strictly superior to keyword-based retrieval algorithms?&lt;/p&gt;
+&lt;h2&gt;Semantic vs Lexical&lt;/h2&gt;
+&lt;p&gt;When you embed a sentence, the resulting embedding encodes its &lt;em&gt;meaning&lt;/em&gt;, not its exact phrasing. That’s their strength! But it can often be a limitation as well. &lt;/p&gt;
+&lt;p&gt;For example a semantic model can understand that "latest iPhone" is similar to "iPhone 17 Pro Max", which is great if the first sentence is a query and the second the search result. But a semantic model will also say that "iPhone 17 Pro Max" and "iPhone 11 Pro Max" are very similar, which is &lt;em&gt;not&lt;/em&gt; great if the first sentence is a query and the second a search result.&lt;/p&gt;
+&lt;p&gt;In short, &lt;strong&gt;semantic&lt;/strong&gt; similarity is great if you are starting from a generic query and you want a set precise result all matching the generic description, or if you start from a general question and want to retrieve all very particular results that fall under the same general concept. For "latest iPhone", "iPhone 17 Pro Max", "iPhone 17 Pro" and ideally "iPhone Air" and  are all valid search results.&lt;/p&gt;
+&lt;p&gt;On the other hand, &lt;strong&gt;lexical&lt;/strong&gt; similarity is what allows your system to retrieve extremely precise results in response to a very specific query. "latest iPhone" will return garbage results with a lexical algorithm such as BM25 (essentially any iPhone would match), but if the search string is "iPhone 17 Plus Max", BM25 will return the best results.&lt;/p&gt;
+&lt;p&gt;To visualize it better, here's the expected results for each of the two queries in a dataset of iPhone names:&lt;/p&gt;
+&lt;table style="width:100%; border: 2px solid black;"&gt;
+&lt;tr&gt;
+    &lt;th&gt;User Query&lt;/th&gt;
+    &lt;th&gt;Semantic Search Results&lt;/th&gt;
+    &lt;th&gt;Keyword Search Results&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;"latest iPhone"&lt;/td&gt;
+    &lt;td&gt;
+        &lt;ol&gt;
+            &lt;li&gt;iPhone 17 Pro
+            &lt;li&gt;iPhone 17 Pro Max
+            &lt;li&gt;iPhone Air
+        &lt;ol&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+        &lt;ol&gt;
+            &lt;li&gt;iPhone 11 Pro Max
+            &lt;li&gt;iPhone 4
+            &lt;li&gt;iPhone SE
+        &lt;ol&gt;
+    &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;"iPhone 17 Pro Max"&lt;/td&gt;
+    &lt;td&gt;
+        &lt;ol&gt;
+            &lt;li&gt;iPhone 17 Pro
+            &lt;li&gt;iPhone 17 Pro Max
+            &lt;li&gt;iPhone Air
+        &lt;ol&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+        &lt;ol&gt;
+            &lt;li&gt;iPhone 17 Pro Max
+        &lt;ol&gt;
+    &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;/table&gt;
+
+&lt;p&gt;As you can see, the problem is that neither of the two approaches works best with both types of queries: each has its strong pros and cons and works best only on a subset of the questions your system may receive.&lt;/p&gt;
+&lt;p&gt;So why not using them both?&lt;/p&gt;
+&lt;h2&gt;Combining them&lt;/h2&gt;
+&lt;p&gt;A hybrid search system is simply a system that does the same search twice: once with a keyword algorithm such as BM25, and once with vector search. But how to merge the two lists of results?&lt;/p&gt;
+&lt;p&gt;The scores the documents come with are deeply incomparable. BM25 scores depends on terms frequency and keyword matching, and are not bound to any range. On the contrary, cosine similarity usually clusters between 0.5 and 0.9, which gets even narrower if the sequences are longer.&lt;/p&gt;
+&lt;p&gt;That's where &lt;strong&gt;reciprocal rank fusion (RRF)&lt;/strong&gt; comes in. RRF is incredibly simple and boils down to this formula: &lt;code&gt;score(d) = sum( 1/(k + rank_method_i(d)) )&lt;/code&gt; . As you can see it works on the ranks, not scores, so it’s robust against scale differences and requires no normalization. Platforms like Elastic and Pinecone use it for production hybrid search due to its simplicity and reliability. Being so simple, the additional latency is negligible, which makes it suitable for real-time usecases.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-11-04-hybrid-retrieval/hybrid-search-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;Or, if you're less concerned about latency, you can consider adding a &lt;a href="/posts/2025-10-09-rerankers#bi-encoders-vs-cross-encoders"&gt;reranker&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Having two independent and complementary search techniques is the reason why adding a reranker to your hybrid pipeline is so effective. By using these two wildly different methods, it's not obvious whether even the rankings are comparable. Rerankers can have a more careful look at the retrieved documents and make sure the most relevant documents are to the top of the pile, allowing you to cut away the least relevant ones.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Hybrid search isn’t a patch for outdated systems, but a default strategy for any high-quality retrieval engine. Dense embeddings bring rich contextual understanding, while sparse retrieval ensures accuracy for unique identifiers, numeric codes, acronyms, or exact strings that embeddings gloss over. In a world where search systems must serve both humans and machine agents, hybrid search is the recall multiplier that guarantees we get both meaning and precision.&lt;/p&gt;</description></item><item><title>ODSC West: LLMs that think - Demystifying Reasoning Models</title><link>https://www.zansara.dev/talks/2025-10-29-odsc-west-reasoning-models/</link><pubDate>Wed, 29 Oct 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/talks/2025-10-29-odsc-west-reasoning-models/</guid><description>&lt;p&gt;&lt;a href="https://odsc.ai/speakers-portfolio/llms-that-think-demystifying-reasoning-models/" target="_blank" rel="noopener noreferrer"&gt;Announcement&lt;/a&gt;, &lt;a href="/posts/2025-05-12-beyond-hype-reasoning-models/"&gt;teaser article&lt;/a&gt;, &lt;a href="https://drive.google.com/file/d/1x-DobRa7ZrUncTe1kUVHc6BGFzxiTELc/view?usp=sharing" target="_blank" rel="noopener noreferrer"&gt;slides&lt;/a&gt;. All resources can also be found in &lt;a href="https://drive.google.com/drive/folders/1-UbjdFxvg5NtCUxUFGg47H4EPkeXLuy_?usp=drive_link" target="_blank" rel="noopener noreferrer"&gt;my archive&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;At &lt;a href="https://odsc.ai/west/schedule/" target="_blank" rel="noopener noreferrer"&gt;ODSC West 2025&lt;/a&gt; I talked about reasoning models: what they are, what they aren't, how they work and when to use them. Is GPT-5 AGI? Is it an AI Agent? Or is it just a glorified chain-of-thought prompt under the hood? &lt;/p&gt;
+&lt;p&gt;To answer these questions, I classified LLMs into a small "taxonomy" based on the post-training steps they go through, in order to highlight how reasoning models differ qualitatively from their predecessors just like instruction-tuned models were not simple text-completion models with a better prompt. &lt;/p&gt;
+&lt;p&gt;I also covered the effect of increasing the reasoning effort of the model, clarifying when it's useful and when it can lead to overthinking.&lt;/p&gt;</description></item><item><title>Making sense of KV Cache optimizations, Ep. 4: System-level</title><link>https://www.zansara.dev/posts/2025-10-29-kv-caching-optimizations-system-level/</link><pubDate>Wed, 29 Oct 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-10-29-kv-caching-optimizations-system-level/</guid><description>&lt;p&gt;In the previous posts we've seen &lt;a href="/posts/2025-10-23-kv-caching/"&gt;what the KV cache is&lt;/a&gt; and what types of &lt;a href="/posts/2025-10-26-kv-caching-optimizations-intro/"&gt;KV Cache management optimizations&lt;/a&gt; exist according to a &lt;a href="https://arxiv.org/abs/2412.19442" target="_blank" rel="noopener noreferrer"&gt;recent survey&lt;/a&gt;. In this post we are going to focus on &lt;strong&gt;system-level&lt;/strong&gt; KV cache optimizations.&lt;/p&gt;
+&lt;h2&gt;What is a system-level optimization?&lt;/h2&gt;
+&lt;p&gt;Real hardware is not only made of "memory" and "compute", but is made of several different hardware and OS level elements, each with its specific tradeoff between speed, throughput, latency, and so on. Optimizing the KV cache to leverages this differences is the core idea of the optimizazions we're going to see in this post.&lt;/p&gt;
+&lt;p&gt;Here is an overview of the types of optimizations that exist today.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-29-kv-caching-optimizations-system-level/system-level-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href="https://arxiv.org/pdf/2412.19442#figure.10" target="_blank" rel="noopener noreferrer"&gt;Source&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;As you can see in the diagram, they can be broadly grouped into three categories: memory management, scheduling strategies, and hardware-aware designs. These approaches are complementary and can be often used together, each addressing different aspects of performance, efficiency, and resource utilization tradeoffs.&lt;/p&gt;
+&lt;p&gt;Let's see what's the idea behind each of these categories. We won't go into the details of the implementations of each: to learn more about a specific approach follow the links to the relevant sections of the survey, where you can find summaries and references.&lt;/p&gt;
+&lt;h2&gt;Memory Management&lt;/h2&gt;
+&lt;p&gt;Memory management techniques focus on using the different types of memory and storage available to the system in the most efficient way. There are two main approaches to this problem:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Architectural designs&lt;/strong&gt;, such as vLLM's &lt;strong&gt;PagedAttention&lt;/strong&gt; and vTensor. These strategies adapt operating system memory management ideas to to create memory allocation systems that optimize the use of physical memory as much as possible. For example, PagedAttention adapts OS-inspired paging concepts by partitioning KV caches into fixed-size blocks with non-contiguous storage, and vLLM implements a virtual memory-like system that manages these blocks through a sophisticated mapping mechanism.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Prefix-aware designs&lt;/strong&gt; like &lt;strong&gt;ChunkAttention&lt;/strong&gt; and MemServe. These center around the design of datastructures optimized for maximising cache de-duplication and sharing of common prefixes. For example, ChunkAttention restructures KV cache management by breaking down traditional monolithic KV cache tensors into smaller, manageable chunks organized within a prefix tree structure, enabling efficient runtime detection and sharing of common prefixes across multiple requests.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In general, there's a flurry of novel research focused on the way the KV cache is stored in memory. They bring classic OS memory management patterns and novel designs that leverage the properties of the KV cache at a memory layout level to increase the inference speed and memory consumption issues in a way that's transparent from the model's perspective. This makes these techniques widely applicable to many different LLMs and usually complementary to each other, which multiplies their effectiveness.&lt;/p&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.6.1" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Scheduling&lt;/h2&gt;
+&lt;p&gt;Scheduling techniques focus on maximizing cache hits and minimize cache lifetime by grouping and distributing requests appropriately. In this category we can find a few distinct approaches:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Prefix-aware&lt;/strong&gt; scheduling strategies, such as BatchLLM and RadixAttention. For example, unlike traditional LRU caches, BatchLLM identifies global prefixes and coordinates the scheduling of requests sharing common KV cache content. This ensures optimal KV cache reuse while minimizing cache lifetime: requests with identical prefixes are deliberately scheduled together to maximize KV cache sharing efficiency.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Preemptive&lt;/strong&gt; and &lt;strong&gt;fairness-oriented&lt;/strong&gt; scheduling, such as FastServe and FastSwitch. For example, FastServe implements a proactive cache management strategy coordinates cache movement between GPU and host memory, overlapping data transmission with computation to minimize latency impact. The scheduler also prioritizes jobs based on input length.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Layer-specific&lt;/strong&gt; and hierarchical scheduling approaches, such as LayerKV and CachedAttention. For example, LayerKV focuses on reducing time-to-first-token (TTFT) through a fine-grained, layer-specific KV cache block allocation and management strategy. It also includes an SLO-aware scheduler that optimizes cache allocation decisions based on service level objectives.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.6.2" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Hardware-aware Design&lt;/h2&gt;
+&lt;p&gt;These techiques focus on leveraging specific characteristics of the hardware in order to accelerate inference and increase efficiency. In this class of optimizazions we can find a few shared ideas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Single/Multi-GPU designs&lt;/strong&gt; focus on optimizing memory access patterns, GPU kernel designs for efficient attention computation, and parallel processing with load balancing. For example, shared prefix optimization approaches like HydraGen and DeFT focus on efficient GPU memory utilization through batched prefix computations and tree-structured attention patterns. Another example is distributed processing frameworks such as vLLM, that optimize multi-GPU scenarios through sophisticated memory management and synchronization mechanisms. Other techniques are phase-aware, like DistServe, which means that they separate prefill and decoding phases across GPU resources to optimize their distinct memory access patterns.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IO-based designs&lt;/strong&gt; optimize data movement across memory hierarchies through asynchronous I/O and intelligent prefetching mechanisms. &lt;br /&gt;
+At the GPU level, approaches like FlashAttention optimize data movement between HBM and SRAM through tiling strategies and split attention computations. At the CPU-GPU boundary, systems like PartKVRec address tackles PCIe bandwidth bottlenecks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Heterogeneous designs&lt;/strong&gt; orchestrate computation and memory allocation across CPU-GPU tiers. Systems like NEO or FastDecode reditribute the workload by offloading to the CPU part of the attention computations, while others like FlexInfer introduce virtual memory abstractions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSD-based designs&lt;/strong&gt; have evolved from basic offloading approaches to more sophisticated designs. For example, FlexGen extends the memory hierarchy across GPU, CPU memory, and disk storage, optimizing high-throughput LLM inference on resource-constrained hardware. InstInfer instead leverages computational storage drives (CSDs) to perform in-storage attention computation, effectively bypassing PCIe bandwidth limitations. These techniques demonstrate how storage devices can be integrated into LLM inference systems either as memory hierarchy extensions or as computational resources.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.6.3" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Conclusions&lt;/h2&gt;
+&lt;p&gt;System-level KV cache optimizations show that working across the stack can bring impressive speedups and manage physical resources more efficiently than it could ever be done at the LLM's abstraction level. Operating systems and hardware layouts offer plenty of space for optimizations of workloads that have somewhat predictable patterns such as attention computations and KV caching show, and these are just a few examples of what could be done in the near future.&lt;/p&gt;
+&lt;p&gt;This is the end of our review. The original paper includes an additional section on long-context benchmarks which we're not going to cover, so head to &lt;a href="https://arxiv.org/pdf/2412.19442#section.7" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt; if you're interested in the topic.&lt;/p&gt;</description></item><item><title>Making sense of KV Cache optimizations, Ep. 3: Model-level</title><link>https://www.zansara.dev/posts/2025-10-28-kv-caching-optimizations-model-level/</link><pubDate>Tue, 28 Oct 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-10-28-kv-caching-optimizations-model-level/</guid><description>&lt;p&gt;In the previous posts we've seen &lt;a href="/posts/2025-10-23-kv-caching/"&gt;what the KV cache is&lt;/a&gt; and what types of &lt;a href="/posts/2025-10-26-kv-caching-optimizations-intro/"&gt;KV Cache management optimizations&lt;/a&gt; exist according to a &lt;a href="https://arxiv.org/abs/2412.19442" target="_blank" rel="noopener noreferrer"&gt;recent survey&lt;/a&gt;. In this post we are going to focus on &lt;strong&gt;model-level&lt;/strong&gt; KV cache optimizations.&lt;/p&gt;
+&lt;h2&gt;What is a model-level optimization?&lt;/h2&gt;
+&lt;p&gt;We call a model-level optimization any modification of the architecture of the LLM that enables a more efficient reuse of the KV cache. In most cases, to apply these method to an LLM you need to either retrain or at least finetune the model, so it's not easy to apply and is usually baked in advance in of-the-shelf models.&lt;/p&gt;
+&lt;p&gt;Here is an overview of the types of optimizations that exist today.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-28-kv-caching-optimizations-model-level/model-level-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href="https://arxiv.org/pdf/2412.19442#figure.7" target="_blank" rel="noopener noreferrer"&gt;Source&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Let's see what's the idea behind each of these categories. We won't go into the details of the implementations of each: to learn more about a specific approach follow the links to the relevant sections of the survey, where you can find summaries and references.&lt;/p&gt;
+&lt;h2&gt;Attention Grouping and Sharing&lt;/h2&gt;
+&lt;p&gt;One common technique to reduce the size of the KV cache is to group and/or share attention on different levels. There's techniques being developed for different grades of attention grouping:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Intra-layer grouping&lt;/strong&gt;: focuses on grouping query, key, and value heads within individual layers&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cross-layer sharing&lt;/strong&gt;: shares key, value, or attention components across layers&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;At the &lt;strong&gt;intra-layer&lt;/strong&gt; level, the standard architecture of Transformers calls for full &lt;strong&gt;multi-headed attention&lt;/strong&gt; (MHA). As an alternative, it was proposed to have all attention heads share a single key and value, reducing dramatically the amount of compute and space needed. This technique, called &lt;strong&gt;multi-query attention&lt;/strong&gt; (MQA) is a radical strategy that would cause not just quality degradation, but also training instability. As a compromise, &lt;strong&gt;grouped-query attention&lt;/strong&gt; (GQA) was proposed by dividing the query heads into multiple groups, while each group shares its own keys and values. In addition, an uptraining process has been proposed to efficiently convert existing MHA models to GQA configurations by mean-pooling the key and value heads associated with each group. Empirical evaluations demonstrated that GQA models achieve performance close to the original MHA models.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-28-kv-caching-optimizations-model-level/attention-grouping-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;A simplified illustration of different QKV grouping techniques: multi-headed attention (MHA), multi-query attention (MQA) and grouped-query attention (GQA).&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Across layers&lt;/strong&gt;, cross-layer attention (CLA) was proposed to extends the idea of GQA. Its core idea is to share the key and value heads between adjacent layers. This achieves an additional 2× KV cache size reduction compared to MQA. Several other approaches exist to address cross-layer attention sharing, so check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.5.1" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt; if you want to learn more.&lt;/p&gt;
+&lt;p&gt;In general, the main issue in this line of research regards the model modifications that needs to be applied. Current approaches often fail to generalize well to architecture they were not initially designed on, while more static and general grouping/sharing strategies fail to capture important variations in the various heads and layers, leading to a loss of output quality. In addition, the need to retrain the LLM after the changes limits strongly the portability of these methods.&lt;/p&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.5.1" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Architecture Alteration&lt;/h2&gt;
+&lt;p&gt;Another approach is to make more high-level architectural changes to reduce the required cache size. There seems to be two main directions in this area:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Enhanced Attention&lt;/strong&gt;: methods that refine the attention mechanism for KV cache efficiency. An example is DeepSeek-V2, which introduced Multi-Head Latent Attention (MLA). This technique adopts a low-rank KV joint compression mechanism and replaces the full KV cache with compressed latent vectors. The model adopts trainable projection and expansion matrices to do the compression. This compression mechanism is what enables the model to handle sequences of up to 128K tokens. You can learn more about MLA in &lt;a href="https://magazine.sebastianraschka.com/i/168650848/multi-head-latent-attention-mla" target="_blank" rel="noopener noreferrer"&gt;this article&lt;/a&gt; by Sebastian Raschka.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Augmented Architecture&lt;/strong&gt;: methods that introduce structural changes for better KV management, for example novel decoder structures (such as YOCO, that included a self-decoder and a cross-decoder step).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Many of these works build upon the broader landscape of efficient attention mechanisms (e.g., Linear Transformer, Performer, LinFormer, etc.) which already have &lt;a href="https://arxiv.org/abs/2404.14294" target="_blank" rel="noopener noreferrer"&gt;their own survey&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Although these approaches demonstrate significant progress in enabling longer context windows and faster inference, there are still big challenged ans unknowns. Some techniques in this category, for example, perform very well for some tasks but fail to generalize (for example they work well with RAG but not with non-RAG scenarios).&lt;/p&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.5.2" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Non-Transformer Architecture&lt;/h2&gt;
+&lt;p&gt;In this category we group all radical approaches that ditch the Transformers architecture partially or entirely and embrace alternative models, for example RNNs, which don't have quadratic computation bottlenecks at all and sidestep the problem entirely.&lt;/p&gt;
+&lt;p&gt;In the case of completely independent architectures, notable examples are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2312.00752" target="_blank" rel="noopener noreferrer"&gt;Mamba&lt;/a&gt;, based on state space sequence models (SSMs). Mamba improves SSMs by making parameters input-dependent, allowing information to be selectively propagated or forgotten along the sequence based on the current token. Mamba omits attention entirely.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://arxiv.org/abs/2305.13048" target="_blank" rel="noopener noreferrer"&gt;RWKV&lt;/a&gt; (Receptance Weighted Key Value) integrates a linear attention mechanism, enabling parallelizable training like transformers while retaining the efficient inference characteristics of RNNs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Efficient non-Transformers also have their own surveys, so check out the paper to learn more.&lt;/p&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.5.3" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Model-level optimizations go from very light touches to the original Transformer model to architecture that have nothing to do with it, therefore not having any KV cache to deal with in the first place. In nearly all cases the principal barrier to adoption is the same: applying these techniques requires a &lt;strong&gt;full retraining of the model&lt;/strong&gt;, which can be impractical at best and prohibitively expensive at worst, even for users that have the right data and computing power. Model-level optimizations are mostly useful for LLM developers to get an intuition of the memory efficiency that can be expected from a model that includes one or more of these features out of the box.&lt;/p&gt;
+&lt;p&gt;In the next post we're going to address &lt;a href="/posts/2025-10-29-kv-caching-optimizations-system-level"&gt;system-level&lt;/a&gt; optimizations. Stay tuned!&lt;/p&gt;</description></item><item><title>Making sense of KV Cache optimizations, Ep. 2: Token-level</title><link>https://www.zansara.dev/posts/2025-10-27-kv-caching-optimizations-token-level/</link><pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-10-27-kv-caching-optimizations-token-level/</guid><description>&lt;p&gt;In the previous post we've seen &lt;a href="/posts/2025-10-23-kv-caching/"&gt;what the KV cache is&lt;/a&gt; and what types of &lt;a href="/posts/2025-10-26-kv-caching-optimizations-intro/"&gt;KV cache management optimizations&lt;/a&gt; exist according to a &lt;a href="https://arxiv.org/abs/2412.19442" target="_blank" rel="noopener noreferrer"&gt;recent survey&lt;/a&gt;. In this post we are going to focus on &lt;strong&gt;token-level&lt;/strong&gt; KV cache optimizations.&lt;/p&gt;
+&lt;h2&gt;What is a token-level optimization?&lt;/h2&gt;
+&lt;p&gt;The survey defined token-level optimizations every technique that focuses exclusively on improving the KV cache management based on the &lt;strong&gt;characteristics and patterns of the KV pairs&lt;/strong&gt;, without considering enhancements from model architecture improvements or system parallelization techniques.&lt;/p&gt;
+&lt;p&gt;Here is an overview of the types of optimizations that exist today.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-27-kv-caching-optimizations-token-level/token-level-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href="https://arxiv.org/pdf/2412.19442#figure.3" target="_blank" rel="noopener noreferrer"&gt;Source&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Let's see what's the idea behind each of these categories. We won't go into the details of the implementations of each: to learn more about a specific approach follow the links to the relevant sections of the survey, where you can find summaries and references.&lt;/p&gt;
+&lt;h3&gt;KV Cache Selection&lt;/h3&gt;
+&lt;p&gt;One key characteristic of the attention matrix is &lt;strong&gt;sparsity&lt;/strong&gt;: most of its values are very close to zero, and just a few cells have meaningful values. Instead of retrieving a full matrix of attention values every time (and retrieve a ton of close-to-zero, nearly useless values), KV Cache selection techniques identify the most relevant token pair and cache those only, reducing memory utilization and inference latency.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-27-kv-caching-optimizations-token-level/sparse-attention-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;A simplified view of a cache selection strategy. In this case, the KV cache tends to have its highest values clustered near the diagonal (because most tokens refer to other tokens that are relatively close), so most of the lower-left side of the matrix can be safely assumed to be zero. That reduces drastically the number of values to store.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The researches identified two main cache selection strategies:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Static KV cache selection&lt;/strong&gt;. In this family of optimizations, the KV cache compression only happens during the first decoding pass (when most of the prompt is loaded in the LLM state, also called &lt;strong&gt;prefill phase&lt;/strong&gt;) and remain fixed during all subsequent decoding steps, with no more compressions as the inference proceeds.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dynamic KV cache selection&lt;/strong&gt;, which continuously updates and compresses the KV cache during all inference passes, enabling adaptive cache management. In dynamic KV cache selection, KV cache tokens that are not selected may be either permanently evicted or offloaded to hierarchical caching devices such as CPU memory. While more efficient in terms of memory usage, real-time KV cache selection during decoding may incur substantial computational overhead, which is usually the focus of any new technique developed in this space.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The tradeoff between static and dynamic KV cache selection is again one of &lt;strong&gt;latency versus efficiency&lt;/strong&gt;, or time vs space usage. Static KV cache selection is faster and slightly less efficient; dynamic KV cache compression is more efficient in terms of memory usage but has a sensible impact on inference speed and may cause issues due to excessive compression, throwing away or putting in cold caches token pairs that are actually relevant. A clear consensus about where the sweet spot lays hasn't been found yet, and it's mostly still open to investigation.&lt;/p&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.4.1" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;KV Cache Budget Allocation&lt;/h3&gt;
+&lt;p&gt;LLMs are hierarchical, with several layers within layers of computations. Each of these layers is identical in structure, but during training the weights that they learn make some of these layers more important than others and more impactful on the output's quality.&lt;/p&gt;
+&lt;p&gt;This means that not all of these steps should be compressed equally. If we could identify which layers are more impactful we could reduce the compression of the KV cache for these layers and increase it for the others. In this way the effects of compression on the output quality would be minimized.&lt;/p&gt;
+&lt;p&gt;Budget allocation strategies tend either of these granularity levels:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Layer-wise budget allocation&lt;/strong&gt;, which assigns different compression ratios across the model's decoding layers&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Head-wise budget allocation&lt;/strong&gt;, which enables precise memory distribution across individual attention heads within each layer.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Despite recent advances and growing attention in this subset of techniques, there are still big question marks about how to distribute this computing budget in an effective way. For instance, a notable discrepancy exists between pyramid-shaped allocation strategies that advocate larger budgets for lower layers, and retrieval head-based studies, which demonstrate that lower layers rarely exhibit retrieval head characteristics and thus require minimal cache resources. On top of this, there is a lack of comprehensive experimental comparisons, such as the compatibility and performance benefits of head-wise budget allocation strategies with state-of-the-art frameworks like vLLM.&lt;/p&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.4.2" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;KV Cache Merging&lt;/h3&gt;
+&lt;p&gt;The idea behind KV cache merging is to compress or consolidate separate KV caches into a single one without significantly degrading model accuracy. This stems from the observation that the various layers and attention heads often shows redundant patterns that could be merged into one single representation to improve compression.&lt;/p&gt;
+&lt;p&gt;Just like with the budget allocation techniques, KV cache merging strategies can be categorized into two primary approaches:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Intra-layer merging&lt;/strong&gt;, which focuses on consolidating KV caches within individual layers to reduce memory usage per layer&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cross-layer merging&lt;/strong&gt;, which targets redundancy across layers to eliminate unnecessary duplication. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In general, KV cache merging can be very effective at optimizing memory utilization in LLMs by consolidating KV caches while maintaining high model accuracy, and it's an active research direction that could provide more results in the near future by addressing narrower niches such as fine-tuning and adaptive merging strategies.&lt;/p&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.4.3" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;KV Cache Quantization&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-27-kv-caching-optimizations-token-level/quantization-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;A simplified example of cache quantization. Reducing the precision of the values from float to int8 can drastically reduce the memory needs of the cache and accelerate inference.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Quantization techniques aim to convert full-precision values into integers, reducing computational and storage requirements. Quantization has also been used on other aspects of the LLM inference and training processes, such as with model parameters and data features quantization. KV cache quantization works in a similar way: by reducing the precision of numerical representations (e.g., from FP32 to INT8 or INT4) we can drastically compress the size of the KV cache and achieve up to 4x or more memory savings with respect to the full-precision floating point representation.&lt;/p&gt;
+&lt;p&gt;One of the main challenges of KV cache quantization is the presence of outliers, especially when quantizing to a very low-bit representation. These extreme values, when reduced to a smaller magnitude, can lead to a substantial performance degradation. &lt;/p&gt;
+&lt;p&gt;Depending on how they address this issue, quantization techniques can be grouped into three types:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Fixed-precision quantization&lt;/strong&gt;, where all Keys and Values are quantized to the same bit-width.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mixed-precision quantization&lt;/strong&gt;, which assigns higher precision to critical parts of the cache while using lower precision for less important components.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outlier redistribution&lt;/strong&gt;, which redistributes or smooths the outliers in Keys and Values to improve quantization quality. Some approaches to outliers redistribution include redistributing the outliers into newly appended virtual tokens or applying equivalent transformation functions to smooth the keys and values for improved quantization accuracy. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.4.4" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;KV Cache Low-rank Decomposition&lt;/h3&gt;
+&lt;p&gt;Existing studies have demonstrated that the majority of information within KV caches can be captured by a small subset of their singular elements or sub-matrices with a smaller dimension, called &lt;strong&gt;low-rank components&lt;/strong&gt;. Decomposing the matrix into low-rank components can effectively reduce memory requirements while preserving output quality by "picking out" the components of the KV matrix that matter the most and throwing out the rest.&lt;/p&gt;
+&lt;p&gt;Currently there are three main ways to perform low-rank decomposition of the cached KV matrix:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Singular Value Decomposition (SVD)&lt;/strong&gt;: retains the most critical singular values.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tensor Decomposition&lt;/strong&gt;: factorizes KV matrices into smaller matrices/tensors.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Learned Low-rank Approximation&lt;/strong&gt;: adaptive mechanisms to optimize compression based on learned low-rank representations. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Current methods primarily rely on fixed low-rank approximations applied uniformly across all layers or tokens, but future advancements could focus on dynamic rank adjustment, where the rank is tailored based on token importance, sequence length, or layer-specific properties.&lt;/p&gt;
+&lt;p&gt;For a more detailed description of each technique, check out &lt;a href="https://arxiv.org/pdf/2412.19442#subsection.4.5" target="_blank" rel="noopener noreferrer"&gt;the survey&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;This was just a brief overview of the various techniques that have been tested to compress the KV cache, but the exploration of the space between highest accuracy, fastest inference and strongest compression is far from complete. Most of these techniques optimize for just one or two of these properties, with no clear winner that beats them all. Expect a lot more experimentation in this field in the months and years to come.&lt;/p&gt;
+&lt;p&gt;On the other hand, these are only compression techniques that apply at the token-level, without any support from the model architecture. For model-level approaches to the problem, check out the next post, where we continue exploring the survey to see how the basic architecture of the Transformer's decoding layer can be optimized to reduce the amount of values to cache in the first place.&lt;/p&gt;
+&lt;p&gt;In the next post we're going to address &lt;a href="/posts/2025-10-28-kv-caching-optimizations-model-level"&gt;model-level&lt;/a&gt; optimizations. Stay tuned!&lt;/p&gt;</description></item><item><title>Making sense of KV Cache optimizations, Ep. 1: An overview</title><link>https://www.zansara.dev/posts/2025-10-26-kv-caching-optimizations-intro/</link><pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-10-26-kv-caching-optimizations-intro/</guid><description>&lt;p&gt;The &lt;a href="/posts/2025-10-23-kv-caching/"&gt;KV cache&lt;/a&gt; is an essential mechanism to avoid the quadratic time complexity of LLM inference and make modern LLMs usable despite huge parameters count and context lengths. However, simply caching everything indiscriminately is not a successful strategy. By swapping time for space complexity, now our problem is &lt;strong&gt;GPU memory&lt;/strong&gt;. Adding more memory can only bring you so far: at some point, you're going to need much more efficient ways to decide what to cache, when and how. But classic cache management techniques were not designed for LLMs, and they often fall short.&lt;/p&gt;
+&lt;p&gt;With time, a veritable zoo of optimization strategies arose to get around this problem, and making sense of which optimizations can be applied to which model can be a challenge in itself. Fortunately a  &lt;a href="https://arxiv.org/abs/2412.19442" target="_blank" rel="noopener noreferrer"&gt;very comprehensive survey&lt;/a&gt; on KV caching recently collected all techniques that make up the state of the art in this field, giving practitioners a handy starting point to understand this field. The amount of techniques reviewed is staggering, so we're going to need more than one post to go through the most interesting approaches and compare them.&lt;/p&gt;
+&lt;p&gt;For now, let's see how we can start to make sense of things.&lt;/p&gt;
+&lt;h2&gt;The challenges&lt;/h2&gt;
+&lt;p&gt;Most of the techniques we're going to see address one or more of these issues.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cache Eviction&lt;/strong&gt;: Determining which items to evict when the cache reaches its capacity. Popular policies like Least Recently Used (LRU) or Least Frequently Used (LFU) do not always align with LLM usage patterns, leading to suboptimal performance.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Memory Management&lt;/strong&gt;: The memory required for the KV cache grows linearly with both the input length and the number of layers, which can quickly exceed the hardware memory limits. It's possible to overcome such limits by distributing the storage of this cache across different types of storage hardware (e.g., GPU, CPU or external memory), but this brings its own set of challenges.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Latency&lt;/strong&gt;: Accessing and updating the cache at each decoding step can introduce latency.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Compression&lt;/strong&gt;: Compressing the KV cache can reduce memory usage but may degrade model performance if key information is lost.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dynamic Workloads&lt;/strong&gt;: Handling dynamic and unpredictable workloads, where access patterns and data requirements frequently change, requires adaptive caching strategies that can respond in real time.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Distributed Coordination&lt;/strong&gt;: In distributed KV caches, maintaining coordination across multiple nodes to ensure consistency, fault tolerance, and efficient resource usage adds significant complexity.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;A taxonomy&lt;/h2&gt;
+&lt;p&gt;In order to make sense of the vast amount of known techniques, the authors categorized them into a comprehensive taxonomy.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-26-kv-caching-optimizations-intro/taxonomy-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href="https://arxiv.org/pdf/2412.19442#figure.2" target="_blank" rel="noopener noreferrer"&gt;Source&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;It starts with three major categories: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Token-Level Optimization&lt;/strong&gt;: improving KV cache management efficiency by focusing on the fine-grained selection, organization, and compression at the token level. These techniques can be applied to any model, as they require no architectural changes.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Model-level Optimization&lt;/strong&gt;: designing an efficient model structure to optimize KV cache management. These optimizations are strictly model-dependent, because they're backed into the model's architecture.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;System-level Optimization&lt;/strong&gt;: optimizing the KV Cache management through techniques closer to the OS and/or the hardware. These techniques may require specialized hardware to implement, so they're not at everyone's reach.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Token-Level Optimizations&lt;/h2&gt;
+&lt;p&gt;Token-level optimizations are the most readily accessible to most developers, as they require no dedicated support from the LLM and no specialized hardware. Therefore, these are usually the most interesting. In this category we find:&lt;br /&gt;
+- &lt;strong&gt;KV cache selection&lt;/strong&gt;: focuses on prioritizing and storing only the most relevant tokens.&lt;br /&gt;
+- &lt;strong&gt;KV cache budget allocation&lt;/strong&gt;: dynamically distributes memory resources across tokens to ensure efficient cache utilization under limited memory. &lt;br /&gt;
+- &lt;strong&gt;KV cache merging&lt;/strong&gt;: reduces redundancy by combining similar or overlapping KV pairs.&lt;br /&gt;
+- &lt;strong&gt;KV cache quantization&lt;/strong&gt;: minimizes the memory footprint by reducing the precision of cached KV pairs. &lt;br /&gt;
+- &lt;strong&gt;KV cache low-rank decomposition&lt;/strong&gt;: uses low-rank decomposition techniques to reduce cache size.   &lt;/p&gt;
+&lt;h2&gt;Model-Level Optimizations&lt;/h2&gt;
+&lt;p&gt;Model-level optimizations, as the name says, are baked into the model's architecture and therefore are either not applicable or always present in the models you're running. These optimizations are usually interesting for people that design their own model architecture and train them, rather than developers that work with off-the-shelf models. In this category we find:&lt;br /&gt;
+- &lt;strong&gt;Attention grouping and sharing methods&lt;/strong&gt;: examine the redundant functionality of keys and values and group and share KV cache within or across transformer layers. &lt;br /&gt;
+- &lt;strong&gt;Architecture alterations&lt;/strong&gt;: emerge to design new attention mechanisms or construct extrinsic modules for KV optimization. &lt;br /&gt;
+- &lt;strong&gt;Non-transformer architectures&lt;/strong&gt;: architectures that adopt other memory-efficient designs like recurrent neural networks to optimize the KV cache in traditional transformers.    &lt;/p&gt;
+&lt;h2&gt;System-level Optimizations&lt;/h2&gt;
+&lt;p&gt;These optimizations work across the stack to provide the best possible support to the LLM's inference, and they're sometimes baked into the inference engine, such as vLLM's PagedAttention. They occasionally require dedicated hardware and OS optimizations, so they're not always readily available for everyday experimentation. They include:&lt;br /&gt;
+- &lt;strong&gt;Memory management&lt;/strong&gt;: focuses on architectural innovations like virtual memory adaptation, intelligent prefix sharing, and layer-aware resource allocation.&lt;br /&gt;
+- &lt;strong&gt;Scheduling&lt;/strong&gt;: addresses diverse optimization goals through prefix-aware methods for maximizing cache reuse, preemptive techniques for fair context switching, and layer-specific mechanisms for fine-grained cache control.&lt;br /&gt;
+- &lt;strong&gt;Hardware acceleration&lt;/strong&gt;: including single/multi-GPU, I/O-based solutions, heterogeneous computing and SSD-based solutions.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;KV cache optimization is still an open research area, with new techniques and improvements being published regularly. A good overview of what types of optimizations exist can help you make sense of the zoo of acronyms and claims being made about them, and give you the foundations you need to understand if a particular technique is relevant for your situation. Stay tuned for the &lt;a href="/posts/2025-10-27-kv-caching-optimizations-token-level"&gt;next posts&lt;/a&gt;, where we will dive deeper into each of these categories.&lt;/p&gt;</description></item><item><title>How does prompt caching work?</title><link>https://www.zansara.dev/posts/2025-10-23-kv-caching/</link><pubDate>Thu, 23 Oct 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-10-23-kv-caching/</guid><description>&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;This is episode 3 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href="/series/practical-questions"&gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;In the previous post we saw what is prompt caching, what parts of the prompts is useful to cache, and explained at a high level why it's so effective. In this post I want to go one step further and explain &lt;em&gt;how&lt;/em&gt; in practice inference engines cache prompt prefixes. How can you take a complex system like an LLM, cache some of its computations mid-prompt, and reload them?&lt;/p&gt;
+&lt;p&gt;Let's find out.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Disclaimer: to avoid overly complex and specific diagrams, the size of the vector and matrices shown is not accurate neither in size nor in shape. Check the links at the bottom of the post for more detailed resources with more accurate diagrams.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;LLMs are autoregressive&lt;/h2&gt;
+&lt;p&gt;Large Language Models are built on the Transformer architecture: a neural network design that excels at processing sequence data. Explaining the whole structure of a Transformer goes beyond the scope of this small post: if you're interested in the details, head to this &lt;a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener noreferrer"&gt;amazing writeup&lt;/a&gt; by Jay Alammar about Transformers, or &lt;a href="https://jalammar.github.io/illustrated-gpt2/" target="_blank" rel="noopener noreferrer"&gt;this one about GPT-2&lt;/a&gt; if you're familiar with Transformers but you want to learn more about the decoder-only architecture (which includes all current LLMs).&lt;/p&gt;
+&lt;p&gt;The point that interests us is that according to the original implementation, during inference the LLM generate text one token at a time in an &lt;em&gt;autoregressive&lt;/em&gt; fashion, meaning each new token is predicted based on &lt;strong&gt;all&lt;/strong&gt; previously generated tokens. After producing (or "decoding") a token, that token is appended to the input sequence and the model computes everything all over again to generate the next one. This loop continues until a stopping condition is reached (such as an end-of-sequence token or a length limit).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/auto-regression-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;In an autoregressive system, the output is generated token by token by appending the previous pass' output to its input and recomputing everything again. Starting from the token "This", the LLM produces "is" as output. Then the output is concatenated to the input in the string "This is", which is fed again to the LLM to produce "a", and so on until an [END] token is generated. That halts the loop.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This iterative process is very computationally expensive (quadratic time complexity in the number of tokens, so O(n^2) where n is the number of tokens), and the impact is felt especially for long sequences, because each step must account for an ever-growing history of generated tokens.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/auto-regression-2-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Simplified view of the increasing computation load. At each pass, the increasing length of the input sentence translated into larger matrices to be handled during inference, where each row corresponds to one input token. This means more computations and, in turn, slower inference.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;However, there seems to be an evident chance for optimization here. If we could store the internal state of the LLM after each token's generation and reuse it at the next step, we could save a lot of repeated computations.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/auto-regression-cached-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;If we could somehow reuse part of the computations we did during earlier passes and only process new information as it arrives, not only the computation speed will increase dramatically, but it will stay constant during the process instead of slowing down as more tokens are generated.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This is not only true during a single request (because we won't be recomputing the whole state from the start of the message for every new token we're generating), but also across requests in the same chat (by storing the state at the end of the last assistant token) and across different chats as well (by storing the state of shared prefixes such as system prompts).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/prefix-caching-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example of prefix caching in different scenarios (gray text is caches, black is processed). By caching the system prompt, its cache can be reused with every new chat. By also caching by longest prefix, the prompts may occasionally match across chats, although it depends heavily on your applications. In any case, caching the chat as it progresses keeps the number of new tokens to process during the chat to one, making inference much faster.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;But how can it be done? What exactly do we need to cache? To understand this we need to go one step deeper.&lt;/p&gt;
+&lt;h2&gt;The inference process&lt;/h2&gt;
+&lt;p&gt;At a high level, the inference process of a modern decoder-only Transformer such as a GPT works as follows.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tokenization&lt;/strong&gt;: The chat history is broken down into tokens by a tokenizer. This is a fast, deterministic process that transforms a single string into a list of sub-word fragments (the tokens) plus a bunch of signalling tokens (to delimit messages, to signal the end of the message, to distinguish different types of input or output tokens such as thinking tokens, function calls, system prompts, etc)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Embedding&lt;/strong&gt;: the tokenized text passes through an embedding step, where each token is translated into an embedding (a 1-dimensional vector) using a lookup table. At this point, our input text has become a matrix of values with as many rows as tokens, and a fixed number of columns that depends on the LLM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Decoding&lt;/strong&gt;: this matrix is passed through a series of 12 identical decoding steps. Each of these blocks outputs a matrix of the same shape and size of the original one, but with updated contents. These steps are "reading" the prompt and accumulating information to select the next best token to generate.that is passed as input to the next step&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Output&lt;/strong&gt;: After the last decoding step, a final linear output layer projects the matrix into an output vector. Its values are multiplied by the lookup table we used during the embedding step: this way we obtain a list of values that represents the probability of each token to be the "correct" next token.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sampling&lt;/strong&gt;: From this list, one of the top-k best tokens is selected as the next token, gets added to the chat history, and the loop restarts.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;End token&lt;/strong&gt;: the decoding stops when the LLM picks an END token or some other condition is met (for example, max output length).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/llm-inference-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Simplified representation of the inference steps needed for an LLM to generate each output token. The most complex by far is the decoding step, which we are going to analyze in more detail.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;As you can see from this breakdown, the LLM computes its internal representation of the chat history through its decoding steps, and recomputes such representation for all tokens every time we want to generate a new one. So let's zoom in even more and check what's going on inside these decoding steps.&lt;/p&gt;
+&lt;h2&gt;The decoding step&lt;/h2&gt;
+&lt;p&gt;LLMs may have a variable number of decoding steps (although it's often 12), but they are all identical, except for the weights they contain. This means that we can look into one and then keep in mind that the same identical process is repeated several times.&lt;/p&gt;
+&lt;p&gt;Each decoding step contains two parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a multi-headed, masked self-attention layer&lt;/li&gt;
+&lt;li&gt;a feed-forward layer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The first layer, the multi headed masked self attention, sound quite complicated. To make things easier, let's break it down into smaller concepts.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Attention&lt;/strong&gt; is the foundation of the Transformers' incredible text understanding skills and can be roughly summarized as a technique that shows the model which tokens are the most relevant to the token we're processing right now.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Self attention&lt;/strong&gt; means that the tokens we're looking at belong to the same sentence we're processing (which is not the case, for example, during translation tasks where we have a source sentence and a translation).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Masked self attention&lt;/strong&gt; means that we're only looking at tokens that precede the one we're processing (which is not the case, for example, in encoder models such as BERT that encode the whole sentence at once).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Multi-headed&lt;/strong&gt; attention means that the same operation is performed several times with slightly different parameters. Each set of parameters is called an &lt;strong&gt;attention head&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;To understand what attention does, let's take the sentence "I like apples because they're sweet". When processing the token "they", the masked self-attention layer will give a high score to "apples", because that's what "they" refers to. Keep in mind that "sweet" will not be considered while processing "they", because masked self-attention only includes tokens that precede the token in question.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/masked-self-attention-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;A simplified visualization of a masked self-attention head. For each token, the attention calculations will assign a score to each preceding token. The score will be higher for all preceding tokens that have something to do with the current one, highlighting semantic relationships.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;The Q/K/V Matrices&lt;/h2&gt;
+&lt;p&gt;Let's now look at how is this score calculated. Self-attention is implemented as a series of matrix multiplications that involves three matrices.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Q (Query matrix)&lt;/strong&gt;: The query is a representation of the tokens we are "paying attention to" (for example, "they". In practice all tokens will be computed at the same time, so we will be dealing with a Q matrix).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;K (Key matrix)&lt;/strong&gt;: Key vectors are like labels for all the other preceding tokens in the input. They’re what we match against in our search for relevant tokens (for example "I", "like", "apples", etc ). Each token will only see the keys of tokens that precede it, so the query of "they" will not be multiplied with the key for "sweet".&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;V (Value matrix)&lt;/strong&gt;: Value vectors are actual token representations. Once we’ve scored how relevant each token is, these are the values we add up to represent the token we're paying attention to. In our example, this means that the vector for "they" will be computed as a weighted average of all the previous tokens ("I", "like", "apples", "because"), but "apples" will be weighted much higher than any other, so the end result for the token "they" will be very close to the value vector for "apples".&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These Q/K/V matrices are computed by multiplying the input of the decoding layer by three matrices (Wq, Wk and Wv) whose values are computed during training and constitute many of the LLM's parameters. These three matrices are addressed together as an attention head, as we mentioned earlier. Modern LLMs usually include several attention heads for each step, so you'll have several different matrices in each decoding step (and that's why they're said to use multi-headed attention).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/Q-K-V-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Simplified view of the Q/K/V matrices in a single self-attention head. The matrices go through a few more steps (softmax, regularization etc) which are not depicted here&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;This process of computing the output vector for each token is called &lt;em&gt;scaled dot-product attention&lt;/em&gt; and, as we mentioned earlier, happens in every attention head of every decoding step. In summary, &lt;strong&gt;keys (K)&lt;/strong&gt; and &lt;strong&gt;values (V)&lt;/strong&gt; are the transformed representations of each preceding token that are used to compute attention, and they enable each token to gather information from the rest of the sequence by matching queries to keys and aggregating values.&lt;/p&gt;
+&lt;p&gt;Let's pay close attention to these computations. We know that LLMs generate output one token at a time. This means that the LLM will recompute the K-V values for the tokens of the prompt over and over again for each new output token it generates. If you have already generated, say, 100 tokens of output, producing the 101st token requires recomputing a forward pass over all 100 tokens. A naive implementation would repeatedly recalculate a lot of the same intermediate results for the older tokens at every step of generation.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/KV-caching-no-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Detail of the Q/K multiplication. As you can see, the content of the QK matrix is essentially the same at all steps, except for the last row. This means that as soon as we accumulate a few input tokens, most of the QK matrix will be nearly identical every time. Something very similar happens for the final QKV matrix.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;By the third generation step (three tokens in context), the model computes six attention scores (a 3×3 / 2 matrix); many of these correspond to interactions that were already computed in earlier steps. For example, the attention of token "I" with itself was computed in the first step, yet the naive approach computes it again when processing the sequence "I like" and "I like apples" and so on. In fact, by the time the sentence is complete, the majority of the query-key pairs being calculated are repeats of prior computations. This redundancy makes inference much slower as the sequence length grows: the model wastes time recalculating attention contributions for tokens that haven’t changed.&lt;/p&gt;
+&lt;p&gt;Clearly we want to avoid recomputing things like the key and value vectors for past tokens at every step. That’s exactly what &lt;strong&gt;KV caching&lt;/strong&gt; achieves.&lt;/p&gt;
+&lt;h2&gt;The KV Cache&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;KV caching&lt;/strong&gt; is an optimization that saves the key and value tensors from previous tokens so that the model doesn’t need to recompute them for each new token. The idea is straightforward: as the model generates tokens one by one, we store the keys and values produced at each layer for each token in a cache (which is just a reserved chunk of memory, typically in GPU RAM for speed). When the model is about to generate the next token, instead of recomputing all keys and values from scratch for the entire sequence, it retrieves the already-computed keys and values for the past tokens from this cache, and only computes the new token’s keys and values. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-23-kv-caching/KV-caching-yes-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Computing the QK matrix by reusing the results of earlier passes makes the number of calculations needed at each step nearly linear, speeding up inference several times and preventing slowdowns related to the input size.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In essence, with KV caching the transformer's attention in each layer will take the new token’s query and concatenate it with the cached keys of prior tokens, then do the same for values, and move on immediately. The result is that each generation step’s workload is greatly reduced: the model focuses on what’s new instead of re-hashing the entire context every time.&lt;/p&gt;
+&lt;h2&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;Modern libraries implement KV caching under the hood by carrying a “past key values” or similar object through successive generation calls. For example, the Hugging Face Transformers library’s &lt;code&gt;generate&lt;/code&gt; function uses a &lt;code&gt;use_cache&lt;/code&gt; flag that is True by default, meaning it will automatically store and reuse past keys/values between decoding steps. Conceptually, you can imagine that after the first forward pass on the prompt, the model keeps all the K and V tensors. When generating the next token, it feeds only the new token through each layer along with the cached K and V from previous tokens, to compute the next output efficiently.&lt;/p&gt;
+&lt;p&gt;In summary, KV caching transforms the workload of each generation step. Without caching, each step &lt;em&gt;repeats&lt;/em&gt; the full attention computation over the entire context. With caching, each step adds only the computations for the new token and the necessary interactions with prior tokens. This makes the per-step cost roughly constant. The longer the generation goes on, the more time is saved relative to the naive approach. KV caching is thus a &lt;strong&gt;time-memory trade-off&lt;/strong&gt;: we trade some memory to store the cache in order to save a lot of compute time on each step.&lt;/p&gt;
+&lt;h2&gt;Limitations&lt;/h2&gt;
+&lt;p&gt;It’s important to note that KV caching only applies in &lt;em&gt;auto-regressive decoder&lt;/em&gt; models (where the output is generated sequentially). Models like BERT that process entire sequences in one go (and are not generative) do not use KV caching, since they don’t generate token-by-token or reuse past internal states. But for any generative LLM built on a decoder-only Transformer architecture, KV caching is a standard technique to speed up inference. &lt;/p&gt;
+&lt;p&gt;It's worth noting that the KV cache needs to be managed just like every other type of cache. We're going to analyze some ways to handle this cache effectively in another post.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The takeaway is clear: &lt;strong&gt;always leverage KV caching for autoregressive LLM inference&lt;/strong&gt; (and practically all libraries do this for you) unless you have a very specific reason not to. It will make your LLM deployments run faster and more efficiently. &lt;/p&gt;
+&lt;p&gt;KV caching exemplifies how understanding the internals of transformer models can lead to substantial engineering improvements. By recognizing that keys and values of the attention mechanism can be reused across time steps, we unlock a simple yet powerful optimization. This ensures that even as our LLMs get larger and our prompts get longer, we can keep inference running quickly, delivering the snappy responses users expect from AI-driven applications.&lt;/p&gt;
+&lt;h2&gt;Learn more&lt;/h2&gt;
+&lt;p&gt;Here are some useful resources I used to write this post:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener noreferrer"&gt;The Illustrated Transformer&lt;/a&gt; by Jay Alammar&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://jalammar.github.io/illustrated-gpt2/" target="_blank" rel="noopener noreferrer"&gt;The illustrated GPT-2&lt;/a&gt; by Jay Alammar&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://platform.openai.com/docs/guides/latency-optimization/3-use-fewer-input-tokens#use-fewer-input-tokens" target="_blank" rel="noopener noreferrer"&gt;Latency optimization tips&lt;/a&gt; by OpenAI&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener noreferrer"&gt;KV Caching explained&lt;/a&gt; by João Lages&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://neptune.ai/blog/transformers-key-value-caching" target="_blank" rel="noopener noreferrer"&gt;KV Caching&lt;/a&gt; by Neptune.ai&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.manning.com/books/build-a-large-language-model-from-scratch" target="_blank" rel="noopener noreferrer"&gt;Build a Large Language Model (from scratch)&lt;/a&gt; by Sebastian Raschka&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>What is prompt caching?</title><link>https://www.zansara.dev/posts/2025-10-17-prompt-caching/</link><pubDate>Fri, 17 Oct 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-10-17-prompt-caching/</guid><description>&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;This is episode 2 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href="/series/practical-questions"&gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;A common piece of advice to improve speed and reduce cost of inference in LLMs is to use prompt caching. However, it's often not clear what this means. What exactly is cached? When and why the improvements are really impactful? Understanding prompt caching starts with a deeper awareness of how computation and costs scale with large contexts.&lt;/p&gt;
+&lt;h2&gt;LLMS are stateless&lt;/h2&gt;
+&lt;p&gt;Each time an LLM processes input, it handles every token of the provided context. LLMs are stateless: this means that for every new message added to an existing chat, your application needs to submit the whole history which could include system prompts, documents, examples, and all the chat history. &lt;br /&gt;
+The model recomputes all of those tokens each time. &lt;/p&gt;
+&lt;p&gt;This is a massive inefficiency. For example, with an input cost around $1 per 1 million tokens, sending 100,000 tokens across 1,000 requests would cost approximately $100, while about 95% of those tokens remain unchanged across requests. In essence, a large portion of computation is wasted on repeatedly processing information that never changes: the message history.&lt;/p&gt;
+&lt;h2&gt;Stateless vs stateful design&lt;/h2&gt;
+&lt;p&gt;Naive API implementations that omit caching force the model to process the entire context anew each time. This "stateless" method is simpler to implement, but wastefully expensive. The system pays repeatedly to recompute static context, which could otherwise be reused.&lt;/p&gt;
+&lt;p&gt;In contrast, with a stateful cache strategy, the system stores parts of the context and only processes new inputs (queries). Consider the following case:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the system prompt is 10,000 tokens long &lt;/li&gt;
+&lt;li&gt;each user message is about 100 tokens&lt;/li&gt;
+&lt;li&gt;each assistant response is about 1000 tokens&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In both cases, the first request processes 10,100 tokens (1 system prompt + 1 user message). On the second message, a stateless request (no caching) needs to process 11,200 tokens (1 system prompt + first user message + first assistant response + the next user message) while a stateful one can first load the cache and then process only 1100 new tokens (the assistant response + the new user message). That's an order of magnitude less tokens!&lt;br /&gt;
+On top of that, as the chat continues, a stateful app will always need to only process the next new 1100 tokens, while the stateless version will process a chat history that grows by 1100 every time. For example, by the 10th request, with caching you need to process 1100 tokens, while without you need to deal with 20,000! (10,000 system prompt tokens + 9,000 assistant reply tokens + 1000 user message tokens).&lt;/p&gt;
+&lt;p&gt;Here's a recap to highlight the difference:&lt;/p&gt;
+&lt;div style="text-align: center;"&gt;
+
+&lt;table style="width:100%; border: 2px solid black;"&gt;
+&lt;tr&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;No Prompt Caching&lt;/th&gt;
+    &lt;th&gt;With Prompt Caching&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;1st request&lt;/td&gt;
+    &lt;td&gt;10,100 tokens&lt;br&gt;&lt;small&gt;10,000tk sys + 100tk user&lt;/small&gt;&lt;/td&gt;
+    &lt;td&gt;10,100 tokens&lt;br&gt;&lt;small&gt;10,000tk sys + 100tk user&lt;/small&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;2nd request&lt;/td&gt;
+    &lt;td&gt;11,200 tokens&lt;br&gt;&lt;small&gt;10,000tk sys + 1000tk llm + (100 * 2) tk user&lt;/small&gt;&lt;/td&gt;
+    &lt;td&gt;1100 tokens&lt;br&gt;&lt;small&gt;1000tk llm + 100tk user&lt;/small&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;...&lt;/td&gt;
+    &lt;td&gt;...&lt;/td&gt;
+    &lt;td&gt;...&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;10th request&lt;/td&gt;
+    &lt;td&gt;20,000 tokens&lt;br&gt;&lt;small&gt;10,000tk sys + (1000 * 9)tk llm + (100 * 10) tk user&lt;/small&gt;&lt;/td&gt;
+    &lt;td&gt;1100 tokens&lt;br&gt;&lt;small&gt;1000tk llm + 100tk user&lt;/small&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;While cache warm-up is not free, it can make a huge difference in the latency of your responses and, if you're paying by the output token, reduce the costs by orders of magnitude.&lt;/p&gt;
+&lt;h2&gt;Cache Hierarchies&lt;/h2&gt;
+&lt;p&gt;Caching’s benefits come with architectural tradeoffs. Stateless designs are straightforward and predictably expensive: every token is always processed. Caching drastically reduces costs by reusing prior computation, but requires complexity in cache management, such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cache invalidation: deciding how and when to refresh cached segments.&lt;/li&gt;
+&lt;li&gt;Cache misses: when requested information isn’t in the cache, leading to full recomputation and latency spikes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Because of these challenges, a single monolithic cache usually not enough to see many benefits. The most effective solution is a &lt;strong&gt;hierarchical cache strategy&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Effective prompt caching leverages multiple layers with varied lifetimes and hit rates:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;L1: System Prompt (e.g., 5,000 tokens)&lt;/strong&gt;: it rarely changes, so it has the best hit rate. In most chat you'll at least hit this cache.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;L2: System Prompt + Examples and Tools (e.g., +20,000 tokens)&lt;/strong&gt;: may change per task, so it can has a lower hit rate than the system prompt, but eventually it depends completely on your application type. Agentic apps that make heavy use of tools benefit the most from caching them, as they follow the system prompt and might not depend at all from the user query or the agent's decisions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;L3: System Prompt + Examples and Tools + Documents (e.g., +50,000 tokens)&lt;/strong&gt;: if you're working with documents, caching any initial retrieval can help too. These documents are likely to change per user and/or per session, so it has a moderate/low hit rate. However, the size of these chunks usually makes it worth it if you have some spare capacity or a small and static knowledge base to retrieve from.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A layered approach like balances freshness and reuse, optimizing both cost and performance.&lt;/p&gt;
+&lt;h2&gt;Automatic prefix caching&lt;/h2&gt;
+&lt;p&gt;If you're using a modern inference engine, prompt caching can also be done through &lt;strong&gt;automatic prefix caching&lt;/strong&gt;, where the engine itself takes the responsibility to identify and cache frequently used prefixes. Here you can find more details about the availability of this feature in &lt;a href="https://docs.vllm.ai/en/latest/design/prefix_caching.html" target="_blank" rel="noopener noreferrer"&gt;vLLM&lt;/a&gt;, &lt;a href="https://docs.sglang.ai/advanced_features/hicache_best_practices.html" target="_blank" rel="noopener noreferrer"&gt;SDLang&lt;/a&gt; and &lt;a href="https://github.com/ggml-org/llama.cpp/discussions/8947" target="_blank" rel="noopener noreferrer"&gt;llama.cpp&lt;/a&gt;, but there are many other engines supporting it.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-17-prompt-caching/optimizations_table-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;A feature comparison across inference engines from &lt;a href="https://arxiv.org/pdf/2505.01658" target="_blank" rel="noopener noreferrer"&gt;this May 2025 review&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Semantic caching&lt;/h2&gt;
+&lt;p&gt;In extreme cases where cost, load or latency must be reduced to the maximum, semantic caching can also be employed. Semantic caching allows you to cache also the user queries and the assistant responses by keeping a registry of already processes user queries and performing a semantic search step between the new query and the cached ones. If a match is found, instead of invoking the LLM to generate a new answer, the cached reply is sent to the user immediately.&lt;/p&gt;
+&lt;p&gt;Semantic caching however has several disadvantages that makes it worthwhile only in rare situations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Access control&lt;/strong&gt;. Caching must be done per user if each user has access to a different set of resources, to avoid accidental sharing of data and/or resources across users. &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Very high similarity needed&lt;/strong&gt;: In order for the reply to be relevant, the semantic similarity between the two must be extremely high, or you risk that the answer returned to the user won't match their question. Semantic similarity tends to overlook details which are often very important to an accurate reply: for example, "What's the sum of these numbers: 1,2,3,4,5,6,7?" and  "What's the sum of these numbers: 1,2,3,4,5,6,7,8?" will have an extremely high similarity, but returning the response of the first to the second would not be a good idea.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Language management&lt;/strong&gt;: what to do when the exact same question is asked in two different languages? Semantic similarity may be perfect if your embedder is multilingual, but the user won't be pleased to receive a cached answer in a language different from their own.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Such constraints make cache misses extremely frequent, which defies the point of keeping a cache and simply adds complexity and latency to the system instead of reducing it. The similarity pitfalls introduces also nasty accuracy problems.&lt;/p&gt;
+&lt;p&gt;In my personal experience, semantic caching is only useful for extremely high volume, low cost, public facing interfaces where accuracy is not critical. A perfect example could be a virtual assistant for anonymous customer support, or a helper bot for a software's documentation search. In any case, you usually need additional checks on the output in order to trust such a system.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Prompt caching is not just about cutting costs or speeding things up: it is a necessary architectural approach that addresses the quadratic computational cost inherent in large-context LLM processing. Without it, your backend will repeatedly recompute largely static information, wasting resources and imposing latency penalties that impact your user's experience. By adopting hierarchical, stateful caching and carefully designing prompts, you can reduce token processing costs and response speed by orders of magnitude, which is key for building sustainable, high-performance applications.&lt;/p&gt;
+&lt;p&gt;In the next post we will talk in detail about &lt;a href="/posts/2025-10-23-kv-caching/"&gt;how prompt caching works&lt;/a&gt;. Be ready for a more technical deep dive into the architecture of LLMs!&lt;/p&gt;</description></item><item><title>Why using a reranker?</title><link>https://www.zansara.dev/posts/2025-10-09-rerankers/</link><pubDate>Thu, 09 Oct 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-10-09-rerankers/</guid><description>&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;This is episode 1 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: &lt;a href="/series/practical-questions"&gt;Practical Questions&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;Retrieval-Augmented Generation (RAG) systems are essential to connect large language models  with external knowledge sources. While in theory the retrieval step is enough to gather documents that are relevant to the user's request, it's often recommended to add an additional ranking step, the &lt;em&gt;reranking&lt;/em&gt;, to further filter the results.&lt;/p&gt;
+&lt;p&gt;But why do we need rerankers? Isn’t semantic search good enough? The answer lies in understanding the limitations of traditional embedding-based retrieval.&lt;/p&gt;
+&lt;h2&gt;Bi-encoders vs Cross-encoders&lt;/h2&gt;
+&lt;p&gt;At the heart of modern, scalable semantic search systems lies the &lt;strong&gt;bi-encoder&lt;/strong&gt; model. This architecture creates independent vector representations for the query and the document; relevance is then computed through a similarity measure like the dot product or cosine similarity between those vectors.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-09-rerankers/bi-encoders-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;This design scales well: You can precompute document embeddings, store them in your vector DB, and compare any incoming query against millions of documents very efficiently. However, this convenience comes at a cost: &lt;strong&gt;the system never truly reads the document in the context of the query&lt;/strong&gt;. There’s no token-level interaction between the query and document embedding to judge whether the document actually answers the question or it simply happen to be talking about the same topic, and therefore semantically similar.&lt;/p&gt;
+&lt;p&gt;For example, the query "How to protect my application from DDOS attacks?" may be semantically close to the statement "You should always take steps to protect your systems from DDOS attacks", but the statement does not contain the answer to the question. Without reranking, embedding-based retrieval systems often perform well at recall but poorly at precision.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cross-encoders&lt;/strong&gt; remedy the limitations of bi-encoders by encoding the query and document together, typically separated by a special token (like &lt;code&gt;[SEP]&lt;/code&gt;) using an encoder-only Transformer such as BERT. Then they include an additional fully connected layer that acts as a classifier, learning fine-grained token-level interactions that capture query/document word alignments, answer containment (i.e., does this passage actually answer the question?) and overall contextual relevance.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-09-rerankers/cross-encoders-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;p&gt;This difference (from separate encodings to a joint representation) gives cross-encoders their power but also their cost. Since relevance depends on the specific query, you can’t precompute the document embeddings: in fact, the concept of "query embedding" and "document embeddings" disappears.  Every query-document pair requires a fresh forward pass through the whole model, which can be prohibitively expensive on a large corpus.&lt;/p&gt;
+&lt;h2&gt;To each their place&lt;/h2&gt;
+&lt;p&gt;No production system can afford to run interaction-rich models such as cross-encoders on millions of documents per query. Therefore, the two-stage retrieval pipeline remains the industry standard:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Semantic Search (Bi-Encoder)&lt;/strong&gt; – Quickly narrows a massive corpus (e.g., millions of document chunks) down to a small candidate set (e.g., top 100 chunks). Bi-encoders can be built with any embedding model: popular closed source embedders include OpenAI's, Voyage.ai, Cohere's, Gemini and more, while on the open-source front you can find BGE embedders, Mistral's models, Jina.ai, Gemma, IBM Granite, &lt;a href="https://huggingface.co/models?search=embedding" target="_blank" rel="noopener noreferrer"&gt;and more&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Reranking (Cross-Encoder)&lt;/strong&gt; – Evaluates those top 100 candidates more deeply by jointly encoding the query and document. A popular closed source choice for reranking models is Cohere's, while on the open source front you can find several Qwen-based rerankers, Jina.ai models, IBM's Granite rerankers, BGE rerankers, and &lt;a href="https://huggingface.co/models?search=reranker" target="_blank" rel="noopener noreferrer"&gt;many more&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-10-09-rerankers/two-tiered-system-inv.png"  class="invertible" /&gt;&lt;/p&gt;
+&lt;h2&gt;Making Reranking Practical&lt;/h2&gt;
+&lt;p&gt;Even in this two-tiered system, reranking may turn out to be too expensive for your latency constrains, but several engineering and modeling strategies have emerged to make it viable in production. Let’s break down a few of these methods.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Model Distillation&lt;/strong&gt;&lt;br /&gt;
+    Distillation transfers the knowledge from a large, high-performing cross-encoder (often based on 12-layer BERT or similar) into a smaller student model (e.g., 6 layers, or even lighter). The process involves training the smaller model to mimic the scores or output logits of the larger one on large query–document pairs. While distillation inevitably loses some performance, careful tuning, domain-specific data, and intermediate-layer supervision can retain more than 90% of the original ranking quality at a fraction of the inference cost. You can learn more about model distillation &lt;a href="https://www.sbert.net/examples/sentence_transformer/training/distillation/README.html" target="_blank" rel="noopener noreferrer"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Listwise Reranking&lt;/strong&gt;&lt;br /&gt;
+    Instead of scoring each query–document pair independently, listwise reranking generates scores for all top-k candidates in a single forward pass. This approach rearranges candidates into a batched tensor, leveraging GPU parallelism to process them together, reducing overhead from repeated encoder calls. Some implementations also use listwise loss functions (such as ListNet or LambdaMART-inspired objectives) to better preserve ranking order during training. To learn more about ML ranking, have a look at &lt;a href="https://towardsdatascience.com/ranking-basics-pointwise-pairwise-listwise-cd5318f86e1b/" target="_blank" rel="noopener noreferrer"&gt;this post&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Late Interaction Models (e.g., ColBERT)&lt;/strong&gt;&lt;br /&gt;
+    Late interaction approaches store token-level embeddings of documents from fine-tuned contextual models. At query time, the system encodes the query tokens and performs efficient maximum similarity matching between query tokens and stored document tokens. By avoiding a full joint encoding across all tokens, these models approximate cross-encoder analysis but keep retrieval latency close to bi-encoder speeds. This approach can either substitute or complement cross-encoders by quickly reducing the candidates list returned from the vector database. To learn more about this approach, have a look at &lt;a href="https://medium.com/@aimichael/cross-encoders-colbert-and-llm-based-re-rankers-a-practical-guide-a23570d88548" target="_blank" rel="noopener noreferrer"&gt;this blog post&lt;/a&gt; or &lt;a href="https://arxiv.org/abs/2004.12832" target="_blank" rel="noopener noreferrer"&gt;the ColBERT paper&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Candidate Filtering and Adaptive k&lt;/strong&gt;&lt;br /&gt;
+    Rather than always reranking a fixed top-k (like 100 documents), systems can use heuristics or intermediate classifiers to select fewer candidates when confidence in retrieval is high. This adaptive approach can cut reranking costs significantly while preserving precision in challenging cases.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Approximate Cross-Attention Mechanisms&lt;/strong&gt;&lt;br /&gt;
+    Instead of computing full self-attention across combined query and document tokens, some approaches reduce complexity by limiting cross-attention depth or dimensionality — for example, attending only to the top N most informative tokens, or pruning low-importance attention heads. This can drastically lower token computations while maintaining critical interaction signals.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Caching for Frequent Queries&lt;/strong&gt;&lt;br /&gt;
+    In platforms where certain queries or query patterns repeat, caching reranking results or partial computations can remove the need to rerun the full cross-encoder. Combined with normalization and paraphrase detection, such caches can return precise results instantly for repeated requests.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In production pipelines, these methods are often stacked: for example, using late interaction for most queries, distillation for cost control, and adaptive candidate selection to minimize unnecessary work. The overarching theme is balancing precision and latency, ensuring that rerankers deliver their interaction-driven relevance boost without overwhelming the system’s budget or responsiveness.&lt;/p&gt;</description></item><item><title>Trying to play "Guess Who" with an LLM</title><link>https://www.zansara.dev/posts/2025-09-15-playing-guess-who-with-an-llm/</link><pubDate>Mon, 15 Sep 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/posts/2025-09-15-playing-guess-who-with-an-llm/</guid><description>&lt;style&gt;
+    p img {
+        max-width: 500px;
+    }
+
+    p:has(&gt; img) {
+        text-align:center!important;
+    }
+
+    pre {
+        overflow: wrap;
+    }
+&lt;/style&gt;
+
+&lt;p&gt;A few days ago I came to a realization. Modern LLMs can do a lot of things: they can &lt;a href="https://www.anthropic.com/news/claude-for-chrome" target="_blank" rel="noopener noreferrer"&gt;use a browser&lt;/a&gt; just like a human, they can (&lt;a href="https://dynomight.net/chess/" target="_blank" rel="noopener noreferrer"&gt;sometimes&lt;/a&gt;) &lt;a href="https://maxim-saplin.github.io/llm_chess/" target="_blank" rel="noopener noreferrer"&gt;play chess&lt;/a&gt;, and they seem to be so smart that they apparently can be trusted as personal assistants: they can read and reply to emails, organize trips, do shopping online on your behalf, and so on.&lt;/p&gt;
+&lt;p&gt;If that's the case, I thought, it should be possible to also play some tabletop games with them!&lt;/p&gt;
+&lt;p&gt;After all, many simple tabletop games don't require a lot of skill to play. You need to be able to read and understand the rules (very easy for an LLM), you need eyes to see the board (piece of cake for a multimodal LLM), and some ways to interact with the board (most LLM are able to call tools nowadays). So I figured it would be a nice idea to try and figure out which of these LLMs is the most fun to play with. Maybe the charming personality of GPT-4o? Or the clever Claude Opus 4?&lt;/p&gt;
+&lt;p&gt;I did not expect any of the results I got.&lt;/p&gt;
+&lt;h2&gt;Building the game&lt;/h2&gt;
+&lt;p&gt;In order to be fair to dumber LLMs, I decided to start with a very simple tabletop game: &lt;a href="https://en.wikipedia.org/wiki/Guess_Who%3F" target="_blank" rel="noopener noreferrer"&gt;Guess Who&lt;/a&gt;. If you are not familiar with "Guess Who", here is a quick recap of the rules:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Each player has a board full of characters.&lt;/li&gt;
+&lt;li&gt;Each players draws an additional random character.&lt;/li&gt;
+&lt;li&gt;Your goal is to guess which character the other player has received by asking yes/no questions, such as "Is your character male?" or "Does your character have black hair?" and so on&lt;/li&gt;
+&lt;li&gt;The first player to guess the opponent character's name wins.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As you can see we're not talking of a complex game like Catan or a strategy game like chess, but a simple, fun tabletop game suitable for kids too. &lt;/p&gt;
+&lt;p&gt;In order to build the game, as I am no frontend developer, I spent a few too many bucks on my favorite vibe-coding tool, &lt;a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener noreferrer"&gt;Claude Code&lt;/a&gt;, padded in a bit of &lt;a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener noreferrer"&gt;Gemini CLI&lt;/a&gt; when I run out of credits, made a few tweaks by hand when asking the bots to do so felt overkill, and a few evenings later I had &lt;a href="/guess-who/"&gt;this nice Guess Who game&lt;/a&gt; live.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/game-ui.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Feel free to play a few round using your favorite LLM. The game supports OpenAI compatible endpoints, plus Anthropic's and Google's API. And if you don't trust me with your API key, go ahead and &lt;a href="https://github.com/ZanSara/guess-who" target="_blank" rel="noopener noreferrer"&gt;fork or clone the game&lt;/a&gt; (and maybe leave a ⭐ while you're at it ), host it where you like (it's a single HTML page with a bit of vanilla JS at the side) and have fun.&lt;/p&gt;
+&lt;p&gt;Now for the spoilers.&lt;/p&gt;
+&lt;h2&gt;Not as many LLMs&lt;/h2&gt;
+&lt;p&gt;One of the first surprises was that, in practice, there aren't as many models that are capable of vision and tool calling at the same time. Apart from flagship models such as GPTs and Claude, OSS options were limited. Even GPT-OSS, unfortunately, does not support vision. I was especially surprised to learn that I could not play with any version of popular Chinese models such as Qwen or Deepseek, as they're either text only or unable to call tools.&lt;/p&gt;
+&lt;p&gt;Either way, using a mix of proprietary hosting, &lt;a href="https://openrouter.ai/" target="_blank" rel="noopener noreferrer"&gt;OpenRouter&lt;/a&gt; and &lt;a href="https://www.together.ai/" target="_blank" rel="noopener noreferrer"&gt;Together.ai&lt;/a&gt;, I had plenty of models to try and ended up trying out 21:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Amazon Nova Pro v1&lt;/li&gt;
+&lt;li&gt;Amazon Nova Lite v1&lt;/li&gt;
+&lt;li&gt;Claude Opus 4.1&lt;/li&gt;
+&lt;li&gt;Claude Opus 4.0&lt;/li&gt;
+&lt;li&gt;Claude Sonnet 4.0&lt;/li&gt;
+&lt;li&gt;Claude Sonnet 3.7&lt;/li&gt;
+&lt;li&gt;Gemini 2.5 Pro&lt;/li&gt;
+&lt;li&gt;Gemini 2.5 Flash&lt;/li&gt;
+&lt;li&gt;Gemini 2.5 Flash Lite&lt;/li&gt;
+&lt;li&gt;GML 4.5&lt;/li&gt;
+&lt;li&gt;Grok 4&lt;/li&gt;
+&lt;li&gt;GPT 5&lt;/li&gt;
+&lt;li&gt;GPT 5 Nano&lt;/li&gt;
+&lt;li&gt;GPT 5 Mini&lt;/li&gt;
+&lt;li&gt;GPT 4o&lt;/li&gt;
+&lt;li&gt;Llama 4 Maverick&lt;/li&gt;
+&lt;li&gt;Llama 4 Scout&lt;/li&gt;
+&lt;li&gt;Mistral Medium 3.1&lt;/li&gt;
+&lt;li&gt;Mistral Small 3.2&lt;/li&gt;
+&lt;li&gt;Sonoma Dusk Alpha&lt;/li&gt;
+&lt;li&gt;Sonoma Sky Alpha&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It may sound like a lot of work, but as you'll see in a minute, for many of them it didn't take me long to form an opinion about their skill.&lt;/p&gt;
+&lt;h2&gt;The prompts&lt;/h2&gt;
+&lt;p&gt;Starting from the assumption that playing Guess Who should be within the cognitive abilities of most modern LLMs, I decided to settle for a simple system prompt, something that resembles the way I would explain the game to a fellow human.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;You are an AI assistant playing "Guess Who" against the user. Here's how the game works:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You'll receive the board and your character image&lt;/li&gt;
+&lt;li&gt;You must try to guess the user's character by asking yes/no questions&lt;/li&gt;
+&lt;li&gt;You must answer the user's yes/no questions about your character&lt;/li&gt;
+&lt;li&gt;One question per player per turn, no exceptions&lt;/li&gt;
+&lt;li&gt;You can eliminate characters from your board based on the user's answers using the eliminateCharacter tool (this will only update the UI, so keep in mind who you're eliminating)&lt;/li&gt;
+&lt;li&gt;The first player to correctly guess the opponent's character wins the game. When the user guesses your character or you guess theirs, call the endGame tool&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;After this system prompt, I send two more prompts:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Here is the board:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/full-board.png" /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;and here is your character:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/Amy.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Unfortunately these two prompts need to be user prompts (not system prompts) because some LLMs (looking at you, Mistral!) do not support images in their system prompts.&lt;/p&gt;
+&lt;p&gt;Last, when the user presses the Start button, one more system message is sent:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Generate a brief, friendly greeting message to start a Guess Who game. &lt;br /&gt;
+Tell the user whether you received the images of your board and your character and ask them for their first question. &lt;br /&gt;
+Keep it conversational and under 2 sentences.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The LLM also receives two tools to use:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;eliminateCharacter&lt;/code&gt;, described as "Eliminate a character from your board when you learn they cannot be the user's character".&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;endGame&lt;/code&gt;, described as "When you or the user guess correctly, call this tool to end the game."&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Playing&lt;/h2&gt;
+&lt;p&gt;With the game implemented and ready to go, I finally started playing a bit. I was especially curious how small models could deal with a game like this, so I began with GPT-5 Mini. Here is what happens:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/gpt-5-mini-example.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Ahah, GPT 5 Mini is far dumber than I thought! Let's try Gemini 2.5 Flash instead.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/gemini-2.5-flash-example.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Oh wow this is incredible. Ok, time to try a smarter model and have some actual fun. Claude Sonnet 4.0 will do for now.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/claude-sonnet-4-example.png" /&gt;&lt;/p&gt;
+&lt;p&gt;At this point it started to become unbelievable. Did I fail to explain the game? Is something wrong with the prompts? It couldn't be, because some other models (such as the almighty GPT-4o) do what I expect instead:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/gpt-4o-example.png" /&gt;&lt;/p&gt;
+&lt;p&gt;While others left me shocked:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/claude-opus-4.1-example.png" /&gt;&lt;/p&gt;
+&lt;p&gt;How can a flagship model like &lt;em&gt;Claude Opus 4.1&lt;/em&gt; fail this way? I kept trying several other LLMs in disbelief, slowly coming to terms with the fact that most of them don't readily understand the concept of playing adversarial games, even simple ones as Guess Who.&lt;/p&gt;
+&lt;h2&gt;A systematic review&lt;/h2&gt;
+&lt;p&gt;At this point I felt the duty to document this problem across all the models that had enough capabilities (vision + tool calling) to play this game. If I ever want an LLM personal assistant to handle my private data and to act on my behalf, I'd better make sure they understand that they can't just hand out my credentials to the first kind thief that asks them.&lt;/p&gt;
+&lt;p&gt;Here is a systematic review of the results, ordered roughly from worst to best. However, keep in mind that this is all based on a very small test sample, and although most models consistently fail the same way every time, there were some with a far more erratic behavior, looking very smart at times and incredibly dumb the next. &lt;/p&gt;
+&lt;p&gt;First of all I list and disqualify all models that do not hide the identity of their character. Of the survivors, I ranked them by whether or not you can actually play with them in any capacity (many can't see well enough to tell the characters apart) and if the game is actually playable, how easy it is to break it.&lt;/p&gt;
+&lt;h3&gt;Unplayable models&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Can't understand the instructions at all&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;These models understood only part of the system prompt (if any), resulting in unpredictable answers.&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Amazon Nova Lite v1&lt;/summary&gt;
+
+&lt;p&gt;Possibly the most unpredictable model. Every run was a surprise. This is just a small sample to give you an idea.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-play-at-all/amazon-nova-lite-v1.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;p&gt;&lt;strong&gt;Reveals their charater unprompted in the first message&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Shockingly common issue among all tested models. They just volunteer the information unprompted. I assume they don't understand they're not supposed to help the user, or that this is an information they should hide.&lt;/p&gt;
+&lt;p&gt;All these models have been tested several times to ensure this is their default behavior and not an exception. Some other models do occasionally fail this way (looking at you, Mistral Medium 3.1), but only rarely. Models listed here fail in this way very consistently.&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Claude Opus 4.1&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/claude-opus-4-1.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Claude Opus 4.0&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/claude-opus-4.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Claude Sonnet 4.0&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/claude-sonnet-4.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Claude Sonnet 3.7&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/claude-sonnet-3-7.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Gemini 2.5 Flash&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gemini-2.5-flash.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Gemini 2.5 Flash Lite&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gemini-2.5-flash-lite.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;GPT 5 Mini&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gpt-5-mini.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;GPT 5 Nano&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gpt-5-nano.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Llama 4 Scout&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/llama-4-scout.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Sonoma Sky Alpha&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/sonoma-sky-alpha.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;GML 4.5&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gml-4.5.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;p&gt;&lt;strong&gt;Reveals their charater as soon as asked&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Some models did not volunteer the information but didn't exactly protect it either.&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Amazon Nova Pro v1&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-when-asked/amazon-nova-pro-v1.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Llama 4 Maverick&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-when-asked/llama-4-maverick.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Mistral Small 3.2&lt;/summary&gt;
+
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-when-asked/mistral-small-3.2.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;h3&gt;Game looks playable but it's actually broken&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Low vision skills&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;These models are smart enough to understand the basics of the game, but it's impossible to play with them due to their &lt;strong&gt;weak vision skills&lt;/strong&gt;. These models simply can't see well enough to delete the right character from the board or answer correctly all questions about their own. They will then hallucinate random answers and delete random characters from their boards, making the game unplayable.&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Gemini 2.5 Pro&lt;/summary&gt;
+
+&lt;p&gt;Gemini 2.5 Pro evidently has issues seeing both the board and the characters. Here it shows both flaws by deleting the wrong characters and lying about its character in a single response:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gemini-2.5-pro.png" /&gt;
+&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gemini-2.5-pro-board.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;GPT-4o&lt;/summary&gt;
+
+&lt;p&gt;GPT-4o also has issues seeing the board and the characters, but its blind spots less predictable than for Gemini 2.5 Pro, so it can occasionally manage to play for a while. It also frequently forgets to eliminate any characters from its board. GPT-4o also tends to get distracted, lose track of the turns, and so on.&lt;/p&gt;
+&lt;p&gt;Here it deletes the wrong characters and loses track of the turns:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gpt-4o-wrong-removal.png" /&gt;
+&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gpt-4o-wrong-removal-board.png" /&gt;&lt;/p&gt;
+&lt;p&gt;and here it has trouble seeing its character:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gpt-4o-character.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;Mistral Medium 3.1&lt;/summary&gt;
+
+&lt;p&gt;Mistral Medium 3.1 has been hard to place. It seems that its biggest weakness is removing the correct characters from the board, although it does a much better job than Gemini 2.5 or GPT-4o. I've never seen it failing to describe its own character correctly, but it occasionally behaves in a very dumb way (on occasion it even revealed its character in the first message!). You may have flawless runs with this model or it might fail on the get-go.&lt;/p&gt;
+&lt;p&gt;Here it deletes a couple of unrelated characters:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/mistral-medium-3.1-wrong-removal.png" /&gt;
+&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/mistral-medium-3.1-wrong-removal-board.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;p&gt;&lt;strong&gt;No tool calling&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;It is debatable whether the inability of a model to do tool calling should be considered a penalty: in theory LLMs remember everything perfectly, so they could choose what to ask next based on what they asked earlier and what characters still could match the opponent's. However, in practice no LLM could be trusted keeping track of the game this way, and I decided that the inability to invoke tools when instructed is a big enough flaw to disqualify them.&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Sonoma Dusk Alpha&lt;/summary&gt;
+
+&lt;p&gt;Assessing the vision skills of this model has been difficult due to its unwillingness to ever call the &lt;code&gt;eliminateCharacter&lt;/code&gt; tool. Sonoma Dusk Alpha doesn't seem to have issues seeing its character, but it's too weak to be considered playable: won't enforce turn taking, can be convinced I won the game without naming its character, and it's likely not really trying to narrow down on my character, it's just asking some questions.&lt;/p&gt;
+&lt;p&gt;Here is an example gameplay.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/sonoma-dusk-alpha.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;h3&gt;Playable models&lt;/h3&gt;
+&lt;p&gt;These models seems to understand the game, don't have issues seeing all the features of the characters, but they're still quite vulnerable to basic manipulation attempts. Typical issues are related to &lt;strong&gt;prompt hacking&lt;/strong&gt;, where the LLM simply does what I say rather than enforcing the game rules, and &lt;strong&gt;low tool handling ability&lt;/strong&gt;, where the LLM doesn't use the available tools when it should or uses them incorrectly.&lt;/p&gt;
+&lt;p&gt;To test these skills, I checked whether the model will enforce turn taking when asking the question, and what happens when I claim to have won without naming the LLM's hidden character.&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Grok 4&lt;/summary&gt;
+
+&lt;p&gt;Grok 4 is a decent player but by far not a good one. It clearly sees the board and the character, it eliminates characters correctly most of the times, but fails to enforce turns.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/grok-4.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/grok-4-board.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Here an example of a game where a couple of mistakes were enough to prevent the model from winning (my character was Amy again).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/grok-4-failing-game-last-minute.png" /&gt;&lt;/p&gt;
+&lt;p&gt;An award to this model for resisting my attempt to unilaterally declare victory without breaking the game! This is the only model that succeeded at this.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/grok-4-resists-winning.png" /&gt;&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;GPT 5&lt;/summary&gt;
+
+&lt;p&gt;GPT 5 is probably the best model to play with in terms of raw capabilities. It makes very occasional mistakes deleting characters but it's mostly on point. &lt;/p&gt;
+&lt;p&gt;However it was really slow and annoying to get it to play at all. It generally can't seem to use tools and ask the next question at the same time, even if its response structure suggests it should be able to do it: this means that to play you must answer its question, wait for it to delete its character, and only then you can ask your own.&lt;/p&gt;
+&lt;p&gt;It is also unbelievably slow compared to any other LLM I played with, which kills the fun.&lt;/p&gt;
+&lt;p&gt;Here you can see GPT 5 enforcing turn-taking (plus a gratuitous pun?!):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/gpt-5-no-sense-of-humor.png" /&gt;&lt;/p&gt;
+&lt;p&gt;When claiming that I won, GPT 5 almost manages to understand that it might be not the case, but still ruins the game. Unfortunately this is not a fluke, GPT 5 consistently reveals the character in this situation. It won't call the tool just yet, but once it reveals the character the game is over.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/misbehaves-when-I-say-I-won/gpt-5.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/misbehaves-when-I-say-I-won/gpt-5-again.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Here is an example of a game where GPT 5 actually wins:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/gpt-5-full-winning-game.png" /&gt;&lt;/p&gt;
+&lt;p&gt;In this case the &lt;code&gt;endGame&lt;/code&gt; tool was also invoked correctly.&lt;/p&gt;
+
+&lt;/details&gt;
+
+&lt;h2&gt;Can this be fixed?&lt;/h2&gt;
+&lt;p&gt;My guess was that you can fix this behavior with a better system prompt. After this experiment I went back to the system prompt and described the game in far more detail.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;You are an AI assistant playing "Guess Who" against the user. Here's how the game works.&lt;/p&gt;
+&lt;p&gt;# Game Rules&lt;/p&gt;
+&lt;p&gt;You will receive an image of the full Guess Who board showing all available characters. You will also receive an image of a specific character. This is YOUR character that the user must try to guess. REMEMBER: don't reveal who the character is! That's the point of the game!&lt;/p&gt;
+&lt;p&gt;Your goal is to ask the user questions to identify THEIR hidden character while answering their questions about YOUR character. You need to ask the user yes/no questions about their character's appearance (e.g., "Does your character have glasses?", "Is your character male?"). When the user tells you something about THEIR character, you must eliminate characters that don't fit the description from your board using the eliminateCharacter tool. Keep in mind that this tool only updated the UI: you have to keep track of which characters are eliminated in your mind. Think carefully about which characters to eliminate and explain your reasoning out loud before calling the tool. Make sure to only eliminate characters that definitely do not match the user's description. If you make mistakes it will become impossible for you to win the game!&lt;/p&gt;
+&lt;p&gt;When the user asks you questions about YOUR character, answer concisely and truthfully based on the character image you received. &lt;/p&gt;
+&lt;p&gt;Each player can only ask ONE question and receive ONE answer - asking more than one question or asking another before your opponent had a chance to ask theirs is cheating! You must not cheat!&lt;/p&gt;
+&lt;p&gt;The first player to correctly guess the opponent's character name wins the game, so try to guess when you're reasonably confident. A good time to guess is when your board only has one or two characters left. When you think you know the user's character, make your guess clearly (e.g., "Is your character [Name]?") This is how you can manage to win the game.&lt;/p&gt;
+&lt;p&gt;When the user guesses correctly, call the endGame tool to finish the game. When the user tells you that you guessed their character, call the endGame tool to finish the game.&lt;/p&gt;
+&lt;p&gt;Now you will receive YOUR board and YOUR character. Let's play!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;You can load this prompt &lt;a href="/guess-who/"&gt;in the game&lt;/a&gt; by checking the Advanced tab in the settings.&lt;/p&gt;
+&lt;p&gt;This prompt helps a lot the models understand that they can't reveal the character's identity: however it's also not solving the problem entirely. For example this is what Claude Opus 4.1 does with this prompt:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/posts/2025-09-15-playing-guess-who-with-an-llm/claude-opus-4.1-spelled-out-prompt.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Guess what? There's only one character with gray hair and glasses on the board, and that's Emily... Should I review my system prompt again, make it even more detailed?&lt;/p&gt;
+&lt;p&gt;At this point I gave up. Feel free to iterate on the prompt until you get one that works, and if you manage, I beg you to share it with me.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In the near future I plan to make a proper leaderboard for this simple game, to make an automated system to assess the model's skills and (hopefully) track their progress in this field.&lt;/p&gt;
+&lt;p&gt;In the meantime, feel free to try your own favorite LLMs here and form your own opinion.&lt;/p&gt;
+&lt;p&gt;However, let's be honest: if we need this level of effort to make Claude play such a simple game as Guess Who without messing up, how can we trust LLMs in general to handle our data and our money in the far more ambiguous and complex world out there? I suppose LLMs are not ready (yet) to be left unsupervised.&lt;/p&gt;
+&lt;p class="fleuron"&gt;&lt;a href="/posts/2024-05-06-teranoptia/"&gt;SDE&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Guess Who</title><link>https://www.zansara.dev/projects/guess-who/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><guid>https://www.zansara.dev/projects/guess-who/</guid><description>&lt;p&gt;LLMs nowadays are headed for superintelligence, they say. They should make good tabletop game partners then, I guess?&lt;/p&gt;
+&lt;p&gt;In this repo you can find a simple implementation of a Guess Who game. If you're not familiar with the rules, here they are: each player receives a character and has to guess the opponent's character name by asking one yes/no question at a time. For example: "Is your character blonde?" or "Does your character have glasses?". Whoever guesses the opponent's character first wins. &lt;/p&gt;
+&lt;p&gt;A very simple game that should be within the understanding of any multimodal language model, right? &lt;a href="/guess-who/"&gt;Try for yourself&lt;/a&gt; to find out.&lt;/p&gt;
+&lt;p&gt;You can also find the game on &lt;a href="https://github.com/ZanSara/guess-who" target="_blank" rel="noopener noreferrer"&gt;GitHub&lt;/a&gt;. Contributions of all kinds are welcome 🙇&lt;/p&gt;</description></item></channel></rss>

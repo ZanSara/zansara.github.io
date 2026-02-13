@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>RAG, the bad parts (and the good!) · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RAG, the bad parts (and the good!) · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2024-04-29-odsc-east-rag/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="RAG, the bad parts (and the good!)">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2024-04-29-odsc-east-rag/cover.png">
+  <meta name="og:image" content="/posts/2024-04-29-odsc-east-rag/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2024-04-29-odsc-east-rag/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2024-04-29-odsc-east-rag/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">RAG, the bad parts (and the good!)</h1>
+      
+<span style="color: var(--muted-text);">A summary of my recent talk at ODSC East about RAG, just in case you haven&#x27;t heard enough of it already.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2024-04-29T00:00:00Z">by <a href="/">Sara Zan</a>, April 29, 2024</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2024-04-29-odsc-east-rag/cover.png" alt="Featured image" />
+
+    <p><em>This is a writeup of my talk at <a href="/talks/2024-04-25-odsc-east-rag/">ODSC East 2024</a> and <a href="/talks/2024-07-10-europython-rag/">EuroPython 2024</a>.</em></p>
+<hr />
+<p>If you've been at any AI or Python conference this year, there's one acronym that you've probably heard in nearly every talk: it's RAG. RAG is one of the most used techniques to enhance LLMs in production, but why is it so? And what are its weak points?</p>
+<p>In this post, we will first describe what RAG is and how it works at a high level. We will then see what type of failures we may encounter, how they happen, and a few reasons that may trigger these issues. Next, we will look at a few tools to help us evaluate a RAG application in production. Last, we're going to list a few techniques to enhance your RAG app and make it more capable in a variety of scenarios.</p>
+<p>Let's dive in. </p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#what-is-rag">What is RAG?</a></li>
+<li><a href="#why-should-i-use-it">Why should I use it?</a><ul>
+<li><a href="#a-weather-chatbot">A weather chatbot</a></li>
+<li><a href="#a-real-world-example">A real-world example</a></li>
+</ul>
+</li>
+<li><a href="#failure-modes">Failure modes</a><ul>
+<li><a href="#retrieval-failure">Retrieval failure</a></li>
+<li><a href="#generation-failure">Generation failure</a></li>
+</ul>
+</li>
+<li><a href="#evaluation-strategies">Evaluation strategies</a><ul>
+<li><a href="#evaluating-retrieval">Evaluating Retrieval</a></li>
+<li><a href="#evaluating-generation">Evaluating Generation</a></li>
+<li><a href="#end-to-end-evaluation">End-to-end evaluation</a></li>
+<li><a href="#putting-it-all-together">Putting it all together</a></li>
+</ul>
+</li>
+<li><a href="#advanced-flavors-of-rag">Advanced flavors of RAG</a><ul>
+<li><a href="#use-multiple-retrievers">Use multiple retrievers</a></li>
+<li><a href="#self-correction">Self-correction</a></li>
+<li><a href="#agentic-rag">Agentic RAG</a></li>
+<li><a href="#multihop-rag">Multihop RAG</a></li>
+</ul>
+</li>
+<li><a href="#a-word-on-finetuning">A word on finetuning</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h2>What is RAG?</h2>
+<p>RAG stands for <strong>R</strong>etrieval <strong>A</strong>ugmented <strong>G</strong>eneration, which can be explained as: "A technique to <strong>augment</strong> LLM’s knowledge beyond its training data by <strong>retrieving</strong> contextual information before a <strong>generating</strong> an answer."</p>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/rag-diagram.png" /></p>
+<p>RAG is a technique that works best for question-answering tasks, such as chatbots or similar knowledge extraction applications. This means that the user of a RAG app is a user who needs an answer to a question. </p>
+<p>The first step of RAG is to take the question and hand it over to a component called <a href="https://docs.haystack.deepset.ai/docs/retrievers?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer"><strong>retriever</strong></a>. A retriever is any system that, given a question, can find data relevant to the question within a vast dataset, be it text, images, rows in a DB, or anything else.</p>
+<p>When implementing RAG, many developers think immediately that a vector database is necessary for retrieval. While vector databases such as <a href="https://haystack.deepset.ai/integrations/qdrant-document-store?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">Qdrant</a>, <a href="https://haystack.deepset.ai/integrations/chroma-documentstore?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">ChromaDB</a>, <a href="https://haystack.deepset.ai/integrations/weaviate-document-store?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">Weaviate</a> and so on, are great for retrieval in some applications, they're not the only option. Keyword-based algorithms such as <a href="https://haystack.deepset.ai/integrations/elasticsearch-document-store?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">Elasticsearch BM25</a> or TF-IDF can be used as retrievers in a RAG application, and you can even go as far as using a <a href="https://docs.haystack.deepset.ai/docs/websearch?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">web search engine API</a>, such as Google or Bing. Anything that is given a question and can return information relevant to the question can be used here.</p>
+<p>Once our retriever sifted through all the data and returned a few relevant snippets of context, the question and the context are assembled into a <strong>RAG prompt</strong>. It looks like this:</p>
+<div class="codehilite"><pre><span></span><code>Read the text below and answer the question at the bottom.
+
+Text: [all the text found by the retriever]
+
+Question: [the user&#39;s question]
+</code></pre></div>
+
+<p>This prompt is then fed to the last component, called a <a href="https://docs.haystack.deepset.ai/docs/components_overview#generators?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer"><strong>generator</strong></a>. A generator is any system that, given a prompt, can answer the question that it contains. In practice, "generator" is an umbrella term for any LLM, be it behind an API like GPT-3.5 or running locally, such as a Llama model. The generator receives the prompt, reads and understands it, and then writes down an answer that can be given back to the user, closing the loop.</p>
+<h2>Why should I use it?</h2>
+<p>There are three main benefits of using a RAG architecture for your LLM apps instead of querying the LLM directly.</p>
+<ol>
+<li>
+<p><strong>Reduces hallucinations</strong>. The RAG prompt contains the answer to the user's question together with the question, so the LLM doesn't need to <em>know</em> the answer, but it only needs to read the prompt and rephrase a bit of its content.</p>
+</li>
+<li>
+<p><strong>Allows access to fresh data</strong>. RAG makes LLMs capable of reasoning about data that wasn't present in their training set, such as highly volatile figures, news, forecasts, and so on.</p>
+</li>
+<li>
+<p><strong>Increases transparency</strong>. The retrieval step is much easier to inspect than LLM's inference process, so it's far easier to spot and fact-check any answer the LLM provides.</p>
+</li>
+</ol>
+<p>To understand these points better, let's see an example. </p>
+<h3>A weather chatbot</h3>
+<p>We're making a chatbot for a weather forecast app. Suppose the user asks an LLM directly, "Is it going to rain in Lisbon tomorrow morning?". In that case, the LLM will make up a random answer because it obviously didn't have tomorrow's weather forecast for Lisbon in its training set and knows nothing about it. </p>
+<p>When an LLM is queried with a direct question, it will use its internal knowledge to answer it. LLMs have read the entire Internet during their training phase, so they learned that whenever they saw a line such as "What's the capital of France?", the string "Paris" always appeared among the following few words. So when a user asks the same question, the answer will likely be "Paris".</p>
+<p>This "recalling from memory" process works for well-known facts but is not always practical. For more nuanced questions or something that the LLM hasn't seen during training, it often fails: in an attempt to answer the question, the LLM will make up a response that is not based on any real source. This is called a <strong>hallucination</strong>, one of LLMs' most common and feared failure modes.</p>
+<p>RAG helps prevent hallucinations because, in the RAG prompt, the question and all the data needed to answer it are explicitly given to the LLM. For our weather chatbot, the retriever will first do a Google search and find some data. Then, we will put together the RAG prompt. The result will look like this:</p>
+<div class="codehilite"><pre><span></span><code>Read the text below and answer the question at the bottom.
+
+Text: According to the weather forecast, the weather in Lisbon tomorrow 
+is expected to be mostly sunny, with a high of 18°C and a low of 11°C. 
+There is a 25% chance of showers in the evening.
+
+Question: Is it going to rain in Lisbon tomorrow morning?
+</code></pre></div>
+
+<p>Now, it's clear that the LLM doesn't have to recall anything about the weather in Lisbon from its memory because the prompt already contains the answer. The LLM only needs to rephrase the context. This makes the task much simpler and drastically reduces the chances of hallucinations.</p>
+<p>In fact, RAG is the only way to build an LLM-powered system that can answer a question like this with any confidence at all. Retraining an LLM every morning with the forecast for the day would be a lot more wasteful, require a ton of data, and won't return consistent results. Imagine if we were making a chatbot that gives you figures from the stock market!</p>
+<p>In addition, a weather chatbot built with RAG <strong>can be fact-checked</strong>. If users have access to the web pages that the retriever found, they can check the pages directly when the results are not convincing, which helps build trust in the application.</p>
+<h3>A real-world example</h3>
+<p>If you want to compare a well-implemented RAG system with a plain LLM, you can put <a href="https://chat.openai.com/" target="_blank" rel="noopener noreferrer">ChatGPT</a> (the free version, powered by GPT-3.5) and <a href="https://www.perplexity.ai/" target="_blank" rel="noopener noreferrer">Perplexity</a> to the test. ChatGPT does not implement RAG, while Perplexity is one of the most effective implementations existing today.</p>
+<p>Let's ask both: "Where does ODSC East 2024 take place?"</p>
+<p>ChatGPT says:</p>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/chatgpt.png" /></p>
+<p>While Perplexity says:</p>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/perplexity-ai.png" /></p>
+<p>Note how ChatGPT clearly says that it doesn't know: this is better than many other LLMs, which would just make up a place and date. On the contrary, Perplexity states some specific facts, and in case of doubt it's easy to verify that it's right by simply checking the sources above. Even just looking at the source's URL can give users a lot more confidence in whether the answer is grounded.</p>
+<h2>Failure modes</h2>
+<p>Now that we understand how RAG works, let's see what can go wrong in the process.</p>
+<p>As we've just described, a RAG app goes in two steps -- retrieval and generation. Therefore, we can classify RAG failures into two broad categories:</p>
+<ol>
+<li>
+<p><strong>Retrieval failures</strong>: The retriever component fails to find the correct context for the given question. The RAG prompt injects irrelevant noise into the prompt, which confuses the LLM and results in a wrong or unrelated answer.</p>
+</li>
+<li>
+<p><strong>Generation failures</strong>: The LLM fails to produce a correct answer even with a proper RAG prompt containing a question and all the data needed to answer it. </p>
+</li>
+</ol>
+<p>To understand them better, let's pretend an imaginary user poses our application the following question about a <a href="https://en.wikipedia.org/wiki/Republic_of_Rose_Island" target="_blank" rel="noopener noreferrer">little-known European microstate</a>:</p>
+<div class="codehilite"><pre><span></span><code>What was the official language of the Republic of Rose Island?
+</code></pre></div>
+
+<p>Here is what would happen in an ideal case:</p>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/successful-query.png" /></p>
+<p>First, the retriever searches the dataset (let's imagine, in this case, Wikipedia) and returns a few snippets. The retriever did a good job here, and the snippets contain clearly stated information about the official language of Rose Island. The LLM reads these snippets, understands them, and replies to the user (correctly):</p>
+<div class="codehilite"><pre><span></span><code>The official language of the Republic of Rose Island was Esperanto.
+</code></pre></div>
+
+<h3>Retrieval failure</h3>
+<p>What would happen if the retrieval step didn't go as planned?</p>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/retrieval-failure.png" /></p>
+<p>Here, the retriever finds some information about Rose Island, but none of the snippets contain any information about the official language. They only say where it was located, what happened to it, and so on. So the LLM, which knows nothing about this nation except what the prompt says, takes an educated guess and replies:</p>
+<div class="codehilite"><pre><span></span><code>The official language of the Republic of Rose Island was Italian.
+</code></pre></div>
+
+<p>The wrong answer here is none of the LLM's fault: the retriever is the component to blame.</p>
+<p>When and why can retrieval fail? There are as many answers to this question as retrieval methods, so each should be inspected for its strengths and weaknesses. However there are a few reasons that are common to most of them.</p>
+<ul>
+<li>
+<p><strong>The relevant data does not exist in the database</strong>. When the data does not exist, it's impossible to retrieve it. Many retrieval techniques, however, give a relevance score to each result that they return, so filtering out low-relevance snippets may help mitigate the issue.</p>
+</li>
+<li>
+<p><strong>The retrieval algorithm is too naive to match a question with its relevant context</strong>. This is a common issue for keyword-based retrieval methods such as TF-IDF or BM25 (Elasticsearch). These algorithms can't deal with synonims or resolve acronyms, so if the question and the relevant context don't share the exact same words, the retrieval won't work.</p>
+</li>
+<li>
+<p><strong>Embedding model (if used) is too small or unsuitable for the data</strong>. The data must be embedded before being searchable when doing a vector-based search. "Embedded" means that every snippet of context is associated with a list of numbers called an <strong>embedding</strong>. The quality of the embedding then determines the quality of the retrieval. If you embed your documents with a naive embedding model, or if you are dealing with a very specific domain such as narrow medical and legal niches, the embedding of your data won't be able to represent their content precisely enough for the retrieval to be successful.</p>
+</li>
+<li>
+<p><strong>The data is not chunked properly (too big or too small chunks)</strong>. Retrievers thrive on data that is chunked properly. Huge blocks of text will be found relevant to almost any question and will drown the LLM with information. Too small sentences or sentence fragments won't carry enough context for the LLM to benefit from the retriever's output. Proper chunking can be a huge lever to improve the quality of your retrieval.</p>
+</li>
+<li>
+<p><strong>The data and the question are in different languages</strong>. Keyword-based retrieval algorithms suffer from this issue the most because keywords in different languages rarely match. If you expect questions to come in a different language than the data you are retrieving from, consider adding a translation step or performing retrieval with a multilingual embedder instead.</p>
+</li>
+</ul>
+<p>One caveat with retrieval failures is that if you're using a very powerful LLM such as GPT-4, sometimes your LLM is smart enough to understand that the retrieved context is incorrect and will discard it, <strong>hiding the failure</strong>. This means that it's even more important to make sure retrieval is working well in isolation, something we will see in a moment.</p>
+<h3>Generation failure</h3>
+<p>Assuming that retrieval was successful, what would happen if the LLM still hallucinated?</p>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/generation-failure.png" /></p>
+<p>This is clearly an issue with our LLM: even when given all the correct data, the LLM still generated a wrong answer. Maybe our LLM doesn't know that Esperanto is even a language? Or perhaps we're using an LLM that doesn't understand English well?</p>
+<p>Naturally, each LLM will have different weak points that can trigger issues like these. Here are some common reasons why you may be getting generation failures.</p>
+<ul>
+<li>
+<p><strong>The model is too small and can’t follow instructions well</strong>. When building in a resource-constrained environment (such as local smartphone apps or IoT), the choice of LLMs shrinks to just a few tiny models. However, the smaller the model, the less it will be able to understand natural language, and even when it does, it limits its ability to follow instructions. If you notice that your model consistently doesn't pay enough attention to the question when answering it, consider switching to a larger or newer LLM.</p>
+</li>
+<li>
+<p><strong>The model knows too little about the domain to even understand the question</strong>. This can happen if your domain is highly specific, uses specific terminology, or relies on uncommon acronyms. Models are trained on general-purpose text, so they might not understand some questions without finetuning, which helps specify the meaning of the most critical key terms and acronyms. When the answers given by your model somewhat address the question but miss the point entirely and stay generic or hand-wavy, this is likely the case.</p>
+</li>
+<li>
+<p><strong>The model is not multilingual, but the questions and context may be</strong>. It's essential that the model understands the question being asked in order to be able to answer it. The same is true for context: if the data found by the retriever is in a language that the LLM cannot understand, it won't help it answer and might even confuse it further. Always make sure that your LLM understands the languages your users use.</p>
+</li>
+<li>
+<p><strong>The RAG prompt is not built correctly</strong>. Some LLMs, especially older or smaller ones, may be very sensitive to how the prompt is built. If your model ignores part of the context or misses the question, the prompt might contain contradicting information, or it might be simply too large. LLMs are not always great at <a href="https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.arxiv2023.pdf" target="_blank" rel="noopener noreferrer">finding a needle in the haystack</a>: if you are consistently building huge RAG prompts and you observe generation issues, consider cutting it back to help the LLM focus on the data that actually contains the answer.</p>
+</li>
+</ul>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/lost-in-the-middle-inv.png"  class="invertible" /></p>
+<h2>Evaluation strategies</h2>
+<p>Once we put our RAG system in production, we should keep an eye on its performance at scale. This is where evaluation frameworks come into play.</p>
+<p>To properly evaluate the performance of RAG, it's best to perform two evaluation steps:</p>
+<ol>
+<li>
+<p><strong>Isolated Evaluation</strong>. Being a two-step process, failures at one stage can hide or mask the other, so it's hard to understand where the failures originate from. To address this issue, evaluate the retrieval and generation separately: both must work well in isolation.</p>
+</li>
+<li>
+<p><strong>End to end evaluation</strong>. To ensure the system works well from start to finish, it's best to evaluate it as a whole. End-to-end evaluation brings its own set of challenges, but it correlates more directly to the quality of the overall app.</p>
+</li>
+</ol>
+<h3>Evaluating Retrieval</h3>
+<p>Each retrieval method has its own state-of-the-art evaluation method and framework, so it's usually best to refer to those.</p>
+<p>For <strong>keyword-based</strong> retrieval algorithms such as TD-IDF, BM25, PageRank, and so on, evaluation is often done by checking the keywords match well. For this, you can use <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)" target="_blank" rel="noopener noreferrer">one of the many metrics</a> used for this purpose: <a href="https://en.wikipedia.org/wiki/Precision_and_recall" target="_blank" rel="noopener noreferrer">recall, precision</a>, <a href="https://en.wikipedia.org/wiki/F-score" target="_blank" rel="noopener noreferrer">F1</a>, <a href="https://en.wikipedia.org/wiki/Mean_reciprocal_rank" target="_blank" rel="noopener noreferrer">MRR</a>, <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Mean_average_precision" target="_blank" rel="noopener noreferrer">MAP</a>, …</p>
+<p>For <strong>vector-based</strong> retrievers like vector DBs, the evaluation is more tricky because checking for matching keywords is not sufficient: the semantics of the question and the answer must evaluated for similarity. We are going to see some libraries that help with this when evaluating generation: in short, they use another LLM to judge the similarity or compute metrics like <a href="https://docs.ragas.io/en/latest/concepts/metrics/semantic_similarity.html" target="_blank" rel="noopener noreferrer">semantic similarity</a>.</p>
+<h3>Evaluating Generation</h3>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/uptrain-logo.png" /></p>
+<p>Evaluating an LLM's answers to a question is still a developing art, and several libraries can help with the task. One commonly used framework is <a href="https://haystack.deepset.ai/integrations/uptrain?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">UpTrain</a>, which implements an "LLM-as-a-judge" approach. This means that the answers given by an LLM are then evaluated by another LLM, normally a larger and more powerful model.</p>
+<p>This approach has the benefit that responses are not simply checked strictly for the presence or absence of keywords but can be evaluated according to much more sophisticated criteria like <a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-completeness" target="_blank" rel="noopener noreferrer">completeness</a>, <a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-conciseness" target="_blank" rel="noopener noreferrer">conciseness</a>, <a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-relevance" target="_blank" rel="noopener noreferrer">relevance</a>, <a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/factual-accuracy" target="_blank" rel="noopener noreferrer">factual accuracy</a>, <a href="https://docs.uptrain.ai/predefined-evaluations/conversation-evals/user-satisfaction" target="_blank" rel="noopener noreferrer">conversation quality</a>, and more.</p>
+<p>This approach leads to a far more detailed view of what the LLM is good at and what aspects of the generation could or should be improved. The criteria to select depend strongly on the application: for example, in medical or legal apps, factual accuracy should be the primary metric to optimize for, while in customer support, user satisfaction and conversation quality are also essential. For personal assistants, it's usually best to focus on conciseness, and so on.</p>
+<div class="notice info">
+💡 UpTrain can also be used to evaluate RAG applications end-to-end. Check <a href="https://docs.uptrain.ai/getting-started/introduction" target="_blank" rel="noopener noreferrer">its documentation</a> for details.
+</div>
+
+<h3>End-to-end evaluation</h3>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/ragas-logo.png" /></p>
+<p>The evaluation of RAG systems end-to-end is also quite complex and can be implemented in many ways, depending on the aspect you wish to monitor. One of the simplest approaches is to focus on semantic similarity between the question and the final answer.</p>
+<p>A popular framework that can be used for such high-level evaluation is <a href="https://haystack.deepset.ai/integrations/ragas?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">RAGAS</a>. In fact, RAGAS offers two interesting metrics:</p>
+<ul>
+<li>
+<p><a href="https://docs.ragas.io/en/stable/concepts/metrics/semantic_similarity.html" target="_blank" rel="noopener noreferrer"><strong>Answer semantic similarity</strong></a>. This is computed simply by taking the cosine similarity between the answer and the ground truth.</p>
+</li>
+<li>
+<p><a href="https://docs.ragas.io/en/stable/concepts/metrics/answer_correctness.html" target="_blank" rel="noopener noreferrer"><strong>Answer correctness</strong></a>. Answer correctness is defined as a weighted average of the semantic similarity and the F1 score between the generated answer and the ground truth. This metric is more oriented towards fact-based answers, where F1 can help ensure that relevant facts such as dates, names, and so on are explicitly stated.</p>
+</li>
+</ul>
+<p>On top of evaluation metrics, RAGAS also offers the capability to build <a href="https://docs.ragas.io/en/stable/concepts/testset_generation.html" target="_blank" rel="noopener noreferrer">synthetic evaluation datasets</a> to evaluate your app against. Such datasets spare you the work-intensive process of building a real-world evaluation dataset with human-generated questions and answers but also trade high quality for volume and speed. If your domain is very specific or you need extreme quality, synthetic datasets might not be an option, but for most real-world apps, such datasets can save tons of labeling time and resources.</p>
+<div class="notice info">
+💡 RAGAS can also be used to evaluate each step of a RAG application in isolation. Check <a href="https://docs.ragas.io/en/stable/getstarted/index.html" target="_blank" rel="noopener noreferrer">its documentation</a> for details.
+</div>
+
+<div class="notice info">
+
+<p>💡 I recently discovered an even more comprehensive framework for end-to-end evaluation called <a href="https://docs.relari.ai/v0.3" target="_blank" rel="noopener noreferrer">continuous-eval</a> from <a href="https://relari.ai/" target="_blank" rel="noopener noreferrer">Relari.ai</a>, which focuses on modular evaluation of RAG pipelines. Check it out if you're interested in this topic and RAGAS doesn't offer enough flexibility for your use case.</p>
+<p><img src="/posts/2024-04-29-odsc-east-rag/relari-logo.png" alt="Relari.ai logo"></p>
+
+</div>
+
+<h3>Putting it all together</h3>
+<p><img alt="" src="/posts/2024-04-29-odsc-east-rag/haystack-logo.png" /></p>
+<p>Once you know how you want to evaluate your app, it's time to put it together. A convenient framework for this step is <a href="https://haystack.deepset.ai/?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">Haystack</a>, a Python open-source LLM framework focused on building RAG applications. Haystack is an excellent choice because it can be used through all stages of the application lifecycle, from prototyping to production, including evaluation.</p>
+<p>Haystack supports several evaluation libraries including <a href="https://haystack.deepset.ai/integrations/uptrain?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">UpTrain</a>, <a href="https://haystack.deepset.ai/integrations/ragas?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">RAGAS</a> and <a href="https://haystack.deepset.ai/integrations/deepeval?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">DeepEval</a>. To understand more about how to implement and evaluate a RAG application with it, check out their tutorial about model evaluation <a href="https://haystack.deepset.ai/tutorials/35_model_based_evaluation_of_rag_pipelines?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<h2>Advanced flavors of RAG</h2>
+<p>Once our RAG app is ready and deployed in production, the natural next step is to look for ways to improve it even further. RAG is a very versatile technique, and many different flavors of "advanced RAG" have been experimented with, many more than I can list here. Depending on the situation, you may focus on different aspects, so let's list some examples of tactics you can deploy to make your pipeline more powerful, context-aware, accurate, and so on.</p>
+<h3>Use multiple retrievers</h3>
+<p>Sometimes, a RAG app needs access to vastly different types of data simultaneously. For example, a personal assistant might need access to the Internet, your Slack, your emails, your personal notes, and maybe even your pictures. Designing a single retriever that can handle data of so many different kinds is possible. Still, it can be a real challenge and require, in many cases, an entire data ingestion pipeline. </p>
+<p>Instead of going that way, you can instead use multiple retrievers, each specialized to a specific subset of your data: for example, one retriever that browses the web, one that searches on Slack and in your emails, one that checks for relevant pictures. </p>
+<p>When using many retrievers, however, it's often best to introduce another step called <strong>reranking</strong>. A reranker double-checks that all the results returned by each retriever are actually relevant and sorts them again before the RAG prompt is built. Rerankers are usually much more precise than retrievers in assessing the relative importance of various snippets of context, so they can dramatically improve the quality of the pipeline. In exceptional cases, they can be helpful even in RAG apps with a single retriever.</p>
+<p>Here is an <a href="https://haystack.deepset.ai/tutorials/33_hybrid_retrieval?utm_campaign=odsc-east" target="_blank" rel="noopener noreferrer">example</a> of such a pipeline built with Haystack.</p>
+<h3>Self-correction</h3>
+<p>We mentioned that one of the most common evaluation strategies for RAG output is "LLM-as-a-judge": the idea of using another LLM to evaluate the answer of the first. However, why use this technique only for evaluation?</p>
+<p>Self-correcting RAG apps add one extra step at the end of the pipeline: they take the answer, pass it to a second LLM, and ask it to assess whether the answer is likely to be correct. If the check fails, the second LLM will provide some feedback on why it believes the answer is wrong, and this feedback will be given back to the first LLM to try answering another time until an agreement is reached.</p>
+<p>Self-correcting LLMs can help improve the accuracy of the answers at the expense of more LLM calls per user question.</p>
+<h3>Agentic RAG</h3>
+<p>In the LLMs field, the term "agent" or "agentic" is often used to identify systems that use LLMs to make decisions. In the case of a RAG application, this term refers to a system that does not always perform retrieval but decides whether to perform it by reading the question first.</p>
+<p>For example, imagine we're building a RAG app to help primary school children with their homework. When the question refers to topics like history or geography, RAG is very helpful to avoid hallucinations. However, if the question regards math, the retrieval step is entirely unnecessary, and it might even confuse the LLM by retrieving similar math problems with different answers.</p>
+<p>Making your RAG app agentic is as simple as giving the question to an LLM before retrieval in a prompt such as:</p>
+<div class="codehilite"><pre><span></span><code>Reply YES if the answer to this question should include facts and 
+figures, NO otherwise.
+
+Question: What&#39;s the capital of France?
+</code></pre></div>
+
+<p>Then, retrieval is run or skipped depending on whether the answer is YES or NO.</p>
+<p>This is the most basic version of agentic RAG. Some advanced LLMs can do better: they support so-called "function calling," which means that they can tell you exactly how to invoke the retriever and even provide specific parameters instead of simply answering YES or NO.</p>
+<p>For more information about function calling with LLMs, check out <a href="https://platform.openai.com/docs/guides/function-calling" target="_blank" rel="noopener noreferrer">OpenAI's documentation</a> on the topic or the equivalent documentation of your LLM provider.</p>
+<h3>Multihop RAG</h3>
+<p>Multihop RAG is an even more complex version of agentic RAG. Multihop pipelines often use <strong>chain-of-thought prompts</strong>, a type of prompt that looks like this:</p>
+<div class="codehilite"><pre><span></span><code>You are a helpful and knowledgeable agent.
+
+To answer questions, you&#39;ll need to go through multiple steps involving step-by-step 
+thinking and using a search engine to do web searches. The browser will respond with 
+snippets of text from web pages. When you are ready for a final answer, respond with 
+<span class="sb">`Final Answer:`</span>.
+
+Use the following format:
+
+<span class="k">-</span><span class="w"> </span>Question: the question to be answered
+<span class="k">-</span><span class="w"> </span>Thought: Reason if you have the final answer. If yes, answer the question. If not, 
+    find out the missing information needed to answer it.
+<span class="k">-</span><span class="w"> </span>Search Query: the query for the search engine
+<span class="k">-</span><span class="w"> </span>Observation: the search engine will respond with the results
+<span class="k">-</span><span class="w"> </span>Final Answer: the final answer to the question, make it short (1-5 words)
+
+Thought, Search Query, and Observation steps can be repeated multiple times, but 
+sometimes, we can find an answer in the first pass.
+
+---
+
+<span class="k">-</span><span class="w"> </span>Question: &quot;Was the capital of France founded earlier than the discovery of America?&quot;
+<span class="k">-</span><span class="w"> </span>Thought: 
+</code></pre></div>
+
+<p>This prompt is very complex, so let's break it down:</p>
+<ol>
+<li>The LLM reads the question and decides which information to retrieve.</li>
+<li>The LLM returns a query for the search engine (or a retriever of our choice).</li>
+<li>Retrieval is run with the query the LLM provided, and the resulting context is appended to the original prompt.</li>
+<li>The entire prompt is returned to the LLM, which reads it, follows all the reasoning it did in the previous steps, and decides whether to do another search or reply to the user.</li>
+</ol>
+<p>Multihop RAG is used for autonomous exploration of a topic, but it can be very expensive because many LLM calls are performed, and the prompts tend to become really long really quickly. The process can also take quite some time, so it's not suitable for low-latency applications. However, the idea is quite powerful, and it can be adapted into other forms.</p>
+<h2>A word on finetuning</h2>
+<p>It's important to remember that finetuning is not an alternative to RAG. Finetuning can and should be used together with RAG on very complex domains, such as medical or legal. </p>
+<p>When people think about finetuning, they usually focus on finetuning the LLM. In RAG, though, it is not only the LLM that needs to understand the question: it's crucial that the retriever understands it well, too! This means <strong>the embedding model needs finetuning as much as the LLM</strong>. Finetuning your embedding models, and in some cases also your reranker, can improve the effectiveness of your RAG by orders of magnitude. Such a finetune often requires only a fraction of the training data, so it's well worth the investment.</p>
+<p>Finetuning the LLM is also necessary if you need to alter its behavior in production, such as making it more colloquial, more concise, or stick to a specific voice. Prompt engineering can also achieve these effects, but it's often more brittle and can be more easily worked around. Finetuning the LLM has a much more powerful and lasting effect.</p>
+<h2>Conclusion</h2>
+<p>RAG is a vast topic that could fill books: this was only an overview of some of the most important concepts to remember when working on a RAG application. For more on this topic, check out my <a href="/posts">other blog posts</a> and stay tuned for <a href="/talks">future talks</a>!</p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">[K</a></p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

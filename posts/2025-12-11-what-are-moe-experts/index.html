@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>What are the "experts" in Mixture-of-Experts LLMs? · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What are the "experts" in Mixture-of-Experts LLMs? · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2025-12-11-what-are-moe-experts/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="What are the "experts" in Mixture-of-Experts LLMs?">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2025-12-11-what-are-moe-experts/cover-inv.png">
+  <meta name="og:image" content="/posts/2025-12-11-what-are-moe-experts/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2025-12-11-what-are-moe-experts/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2025-12-11-what-are-moe-experts/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">What are the &quot;experts&quot; in Mixture-of-Experts LLMs?</h1>
+      
+<span style="color: var(--muted-text);">And how can 8 or 16 of them cover all possible domain of expertise?</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2025-12-11T00:00:00Z">by <a href="/">Sara Zan</a>, December 11, 2025</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2025-12-11-what-are-moe-experts/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <p><em>This is episode 5 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: <a href="/series/practical-questions">Practical Questions</a>.</em></p>
+<hr />
+<p>Nearly all popular LLMs share the same internal structure: they are decoder-only Transformers. However, they are not completely identical: in order to speed up training, increase intelligence or improve inference speed and cost, this base template is sometimes modified a bit.</p>
+<p>One popular variant is the so-called <strong>MoE (Mixture of Experts)</strong> architecture: a neural network design that divides the model into multiple independent sub-networks called "experts". For each input, a routing algorithm (also called gating network) determines which experts to activate, so only a subset of the model's parameters is used during each inference pass. This leads to efficient scaling: models can grow significantly in parameter size without a proportional increase in computational resources per token or query. In short, it enables large models to perform as quickly as smaller ones without sacrificing accuracy.</p>
+<p>But what are these expert networks, and how are they built? One common misconception is that the "experts" of MoE are specialized in a well defined, recognizable type of task: that the model includes a "math expert", a "poetry expert", and so on​. The query would then be routed to the appropriate expert after the type of request is classified. </p>
+<p>However, this is not the case. Let's figure out how it works under the hood.</p>
+<h2>The MoE architecture</h2>
+<p>In order to understand MoE, you should first be familiar with the basic architecture of decoder-only Transformers. If the diagram below is not familiar to you, have a look at <a href="https://cameronrwolfe.substack.com/p/decoder-only-transformers-the-workhorse" target="_blank" rel="noopener noreferrer">this detailed description</a> before diving in.</p>
+<p><img alt="" src="/posts/2025-12-11-what-are-moe-experts/decoder-only-transformer-inv.png"  class="invertible" /></p>
+<p>The main change made by a MoE over the decoder-only transformer architecture is <strong>within the feed-forward component of the transformer block</strong>. In the standard, non MoE architecture, the tokens pass one by one through a have a single feed-forward neural network. In a MoE instead, at this stage there are many feed-forward networks, each with their own weights: they are the "experts".</p>
+<p>This means that to create an MoE LLM we first need to convert the transformer’s feed-forward layers to these expert layers. Their internal structure is the same as the original, single network, but copied a few times, with the addition of a routing algorithm to select the expert to use for each input token to process.</p>
+<p><img alt="" src="/posts/2025-12-11-what-are-moe-experts/moe-decoding-step-inv.png"  class="invertible" /></p>
+<p>The core of a routing algorithm is rather simple as well. First the token's embedding passes through a linear transformation (such as a fully connected layer) that outputs a vector as long as the number of experts we have in our system. Then, a softmax is applied and the top-k experts are selected. After the experts produce output, their results are then averaged (using their initial score as weight) and sent to the next decode layer.</p>
+<p><img alt="" src="/posts/2025-12-11-what-are-moe-experts/moe-router-inv.png"  class="invertible" /></p>
+<p>Keep in mind that this is a simplification of the actual routing mechanism of real MoE models. If implemented as described here, through the training phase you would observe a <strong>routing collapse</strong>: the routing network would learn to send all tokens to the same expert all the time, reducing your MoE model back to the equivalent of a regular decoder-only Transformer. To make the network learn to distribute the tokens in a more balanced fashion, you would need to add auxiliary loss functions that make the routing network learn to load balance the experts properly. For more details on this process (and much more on MoE in general) see <a href="https://cameronrwolfe.substack.com/p/moe-llms" target="_blank" rel="noopener noreferrer">this detailed overview</a>.</p>
+<h2>So experts never specialize?</h2>
+<p>Yes and no. On the <a href="https://arxiv.org/abs/2402.01739" target="_blank" rel="noopener noreferrer">OpenMoE paper</a>, the authors investigated in detail whether experts do specialize in any recognizable domain, and they observed interesting results. In their case, experts do not tend to specialize in any particular domain; however, there is some level of expert specialization across natural languages and specific tasks.</p>
+<p><img alt="" src="/posts/2025-12-11-what-are-moe-experts/moe-not-specializing-domains-inv.jpg"  class="invertible" /></p>
+<p><img alt="" src="/posts/2025-12-11-what-are-moe-experts/moe-specializing-domains-inv.jpg"  class="invertible" /></p>
+<p>According to the authors, this specialization is due to the same tokens being sent to the same expert every time, regardless of the context in which it is used. Given that different languages use a very different set of tokens, it's natural to see this sort of specialization emerging, and the same can be said of specific tasks, where the jargon and the word frequency changes strongly. The paper defines this behavior as “Context-Independent Specialization”.</p>
+<p>It's important to stress again that whether this specialization occurs, and on which dimensions, is irrelevant to the effectiveness of this architecture. The core advantage of MoE is <em>not</em> the presence of recognizable experts, but on the sparsity it introduces: with MoE you can scale up the parameters count without slowing down the inference speed of the resulting model, because not all weights will be used for all tokens.</p>
+<h2>Conclusion</h2>
+<p>The term "Mixture of Experts" can easily bring the wrong image into the mind of people unaccustomed with how neural networks, and Transformers in general, work internally. When discussing this type of models, I often find important to stress the difference between how the term "expert" is intended by a non technical audience and what it means in this context.</p>
+<p>If you want to learn more about MoEs and how they're implemented in practice, I recommend this  <a href="https://cameronrwolfe.substack.com/p/moe-llms" target="_blank" rel="noopener noreferrer">this very detailed article</a> by Cameron Wolfe, where he dissects the architecture in far more detail and adds plenty of examples and references to dig further.</p>
+<p>​</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

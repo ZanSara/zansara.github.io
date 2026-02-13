@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>An (unofficial) Python SDK for Verbix · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="An (unofficial) Python SDK for Verbix · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="An (unofficial) Python SDK for Verbix">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2023-09-10-python-verbix-sdk/cover.png">
+  <meta name="og:image" content="/posts/2023-09-10-python-verbix-sdk/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2023-09-10-python-verbix-sdk/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">An (unofficial) Python SDK for Verbix</h1>
+      
+<span style="color: var(--muted-text);">If you need a Python SDK for a verb conjugator, try this one while it&#x27;s still alive.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2023-09-10T00:00:00Z">by <a href="/">Sara Zan</a>, September 10, 2023</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2023-09-10-python-verbix-sdk/cover.png" alt="Featured image" />
+
+    <p>PyPI package: <a href="https://pypi.org/project/verbix-sdk/" target="_blank" rel="noopener noreferrer">https://pypi.org/project/verbix-sdk/</a></p>
+<p>GitHub Repo: <a href="https://github.com/ZanSara/verbix-sdk" target="_blank" rel="noopener noreferrer">https://github.com/ZanSara/verbix-sdk</a></p>
+<p>Minimal Docs: <a href="https://github.com/ZanSara/verbix-sdk/blob/main/README.md" target="_blank" rel="noopener noreferrer">https://github.com/ZanSara/verbix-sdk/blob/main/README.md</a></p>
+<hr />
+<p>As part of a larger side project which is still in the works (<a href="https://github.com/ebisu-flashcards" target="_blank" rel="noopener noreferrer">Ebisu Flashcards</a>), these days I found myself looking for some decent API for verbs conjugations in different languages. My requirements were "simple":</p>
+<ul>
+<li>Supports many languages, including Italian, Portuguese and Hungarian</li>
+<li>Conjugates irregulars properly</li>
+<li>Offers an API access to the conjugation tables</li>
+<li>Refuses to conjugate anything except for known verbs</li>
+<li>(Optional) Highlights the irregularities in some way</li>
+</ul>
+<p>Surprisingly these seem to be a shortage of good alternatives in this field. All websites that host polished conjugation data don't seem to offer API access (looking at you, <a href="https://conjugator.reverso.net" target="_blank" rel="noopener noreferrer">Reverso</a> -- you'll get your own post one day), and most of the simples ones use heuristics to conjugate, which makes them very prone to errors. So for now I ended up choosing <a href="https://verbix.com" target="_blank" rel="noopener noreferrer">Verbix</a> to start from.</p>
+<p>Unfortunately the website doesn't inspire much confidence. I attempted to email the creator just to see them <a href="https://verbix.com/contact.html" target="_blank" rel="noopener noreferrer">close their email account</a> a while later, an <a href="https://api.verbix.com/" target="_blank" rel="noopener noreferrer">update in their API</a> seems to have stalled half-way, and the <a href="https://verb-blog.verbix.com/" target="_blank" rel="noopener noreferrer">blog seems dead</a>. I often have the feeling this site might go under any minute, as soon as their domain registration expires.</p>
+<p>But there are pros to it, as long as it lasts. Verbix offers verbs conjugation and nouns declination tables for some <a href="https://verbix.com/languages/" target="_blank" rel="noopener noreferrer">very niche languages, dialects and conlangs</a>, to a degree that many other popular websites does not even come close. To support such variety they use heuristic to create the conjugation tables, which is not the best: for Hungarian, for example, I could easily get it to conjugate for me <a href="https://verbix.com/webverbix/go.php?T1=meegy&amp;Submit=Go&amp;D1=121&amp;H1=221" target="_blank" rel="noopener noreferrer">verbs that don't exist</a> or that have spelling mistakes. On the other hand their API do have a field that says whether the verb is known or not, which is a great way to filter out false positives.</p>
+<p>So I decided to go the extra mile and I wrote a small Python SDK for their API: <a href="https://pypi.org/project/verbix-sdk/" target="_blank" rel="noopener noreferrer">verbix-sdk</a>. Enjoy it while it lasts...</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

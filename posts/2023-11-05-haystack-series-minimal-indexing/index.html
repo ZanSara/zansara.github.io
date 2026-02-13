@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Indexing data for RAG applications · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Indexing data for RAG applications · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Indexing data for RAG applications">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2023-11-05-haystack-series-minimal-indexing/cover.png">
+  <meta name="og:image" content="/posts/2023-11-05-haystack-series-minimal-indexing/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2023-11-05-haystack-series-minimal-indexing/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Indexing data for RAG applications</h1>
+      
+<span style="color: var(--muted-text);">RAG apps need data to work. Let&#x27;s see how to pre-process our data to make our Haystack 2.0 RAG pipeline perform even better.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2023-11-05T00:00:00Z">by <a href="/">Sara Zan</a>, November 05, 2023</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2023-11-05-haystack-series-minimal-indexing/cover.png" alt="Featured image" />
+
+    <p><em>Last updated: 18/01/2024</em></p>
+<hr />
+<p>In the <a href="/posts/2023-10-27-haystack-series-rag">previous post</a> of the Haystack 2.0 series, we saw how to build RAG pipelines using a generator, a prompt builder, and a retriever with its document store. However, the content of our document store wasn't extensive, and populating one with clean, properly formatted data is not an easy task. How can we approach this problem?</p>
+<p>In this post, I will show you how to use Haystack 2.0 to create large amounts of documents from a few web pages and write them a document store that you can then use for retrieval.</p>
+<div class="notice info">
+💡 Do you want to see the code in action? Check out the <a href="https://colab.research.google.com/drive/155CtcumiK5w3wX6FWyM1dG3OqnhwnCqy?usp=sharing" target="_blank" rel="noopener noreferrer">Colab notebook</a> or the <a href="https://gist.github.com/ZanSara/ba7efd241c61ccfd12ed48195e23bb34" target="_blank" rel="noopener noreferrer">gist</a>.
+</div>
+
+<div class="notice warning">
+
+<p><i>⚠️ Warning:</i> This code was tested on <code>haystack-ai==2.0.0b5</code>. Haystack 2.0 is still unstable, so later versions might introduce breaking changes without notice until Haystack 2.0 is officially released. The concepts and components, however, stay the same.</p>
+
+</div>
+
+<h2>The task</h2>
+<p>In Haystack's terminology, the process of extracting information from a group of files and storing the data in a document store is called "indexing". The process includes, at the very minimum, reading the content of a file, generating a Document object containing all its text, and then storing it in a document store.</p>
+<p>However, indexing pipelines often do more than this. They can process more than one file type, like .txt, .pdf, .docx, .html, audio, video, and images. Having many file types to convert, they route each file to the proper converter based on its type. Files tend to contain way more text than a normal LLM can chew, so they need to split those huge Documents into smaller chunks. Also, the converters are not perfect at reading text from the files, so they need to clean the data from artifacts such as page numbers, headers, footers, and so on. On top of all of this, if you plan to use a retriever that is based on embedding similarity, your indexing pipeline will also need to embed all documents before writing them into the store.</p>
+<p>Sounds like a lot of work!</p>
+<p>In this post, we will focus on the preprocessing part of the pipeline: cleaning, splitting, and writing documents. I will talk about the other functionalities of indexing pipelines, such as document embedding and multiple file types routing, in later posts.</p>
+<h2>Converting files</h2>
+<p>As we've just seen, the most important task of this pipeline is to convert files into Documents. Haystack provides several converters for this task: at the time of writing, it supports:</p>
+<ul>
+<li>Raw text files (<code>TextFileToDocument</code>)</li>
+<li>HTML files, so web pages in general (<code>HTMLToDocument</code>)</li>
+<li>PDF files, by extracting text natively (<code>PyPDFToDocument</code>)</li>
+<li>Image files, PDFs with images, and Office files with images, by OCR (<code>AzureOCRDocumentConverter</code>)</li>
+<li>Audio files, doing transcription with Whisper either locally (<code>LocalWhisperTranscriber</code>) or remotely using OpenAI's hosted models (<code>RemoteWhisperTranscriber</code>)</li>
+<li>A ton of <a href="https://tika.apache.org/2.9.1/formats.html" target="_blank" rel="noopener noreferrer">other formats</a>, such as Microsoft's Office formats, thanks to <a href="https://tika.apache.org/" target="_blank" rel="noopener noreferrer">Apache Tika</a> (<code>TikaDocumentConverter</code>)</li>
+</ul>
+<p>For this example, let's assume we have a collection of web pages downloaded from the Internet. These pages are our only source of information and contain all we want our RAG application to know about.</p>
+<p>In this case, our converter of choice is <code>HTMLToDocument</code>. <code>HTMLToDocument</code> is a Haystack component that understands HTML and can filter all the markup away, leaving only meaningful text. Remember that this is a file converter, not a URL fetcher: it can only process local files, such as a website crawl. Haystack provides some components to fetch web pages, but we will see them later.</p>
+<p>Here is how you can use this converter:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.converters</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTMLToDocument</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;Republic_of_Rose_Island.html&quot;</span>
+
+<span class="n">converter</span> <span class="o">=</span> <span class="n">HTMLToDocument</span><span class="p">()</span>
+<span class="n">converter</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="n">path</span><span class="p">])</span>
+
+<span class="c1"># returns {&quot;documents&quot;: [Document(content=&quot;The Republic of Rose Isla...&quot;)]}</span>
+</code></pre></div>
+
+<p><code>HTMLToDocument</code> is a straightforward component that offers close to no parameters to customize its behavior. Of its API, one notable feature is its input type: this converter can take paths to local files in the form of strings or <code>Path</code> objects, but it also accepts <code>ByteStream</code> objects.</p>
+<p><code>ByteStream</code> is a handy Haystack abstraction that makes handling binary streams easier. If a component accepts <code>ByteStream</code> as input, you don't necessarily have to save your web pages to file before passing them to this converter. This allows components that retrieve large files from the Internet to pipe their output directly into this component without saving the data to disk first, which can save a lot of time.</p>
+<h2>Cleaning the text</h2>
+<p>With <code>HTMLToDocument</code>, we can convert whole web pages into large Document objects. The converter typically does a decent job of filtering out the markup. Still, it's not always perfect. To compensate for these occasional issues, Haystack offers a component called <code>DocumentCleaner</code> that can remove noise from the text of the documents.</p>
+<p>Just like any other component, <code>DocumentCleaner</code> is straightforward to use:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.preprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentCleaner</span>
+
+<span class="n">cleaner</span> <span class="o">=</span> <span class="n">DocumentCleaner</span><span class="p">()</span>
+<span class="n">cleaner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">)</span>
+<span class="c1"># returns {&quot;documents&quot;: [Document(content=...), Document(content=...), ...]}</span>
+</code></pre></div>
+
+<p>The effectiveness of <code>DocumentCleaner</code> depends a lot on the type of converter you use. Some flags, such as <code>remove_empty_lines</code> and <code>remove_extra_whitespace</code>, are minor fixes that can come in handy but usually have little impact on the quality of the results when used in a RAG pipeline. They can, however, make a vast difference for Extractive QA pipelines.</p>
+<p>Other parameters, like <code>remove_substrings</code> or <code>remove_regex</code>, work very well but need manual inspection and iteration from a human to get right. For example, for Wikipedia pages, we could use these parameters to remove all instances of the word <code>"Wikipedia"</code>, which are undoubtedly many and irrelevant.</p>
+<p>Finally, <code>remove_repeated_substrings</code> is a convenient method that removes headers and footers from long text, for example, books and articles. However, it works only for PDFs and, to a limited degree, for text files because it relies on the presence of form feed characters (<code>\f</code>), which are rarely present in web pages.</p>
+<h2>Splitting the text</h2>
+<p>Now that the text is cleaned up, we can move onto a more exciting step: text splitting.</p>
+<p>So far, each Document stored the content of an entire file. If a file was a whole book with hundreds of pages, a single Document would contain hundreds of thousands of words, which is clearly too much for an LLM to make sense of. Such a large Document is also challenging for Retrievers to understand because it contains so much text that it looks relevant to every possible question. To populate our document store with data that can be used effectively by a RAG pipeline, we need to chunk this data into much smaller Documents.</p>
+<p>That's where <code>DocumentSplitter</code> comes into play.</p>
+<div class="notice info">
+
+<p>💡 With LLMs in a race to offer the <a href="https://magic.dev/blog/ltm-1" target="_blank" rel="noopener noreferrer">largest context window</a> and research showing that such a chase is <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer">counterproductive</a>, there is no general consensus about how splitting Documents for RAG impacts the LLM's performance.</p>
+<p>What you need to keep in mind is that splitting implies a tradeoff. Huge documents will always be slightly relevant for every question, but they will bring a lot of context, which may or may not confuse the model. On the other hand, tiny Documents are much more likely to be retrieved only for questions they're highly relevant for, but they might provide too little context for the LLM to really understand their meaning.</p>
+<p>Tweaking the size of your Documents for the specific LLM you're using and the topic of your documents is one way to optimize your RAG pipeline, so be ready to experiment with different Document sizes before committing to one.</p>
+
+</div>
+
+<p>How is it used?</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.preprocessors.text_document_splitter</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentSplitter</span>
+
+<span class="n">text_splitter</span> <span class="o">=</span> <span class="n">DocumentSplitter</span><span class="p">(</span><span class="n">split_by</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">split_length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">text_splitter</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="c1"># returns {&quot;documents&quot;: [Document(content=...), Document(content=...), ...]}</span>
+</code></pre></div>
+
+<p><code>DocumentSplitter</code> lets you configure the approximate size of the chunks you want to generate with three parameters: <code>split_by</code>, <code>split_length</code>, and <code>split_overlap</code>.</p>
+<p><code>split_by</code> defines the unit to use when splitting some text. For now, the options are <code>word</code>, <code>sentence</code>, and <code>passage</code> (paragraph), but we will soon add other options.</p>
+<p><code>split_length</code> is the number of the units defined above each document should include. For example, if the unit is <code>sentence</code>, <code>split_length=10</code> means that all your Documents will contain 10 sentences worth of text (except usually for the last document, which may have less). If the unit was <code>word</code>, it would instead contain 10 words.</p>
+<p><code>split_overlap</code> is the amount of units that should be included from the previous Document. For example, if the unit is <code>sentence</code> and the length is <code>10</code>, setting <code>split_overlap=2</code> means that the last two sentences of the first document will also be present at the start of the second, which will include only 8 new sentences for a total of 10. Such repetition carries over to the end of the text to split.</p>
+<h2>Writing to the store</h2>
+<p>Once all of this is done, we can finally move on to the last step of our journey: writing the Documents into our document store. We first create the document store:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.document_stores.in_memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryDocumentStore</span>
+
+<span class="n">document_store</span> <span class="o">=</span> <span class="n">InMemoryDocumentStore</span><span class="p">()</span>
+</code></pre></div>
+
+<p>and then use <code>DocumentWriter</code> to actually write the documents in:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.writers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentWriter</span>
+
+<span class="n">writer</span> <span class="o">=</span> <span class="n">DocumentWriter</span><span class="p">(</span><span class="n">document_store</span><span class="o">=</span><span class="n">document_store</span><span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">documents</span><span class="o">=</span><span class="n">documents_with_embeddings</span><span class="p">)</span>
+<span class="c1"># returns {&quot;documents_written&quot;: 120}</span>
+</code></pre></div>
+
+<p>If you've read my <a href="/posts/2023-10-27-haystack-series-rag">previous post</a> about RAG pipelines, you may wonder: why use <code>DocumentWriter</code> when we could call the <code>.write_documents()</code> method of our document store?</p>
+<p>In fact, the two methods are fully equivalent: <code>DocumentWriter</code> does nothing more than calling the <code>.write_documents()</code> method of the document store. The difference is that <code>DocumentWriter</code> is the way to go if you are using a Pipeline, which is what we're going to do next.</p>
+<h2>Putting it all together</h2>
+<p>We finally have all the components we need to go from a list of web pages to a document store populated with clean and short Document objects. Let's build a Pipeline to sum up this process:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">document_store</span> <span class="o">=</span> <span class="n">InMemoryDocumentStore</span><span class="p">()</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;converter&quot;</span><span class="p">,</span> <span class="n">HTMLToDocument</span><span class="p">())</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;cleaner&quot;</span><span class="p">,</span> <span class="n">DocumentCleaner</span><span class="p">())</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;splitter&quot;</span><span class="p">,</span> <span class="n">DocumentSplitter</span><span class="p">(</span><span class="n">split_by</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">split_length</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;writer&quot;</span><span class="p">,</span> <span class="n">DocumentWriter</span><span class="p">(</span><span class="n">document_store</span><span class="o">=</span><span class="n">document_store</span><span class="p">))</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;converter&quot;</span><span class="p">,</span> <span class="s2">&quot;cleaner&quot;</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;cleaner&quot;</span><span class="p">,</span> <span class="s2">&quot;splitter&quot;</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;splitter&quot;</span><span class="p">,</span> <span class="s2">&quot;writer&quot;</span><span class="p">)</span>
+
+<span class="n">pipeline</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;simple-indexing-pipeline.png&quot;</span><span class="p">)</span>
+
+<span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">({</span><span class="s2">&quot;converter&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;sources&quot;</span><span class="p">:</span> <span class="n">file_names</span><span class="p">}})</span>
+</code></pre></div>
+
+<p><img alt="Indexing Pipeline" src="/posts/2023-11-05-haystack-series-minimal-indexing/simple-indexing-pipeline-inv.png"  class="invertible" /></p>
+<p>That's it! We now have a fully functional indexing pipeline that can take a list of web pages and convert them into Documents that our RAG pipeline can use. As long as the RAG pipeline reads from the same store we are writing the Documents to, we can add as many Documents as we need to keep the chatbot's answers up to date without having to touch the RAG pipeline.</p>
+<p>To try it out, we only need to take the RAG pipeline we built in <a href="/posts/2023-10-27-haystack-series-rag">my previous post</a> and connect it to the same document store we just populated:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.generators</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIGenerator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.builders.prompt_builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">haystack.components.retrievers.in_memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryBM25Retriever</span>
+
+<span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Given the following information, answer the question: {{ question }}</span>
+
+<span class="s2">{</span><span class="si">% f</span><span class="s2">or document in documents %}</span>
+<span class="s2">    {{ document.content }}</span>
+<span class="s2">{</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;retriever&quot;</span><span class="p">,</span> <span class="n">InMemoryBM25Retriever</span><span class="p">(</span><span class="n">document_store</span><span class="o">=</span><span class="n">document_store</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="n">PromptBuilder</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;llm&quot;</span><span class="p">,</span> <span class="n">OpenAIGenerator</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">))</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;retriever&quot;</span><span class="p">,</span> <span class="s2">&quot;prompt_builder.documents&quot;</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;prompt_builder&quot;</span><span class="p">,</span> <span class="s2">&quot;llm&quot;</span><span class="p">)</span>
+
+<span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;Is there any documentary about the story of Rose Island? Can you tell me something about that?&quot;</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">run</span><span class="p">({</span>
+    <span class="s2">&quot;retriever&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">},</span>
+    <span class="s2">&quot;prompt_builder&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1"># returns {</span>
+<span class="c1">#     &#39;llm&#39;: {</span>
+<span class="c1">#         &#39;replies&#39;: [</span>
+<span class="c1">#             &#39;Yes, there is a documentary about the story of Rose Island. It is </span>
+<span class="c1">#             called &quot;Rose Island&quot; and was released on Netflix on 8 December 2020. </span>
+<span class="c1">#             The documentary follows the true story of Giorgio Rosa, an Italian </span>
+<span class="c1">#             engineer who built his own island in the Adriatic sea in the late </span>
+<span class="c1">#             1960s. The island housed a restaurant, bar, souvenir shop, and even </span>
+<span class="c1">#             a post office. Rosa\&#39;s goal was to have his self-made structure </span>
+<span class="c1">#             recognized as an independent state, leading to a battle with the </span>
+<span class="c1">#             Italian authorities. The film depicts the construction of the island </span>
+<span class="c1">#             and Rosa\&#39;s refusal to dismantle it despite government demands. The </span>
+<span class="c1">#             story of Rose Island was relatively unknown until the release of the </span>
+<span class="c1">#             documentary. The film showcases the technology Rosa invented to build </span>
+<span class="c1">#             the island and explores themes of freedom and resilience.&#39;</span>
+<span class="c1">#         ],</span>
+<span class="c1">#         &#39;metadata&#39;: [...]</span>
+<span class="c1">#     }</span>
+<span class="c1"># }</span>
+</code></pre></div>
+
+<p>And suddenly, our chatbot knows everything about Rose Island without us having to feed the data to the document store by hand.</p>
+<h2>Wrapping up</h2>
+<p>Indexing pipelines can be powerful tools, even in their simplest form, like the one we just built. However, it doesn't end here: Haystack offers many more facilities to extend what's possible with indexing pipelines, like doing web searches, downloading files from the web, processing many other file types, and so on.</p>
+<p>We will see how soon, so stay tuned!</p>
+<hr />
+<p><em>Next: <a href="/posts/2023-11-09-haystack-series-simple-web-rag">The World of Web RAG</a></em></p>
+<p><em>Previous: <a href="/posts/2023-10-27-haystack-series-rag">RAG Pipelines from scratch</a></em></p>
+<p><em>See the entire series here: <a href="/series/haystack-2.0-series/">Haystack 2.0 series</a></em></p>
+<p><small><em>Cover image from <a href="https://bertolamifineart.bidinside.com/en/lot/126352/1968-insula-de-la-rozoj-o-isola-delle-/" target="_blank" rel="noopener noreferrer">this website.</a></em></small></p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>What is prompt caching? · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What is prompt caching? · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2025-10-17-prompt-caching/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="What is prompt caching?">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2025-10-17-prompt-caching/cover-inv.png">
+  <meta name="og:image" content="/posts/2025-10-17-prompt-caching/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2025-10-17-prompt-caching/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2025-10-17-prompt-caching/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">What is prompt caching?</h1>
+      
+<span style="color: var(--muted-text);">Caching prompts can have an outsized impact on the cost and latency of your AI apps. But what exactly to cache and how?</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2025-10-17T00:00:00Z">by <a href="/">Sara Zan</a>, October 17, 2025</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2025-10-17-prompt-caching/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <hr />
+<p><em>This is episode 2 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: <a href="/series/practical-questions">Practical Questions</a>.</em></p>
+<hr />
+<p>A common piece of advice to improve speed and reduce cost of inference in LLMs is to use prompt caching. However, it's often not clear what this means. What exactly is cached? When and why the improvements are really impactful? Understanding prompt caching starts with a deeper awareness of how computation and costs scale with large contexts.</p>
+<h2>LLMS are stateless</h2>
+<p>Each time an LLM processes input, it handles every token of the provided context. LLMs are stateless: this means that for every new message added to an existing chat, your application needs to submit the whole history which could include system prompts, documents, examples, and all the chat history. <br />
+The model recomputes all of those tokens each time. </p>
+<p>This is a massive inefficiency. For example, with an input cost around $1 per 1 million tokens, sending 100,000 tokens across 1,000 requests would cost approximately $100, while about 95% of those tokens remain unchanged across requests. In essence, a large portion of computation is wasted on repeatedly processing information that never changes: the message history.</p>
+<h2>Stateless vs stateful design</h2>
+<p>Naive API implementations that omit caching force the model to process the entire context anew each time. This "stateless" method is simpler to implement, but wastefully expensive. The system pays repeatedly to recompute static context, which could otherwise be reused.</p>
+<p>In contrast, with a stateful cache strategy, the system stores parts of the context and only processes new inputs (queries). Consider the following case:</p>
+<ul>
+<li>the system prompt is 10,000 tokens long </li>
+<li>each user message is about 100 tokens</li>
+<li>each assistant response is about 1000 tokens</li>
+</ul>
+<p>In both cases, the first request processes 10,100 tokens (1 system prompt + 1 user message). On the second message, a stateless request (no caching) needs to process 11,200 tokens (1 system prompt + first user message + first assistant response + the next user message) while a stateful one can first load the cache and then process only 1100 new tokens (the assistant response + the new user message). That's an order of magnitude less tokens!<br />
+On top of that, as the chat continues, a stateful app will always need to only process the next new 1100 tokens, while the stateless version will process a chat history that grows by 1100 every time. For example, by the 10th request, with caching you need to process 1100 tokens, while without you need to deal with 20,000! (10,000 system prompt tokens + 9,000 assistant reply tokens + 1000 user message tokens).</p>
+<p>Here's a recap to highlight the difference:</p>
+<div style="text-align: center;">
+
+<table style="width:100%; border: 2px solid black;">
+<tr>
+    <th></th>
+    <th>No Prompt Caching</th>
+    <th>With Prompt Caching</th>
+</tr>
+<tr>
+    <td>1st request</td>
+    <td>10,100 tokens<br><small>10,000tk sys + 100tk user</small></td>
+    <td>10,100 tokens<br><small>10,000tk sys + 100tk user</small></td>
+</tr>
+<tr>
+    <td>2nd request</td>
+    <td>11,200 tokens<br><small>10,000tk sys + 1000tk llm + (100 * 2) tk user</small></td>
+    <td>1100 tokens<br><small>1000tk llm + 100tk user</small></td>
+</tr>
+<tr>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+</tr>
+<tr>
+    <td>10th request</td>
+    <td>20,000 tokens<br><small>10,000tk sys + (1000 * 9)tk llm + (100 * 10) tk user</small></td>
+    <td>1100 tokens<br><small>1000tk llm + 100tk user</small></td>
+</tr>
+</table>
+
+</div>
+
+<p>While cache warm-up is not free, it can make a huge difference in the latency of your responses and, if you're paying by the output token, reduce the costs by orders of magnitude.</p>
+<h2>Cache Hierarchies</h2>
+<p>Caching’s benefits come with architectural tradeoffs. Stateless designs are straightforward and predictably expensive: every token is always processed. Caching drastically reduces costs by reusing prior computation, but requires complexity in cache management, such as:</p>
+<ul>
+<li>Cache invalidation: deciding how and when to refresh cached segments.</li>
+<li>Cache misses: when requested information isn’t in the cache, leading to full recomputation and latency spikes.</li>
+</ul>
+<p>Because of these challenges, a single monolithic cache usually not enough to see many benefits. The most effective solution is a <strong>hierarchical cache strategy</strong>.</p>
+<p>Effective prompt caching leverages multiple layers with varied lifetimes and hit rates:</p>
+<ul>
+<li><strong>L1: System Prompt (e.g., 5,000 tokens)</strong>: it rarely changes, so it has the best hit rate. In most chat you'll at least hit this cache.</li>
+<li><strong>L2: System Prompt + Examples and Tools (e.g., +20,000 tokens)</strong>: may change per task, so it can has a lower hit rate than the system prompt, but eventually it depends completely on your application type. Agentic apps that make heavy use of tools benefit the most from caching them, as they follow the system prompt and might not depend at all from the user query or the agent's decisions.</li>
+<li><strong>L3: System Prompt + Examples and Tools + Documents (e.g., +50,000 tokens)</strong>: if you're working with documents, caching any initial retrieval can help too. These documents are likely to change per user and/or per session, so it has a moderate/low hit rate. However, the size of these chunks usually makes it worth it if you have some spare capacity or a small and static knowledge base to retrieve from.</li>
+</ul>
+<p>A layered approach like balances freshness and reuse, optimizing both cost and performance.</p>
+<h2>Automatic prefix caching</h2>
+<p>If you're using a modern inference engine, prompt caching can also be done through <strong>automatic prefix caching</strong>, where the engine itself takes the responsibility to identify and cache frequently used prefixes. Here you can find more details about the availability of this feature in <a href="https://docs.vllm.ai/en/latest/design/prefix_caching.html" target="_blank" rel="noopener noreferrer">vLLM</a>, <a href="https://docs.sglang.ai/advanced_features/hicache_best_practices.html" target="_blank" rel="noopener noreferrer">SDLang</a> and <a href="https://github.com/ggml-org/llama.cpp/discussions/8947" target="_blank" rel="noopener noreferrer">llama.cpp</a>, but there are many other engines supporting it.</p>
+<p><img alt="" src="/posts/2025-10-17-prompt-caching/optimizations_table-inv.png"  class="invertible" /></p>
+<p><em>A feature comparison across inference engines from <a href="https://arxiv.org/pdf/2505.01658" target="_blank" rel="noopener noreferrer">this May 2025 review</a>.</em></p>
+<h2>Semantic caching</h2>
+<p>In extreme cases where cost, load or latency must be reduced to the maximum, semantic caching can also be employed. Semantic caching allows you to cache also the user queries and the assistant responses by keeping a registry of already processes user queries and performing a semantic search step between the new query and the cached ones. If a match is found, instead of invoking the LLM to generate a new answer, the cached reply is sent to the user immediately.</p>
+<p>Semantic caching however has several disadvantages that makes it worthwhile only in rare situations:</p>
+<ul>
+<li><strong>Access control</strong>. Caching must be done per user if each user has access to a different set of resources, to avoid accidental sharing of data and/or resources across users. </li>
+<li><strong>Very high similarity needed</strong>: In order for the reply to be relevant, the semantic similarity between the two must be extremely high, or you risk that the answer returned to the user won't match their question. Semantic similarity tends to overlook details which are often very important to an accurate reply: for example, "What's the sum of these numbers: 1,2,3,4,5,6,7?" and  "What's the sum of these numbers: 1,2,3,4,5,6,7,8?" will have an extremely high similarity, but returning the response of the first to the second would not be a good idea.</li>
+<li><strong>Language management</strong>: what to do when the exact same question is asked in two different languages? Semantic similarity may be perfect if your embedder is multilingual, but the user won't be pleased to receive a cached answer in a language different from their own.</li>
+</ul>
+<p>Such constraints make cache misses extremely frequent, which defies the point of keeping a cache and simply adds complexity and latency to the system instead of reducing it. The similarity pitfalls introduces also nasty accuracy problems.</p>
+<p>In my personal experience, semantic caching is only useful for extremely high volume, low cost, public facing interfaces where accuracy is not critical. A perfect example could be a virtual assistant for anonymous customer support, or a helper bot for a software's documentation search. In any case, you usually need additional checks on the output in order to trust such a system.</p>
+<h2>Conclusion</h2>
+<p>Prompt caching is not just about cutting costs or speeding things up: it is a necessary architectural approach that addresses the quadratic computational cost inherent in large-context LLM processing. Without it, your backend will repeatedly recompute largely static information, wasting resources and imposing latency penalties that impact your user's experience. By adopting hierarchical, stateful caching and carefully designing prompts, you can reduce token processing costs and response speed by orders of magnitude, which is key for building sustainable, high-performance applications.</p>
+<p>In the next post we will talk in detail about <a href="/posts/2025-10-23-kv-caching/">how prompt caching works</a>. Be ready for a more technical deep dive into the architecture of LLMs!</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

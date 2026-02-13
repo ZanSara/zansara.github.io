@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Using Llama Models in the EU · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Using Llama Models in the EU · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Using Llama Models in the EU">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2025-05-16-llama-eu-ban/cover.png">
+  <meta name="og:image" content="/posts/2025-05-16-llama-eu-ban/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2025-05-16-llama-eu-ban/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Using Llama Models in the EU</h1>
+      
+<span style="color: var(--muted-text);">The ban&#x27;s terms are surprisingly not well known among users of these popular &quot;open-source&quot; LLMs.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2025-05-16T00:00:00Z">by <a href="/">Sara Zan</a>, May 16, 2025</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2025-05-16-llama-eu-ban/cover.png" alt="Featured image" />
+
+    <p><a href="https://ai.meta.com/blog/llama-4-multimodal-intelligence/" target="_blank" rel="noopener noreferrer">The Llama 4 family</a> has been released over a month ago and I finally found some time to explore it. Or so I wished to do, until I realized one crucial issue with these models:</p>
+<p><strong>They are banned in the EU.</strong></p>
+<p>Apparently Meta can’t be bothered to comply with EU regulations on AI, and therefore opted for a wide ban that should prevent such laws to apply to them. Of course, while this limitation is technically valid for each and every person and company domiciled in the EU, the problem arises primarily for companies that want to use Llama 4 to offer services and for researchers planning to work with these models, be it for evaluation, fine-tuning, distillation or other derivative work. Always keep in mind that I’m not a lawyer, so nothing of what I’m writing here constitutes as legal advice.</p>
+<h2>The terms</h2>
+<p>The interesting part of this ban can be found by reading the <a href="https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md" target="_blank" rel="noopener noreferrer">terms</a> of the Acceptable Usage Policy (AUP):</p>
+<blockquote>
+<p>With respect to any <strong>multimodal models</strong> included in Llama 4, the rights granted under Section 1(a) of the Llama 4 Community License Agreement are not being granted to you if you are an individual domiciled in, or a company with a principal place of business in, the European Union. </p>
+</blockquote>
+<p>As you can see, the restriction applies strictly to multimodal LLMs. Llama4 models are all multimodal, and that’s why the entire family of models is not accessible from the EU. However, if anyone releases a derivative model that is not multimodal, in theory the ban would not apply. I’m yet to see any such derivative model: if you know of any, let me know!</p>
+<p>Interestingly, the terms also state that:</p>
+<blockquote>
+<p>This restriction does not apply to end users of a product or service that incorporates any such multimodal models.</p>
+</blockquote>
+<p>So if you’re a company outside of the EU and provide services based on Llama4 to EU customers, you’re probably off the hook. Such interpretation seems to be confirmed by <a href="https://www.llama.com/faq/" target="_blank" rel="noopener noreferrer">Meta’s FAQ</a> about Llama models, which state:</p>
+<blockquote>
+<p><strong>Can a non-EU based company develop a product or service using the Llama multimodal models and distribute such product or service within the EU?</strong></p>
+<p>Yes, if you are a company with a principal place of business outside of the EU, you may distribute products or services that contain the Llama multimodal models in accordance with your standard global distribution business practices [...]</p>
+</blockquote>
+<p><a href="https://www.llama.com/faq/" target="_blank" rel="noopener noreferrer">Meta’s FAQ</a> are actually quite throughout, so if you have any doubt about your specific case you should head there and read more.</p>
+<h2>What about other Llamas?</h2>
+<p>This wide EU ban is not new: it was introduced with <a href="https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/" target="_blank" rel="noopener noreferrer">Llama 3.2 Vision</a>, the first multimodal model released by Meta. The clause does not exist for any model older than Llama 3.2.</p>
+<p>To summarize, here is a list of which models can be used in the EU:</p>
+<ul>
+<li>Llama 4: all banned because they're all multimodal (<a href="https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md" target="_blank" rel="noopener noreferrer">terms</a>)</li>
+<li>Llama 3.3: allowed because it's not multimodal (<a href="https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/USE_POLICY.md" target="_blank" rel="noopener noreferrer">terms</a>)</li>
+<li>Llama 3.2: text only models are allowed, vision models are not allowed (<a href="https://github.com/meta-llama/llama-models/blob/main/models/llama3_2/USE_POLICY.md" target="_blank" rel="noopener noreferrer">terms</a>)</li>
+<li>Llama 3.1 and earlier: allowed because there's no such clause (<a href="https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/USE_POLICY.md" target="_blank" rel="noopener noreferrer">terms</a>)</li>
+</ul>
+<p>So for now this is the state of Llama licenses. My take is that with the implementation and rollout of the EU AI Act in 2025 and 2026, Meta will eventually adapt to make sure that the models are compliant with the way the Act is enforced in practice and relax, if not lift, the ban on newer models.</p>
+<p>Also, Llama4 has not been shining in the <a href="https://lmarena.ai/?leaderboard" target="_blank" rel="noopener noreferrer">benchmarks</a> (scroll down, I promise you it’s there)... we Europeans may not be missing much.</p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">AZ*</a></p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

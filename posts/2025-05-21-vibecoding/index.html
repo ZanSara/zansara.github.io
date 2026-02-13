@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>A simple vibecoding exercise · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="A simple vibecoding exercise · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2025-05-21-vibecoding/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="A simple vibecoding exercise">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2025-05-21-vibecoding/cover.png">
+  <meta name="og:image" content="/posts/2025-05-21-vibecoding/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2025-05-21-vibecoding/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2025-05-21-vibecoding/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">A simple vibecoding exercise</h1>
+      
+<span style="color: var(--muted-text);">Can GenAI help you finish your side-projects?</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2025-05-21T00:00:00Z">by <a href="/">Sara Zan</a>, May 21, 2025</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2025-05-21-vibecoding/cover.png" alt="Featured image" />
+
+    <p>Sometimes, after an entire day of coding, the last thing you want to do is to code some more. It would be so great if I could just sit down and enjoy some Youtube videos...</p>
+<p>Being abroad, most of the videos I watch are in a foreign language, and it helps immensely to have subtitles when I'm not in the mood for hard focus. However, Youtube subtitles are often terrible or missing entirely.</p>
+<p>Can the magic of modern Generative AI fix this problem?</p>
+<p>We've all heard of <a href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener noreferrer">vibecoding</a>: sitting in front of your IDE, telling an AI what you want the code to do and letting it loose to create <em>something</em> that achieves that goal. In this case, the goal is rather simple: given a video file, generate subtitles for it using <a href="https://deepgram.com/" target="_blank" rel="noopener noreferrer">Deepgram</a>'s SDK (since it has a <a href="https://deepgram.com/pricing" target="_blank" rel="noopener noreferrer">generous free tier</a>). It seems such a simple task that even an LLM should be able to reach it with minimal or no assistance. Right?</p>
+<h2>The first shot: OpenAI</h2>
+<p>For this simple experiment I decided not to use a dedicated IDE or VSCode plugin, but to stick to text based tools. After all, I expected this task to be sorted with a single Python script made by OpenAI's famed <a href="https://openai.com/index/introducing-o3-and-o4-mini/" target="_blank" rel="noopener noreferrer"><code>o4-mini-high</code></a>, advertized as "Great at coding and visual reasoning".</p>
+<p><img alt="" src="/posts/2025-05-21-vibecoding/openai-model-selector.png" /></p>
+<p>The prompt was very simple:</p>
+<blockquote>
+<p>Write me a Python script that, given a video file, returns me an <a href="https://en.wikipedia.org/wiki/SubRip" target="_blank" rel="noopener noreferrer">.srt</a> subtitle file using Deepgram's API.</p>
+</blockquote>
+<p>As expected, the model thought about it, did some web searches, and then cooked up a script that used <code>deepgram-sdk</code> and <code>deepgram-captions</code>. Looked good, but as soon as I tried to run it, issues came up. Deepgram's SDK complained about wrong formats, wrong SDK version, HTTP errors... Copy-pasting the errors back to <code>o4-mini-high</code> was vain: the model seems to understand that the Deepgram API had a major upgrade since the model was trained, but fails to use the new version. After four or five attempts (including one full restart of the chat), I realized this was going nowhere and I looked for another option.</p>
+<h2>The backup option: Claude Code</h2>
+<p>I've heard many times that the best LLMs for vibecoding belong to the <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener noreferrer">Claude</a> family. On top of that, there's a cool TUI utility called <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a> that allows you to vibecode from the terminal, no IDE required. It uses <a href="https://www.anthropic.com/claude/sonnet" target="_blank" rel="noopener noreferrer">Claude 3.7 Sonnet</a> under the hood, so the expectations are high.</p>
+<p>Time to give it a try.</p>
+<p>Installing the utility is matter of a single command (<code>npm install -g @anthropic-ai/claude-code</code>) and a few emails to authenticate the utility into my Anthropic account. Once done we're ready to go.</p>
+<p><img alt="" src="/posts/2025-05-21-vibecoding/claude-code-intro.gif" /></p>
+<p>The prompt is the same:</p>
+<blockquote>
+<p>Write me a Python script that, given a video file, returns me an .srt subtitle file using Deepgram's API.</p>
+</blockquote>
+<p>Sure enough, Claude's first attempt also fails for the same reason as o4 did: their knowledge is outdated, and they both use the Deepgram's API in a way that's not compabible with its new v3 API. However, after a few attempts, Claude actually produces a script that <em>mostly</em> works.</p>
+<h2>Results</h2>
+<p><a href="https://gist.github.com/ZanSara/4bab5db89376d595128e0688804d694c" target="_blank" rel="noopener noreferrer">Here</a> is the output (I pasted the <code>README</code> and the <code>requirements.txt</code> at the top of the file for simplicity). I only needed to replace <a href="https://developers.deepgram.com/docs/models-languages-overview#nova-2" target="_blank" rel="noopener noreferrer"><code>nova-2</code></a> with <a href="https://developers.deepgram.com/docs/models-languages-overview#nova-3" target="_blank" rel="noopener noreferrer"><code>nova-3</code></a> to get the best possible transcription for Portuguese (other languages may get better transcription with <code>nova-2</code>).</p>
+<p>To summarize:</p>
+<ul>
+<li><strong>Is it perfect? No.</strong> I can easily spot a lot of improvements to the code just by looking at it. It's quite verbose, for example.</li>
+<li><strong>Was it cheap? No.</strong> This script costed me a few dollars worth of tokens and about half a hour of trial and errors, about the hourly rate of a US software engineer.</li>
+<li><strong>Is it enough for my purposes? Absolutely.</strong> Now I am finally able to enjoy my videos with good quality subtitles without too much hassle.</li>
+<li><strong>Could somebody that can't program do this?</strong> I'm not so sure. Given how simple this task was, I was a bit disappointed by how long it took and I am rather skeptical about the ability of today's LLMs to handle more complex requests without oversight - at least with the tools I used.</li>
+</ul>
+<p>However, looking at the big picture, the trend is clear. Three years ago, LLMs could just about write coherent sentences. Today, they can write decent helper scripts. Soon the may be able to implement your side projects from start to finish. </p>
+<p>Will it feel like a blessing or a curse? We'll soon find out.</p>
+<p><em>Edit 22/05/2025: Claude 4 has been released the day after I published this post, so here is a video of myself reimplementing this same script with the new model ✨</em></p>
+<iframe src="https://drive.google.com/file/d/1cTo-VD8sFYYau900zIwFSCgkxLDt9iWO/preview" width="800" height="500" allow="autoplay"></iframe>
+
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">{z</a></p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
