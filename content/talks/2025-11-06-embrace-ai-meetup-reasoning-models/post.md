@@ -14,3 +14,5 @@ At [Embrace.ai's November Meetup](https://www.meetup.com/embrace-ai/), part of t
 To answer these questions, I classified LLMs into a small "taxonomy" based on the post-training steps they go through, in order to highlight how reasoning models differ qualitatively from their predecessors just like instruction-tuned models were not simple text-completion models with a better prompt. 
 
 I also covered the effect of increasing the reasoning effort of the model, clarifying when it's useful and when it can lead to overthinking.
+
+![](/talks/2025-11-06-embrace-ai-meetup-reasoning-models/room.jpeg)
