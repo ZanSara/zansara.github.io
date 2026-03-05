@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>From RAG to AI Agent · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="From RAG to AI Agent · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2026-01-07-from-rag-to-ai-agent/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="From RAG to AI Agent">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-01-07-from-rag-to-ai-agent/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-01-07-from-rag-to-ai-agent/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-01-07-from-rag-to-ai-agent/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2026-01-07-from-rag-to-ai-agent/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">From RAG to AI Agent</h1>
+      
+<span style="color: var(--muted-text);">A step-by-step guide to transform your RAG pipelines into effective AI agents.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-01-07T00:00:00Z">by <a href="/">Sara Zan</a>, January 07, 2026</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2026-01-07-from-rag-to-ai-agent/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <hr />
+<p><em>If you're interested in this topic, you can check out the <a href="https://colab.research.google.com/drive/1YVN5GrmZMM7qpI-dbeV-HIYig9XoSk6W?usp=sharing" target="_blank" rel="noopener noreferrer">Colab notebook</a> as well.</em></p>
+<hr />
+<p>2025 was the year of LLM reasoning. Most LLM providers focused on improving the ability of their LLMs to reason, make decisions, and carry out long-horizon tasks with the least possible amount of human intervention. RAG pipelines, so hyped in the last couple of years, are now a thing of the past: the focus shifted on AI agents, a term that only recently seems to have acquired a <a href="https://simonwillison.net/2025/Sep/18/agents/" target="_blank" rel="noopener noreferrer">relatively well-defined meaning</a>:</p>
+<blockquote>
+<p>An LLM agent runs tools in a loop to achieve a goal.</p>
+</blockquote>
+<p>While simple, the concept at a first glance might seem to you very far from the one of RAG. But is it?</p>
+<p>In this post I want to show you how you can extend your RAG pipelines step by step to become agents without having to throw away everything you've built so far. In fact, if you have a very good RAG system today, your future agents are bound to have great research skills right away. You may even find that you may be already half-way through the process of converting your pipeline into an agent without knowing it.</p>
+<p>Let's see how it's done.</p>
+<h3>1. Start from basic RAG</h3>
+<p>Our starting point, what's usually called "basic RAG" to distinguish it from more advanced RAG implementations, is a system with a retrieval step (be it vector-based, keyword-based, web search, hybrid, or anything else) that occurs every time the user sends a message to an LLM. Its architecture might look like this:</p>
+<p><img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/basic-rag-inv.png"  class="invertible" /></p>
+<p>Systems with more than one retriever and/or a reranker step also fall under this category. What's crucial to distinguish basic RAG from more "agentic" versions of it is the fact that the retrieval step runs <em>on every user message</em> and that <em>the user message is fed directly to the retriever</em>.</p>
+<h3>2. Add Query Rewrite</h3>
+<p>The first major step towards agentic behavior is the query rewrite step. RAG pipelines with query rewrite don't send the user's message directly to the retriever, but <strong>rewrite it</strong> to improve the outcomes of the retrieval. </p>
+<p><img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/query-rewrite-inv.png"  class="invertible" /></p>
+<p>Query rewrite is a bit of a double-edged sword. In some cases it may make your RAG pipeline less reliable, because the LLM may misunderstand your intent and query the retriever with an unexpected prompt. It also introduces a delay, as there is one more round-trip to the LLM to make. However, a well implemented query rewrite step has a huge impact on <strong>follow-up questions</strong>.</p>
+<p>Think about a conversation like this:</p>
+<blockquote>
+<p>User: What do the style guidelines say about the use of colors on our website?</p>
+<p>Assistant: The style guidelines say that all company websites should use a specific palette made of these colors: ....</p>
+<p>User: Why?</p>
+</blockquote>
+<p>The first questions from the user is clear and detailed, so retrieval would probably return relevant results regardless of whether the query gets rewritten or not. However, the second question alone has far too little information to make sense on its own: sending the string "Why?" to a retriever is bound to return only garbage results, which may make the LLM respond something unexpected (and likely wrong). </p>
+<p>In this case, query rewrite fixes the issue by expanding the "Why?" into a more reasonable query, such as "What's the reason the company mandated a specific color palette?" or "Rationale behind the company's brand color palette selection". This query helps the retriever find the type of information that's actually relevant and provide good context for the answer.</p>
+<h3>3. Optional Retrieval</h3>
+<p>Once query rewrite is in place, the next step is to give the pipeline some very basic decisional power. Specifically, I'm talking about <strong>skipping retrieval</strong> when it's not necessary.</p>
+<p>Think about a conversation like this:</p>
+<blockquote>
+<p>User: What do the style guidelines say about the use of colors on our website?</p>
+<p>Assistant: The style guidelines say that all company websites should use a specific palette made of these colors: ....</p>
+<p>User: List the colors as a table.</p>
+</blockquote>
+<p>In this case, the LLM needs no additional context to be able to do what the user asks: it's actually better if the retrieval is skipped in order to save time, resources, and avoid potential failures during retrieval that might confuse it (such as the retriever bringing up irrelevant context snippets).</p>
+<p>This means that even before query rewrite we should add another step, where the LLM gets to decide whether we should do any retrieval or not. The final architecture looks like this:</p>
+<p><img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/optional-retrieval-inv.png"  class="invertible" /></p>
+<div class="notice">
+💡  Note that this is just a naive implementation. In practice, the decision of retrieving and the query rewrite may be done by the same LLM call to save time. You may also use different LLMs in parallel for different steps, leveraging smarter and more expensive LLMs for the decisional tasks and faster/cheaper ones for the query rewrite and the answer generation.
+</div>
+
+<p>This is a critical step towards an AI agent: we are giving the LLM the power to take a decision, however simple the decision may look. This is the point where you should start to adapt your evaluation framework to measure how effective the LLM is at <strong>taking decisions</strong>, rather than its skills at interpreting the retrieved context or the effectiveness of your retrieval step alone. This is what Agent evaluation frameworks will do for you (see the bottom of the article for some suggestions).</p>
+<h3>4. The Agentic Loop</h3>
+<p>Once we have this structure in place, we're ready to give the LLM even more autonomy by introducing an <strong>agentic loop</strong>. </p>
+<p>Since the LLM is now able to take the decision to retrieve or not retrieve based on the chat history, how about we let the LLM also review what context snippets were returned by the retriever, and decide whether the retrieval was successful or not?</p>
+<p>To build this agentic loop you should add a new step between the retrieval and the generation step, where the retrieved context is sent to the LLM for review. If the LLM believes the context is relevant to the question and sufficient to answer it, the LLM can decide to proceed to the answer generation. If not, the process loops back to the query rewrite stage, and the retrieval runs again with a different query in the hope that better context will be found.</p>
+<p>The resulting architecture looks like this:</p>
+<p><img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/agentic-loop-inv.png"  class="invertible" /></p>
+<div class="notice">
+💡  Note that this is also a naive implementation. A few of these decisions can be packed together in a single pass and, again, you can use different LLMs for different tasks.
+</div>
+
+<p>With the introduction of the agentic loop we've crossed the boundary of what constitutes an <strong>AI Agent</strong>, even though it's still a very simple one. The LLM is now in charge of deciding when the retrieval is good enough, and it can try as many times as it wants (up to a threshold of your choosing) until it's satisfied with the outcome.</p>
+<p>If your retrieval step is well done and effective, this whole architecture may sound pointless. The LLM can hardly get better results by trying again if retrieval is already optimized and query rewriting is not making mistakes, so what's the point? In this case, the introduction of the agentic loop can be seen just as a necessary stepping stone towards the next upgrade: transforming retrieval into a tool.</p>
+<h3>5. Retrieval as a Tool</h3>
+<p>In many advanced RAG pipelines, retrieval of context and tool usage is seen as two very different operations. RAG is usually always on, highly custom, etc. while tools tend to be very small and simple, rarely called by the LLM, and sometimes implemented on standardized protocols like <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">MCP</a>.</p>
+<p>This distinction is arbitrary and simply due to historical baggage. <strong>Retrieval can be a tool</strong>, so it's best to treat it like one!</p>
+<p>Once you adopt this mindset, you'll see that the hints were there all along:</p>
+<ol>
+<li>We made retrieval optional, so the LLM can choose to either call it or not - like every other tool</li>
+<li>Query rewrite is the LLM choosing what input to provide to the retriever - as it does when it decides to call any other tool</li>
+<li>The retriever returns output that goes into the chat history to be used for the answer's generation - like the output of all other tools.</li>
+</ol>
+<p>Transforming retrieval into a tool simplifies our architecture drastically and moves us fully into AI Agent territory:</p>
+<p><img alt="" src="/posts/2026-01-07-from-rag-to-ai-agent/rag-as-tool-inv.png"  class="invertible" /></p>
+<p>As you can see:</p>
+<ol>
+<li>The decision step is now part of the LLM's answer generation, which can call it as many times as it wants thanks to the tool calling loop</li>
+<li>The query rewrite comes for free as the LLM invokes the retrieval tool</li>
+<li>The retriever's output goes into the chat history to be used to answer the user's request</li>
+</ol>
+<p>At this point it's time to address a common concern. You may have heard elsewhere that implementing retrieval as a tool makes the LLM "forget" to retrieve context when it should rather do it, so the effectiveness of your RAG worsens. This was very real a couple of years ago, but in my experience it's no longer relevant: modern LLMs are now trained to reach for tools all the time, so this problem has largely disappeared.</p>
+<h3>6. Add more tools</h3>
+<p>Congratulations! At this point you can call your system a true AI Agent. However, an agent with only a retrieval tool has limited use. It's time to add other tools!</p>
+<p>To begin with, if your retrieval pipeline has a lot of moving parts (hybrid retriever, web search, image search, SQL queries, etc...) you can consider separating each of them into separate search tools for the LLM to use, or to expose more parameters to let the LLM customize the output mix.</p>
+<p>Once that's done, adding other tools is trivial on a technical level, especially with protocols such as <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">MCP</a>. Using popular, open source MCPs may let you simplify your retrieval tool drastically: for example by leveraging <a href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener noreferrer">GitHub's MCP</a> instead of doing code search yourself, or <a href="https://github.com/atlassian/atlassian-mcp-server" target="_blank" rel="noopener noreferrer">Atlassian's MCPs</a> instead of custom Jira/Confluence/BitBucket integrations, and so on.</p>
+<p>However, keep in mind that adding too many tools and MCPs can <strong>overwhelm the LLM</strong>. You should carefully select which tools can expand the most your LLM's ability to solve your user's problems. For example, a GitHub MCP is irrelevant if only very few of your users are developers, and an image generation tool is useless if you're serving only developers. It's easy to overdo it, so make sure to review regularly the tools you make available to your LLM and add/remove them as necessary.</p>
+<p>And in the rare case in which you actually need a lot of tools, consider letting the user plug them in as needed (like the ChatGPT UI does), or adopt a <a href="https://blog.cloudflare.com/code-mode/" target="_blank" rel="noopener noreferrer">more sophisticated tool calling approach</a> to make sure to manage the context window effectively.</p>
+<h2>Conclusion</h2>
+<p>That's it! You successfully transformed your RAG pipeline into a simple AI Agent. From here you can expand further by implementing planning steps, sub-agents, and more.</p>
+<p>However, before going further you should remember that your retrieval-oriented metrics now are not sufficient anymore to evaluate the decision making skills of your system. If you've been using a RAG-only eval framework such as RAGAS it's now a good time to move on to a more general-purpose or agent-oriented eval framework, such as <a href="https://deepeval.com" target="_blank" rel="noopener noreferrer">DeepEval</a>, <a href="https://galileo.ai/" target="_blank" rel="noopener noreferrer">Galileo</a>, <a href="https://arize.com/" target="_blank" rel="noopener noreferrer">Arize.ai</a> or any other AI Agent framework of your choice.</p>
+<p>Last but not least: if you want to see this entire process implemented in code, don't miss my workshop at the virtual <a href="https://www.summit.ai/" target="_blank" rel="noopener noreferrer">Agentic AI Summit</a> on the 21st of January, 2026! I'll be walking you through the entire process and show you some additional implementation details. See you there!</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
