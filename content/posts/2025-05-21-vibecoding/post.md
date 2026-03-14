@@ -3,7 +3,7 @@ title: "A simple vibecoding exercise"
 description: "Can GenAI help you finish your side-projects?"
 date: 2025-05-21
 author: "ZanSara"
-featured-image: "/posts/2025-05-21-vibecoding/cover.png"
+featured-image: "/posts/2025-05-21-vibecoding/cover-inv.png"
 ---
 
 Sometimes, after an entire day of coding, the last thing you want to do is to code some more. It would be so great if I could just sit down and enjoy some Youtube videos...

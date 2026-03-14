@@ -3,7 +3,7 @@ title: "Generating creatures with Teranoptia"
 description: Having fun with fonts doesn’t always mean obsessing over kerning and ligatures. Sometimes, writing text is not even the point!
 date: 2024-05-06
 author: "ZanSara"
-featured-image: "/posts/2024-05-06-teranoptia/cover.png"
+featured-image: "/posts/2024-05-06-teranoptia/cover-inv.png"
 ---
 
 

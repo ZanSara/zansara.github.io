@@ -3,7 +3,7 @@ title: "Building Reliable Voice Bots with Open Source Tools - Part 2"
 description: "A practical guide on the best techniques to build performant and cost effective voice bots."
 date: 2024-10-30
 author: "ZanSara"
-featured-image: "/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/cover.png"
+featured-image: "/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/cover-inv.png"
 aliases:
 - /posts/2024-09-05-voice-bots-2/
 ---

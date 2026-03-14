@@ -3,7 +3,7 @@ title: "Using Llama Models in the EU"
 description: The ban's terms are surprisingly not well known among users of these popular "open-source" LLMs.
 date: 2025-05-16
 author: "ZanSara"
-featured-image: "/posts/2025-05-16-llama-eu-ban/cover.png"
+featured-image: "/posts/2025-05-16-llama-eu-ban/cover-inv.png"
 ---
 
 [The Llama 4 family](https://ai.meta.com/blog/llama-4-multimodal-intelligence/) has been released over a month ago and I finally found some time to explore it. Or so I wished to do, until I realized one crucial issue with these models:

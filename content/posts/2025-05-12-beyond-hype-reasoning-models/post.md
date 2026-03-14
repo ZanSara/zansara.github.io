@@ -3,7 +3,7 @@ title: "Beyond the hype of reasoning models: debunking three common misunderstan
 description: "This is a teaser for my upcoming talk at ODSC East 2025, \"LLMs that Think: Demystifying Reasoning Models\". If you want to learn more, join the webinar!"
 date: 2025-05-12
 author: "ZanSara"
-featured-image: "/posts/2025-05-12-beyond-hype-reasoning-models/cover.png"
+featured-image: "/posts/2025-05-12-beyond-hype-reasoning-models/cover-inv.png"
 ---
 
 With the release of OpenAI’s o1 and similar models such as DeepSeek R1, Gemini 2.0 Flash Thinking, Phi 4 Reasoning and more, a new type of LLMs entered the scene: the so-called reasoning models. With their unbelievable scores in the toughest benchmarks for machine intelligence, reasoning models immediately got the attention of most AI enthusiasts, sparking speculations about their capabilities and what those could mean for the industry.

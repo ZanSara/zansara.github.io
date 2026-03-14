@@ -7,6 +7,8 @@ series: ["Practical Questions"]
 featured-image: "/posts/2026-02-04-how-does-llm-memory-work/cover-inv.png"
 ---
 
+---
+
 _This is episode 6 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
 
 ---
