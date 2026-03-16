@@ -9,7 +9,7 @@ featured-image: "/posts/2025-10-23-kv-caching/cover-inv.png"
 
 ---
 
-_This is episode 3 of a series of shorter blog posts answering questions I received during the course of my work and reflect common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
+_This is episode 3 of a series of shorter blog posts answering questions I received during the course of my work. They discuss common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
 
 ---
 
