@@ -12,6 +12,7 @@ featured-image: "/posts/2026-03-15-vector-dbs-vs-grep/cover-inv.png"
 _This is episode 7 of a series of shorter blog posts answering questions I received during the course of my work. They discuss common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
 
 ---
+
 For the past two years, the default architecture for giving LLMs access to a knowledge base has been **RAG with vector databases**. 
 
 This architecture turned out to be very powerful, but it's far from cheap to setup and maintain: you need the system to chunk all the documents, embed all the chunks, store them in a vector DB, retrieve them, and feed them to the model. Every new document needs to go through this pipeline before it's usable, and changes to a document already processed means going through the vector DB and deleting all the affected chunks.
