@@ -9,7 +9,7 @@ featured-image: "/talks/2023-12-15-datahour-rag/cover.png"
 
 ---
 
-<iframe src="https://drive.google.com/file/d/1OkFr4u9ZOraJRF406IQgQh4YC8GLHbzA/preview" width="800" height="500" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1OkFr4u9ZOraJRF406IQgQh4YC8GLHbzA/preview" width="800" height="500"></iframe>
 
 In this hour-long workshop organized by [Analytics Vidhya](https://www.analyticsvidhya.com/) I give an overview of what RAG is, what problems it solves, and how it works. 
 

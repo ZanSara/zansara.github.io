@@ -9,7 +9,7 @@ featured-image: "/talks/2026-02-25-mindstone-lisbon-meetup/cover.png"
 
 ---
 
-<iframe src="https://drive.google.com/file/d/1IlQzxMcD8VR_3fSni26p4mBxJW4PLrP0/preview" width="800" height="500" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1IlQzxMcD8VR_3fSni26p4mBxJW4PLrP0/preview" width="800" height="500"></iframe>
 
 At February's [Mindstone AI Lisbon Meetup](https://community.mindstone.com/events/mindstone-lisbon-february-ai-meetup) I show how you easy it is to carry out a phishing attack against an AI agent. We [live demoed the attack](https://drive.google.com/file/d/1O6gynFHtquZQ4cEybfeqiMNP_Yob0fnK/view?usp=drive_link) on stage successfully against an agent powered by GPT 5.2 and equipped with almost no tools, all in just a few minutes. Using a flagship model won't save you from data exfiltration if you don't take additional steps to secure your agent!
 

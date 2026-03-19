@@ -13,7 +13,7 @@ aliases:
 
 _(Note: this is a recording of the notebook walkthrough only)_
 
-<iframe src="https://drive.google.com/file/d/15Kv8THmDsnnzfVBhHAf2O11RccpzAzYK/preview" width="800" height="500" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/15Kv8THmDsnnzfVBhHAf2O11RccpzAzYK/preview" width="800" height="500"></iframe>
 
 At [ODSC Europe 2024](https://odsc.com/europe/) I talked about building modern and reliable voice bots using Pipecat, a recently released open source tool. I gave an overview of the general structure of voice bots, of the improvements their underlying tech recently saw, and the new challenges that developers face when implementing one of these systems.
 

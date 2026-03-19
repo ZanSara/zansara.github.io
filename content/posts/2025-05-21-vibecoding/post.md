@@ -60,7 +60,7 @@ Will it feel like a blessing or a curse? We'll soon find out.
 
 _Edit 22/05/2025: Claude 4 has been released the day after I published this post, so here is a video of myself reimplementing this same script with the new model ✨_
 
-<iframe src="https://drive.google.com/file/d/1cTo-VD8sFYYau900zIwFSCgkxLDt9iWO/preview" width="800" height="500" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1cTo-VD8sFYYau900zIwFSCgkxLDt9iWO/preview" width="800" height="500"></iframe>
 
 
 <p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">{z</a></p>

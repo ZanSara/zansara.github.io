@@ -9,7 +9,7 @@ featured-image: "/talks/2024-09-18-amta-2024-controlling-invariants-rag/cover.pn
 
 ---
 
-<iframe src="https://drive.google.com/file/d/1BvcNbsAGWp25EDpiQ5ljYos3_eneo3wu/preview" width="800" height="500" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1BvcNbsAGWp25EDpiQ5ljYos3_eneo3wu/preview" width="800" height="500"></iframe>
 
 _Note: this was a tutorial session co-presented with [Christian Lang](https://www.linkedin.com/in/christian-lang-8942b0145/) and [Bruno Bitter](https://www.linkedin.com/in/brunobitter/). My section starts at 01:08._
 

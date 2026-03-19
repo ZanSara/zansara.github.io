@@ -83,7 +83,7 @@ This is exactly the kind of task a helpful agent is supposed to solve. So the ag
 
 And that is where the leak happens.
 
-<iframe src="https://drive.google.com/file/d/1O6gynFHtquZQ4cEybfeqiMNP_Yob0fnK/preview" width="800" height="500" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1O6gynFHtquZQ4cEybfeqiMNP_Yob0fnK/preview" width="800" height="500"></iframe>
 
 In the demo, the agent found documentation that pointed to a sandbox endpoint controlled by the attacker. The agent treated that documentation as legitimate, believed the sandbox was part of the normal workflow, and tested the integration using the real API key it had been given.
 

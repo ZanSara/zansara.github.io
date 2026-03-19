@@ -9,7 +9,7 @@ featured-image: "/talks/2022-12-01-open-nlp-meetup/cover.png"
 
 ---
 
-<iframe src="https://drive.google.com/file/d/19mxD-xUJ-14G-2XAqXEVpZfqR2MsSZTn/preview" width="800" height="500" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/19mxD-xUJ-14G-2XAqXEVpZfqR2MsSZTn/preview" width="800" height="500"></iframe>
 
 ## A Practical Introduction to Image Retrieval
 

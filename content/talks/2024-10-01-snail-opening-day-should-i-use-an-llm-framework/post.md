@@ -9,7 +9,7 @@ featured-image: "/talks/2024-10-01-snail-opening-day-should-i-use-an-llm-framewo
 
 ---
 
-<iframe src="https://drive.google.com/file/d/1AORVusaHVBqNvJ5OtctyB5TWQZSadoqT/preview" width="800" height="500" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1AORVusaHVBqNvJ5OtctyB5TWQZSadoqT/preview" width="800" height="500"></iframe>
 
 Find the transcript [here](https://drive.google.com/file/d/1wwnTFmGOANVmxUaVd1PC3cfztzIfSCEa/view?usp=sharing).
 
