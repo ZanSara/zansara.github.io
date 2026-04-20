@@ -781,6 +781,45 @@ class Builder:
             self.public_dir.mkdir()
         print('Cleaned public directory')
 
+    def generate_short_urls(self):
+        """Generate redirect pages for short URLs defined in short-urls.yaml"""
+        short_urls_path = Path('short-urls.yaml')
+        if not short_urls_path.exists():
+            return
+
+        with open(short_urls_path, 'r', encoding='utf-8') as f:
+            entries = yaml.safe_load(f) or []
+
+        count = 0
+        for entry in entries:
+            short = entry['short_url']
+            long_url = entry['long_url']
+            title = entry.get('title', 'Redirecting...')
+            description = entry.get('description', f'Redirecting to {long_url}')
+            image = entry.get('image', '')
+
+            # meta refresh + optional OG image go in <head> via meta_tags slot
+            meta_tags = f'<meta http-equiv="refresh" content="0; url={escape(long_url)}">\n'
+            if image:
+                meta_template = TemplateLoader.load('meta-image.html')
+                meta_tags += meta_template.format(image_url=image, base_url=BASE_URL)
+
+            template = TemplateLoader.load('short-url.html')
+            content_html = template.format(
+                title=escape(title),
+                description=escape(description),
+                long_url=escape(long_url),
+                image=escape(image),
+            )
+
+            html = base_template(content_html, title, meta_tags, page_url=f'/{short}/')
+            output_path = self.public_dir / short / 'index.html'
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_text(html, encoding='utf-8')
+            count += 1
+
+        print(f'Generated {count} short URL redirects')
+
     def build(self):
         """Main build process"""
         print('Starting build...')
@@ -788,6 +827,7 @@ class Builder:
         self.collect_content()
         self.render_content()
         self.generate_pages()
+        self.generate_short_urls()
         self.generate_feeds()
         self.generate_sitemap()
         self.generate_404_page()
