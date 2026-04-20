@@ -135,6 +135,3 @@ And in the rare case in which you actually need a lot of tools, consider letting
 That's it! You successfully transformed your RAG pipeline into a simple AI Agent. From here you can expand further by implementing planning steps, sub-agents, and more.
 
 However, before going further you should remember that your retrieval-oriented metrics now are not sufficient anymore to evaluate the decision making skills of your system. If you've been using a RAG-only eval framework such as RAGAS it's now a good time to move on to a more general-purpose or agent-oriented eval framework, such as [DeepEval](https://deepeval.com), [Galileo](https://galileo.ai/), [Arize.ai](https://arize.com/) or any other AI Agent framework of your choice.
-
-Last but not least: if you want to see this entire process implemented in code, don't miss my workshop at the virtual [Agentic AI Summit](https://www.summit.ai/) on the 21st of January, 2026! I'll be walking you through the entire process and show you some additional implementation details. See you there!
-
