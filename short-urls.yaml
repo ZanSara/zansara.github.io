@@ -5,3 +5,11 @@
   image: "/talks/2026-04-23-wids-geneva-from-rag-to-ai-agents/cover.png"
   date: 2026-04-23
   author: "ZanSara"
+  
+- short_url: odsc-east-2026
+  long_url: https://colab.research.google.com/drive/1ozI626XTyG9WBWip1uOQuP3E1MNFnr7x?usp=sharing
+  title: "ODSC AI East 2026 Workshop Notebook"
+  description: "Notebook for the ODSC AI East 2026 workshop"
+  image: "https://www.zansara.dev/talks/2026-04-29-odsc-ai-east-from-rag-to-ai-agents/cover.png"
+  date: 2026-04-29
+  author: "ZanSara"
