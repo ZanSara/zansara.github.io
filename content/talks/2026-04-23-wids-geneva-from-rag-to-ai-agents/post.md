@@ -3,7 +3,6 @@ title: "Women in Data Science Geneva - From RAG to AI Agent"
 date: 2026-04-23
 author: "ZanSara"
 featured-image: "/talks/2026-04-23-wids-geneva-from-rag-to-ai-agents/cover.png"
-external-link: https://widsgeneva.ch/
 ---
 
 [Announcement](https://widsgeneva.ch/), [Colab Notebook](https://colab.research.google.com/drive/114YiWKVmYU4QkPdgXFDipvsaknW1rPd3?usp=sharing), [archive folder](https://drive.google.com/drive/folders/1qkFobxmaMS1WU_FnL9_6Y_qkk60prarN?usp=sharing).
