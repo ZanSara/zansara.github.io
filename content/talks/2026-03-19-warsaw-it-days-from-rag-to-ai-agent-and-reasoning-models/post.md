@@ -3,7 +3,6 @@ title: "Warsaw IT Days - From RAG to AI Agent & LLMs That Think: Demystifying Re
 date: 2026-03-19
 author: "ZanSara"
 featured-image: "/talks/2026-03-19-warsaw-it-days-from-rag-to-ai-agent-and-reasoning-models/cover.png"
-external-link: 
 ---
 
 [Announcement](https://warszawskiedniinformatyki.pl/conference/en/#agenda). For "From RAG to AI Agent": [recording](https://drive.google.com/file/d/1QeqBqSiDZ0d55IzNQqxLmN_o6ZmuNfBq/preview), [Colab Notebook](https://colab.research.google.com/drive/1ql8BoUZBG2TAeqiN1o65mwmDQLpK6_xY?usp=drive_link), [archive folder](https://drive.google.com/drive/folders/14xhRHoYbx9JBPFSr6Y2STIBINqL0sA6t?usp=drive_link). For "LLMs That Think": [recording](https://drive.google.com/file/d/16XtEakj5iCkZDHsOwGVI63gsFtaf1ZmM/preview), [slides](https://drive.google.com/file/d/1MXfk78_vVA51_eCzDzfKxQZ7vKM4Mp3Q/view?usp=drive_link), [archive folder](https://drive.google.com/drive/folders/1RuNJNorTW7Usr7z7Nt6lxWV08n9QxUoU?usp=drive_link). 
