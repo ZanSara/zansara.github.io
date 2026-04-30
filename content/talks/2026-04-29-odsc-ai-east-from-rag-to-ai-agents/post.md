@@ -3,7 +3,6 @@ title: "ODSC AI East - From RAG to AI Agent"
 date: 2026-04-29
 author: "ZanSara"
 featured-image: "/talks/2026-04-29-odsc-ai-east-from-rag-to-ai-agents/cover.png"
-external-link: https://schedule.odsc.ai/
 ---
 
 [Announcement](https://schedule.odsc.ai/), [Colab Notebook](https://colab.research.google.com/drive/1ozI626XTyG9WBWip1uOQuP3E1MNFnr7x?usp=sharing), [archive folder](https://drive.google.com/drive/folders/1GDUxb3Hg_acUYPgyJGCp8HZ5bOtgpE_S?usp=sharing).
