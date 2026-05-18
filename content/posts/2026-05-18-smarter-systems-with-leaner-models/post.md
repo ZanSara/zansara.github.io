@@ -1,6 +1,6 @@
 ---
 title: "Smarter Systems with Leaner Models"
-description: "Token prices keep falling with every new model release. So how come AI bills are only raising? Is it structural, or there's a way to help it?"
+description: "Token prices keep falling with every new model release. So how come AI bills are only rising? Is it structural, or is there a way to address it?"
 author: "ZanSara"
 date: 2026-05-18
 featured-image: "/posts/2026-05-18-smarter-systems-with-leaner-models/cover-inv.png"
@@ -8,13 +8,13 @@ featured-image: "/posts/2026-05-18-smarter-systems-with-leaner-models/cover-inv.
 
 ---
 
-_This post is a writeup of my talk at [The Economist's Impact 2nd AI Compute Summit](ttps://events.economist.com/ai-compute/programme/#day1+cat-10+smarter-systems-leaner-models-reducing-compute-costs-without-sacrificing-quality). You can find the slides [here](/talks/2026-05-19-ai-compute-summit)._
+_This post is a write-up of my talk at [The Economist's Impact 2nd AI Compute Summit](https://events.economist.com/ai-compute/programme/#day1+cat-10+smarter-systems-leaner-models-reducing-compute-costs-without-sacrificing-quality). You can find the slides [here](/talks/2026-05-19-ai-compute-summit)._
 
 ---
 
-LLMs keep getting smarter, month by month. But they also get bigger, more hardware and resource intensive, more difficult to run efficiently, and even if token costs keep getting slashed, the AI bills of most companies just goes up.
+LLMs keep getting smarter, month by month. But they also get bigger, more hardware- and resource-intensive, and more difficult to run efficiently, and even if token costs keep getting slashed, the AI bills of most companies just go up.
 
-Is it still possible to build state of the art AI application while keeping cost under control?
+Is it still possible to build state-of-the-art AI applications while keeping costs under control?
 
 Let's have a closer look at what's happening here, and dive deeper into a few approaches to limit your spending without affecting the performance of your AI applications.
 
@@ -47,9 +47,9 @@ Anthropic defines context engineering as the work of curating and maintaining th
 
 This is because no input is free when it comes to an LLM. 
 
-This is often underestimated by AI builders. Every additional instruction and example, every additional corner case, every new document, image or tool added to the LLM context raises the cost of **each** of the prompts and responses of your AI. When the LLM context is stuffed by thousands of PDFs, even a three question answer will cause the LLM to reread everything, costing you several dollars, if not tens of dollar, for each back-and-forth.
+This is often underestimated by AI builders. Every additional instruction and example, every additional corner case, every new document, image, or tool added to the LLM context raises the cost of **each** of the prompts and responses of your AI. When the LLM context is stuffed with thousands of PDFs, even a three-question answer will cause the LLM to reread everything, costing you several dollars, if not tens of dollars, for each back-and-forth.
 
-Unnecessary input is not only damaging your wallet. It and also adds latency, cost, and diluites the model's attention. In short, this means: try to identify the **shortest context that preserves answer quality**.
+Unnecessary input is not only damaging your wallet. It also adds latency and cost, and dilutes the model's attention. In short, this means: try to identify the **shortest context that preserves answer quality**.
 
 This is where retrieval-augmented generation, prompt caching, and compression come in. 
 
@@ -57,7 +57,7 @@ This is where retrieval-augmented generation, prompt caching, and compression co
 
 **Caching** can also help noticeably. Anthropic's prompt-caching documentation positions caching as a way to reduce processing time and cost for repetitive prefixes, with cache-read tokens priced at 0.1x base input tokens in the cited Claude pricing table.[^claude-prompt-caching-docs]
 
-Applications where there are lenghty back-and-forth with users, such as agentic coding, also benefit from **chat history compression**, where older consersation turns, RAG snippets, tool outputs etc are summarized instead of stored verbatim, to occupy less space in the context window.
+Applications where there are lengthy back-and-forth interactions with users, such as agentic coding, also benefit from **chat history compression**, where older conversation turns, RAG snippets, tool outputs, etc., are summarized instead of stored verbatim to occupy less space in the context window.
 
 To leverage these context engineering techniques, every major AI workflow should have a context budget. Track input tokens, output tokens, cached tokens, retrieval hit rate, cache hit rate, against output quality. If a customer-service workflow needs a policy excerpt and the last three turns, do not send the whole knowledge base and the entire conversation every time.
 
@@ -65,9 +65,9 @@ To leverage these context engineering techniques, every major AI workflow should
 
 Right-sizing does not mean simply choosing the smallest model. It means choosing the cheapest model that meets the workflow's service-level agreement for quality, latency, risk, and trust. 
 
-Flagship models such as GPT-5.5, Claude Opus 4.7, etc are not always the right answer for your usecase. They are increasingly benchmarked against problems that are not within the realm of what most businesses use them for, such as PhD level math, complex algorithmic challenges, advanced physics and scientific discovery, not for simple question answering against a company's knowledge base, or chatting in real time with a person on the phone, or planning a business trip. There are other, leaner models, much better suited for such tasks.
+Flagship models such as GPT-5.5, Claude Opus 4.7, etc., are not always the right answer for your use case. They are increasingly benchmarked against problems that are not within the realm of what most businesses use them for, such as PhD-level math, complex algorithmic challenges, advanced physics, and scientific discovery, rather than simple question answering against a company's knowledge base, chatting in real time with a person on the phone, or planning a business trip. There are other, leaner models, much better suited for such tasks.
 
-In fact, choosing a smaller model is not only a cost saving technique. Smaller models occasionally display better stats at crucial skills, such as lower hallucination rates, than flagships.[^vectara-hallucination-blog][^vectara-hallucination-github] This is because flagships, being trained for the highest intelligence, tend to guess, infer, deduce from the data they have available, while the smaller models are just trained to admit ignorance. This makes them *better* suited for many industry applications while costing 5 to 10 times less than their smarter counterparts.[^openai-pricing-2026][^google-pricing-2026][^anthropic-pricing-2026]
+In fact, choosing a smaller model is not only a cost-saving technique. Smaller models occasionally display better stats at crucial skills, such as lower hallucination rates, than flagships.[^vectara-hallucination-blog][^vectara-hallucination-github] This is because flagships, being trained for the highest intelligence, tend to guess and infer from the data they have available, while smaller models are trained to admit ignorance. This makes them *better* suited for many industry applications while costing 5 to 10 times less than their smarter counterparts.[^openai-pricing-2026][^google-pricing-2026][^anthropic-pricing-2026]
 
 ![Right-sizing economics: list-price token cost compared with Vectara hallucination rates.](/posts/2026-05-18-smarter-systems-with-leaner-models/right-sizing.png)
 
@@ -89,21 +89,21 @@ The question is therefore not "AI or humans?" It is: **What escalation tree give
 
 ## 3. Inference engineering
 
-Once context and routing are under control, the next savings come from inference engineering. This is an active research area that needs to be followed closely if competition is a threat, and requires a non-negligible level of dedication to be done right. While most techniques are now available to everyone with limited effort, whomever manages to implement the latest, most complex optimizations will end up having an edge in terms of either cost or latency.
+Once context and routing are under control, the next savings come from inference engineering. This is an active research area that needs to be followed closely if competition is a threat, and it requires a non-negligible level of dedication to be done right. While most techniques are now available to everyone with limited effort, whoever manages to implement the latest, most complex optimizations will end up having an edge in terms of either cost or latency.
 
-When talking about inference engineering is always worth framing it as a build-or-buy decision. Is it better to invest in an inference stack, with dedicated hardware, dedicated team, dedicated budget etc, or to buy compute from a commercial provider such as OpenRouter, Nebius, Fireworks, etc? The choice is not always trivial and may be influenced by other factors, such as data protection constraints, governance rules, etc. 
+When talking about inference engineering, it is always worth framing it as a build-or-buy decision. Is it better to invest in an inference stack, with dedicated hardware, a dedicated team, a dedicated budget, etc., or to buy compute from a commercial provider such as OpenRouter, Nebius, Fireworks, etc.? The choice is not always trivial and may be influenced by other factors, such as data protection constraints and governance rules. 
 
 For some of us, keeping inference in-house is not negotiable, and therefore the realm of inference engineering is highly relevant. In these cases, start from the most basic optimizations such as prompt caching and batching, then move up the complexity scale with cache and model quantization, up to cutting edge techniques such as speculative decoding and more, keeping a constant eye on the state of the art as it progresses.
 
 ![Inference engineering quadrant: quick wins first, strategic bets second.](/posts/2026-05-18-smarter-systems-with-leaner-models/inference.png)
 
-_A simplified maps of some of the inference optimizations techniques that can help your organization get the most out of the hardware, classified by their complexity versus their impact._
+_A simplified map of some inference optimization techniques that can help your organization get the most out of hardware, classified by their complexity versus their impact._
 
-In short provider choice, serving stack, and model choice are intertwined. The same open model can feel very different across inference providers and stacks because the serving path differs. That is why mature AI companies benchmark latency, cost, and quality together on different stacks before settling on an inference strategy.
+In short, provider choice, serving stack, and model choice are intertwined. The same open model can feel very different across inference providers and stacks because the serving path differs. That is why mature AI companies benchmark latency, cost, and quality together on different stacks before settling on an inference strategy.
 
 ## 4. Silicon Strategy
 
-More GPUs will only bring you so far, and the industry is actively looking for alternatives. Specialized inference hardware is a still immature, but hot research area: new chips could change the economics of AI if they manage to move from prototype to production, especially for predictable workloads, but evidence quality varies widely. Some numbers are vendor-reported, some come from early demonstrations, and many compare different models, sequence lengths, or serving configurations.
+More GPUs will only bring you so far, and the industry is actively looking for alternatives. Specialized inference hardware is still an immature but hot research area: new chips could change the economics of AI if they manage to move from prototype to production, especially for predictable workloads, but evidence quality varies widely. Some numbers are vendor-reported, some come from early demonstrations, and many compare different models, sequence lengths, or serving configurations.
 
 ![Silicon throughput landscape using mixed vendor and benchmark sources.](/posts/2026-05-18-smarter-systems-with-leaner-models/silicon.png)
 
@@ -119,11 +119,11 @@ This is why specialized silicon is still a rather hypothetical concern for most 
 
 The winning pattern is two-speed. Use frontier models for discovery, then industrialize with smaller, routed, cached, and optimized systems.
 
-In the **exploratory** stage, use frontier or generalist models to learn what the product should do. This de-risks interaction design, customer value, and task fit quickly. In the **refinement** stage, freeze the task taxonomy, right-size models, enforce context budgets, and deploy routing and caching. In the **scale** stage, re-asses your inference options now that all other variables are under control and overall cost is more predictable. Evaluate specialized hardware only when the economics justify it.
+In the **exploratory** stage, use frontier or generalist models to learn what the product should do. This de-risks interaction design, customer value, and task fit quickly. In the **refinement** stage, freeze the task taxonomy, right-size models, enforce context budgets, and deploy routing and caching. In the **scale** stage, reassess your inference options now that all other variables are under control and overall cost is more predictable. Evaluate specialized hardware only when the economics justify it.
 
 ## Where to start?
 
-Most organization can start from these three simple actions
+Most organizations can start from these three simple actions.
 
 1. **Measure token usage.** Instrument token telemetry; identify top cost drivers before changing models.
 2. **Benchmark small models.** Don’t rely on generic benchmarks, measure them against your business KPIs.

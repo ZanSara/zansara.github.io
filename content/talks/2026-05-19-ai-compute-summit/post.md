@@ -10,4 +10,4 @@ featured-image: "/talks/2026-05-19-ai-compute-summit/cover.png"
 
 ---
 
-At [The Economist's Impact 2nd AI Compute Summit]() I talked about building smarter AI systems with smaller models. I explore in depth why AI spend keeps growing even though token costs keep falling; next I highlight four levers that organizations can use to bring AI spending under control, from context engineering to custom LLM chips, and then wrap up with a blueprint for bringing your prototypes to production without blowing past every budget.
+At [The Economist's Impact 2nd AI Compute Summit](https://events.economist.com/ai-compute/programme/#day1+cat-10+smarter-systems-leaner-models-reducing-compute-costs-without-sacrificing-quality), I talked about building smarter AI systems with smaller models. I explored in depth why AI spending keeps growing even though token costs keep falling; next, I highlighted four levers that organizations can use to bring AI spending under control, from context engineering to custom LLM chips, and then wrapped up with a blueprint for bringing prototypes to production without blowing past every budget.
