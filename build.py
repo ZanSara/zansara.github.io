@@ -36,6 +36,28 @@ MENU_ITEMS = [
     {'name': 'Talks', 'weight': 6, 'url': 'talks/'},
 ]
 
+MARKDOWN_EXTENSIONS = [
+    'fenced_code',
+    'tables',
+    'codehilite',
+    'footnotes',
+]
+
+MARKDOWN_EXTENSION_CONFIGS = {
+    'codehilite': {'guess_lang': False}
+}
+
+
+def create_markdown_renderer(use_nl2br=False):
+    """Create a markdown renderer with consistent extensions."""
+    extensions = list(MARKDOWN_EXTENSIONS)
+    if use_nl2br:
+        extensions.append('nl2br')
+    return markdown.Markdown(
+        extensions=extensions,
+        extension_configs=MARKDOWN_EXTENSION_CONFIGS
+    )
+
 
 # Template loader
 class TemplateLoader:
@@ -119,13 +141,7 @@ class ContentFile:
 
             # Create a temporary markdown renderer for the inner content
             # Don't use nl2br here as it interferes with HTML tags
-            md = markdown.Markdown(extensions=[
-                'fenced_code',
-                'tables',
-                'codehilite'
-            ], extension_configs={
-                'codehilite': {'guess_lang': False}
-            })
+            md = create_markdown_renderer()
             # Convert the markdown content
             rendered_content = md.convert(inner_content)
 
@@ -143,13 +159,7 @@ class ContentFile:
 
             # Create a temporary markdown renderer for the inner content
             # Don't use nl2br here as it interferes with HTML tags
-            md = markdown.Markdown(extensions=[
-                'fenced_code',
-                'tables',
-                'codehilite'
-            ], extension_configs={
-                'codehilite': {'guess_lang': False}
-            })
+            md = create_markdown_renderer()
             # Convert the markdown content
             rendered_content = md.convert(inner_content)
 
@@ -210,10 +220,16 @@ class ContentFile:
             link_tag = match.group(0)
             href = match.group(1)
 
-            # Check if this is an internal link or special protocol
+            # Absolute URLs with scheme or protocol-relative URLs are external by default.
+            # Relative paths (e.g. assets/figure.png, ./page, ../page) are internal.
+            has_scheme = re.match(r'^[a-zA-Z][a-zA-Z0-9+.-]*:', href) is not None
+            is_protocol_relative = href.startswith('//')
             is_internal = (
                 href.startswith('/') or
                 href.startswith('#') or
+                href.startswith('./') or
+                href.startswith('../') or
+                (not has_scheme and not is_protocol_relative) or
                 href.startswith(BASE_URL) or
                 href.startswith('mailto:') or
                 href.startswith('tel:')
@@ -249,14 +265,7 @@ class ContentFile:
         # First preprocess HTML tags with markdown content
         preprocessed_content = self.preprocess_html_tags_with_markdown(self.content)
 
-        md = markdown.Markdown(extensions=[
-            'fenced_code',
-            'tables',
-            'nl2br',
-            'codehilite'
-        ], extension_configs={
-            'codehilite': {'guess_lang': False}
-        })
+        md = create_markdown_renderer(use_nl2br=True)
         html_content = md.convert(preprocessed_content)
 
         # Add invertible class to images with -inv suffix
