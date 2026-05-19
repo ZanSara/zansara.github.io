@@ -21,7 +21,7 @@ I speak native Italian and fluent English, but I've also learned French during m
 
 Check out also my [projects](/projects), my [publications](/publications) and my [talks](/talks). If you prefer newsletters you can find my posts also on [Substack](https://zansara.substack.com/).
 
-The best way to get in touch with me is through [email](mailto:blog@zansara.dev) or [LinkedIn](https://www.linkedin.com/in/sarazanzottera).
+If you're interested in my work or you want to check my availability for consulting projects, the best way to get in touch with me is through [email](mailto:blog@zansara.dev) or [LinkedIn](https://www.linkedin.com/in/sarazanzottera).
 
 
 <style>
