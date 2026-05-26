@@ -22,7 +22,7 @@ Let's have a closer look at what's happening here, and dive deeper into a few ap
 
 AI economics have moved past the simple question of whether a model is "big enough." The more useful question is whether each workflow is buying the right amount of intelligence, context, latency, and reliability for the job. In other words: the relevant unit is no longer raw model size. It is **cost per quality outcome**.
 
-That distinction is becoming essential, because the two headline trends in AI economics now point in opposite directions. On one side, there's a famous figure: the Stanford AI Index reports that the inference cost for a system performing at GPT-3.5 level dropped more than **280-fold** between November 2022 and October 2024.[^stanford-2025]. And while GPT-3.5 may seem a thing of the past, Gartner also forecasts that by 2030 the price of a 1T-sized model (what most flagship LLMs are estimated at) will fall by more than 90%[^gartner-2030]. On the other, Gartner forecast worldwide GenAI spending of roughly $644 billion in 2025, up 76.4% from 2024[^gartner-genai-spend-2025], and Stanford also reports corporate AI investment of $252.3 billion in 2024, with private investment up 44.5%. [^stanford-2025-economy] The lesson here is that unit costs can fall while total usage expands even faster.
+That distinction is becoming essential, because the two headline trends in AI economics now point in opposite directions. On one side, there's a famous figure: the Stanford AI Index reports that the inference cost for a system performing at GPT-3.5 level dropped more than **280-fold** between November 2022 and October 2024.[^stanford-2025] And while GPT-3.5 may seem a thing of the past, Gartner also forecasts that by 2030 the price of a 1T-sized model (what most flagship LLMs are estimated at) will fall by more than 90%[^gartner-2030]. On the other, Gartner forecasts worldwide GenAI spending of roughly $644 billion in 2025, up 76.4% from 2024[^gartner-genai-spend-2025], and Stanford also reports corporate AI investment of $252.3 billion in 2024, with private investment up 44.5%.[^stanford-2025-economy] The lesson here is that unit costs can fall while total usage expands even faster.
 
 That's only natural, once we zoom out a little: increased intelligence unlocks use cases that were not possible with earlier models, therefore increasing usage. GPT-3.5 could not be used for agentic coding; GPT-5.5 can do most of the coding that software engineers used to do just last year.
 
@@ -37,7 +37,7 @@ Spotting them is not always easy, but some are much easier to address than other
 1. **Context Engineering**: are you sending too many tokens to your LLM, when half or less would do?
 2. **Right-Sizing**: are you using the smallest LLM that can carry out your specific workflow as well as a flagship model? 
 3. **Inference Engineering**: are you getting the most out of your hardware, or at least as much as a commercial provider would?
-4. **Silicon Strategy**: are you really at a point where GPUs are not enough for your usecase?
+4. **Silicon Strategy**: are you really at a point where GPUs are not enough for your use case?
 
 Let's unpack them.
 
@@ -71,7 +71,7 @@ In fact, choosing a smaller model is not only a cost-saving technique. Smaller m
 
 ![Right-sizing economics: list-price token cost compared with Vectara hallucination rates.](/posts/2026-05-18-smarter-systems-with-leaner-models/right-sizing.png)
 
-_A comparison of the cost for a million token versus the hallucination rates of three popular flagship LLMs and their smaller counterparts._
+_A comparison of the cost for a million tokens versus the hallucination rates of three popular flagship LLMs and their smaller counterparts._
 
 That does not prove a small model is better for every workflow. It proves the opposite of the old default: you cannot infer the right model from size alone.
 
@@ -126,8 +126,8 @@ In the **exploratory** stage, use frontier or generalist models to learn what th
 Most organizations can start from these three simple actions.
 
 1. **Measure token usage.** Instrument token telemetry; identify top cost drivers before changing models.
-2. **Benchmark small models.** Don’t rely on generic benchmarks, measure them against your business KPIs.
-3. **Optimize serving layer.** Make sure you’re getting the most out of your hardware or inference provider.
+2. **Benchmark small models.** Don't rely on generic benchmarks, measure them against your business KPIs.
+3. **Optimize serving layer.** Make sure you're getting the most out of your hardware or inference provider.
 
 Stop buying intelligence by habit. Stop treating the model as the system. Preserve user trust while lowering the cost of each successful outcome.
 
