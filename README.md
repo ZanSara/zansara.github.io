@@ -12,13 +12,7 @@ Start dev server:
 python -m http.server 8000 -d public/
 ```
 
-Dev build (rebuilds at every change in the source directory):
-
-```
-python dev_build.py
-```
-
-Prod build:
+Build:
 
 ```
 python build.py
