@@ -4,7 +4,7 @@ description: "The intelligence of modern AI agents is due to the LLMs, but their
 date: 2026-06-12
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2026-06-12-agent-harness/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 ---

@@ -3,7 +3,7 @@ title: "Demos and notebooks"
 description: A collection of demos, scripts, notebooks and other runnable code samples from various talks.
 date: 2023-12-30
 author: "ZanSara"
-featured-image: "/projects/demos/cover.png"
+featured-image: "cover.png"
 ---
 
 I often write small demos and Python notebooks to illustrate the concepts explained in more technical blog posts and talks. Here is a collection of some of these notebooks.

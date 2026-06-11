@@ -3,7 +3,7 @@ title: "Making sense of KV Cache optimizations, Ep. 3: Model-level"
 description: "Let's make sense of the zoo of model-level techniques that exist out there."
 date: 2025-10-28
 author: "ZanSara"
-featured-image: "/posts/2025-10-28-kv-caching-optimizations-model-level/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 In the previous posts we've seen [what the KV cache is](/posts/2025-10-23-kv-caching/) and what types of [KV Cache management optimizations](/posts/2025-10-26-kv-caching-optimizations-intro/) exist according to a [recent survey](https://arxiv.org/abs/2412.19442). In this post we are going to focus on **model-level** KV cache optimizations.
@@ -14,7 +14,7 @@ We call a model-level optimization any modification of the architecture of the L
 
 Here is an overview of the types of optimizations that exist today.
 
-![](/posts/2025-10-28-kv-caching-optimizations-model-level/model-level-inv.png)
+![](model-level-inv.png)
 
 _[Source](https://arxiv.org/pdf/2412.19442#figure.7)_
   
@@ -29,7 +29,7 @@ One common technique to reduce the size of the KV cache is to group and/or share
 
 At the **intra-layer** level, the standard architecture of Transformers calls for full **multi-headed attention** (MHA). As an alternative, it was proposed to have all attention heads share a single key and value, reducing dramatically the amount of compute and space needed. This technique, called **multi-query attention** (MQA) is a radical strategy that would cause not just quality degradation, but also training instability. As a compromise, **grouped-query attention** (GQA) was proposed by dividing the query heads into multiple groups, while each group shares its own keys and values. In addition, an uptraining process has been proposed to efficiently convert existing MHA models to GQA configurations by mean-pooling the key and value heads associated with each group. Empirical evaluations demonstrated that GQA models achieve performance close to the original MHA models.
 
-![](/posts/2025-10-28-kv-caching-optimizations-model-level/attention-grouping-inv.png)
+![](attention-grouping-inv.png)
 
 _A simplified illustration of different QKV grouping techniques: multi-headed attention (MHA), multi-query attention (MQA) and grouped-query attention (GQA)._
 

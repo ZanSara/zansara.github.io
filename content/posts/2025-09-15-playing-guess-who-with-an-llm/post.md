@@ -3,7 +3,7 @@ title: "Trying to play \"Guess Who\" with an LLM"
 description: "I expected a different kind of fun."
 date: 2025-09-15
 author: "ZanSara"
-featured-image: "/posts/2025-09-15-playing-guess-who-with-an-llm/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 
@@ -43,7 +43,7 @@ As you can see we're not talking of a complex game like Catan or a strategy game
 
 In order to build the game, as I am no frontend developer, I spent a few too many bucks on my favorite vibe-coding tool, [Claude Code](https://www.anthropic.com/claude-code), padded in a bit of [Gemini CLI](https://github.com/google-gemini/gemini-cli) when I run out of credits, made a few tweaks by hand when asking the bots to do so felt overkill, and a few evenings later I had [this nice Guess Who game](/guess-who/) live.
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/game-ui.png)
+![](game-ui.png)
 
 Feel free to play a few round using your favorite LLM. The game supports OpenAI compatible endpoints, plus Anthropic's and Google's API. And if you don't trust me with your API key, go ahead and [fork or clone the game](https://github.com/ZanSara/guess-who) (and maybe leave a ⭐ while you're at it ), host it where you like (it's a single HTML page with a bit of vanilla JS at the side) and have fun.
 
@@ -96,11 +96,11 @@ After this system prompt, I send two more prompts:
 
 > Here is the board:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/full-board.png)
+![](full-board.png)
 
 > and here is your character:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/Amy.png)
+![](Amy.png)
 
 
 Unfortunately these two prompts need to be user prompts (not system prompts) because some LLMs (looking at you, Mistral!) do not support images in their system prompts.
@@ -120,23 +120,23 @@ The LLM also receives two tools to use:
 
 With the game implemented and ready to go, I finally started playing a bit. I was especially curious how small models could deal with a game like this, so I began with GPT-5 Mini. Here is what happens:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/gpt-5-mini-example.png)
+![](gpt-5-mini-example.png)
 
 Ahah, GPT 5 Mini is far dumber than I thought! Let's try Gemini 2.5 Flash instead.
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/gemini-2.5-flash-example.png)
+![](gemini-2.5-flash-example.png)
 
 Oh wow this is incredible. Ok, time to try a smarter model and have some actual fun. Claude Sonnet 4.0 will do for now.
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/claude-sonnet-4-example.png)
+![](claude-sonnet-4-example.png)
 
 At this point it started to become unbelievable. Did I fail to explain the game? Is something wrong with the prompts? It couldn't be, because some other models (such as the almighty GPT-4o) do what I expect instead:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/gpt-4o-example.png)
+![](gpt-4o-example.png)
 
 While others left me shocked:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/claude-opus-4.1-example.png)
+![](claude-opus-4.1-example.png)
 
 How can a flagship model like _Claude Opus 4.1_ fail this way? I kept trying several other LLMs in disbelief, slowly coming to terms with the fact that most of them don't readily understand the concept of playing adversarial games, even simple ones as Guess Who.
 
@@ -159,7 +159,7 @@ These models understood only part of the system prompt (if any), resulting in un
 
 Possibly the most unpredictable model. Every run was a surprise. This is just a small sample to give you an idea.
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-play-at-all/amazon-nova-lite-v1.png)
+![](games/cant-play-at-all/amazon-nova-lite-v1.png)
 
 </details>
 
@@ -172,77 +172,77 @@ All these models have been tested several times to ensure this is their default 
 <details>
 <summary>Claude Opus 4.1</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/claude-opus-4-1.png)
+![](games/reveals-name-immediately/claude-opus-4-1.png)
 
 </details>
 
 <details>
 <summary>Claude Opus 4.0</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/claude-opus-4.png)
+![](games/reveals-name-immediately/claude-opus-4.png)
 
 </details>
 
 <details>
 <summary>Claude Sonnet 4.0</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/claude-sonnet-4.png)
+![](games/reveals-name-immediately/claude-sonnet-4.png)
 
 </details>
 
 <details>
 <summary>Claude Sonnet 3.7</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/claude-sonnet-3-7.png)
+![](games/reveals-name-immediately/claude-sonnet-3-7.png)
 
 </details>
 
 <details>
 <summary>Gemini 2.5 Flash</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gemini-2.5-flash.png)
+![](games/reveals-name-immediately/gemini-2.5-flash.png)
 
 </details>
 
 <details>
 <summary>Gemini 2.5 Flash Lite</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gemini-2.5-flash-lite.png)
+![](games/reveals-name-immediately/gemini-2.5-flash-lite.png)
 
 </details>
 
 <details>
 <summary>GPT 5 Mini</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gpt-5-mini.png)
+![](games/reveals-name-immediately/gpt-5-mini.png)
 
 </details>
 
 <details>
 <summary>GPT 5 Nano</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gpt-5-nano.png)
+![](games/reveals-name-immediately/gpt-5-nano.png)
 
 </details>
 
 <details>
 <summary>Llama 4 Scout</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/llama-4-scout.png)
+![](games/reveals-name-immediately/llama-4-scout.png)
 
 </details>
 
 <details>
 <summary>Sonoma Sky Alpha</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/sonoma-sky-alpha.png)
+![](games/reveals-name-immediately/sonoma-sky-alpha.png)
 
 </details>
 
 <details>
 <summary>GML 4.5</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-immediately/gml-4.5.png)
+![](games/reveals-name-immediately/gml-4.5.png)
 
 </details>
 
@@ -253,21 +253,21 @@ Some models did not volunteer the information but didn't exactly protect it eith
 <details>
 <summary>Amazon Nova Pro v1</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-when-asked/amazon-nova-pro-v1.png)
+![](games/reveals-name-when-asked/amazon-nova-pro-v1.png)
 
 </details>
 
 <details>
 <summary>Llama 4 Maverick</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-when-asked/llama-4-maverick.png)
+![](games/reveals-name-when-asked/llama-4-maverick.png)
 
 </details>
 
 <details>
 <summary>Mistral Small 3.2</summary>
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/reveals-name-when-asked/mistral-small-3.2.png)
+![](games/reveals-name-when-asked/mistral-small-3.2.png)
 
 </details>
 
@@ -282,8 +282,8 @@ These models are smart enough to understand the basics of the game, but it's imp
 
 Gemini 2.5 Pro evidently has issues seeing both the board and the characters. Here it shows both flaws by deleting the wrong characters and lying about its character in a single response:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gemini-2.5-pro.png)
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gemini-2.5-pro-board.png)
+![](games/cant-see-well/gemini-2.5-pro.png)
+![](games/cant-see-well/gemini-2.5-pro-board.png)
 
 </details>
 
@@ -294,12 +294,12 @@ GPT-4o also has issues seeing the board and the characters, but its blind spots 
 
 Here it deletes the wrong characters and loses track of the turns:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gpt-4o-wrong-removal.png)
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gpt-4o-wrong-removal-board.png)
+![](games/cant-see-well/gpt-4o-wrong-removal.png)
+![](games/cant-see-well/gpt-4o-wrong-removal-board.png)
 
 and here it has trouble seeing its character:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/gpt-4o-character.png)
+![](games/cant-see-well/gpt-4o-character.png)
 
 </details>
 
@@ -310,8 +310,8 @@ Mistral Medium 3.1 has been hard to place. It seems that its biggest weakness is
 
 Here it deletes a couple of unrelated characters:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/mistral-medium-3.1-wrong-removal.png)
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/mistral-medium-3.1-wrong-removal-board.png)
+![](games/cant-see-well/mistral-medium-3.1-wrong-removal.png)
+![](games/cant-see-well/mistral-medium-3.1-wrong-removal-board.png)
 
 </details>
 
@@ -326,7 +326,7 @@ Assessing the vision skills of this model has been difficult due to its unwillin
 
 Here is an example gameplay.
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/cant-see-well/sonoma-dusk-alpha.png)
+![](games/cant-see-well/sonoma-dusk-alpha.png)
 
 </details>
 
@@ -342,17 +342,17 @@ To test these skills, I checked whether the model will enforce turn taking when 
 
 Grok 4 is a decent player but by far not a good one. It clearly sees the board and the character, it eliminates characters correctly most of the times, but fails to enforce turns.
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/grok-4.png)
+![](games/playable/grok-4.png)
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/grok-4-board.png)
+![](games/playable/grok-4-board.png)
 
 Here an example of a game where a couple of mistakes were enough to prevent the model from winning (my character was Amy again).
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/grok-4-failing-game-last-minute.png)
+![](games/playable/grok-4-failing-game-last-minute.png)
 
 An award to this model for resisting my attempt to unilaterally declare victory without breaking the game! This is the only model that succeeded at this.
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/grok-4-resists-winning.png)
+![](games/playable/grok-4-resists-winning.png)
 
 </details>
 
@@ -367,17 +367,17 @@ It is also unbelievably slow compared to any other LLM I played with, which kill
 
 Here you can see GPT 5 enforcing turn-taking (plus a gratuitous pun?!):
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/gpt-5-no-sense-of-humor.png)
+![](games/playable/gpt-5-no-sense-of-humor.png)
 
 When claiming that I won, GPT 5 almost manages to understand that it might be not the case, but still ruins the game. Unfortunately this is not a fluke, GPT 5 consistently reveals the character in this situation. It won't call the tool just yet, but once it reveals the character the game is over.
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/misbehaves-when-I-say-I-won/gpt-5.png)
+![](games/misbehaves-when-I-say-I-won/gpt-5.png)
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/misbehaves-when-I-say-I-won/gpt-5-again.png)
+![](games/misbehaves-when-I-say-I-won/gpt-5-again.png)
 
 Here is an example of a game where GPT 5 actually wins:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/games/playable/gpt-5-full-winning-game.png)
+![](games/playable/gpt-5-full-winning-game.png)
 
 In this case the `endGame` tool was also invoked correctly.
 
@@ -410,7 +410,7 @@ You can load this prompt [in the game](/guess-who/) by checking the Advanced tab
 
 This prompt helps a lot the models understand that they can't reveal the character's identity: however it's also not solving the problem entirely. For example this is what Claude Opus 4.1 does with this prompt:
 
-![](/posts/2025-09-15-playing-guess-who-with-an-llm/claude-opus-4.1-spelled-out-prompt.png)
+![](claude-opus-4.1-spelled-out-prompt.png)
 
 Guess what? There's only one character with gray hair and glasses on the board, and that's Emily... Should I review my system prompt again, make it even more detailed?
 

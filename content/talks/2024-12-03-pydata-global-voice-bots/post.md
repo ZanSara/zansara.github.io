@@ -2,7 +2,7 @@
 title: "PyData Global: Building LLM Voice Bots with Open Source Tools"
 date: 2024-12-03
 author: "ZanSara"
-featured-image: "/talks/2024-12-03-pydata-global-voice-bots/cover.png"
+featured-image: "cover.png"
 ---
 
 [Announcement](https://global2024.pydata.org/cfp/talk/T3YDBP/), [slides](https://drive.google.com/file/d/1rXb4-m-BWwhAqDCDBXpzw6nJ9OELOpSl/view?usp=sharing), [demo video](https://drive.google.com/file/d/1bja0O8LG7790UIU7HpAYXat-BYXeUbK-/view?usp=sharing) and full video ([Youtube](https://www.youtube.com/watch?v=Td5dFdG0wE4), [backup](https://drive.google.com/file/d/1HTEEs-Zr8mZoJA8a7AuiJf61soGvQNPI/view?usp=sharing)). All resources can also be found in [my archive](https://drive.google.com/drive/folders/1ZPkne2QxOnSXfchv08CWkAZG3duXxd4Z?usp=sharing).
@@ -59,7 +59,7 @@ intentional demo.yml
 
 You should see a UI such as this coming up (with the chat history empty):
 
-![](/talks/2024-12-03-pydata-global-voice-bots/demo-ui.png)
+![](demo-ui.png)
 
 Just start speaking and the bot will quickly reply to you. 
 

@@ -3,7 +3,7 @@ title: "A simple vibecoding exercise"
 description: "Can GenAI help you finish your side-projects?"
 date: 2025-05-21
 author: "ZanSara"
-featured-image: "/posts/2025-05-21-vibecoding/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 Sometimes, after an entire day of coding, the last thing you want to do is to code some more. It would be so great if I could just sit down and enjoy some Youtube videos...
@@ -18,7 +18,7 @@ We've all heard of [vibecoding](https://x.com/karpathy/status/188619218480814938
 
 For this simple experiment I decided not to use a dedicated IDE or VSCode plugin, but to stick to text based tools. After all, I expected this task to be sorted with a single Python script made by OpenAI's famed [`o4-mini-high`](https://openai.com/index/introducing-o3-and-o4-mini/), advertized as "Great at coding and visual reasoning".
 
-![](/posts/2025-05-21-vibecoding/openai-model-selector.png)
+![](openai-model-selector.png)
 
 The prompt was very simple:
 
@@ -34,7 +34,7 @@ Time to give it a try.
 
 Installing the utility is matter of a single command (`npm install -g @anthropic-ai/claude-code`) and a few emails to authenticate the utility into my Anthropic account. Once done we're ready to go.
 
-![](/posts/2025-05-21-vibecoding/claude-code-intro.gif)
+![](claude-code-intro.gif)
 
 The prompt is the same:
 

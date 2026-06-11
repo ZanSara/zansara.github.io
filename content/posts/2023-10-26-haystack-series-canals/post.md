@@ -4,7 +4,7 @@ description: "Haystack 2.0 comes with a brand new pipeline concept. Let's discov
 date: 2023-10-26
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
-featured-image: "/posts/2023-10-26-haystack-series-canals/cover-updated.png"
+featured-image: "cover-updated.png"
 ---
 
 _Updated on 21/12/2023_
@@ -49,7 +49,7 @@ One of Haystack's primary use cases had been [Extractive Question Answering](htt
 
 By replacing a Reader model with an LLM, we get a Retrieval Augmented Generation Pipeline. Easy!
 
-![Generative vs Extractive QA Pipeline Graph](/posts/2023-10-26-haystack-series-canals/gen-vs-ext-qa-pipeline-inv.png)
+![Generative vs Extractive QA Pipeline Graph](gen-vs-ext-qa-pipeline-inv.png)
 
 So far, everything checks out. Supporting RAG with Haystack feels not only possible but natural. Let's take this simple example one step forward: what if, instead of getting the data from a document store, I want to retrieve data from the Internet?
 
@@ -57,15 +57,15 @@ So far, everything checks out. Supporting RAG with Haystack feels not only possi
 
 At first glance, the task may not seem daunting. We surely need a special Retriever that, instead of searching through a DB, searches through the Internet using a search engine. But the core concepts stay the same, and so, we assume, should the pipeline's graph. The end result should be something like this:
 
-![Initial Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/initial-web-rag-pipeline-inv.png)
+![Initial Web RAG Pipeline Graph](initial-web-rag-pipeline-inv.png)
 
 However, the problem doesn't end there. Search engines return links, which need to be accessed, and the content of the webpage downloaded. Such pages may be extensive and contain artifacts, so the resulting text needs to be cleaned, reduced into paragraphs, potentially embedded by a retrieval model, ranked against the original query, and only the top few resulting pieces of text need to be passed over to the LLM. Just by including these minimal requirements, our pipeline already looks like this:
 
-![Linear Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/linear-web-rag-pipeline-inv.png)
+![Linear Web RAG Pipeline Graph](linear-web-rag-pipeline-inv.png)
 
 And we still need to consider that URLs may reference not HTML pages but PDFs, videos, zip files, and so on. We need file converters, zip extractors, audio transcribers, and so on.
 
-![Multiple File Type Web RAG Pipeline Graph](/posts/2023-10-26-haystack-series-canals/multifile-web-rag-pipeline-inv.png)
+![Multiple File Type Web RAG Pipeline Graph](multifile-web-rag-pipeline-inv.png)
 
 You may notice how this use case moved quickly from looking like a simple query pipeline into a strange overlap of a query and an indexing pipeline. As we've learned in the previous post, indexing pipelines have their own set of quirks, one of which is that they can't simultaneously process files of different types. But we can only expect the Search Engine to retrieve HTML files or PDFs if we filter them out on purpose, which makes the pipeline less effective. In fact, a pipeline that can read content from different file types, such as the one above, can't really be made to work.
 
@@ -79,7 +79,7 @@ When we went back to the drawing board to address these concerns, the first step
 
 The root problem, as we realized, is that Haystack Pipelines treats each component as a locomotive treats its wagons. They all look the same from the pipeline's perspective, they can all be connected in any order, and they all go from A to B rolling over the same pair of rails, passing all through the same stations.
 
-![Cargo Train](/posts/2023-10-26-haystack-series-canals/train.png)
+![Cargo Train](train.png)
 
 In Haystack 1, components are designed to serve the pipeline's needs first. A good component is identical to all the others, provides the exact interface the pipeline requires, and can be connected to any other in any order. The components are awkward to use outside of a pipeline due to the same `run()` method that makes the pipeline so ergonomic. Why does the Ranker, which needs only a query and a list of Documents to operate, also accept `file_paths` and `meta` in its `run()` method? It does so uniquely to satisfy the pipeline's requirements, which in turn only exist to make all components forcefully compatible with each other.
 
@@ -91,7 +91,7 @@ The issue's core is more evident when seen in this light. The pipeline is the on
 
 Therefore, the pipeline rewrite for Haystack 2.0 focused on one core principle: the components will define and drive the execution process. There is no locomotive anymore: every component needs to find its way, such as grabbing the data they need from the producers and sending their results to whoever needs them by declaring the proper connections. In the railway metaphor, it's like adding a steering wheel to each container: the result is a truck, and the resulting system looks now like a highway.
 
-![Highway](/posts/2023-10-26-haystack-series-canals/highway.png)
+![Highway](highway.png)
 
 Just as railways are excellent at going from A to B when you only need to take a few well-known routes and never another, highways are unbeatable at reaching every possible destination with the same effort, even though they need a driver for each wagon. A "highway" Pipeline requires more work from the Components' side, but it frees them to go wherever they need to with a precision that a "railway" pipeline cannot accomplish.
 
@@ -164,7 +164,7 @@ add_two:
 
 Once the components are connected together, the resulting pipeline can be drawn. Pipeline drawings in Haystack 2.0 show far more details than their predecessors because the components are forced to share much more information about what they need to run, the types of these variables, and so on. The pipeline above draws the following image:
 
-![A Pipeline making two additions](/posts/2023-10-26-haystack-series-canals/two_additions_pipeline-inv.png)
+![A Pipeline making two additions](two_additions_pipeline-inv.png)
 
 You can see how the components classes, their inputs and outputs, and all the connections are named and typed.
 

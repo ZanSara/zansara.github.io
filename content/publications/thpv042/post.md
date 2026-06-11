@@ -2,7 +2,7 @@
 title: "Evolution of the CERN Beam Instrumentation Offline Analysis Framework (OAF)"
 date: 2021-12-11
 author: "ZanSara"
-featured-image: "/publications/thpv042/cover.png"
+featured-image: "cover.png"
 ---
 
 ## Abstract
@@ -11,6 +11,6 @@ The CERN accelerators require a large number of instruments, measuring different
 
 ---
 
-Get the full text here: [Evolution of the CERN Beam Instrumentation Offline Analysis Framework (OAF)](/publications/thpv042/thpv042.pdf)
+Get the full text here: [Evolution of the CERN Beam Instrumentation Offline Analysis Framework (OAF)](thpv042.pdf)
 
 Publisher's entry: [THPV042](https://accelconf.web.cern.ch/icalepcs2021/doi/JACoW-ICALEPCS2021-THPV042.html).

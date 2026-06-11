@@ -3,7 +3,7 @@ title: "Reasoning effort defaults across the GPT-5.x family"
 description: "If you never pinned the reasoning effort across model upgrades, you may have accidentally changed your reasoning effort dramatically."
 date: 2026-05-26
 author: "ZanSara"
-featured-image: "/posts/2026-05-26-reasoning-effort-across-gpt-5.x/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 GPT-5.x models are [reasoning models](https://magazine.sebastianraschka.com/p/understanding-reasoning-llms), and as such, you can set the reasoning effort that they should make when addressing your prompts.

@@ -3,7 +3,7 @@ title: "Making sense of KV Cache optimizations, Ep. 2: Token-level"
 description: "Let's make sense of the zoo of token-level techniques that exist out there."
 date: 2025-10-27
 author: "ZanSara"
-featured-image: "/posts/2025-10-27-kv-caching-optimizations-token-level/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 In the previous post we've seen [what the KV cache is](/posts/2025-10-23-kv-caching/) and what types of [KV cache management optimizations](/posts/2025-10-26-kv-caching-optimizations-intro/) exist according to a [recent survey](https://arxiv.org/abs/2412.19442). In this post we are going to focus on **token-level** KV cache optimizations.
@@ -14,7 +14,7 @@ The survey defined token-level optimizations every technique that focuses exclus
 
 Here is an overview of the types of optimizations that exist today.
 
-![](/posts/2025-10-27-kv-caching-optimizations-token-level/token-level-inv.png)
+![](token-level-inv.png)
 
 _[Source](https://arxiv.org/pdf/2412.19442#figure.3)_
 
@@ -24,7 +24,7 @@ Let's see what's the idea behind each of these categories. We won't go into the 
 
 One key characteristic of the attention matrix is **sparsity**: most of its values are very close to zero, and just a few cells have meaningful values. Instead of retrieving a full matrix of attention values every time (and retrieve a ton of close-to-zero, nearly useless values), KV Cache selection techniques identify the most relevant token pair and cache those only, reducing memory utilization and inference latency.
 
-![](/posts/2025-10-27-kv-caching-optimizations-token-level/sparse-attention-inv.png)
+![](sparse-attention-inv.png)
 
 _A simplified view of a cache selection strategy. In this case, the KV cache tends to have its highest values clustered near the diagonal (because most tokens refer to other tokens that are relatively close), so most of the lower-left side of the matrix can be safely assumed to be zero. That reduces drastically the number of values to store._
 
@@ -67,7 +67,7 @@ For a more detailed description of each technique, check out [the survey](https:
 
 ### KV Cache Quantization
 
-![](/posts/2025-10-27-kv-caching-optimizations-token-level/quantization-inv.png)
+![](quantization-inv.png)
 
 _A simplified example of cache quantization. Reducing the precision of the values from float to int8 can drastically reduce the memory needs of the cache and accelerate inference._
 

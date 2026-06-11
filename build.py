@@ -6,6 +6,7 @@ Parses markdown files with YAML front matter and generates HTML pages, RSS feeds
 
 import re
 import shutil
+import posixpath
 import yaml
 import markdown
 from pathlib import Path
@@ -46,6 +47,34 @@ MARKDOWN_EXTENSIONS = [
 MARKDOWN_EXTENSION_CONFIGS = {
     'codehilite': {'guess_lang': False}
 }
+
+
+ASSET_EXTENSIONS = (
+    'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'ico',
+    'mp4', 'webm', 'mov', 'wav', 'mp3', 'ogg', 'pdf',
+)
+
+
+def is_asset_target(value):
+    """True if value's path component ends with a known asset extension."""
+    path = value.split('?', 1)[0].split('#', 1)[0]
+    return path.lower().rsplit('.', 1)[-1] in ASSET_EXTENSIONS if '.' in path else False
+
+
+def is_relative_asset_path(value):
+    """True if value is a relative path that should be resolved against a page URL."""
+    if not value:
+        return False
+    if value.startswith(('/', '#', '//')):
+        return False
+    if re.match(r'^[a-zA-Z][a-zA-Z0-9+.-]*:', value):  # http:, mailto:, tel:, data:, ...
+        return False
+    return True
+
+
+def resolve_relative_path(value, base_url):
+    """Resolve 'img.png' / '../other/img.png' against a page URL like '/posts/slug/'."""
+    return posixpath.normpath(posixpath.join(base_url, value))
 
 
 def create_markdown_renderer(use_nl2br=False):
@@ -173,6 +202,24 @@ class ContentFile:
 
         return processed
 
+    def resolve_relative_urls(self, html_content):
+        """
+        Resolve relative src/href references against this page's URL.
+
+        Lets markdown reference sibling assets by filename (e.g. cover.png) or
+        assets in other bundles via path navigation (e.g. ../other-post/img.png).
+        Any relative src (always media) is resolved; relative href is resolved
+        only when it targets an asset file, so relative page links are untouched.
+        Absolute paths, anchors, and external/scheme URLs are left untouched.
+        """
+        def repl(match):
+            attr, quote, value = match.group(1), match.group(2), match.group(3)
+            if is_relative_asset_path(value) and (attr == 'src' or is_asset_target(value)):
+                value = resolve_relative_path(value, self.url)
+            return f'{attr}={quote}{value}{quote}'
+
+        return re.sub(r'(src|href)=("|\')([^"\']+)\2', repl, html_content)
+
     def add_invertible_class_to_images(self, html_content):
         """
         Add 'invertible' class to images whose filename ends with -inv
@@ -268,6 +315,9 @@ class ContentFile:
         md = create_markdown_renderer(use_nl2br=True)
         html_content = md.convert(preprocessed_content)
 
+        # Resolve relative asset/link references against this page's URL
+        html_content = self.resolve_relative_urls(html_content)
+
         # Add invertible class to images with -inv suffix
         html_content = self.add_invertible_class_to_images(html_content)
 
@@ -301,7 +351,10 @@ class ContentFile:
 
     @property
     def featured_image(self):
-        return self.front_matter.get('featured-image', '')
+        img = self.front_matter.get('featured-image', '')
+        if is_relative_asset_path(img):
+            img = resolve_relative_path(img, self.url)
+        return img
 
     @property
     def series(self):

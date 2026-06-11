@@ -2,7 +2,7 @@
 title: "AMTA 2024 Virtual Tutorial Day: Controlling LLM Translations of Invariant Elements with RAG"
 date: 2024-09-18
 author: "ZanSara"
-featured-image: "/talks/2024-09-18-amta-2024-controlling-invariants-rag/cover.png"
+featured-image: "cover.png"
 ---
 
 [Announcement](https://amtaweb.org/virtual-tutorial-day-program/), [notebook](https://colab.research.google.com/drive/1VMgK3DcVny_zTtAG_V3QSSdfSFBWAgmb?usp=sharing) and [glossary](https://docs.google.com/spreadsheets/d/1A1zk-u-RTSqBfE8LksZxihnp7KxWO7YK/edit?usp=sharing&ouid=102297935451395786183&rtpof=true&sd=true). All resources can also be found in [my archive](https://drive.google.com/drive/folders/1Tdq92P_E_77sErGjz7jSPfJ-or9UZXvn?usp=drive_link).

@@ -3,7 +3,7 @@ title: "ClozeGPT: Write Anki cloze cards with a custom GPT"
 description: Writing good Anki cards is a chore. Let's bring LLMs to the rescue.
 date: 2024-02-28
 author: "ZanSara"
-featured-image: "/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/cover.png"
+featured-image: "cover.png"
 ---
 
 As everyone who has been serious about studying with [Anki](https://apps.ankiweb.net/) knows, the first step of the journey is writing your own flashcards. Writing the cards yourself is often cited as the most straigthforward way to make the review process more effective. However, this can become a big chore, and not having enough cards to study is a sure way to not learn anything.
@@ -30,7 +30,7 @@ This is when we've got the idea of using an LLM to help with the task. GPT model
 
 A [quick experiment](https://chat.openai.com/share/89c821b8-6048-45f3-9fc1-c3875fdbe1c5) proves that there is potential to this concept.
 
-![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/chatgpt-anki-card-creation.png)
+![](chatgpt-anki-card-creation.png)
 
 ## Custom GPTs
 
@@ -84,7 +84,7 @@ The natural next step is to store that set of instructions into a custom prompt,
 
 This simple prompt already gives very nice results!
 
-![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/beber-flashcard.png)
+![](beber-flashcard.png)
 
 ## Bells and whistles
 
@@ -108,21 +108,21 @@ Naturally, once a tool works well it's hard to resist the urge to add some new f
 
 The `+` command is useful when the generated sentence contains some other interesting word you can take the occasion to learn as well:
 
-![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/maca-flashcard.png)
+![](maca-flashcard.png)
 
 The `R` command can be used to direct the card generation a bit better than with a simple press on the "Regenerate" icon:
 
-![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/morango-flashcard.png)
+![](morango-flashcard.png)
 
 And finally `Q` is a convenient escape hatch to make this GPT revert back to its usual helpful self, where it can engage in conversation.
 
-![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/esquecer-flashcard.png)
+![](esquecer-flashcard.png)
 
 ## Have fun
 
 Our small [ClozeGPT](https://chat.openai.com/g/g-wmHCaGcCZ-clozegpt) works only for Portuguese now, but feel free to play with it if you find it useful. And, of course, always keep in mind that LLMs are only [pretending to be humans](https://chat.openai.com/share/07295647-9f43-4346-97a5-b35f62251d55).
 
-![](/posts/2024-02-28-create-anki-cloze-cards-with-custom-gpt/laranja-flashcard.png)
+![](laranja-flashcard.png)
 
 _Front: I like orange juice in my morning coffee._
 

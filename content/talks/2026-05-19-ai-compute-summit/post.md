@@ -2,7 +2,7 @@
 title: "The Economist's Impact 2nd AI Compute Summit - Smarter systems, leaner models: reducing compute costs without sacrificing quality"
 date: 2026-05-19
 author: "ZanSara"
-featured-image: "/talks/2026-05-19-ai-compute-summit/cover.png"
+featured-image: "cover.png"
 ---
 
 

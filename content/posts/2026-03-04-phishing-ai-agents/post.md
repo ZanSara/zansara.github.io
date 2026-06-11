@@ -3,7 +3,7 @@ title: "Phishing AI Agents"
 description: "Most LLMs are hardened against classic prompt injection attacks. But AI agents also behave like naive humans sometimes..."
 date: 2026-03-04
 author: "ZanSara"
-featured-image: "/posts/2026-03-04-phishing-ai-agents/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 ---
@@ -36,7 +36,7 @@ If an agent has:
 
 then you agent is **vulnerable by design**, and there is a path to data exfiltration.
 
-![](/posts/2026-03-04-phishing-ai-agents/lethaltrifecta.jpg)
+![](lethaltrifecta.jpg)
 
 _The original definition of the "lethal trifecta" comes from [Simon Willison's blog](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/)._
 
@@ -57,7 +57,7 @@ The demo agent is implemented in [n8n](https://n8n.io/) as a low-code workflow a
 - it has access to only one tool, HTTP GET, for web browsing,
 - it operates in a small local environment with a fake search engine, fake documentation pages, and a fake SaaS product.
 
-![](/posts/2026-03-04-phishing-ai-agents/agent.png)
+![](agent.png)
 
 _The agent's achitecture in [n8n](https://n8n.io/)._
 

@@ -2,7 +2,7 @@
 title: "ODSC West: Building Reliable Voice Agents with Open Source tools"
 date: 2024-10-29
 author: "ZanSara"
-featured-image: "/talks/2024-10-29-odsc-west-voice-agents/cover.png"
+featured-image: "cover.png"
 aliases:
  - /talks/2024-10-30-odsc-west-voice-agents
 ---

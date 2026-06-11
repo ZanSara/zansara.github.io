@@ -3,7 +3,7 @@ title: "Is RAG all you need? A look at the limits of retrieval augmentation"
 description: This blogpost is a teaser for my upcoming talk at ODSC East 2024 in Boston, April 23-25.
 date: 2024-02-21
 author: "ZanSara"
-featured-image: "/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/cover.jpeg"
+featured-image: "cover.jpeg"
 canonicalUrl: https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/
 aliases:
 - /posts/is-rag-all-you-need
@@ -11,7 +11,7 @@ aliases:
 
 Retrieval Augmented Generation (RAG) is by far one of the most popular and effective techniques to bring LLMs to production. Introduced by a Meta [paper](https://arxiv.org/abs/2005.11401) in 2021, it since took off and evolved to become a field in itself, fueled by the immediate benefits that it provides: lowered risk of hallucinations, access to updated information, and so on. On top of this, RAG is relatively cheap to implement for the benefit it provides, especially when compared to costly techniques like LLM finetuning. This makes it a no-brainer for a lot of usecases, to the point that nowadays every production system that uses LLMs in production seems to be implemented as some form of RAG.
   
-![](/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/rag_paper.png)
+![](rag_paper.png)
 
 *A diagram of a RAG system from the [original paper](https://arxiv.org/abs/2005.11401).*
 
@@ -30,7 +30,7 @@ When developing a simple system or a PoC, these sorts of errors tends to have a 
 However, as the system scales to larger corpora, lower quality documents, or niche and specialized fields, these errors end up amplifying each other and may degrade the overall system performance noticeably. Having a good grasp of the underlying causes of these issues, and an idea of how to minimize them, can make a huge difference.
   
 
-![](/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/rag_failures.png)
+![](rag_failures.png)
 
 *The difference between retrieval and generation failures. Identifying where your RAG system is more likely to fail is key to improve the quality of its answers.*
 
@@ -49,7 +49,7 @@ When present and done well, developer documentation is structured and easy for a
 
 As a bonus, the queries are very likely to always be in English, which happens to be the case for the documentation too and to be the language which LLMs are the strongest at.
 
-![](/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/mongodb.png)
+![](mongodb.png)
 
 *The MongoDB documentation provides a chatbot interface which is quite useful.*
 
@@ -59,7 +59,7 @@ In this case, the small annoyances that are already present above have a [much s
 
 Even if your airline or bank’s customer support pages are top notch, hallucinations are not as easy to spot, because to make sure that the answers are accurate the user needs to check the sources that the LLM is quoting… which voids the whole point of the generation step. And what if the user cannot read such pages at all? Maybe they speak a minority language, so they can’t read them. Also, LLMs tend to perform worse on languages other than English and hallucinate more often, exacerbating the problem where it’s already more acute.
   
-![](/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/air_canada.png)
+![](air_canada.png)
 
 *You are going to need a very good RAG system and a huge disclaimer to avoid [this scenario](https://www.theguardian.com/world/2024/feb/16/air-canada-chatbot-lawsuit).*
 
@@ -71,7 +71,7 @@ Laws and scientific articles are hard to read for the average person, require sp
 
 Even worse, LLMs often have no reliable background knowledge on these topics, so their reply need to be strongly grounded by relevant documents for the answers to be correct and dependable. While a simple RAG implementation is still better than a vanilla reply from GPT-4, the results can be problematic in entirely different ways.
   
-![](/posts/2024-02-20-is-rag-all-you-need-odsc-east-2024-teaser/medical_questions.png)
+![](medical_questions.png)
 
 *[Research is being done](https://www.sciencedirect.com/science/article/pii/S2949761223000366), but the results are not promising yet.*
 

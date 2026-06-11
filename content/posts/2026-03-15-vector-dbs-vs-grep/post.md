@@ -4,7 +4,7 @@ description: "Some agentic applications don't use vector DBs for search. Is it a
 date: 2026-03-15
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2026-03-15-vector-dbs-vs-grep/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 ---

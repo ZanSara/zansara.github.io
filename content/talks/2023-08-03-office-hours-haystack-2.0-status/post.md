@@ -2,7 +2,7 @@
 title: "Office Hours: Haystack 2.0"
 date: 2023-08-03
 author: "ZanSara"
-featured-image: "/talks/2023-08-03-office-hours-haystack-2.0-status/cover.png"
+featured-image: "cover.png"
 ---
 
 [Recording](https://drive.google.com/file/d/1PyAlvJ22Z6o1bls07Do5kx2WMTdotsM7/view?usp=drive_link), [slides](https://drive.google.com/file/d/1QFNisUk2HzwRL_27bpr338maxLvDBr9D/preview). All the material can also be found [here](https://drive.google.com/drive/folders/1zmXwxsSgqDgvYf2ptjHocdtzOroqaudw?usp=drive_link).

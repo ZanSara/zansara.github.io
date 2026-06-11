@@ -4,7 +4,7 @@ description: "Let's build a simple RAG Pipeline with Haystack 2.0 by just connec
 date: 2023-10-27
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
-featured-image: "/posts/2023-10-27-haystack-series-rag/cover.png"
+featured-image: "cover.png"
 ---
 
 *Last updated: 18/01/2024 - Read it on the [Haystack Blog](https://haystack.deepset.ai/blog/rag-pipelines-from-scratch).*
@@ -30,7 +30,7 @@ The idea of Retrieval Augmented Generation was first defined in a [paper](https:
 
 RAG solves these issues of "grounding" the LLM to reality by providing some relevant, up-to-date, and trusted information to the model together with the question. In this way, the LLM doesn't need to draw information from its internal knowledge, but it can base its replies on the snippets provided by the user.
 
-![RAG Paper diagram](/posts/2023-10-27-haystack-series-rag/rag-paper-image-inv.png "A visual representation of RAG from the original paper")
+![RAG Paper diagram](rag-paper-image-inv.png "A visual representation of RAG from the original paper")
 
 As you can see in the image above (taken directly from the original paper), a system such as RAG is made of two parts: one that finds text snippets that are relevant to the question asked by the user and a generative model, usually an LLM, that rephrases the snippets into a coherent answer for the question.
 
@@ -106,7 +106,7 @@ pipe.run({"prompt_builder": {"country": "France"}})
 
 Here is the pipeline graph:
 
-![Simple LLM pipeline](/posts/2023-10-27-haystack-series-rag/simple-llm-pipeline-inv.png)
+![Simple LLM pipeline](simple-llm-pipeline-inv.png)
 
 ## Make the LLM cheat
 
@@ -168,7 +168,7 @@ pipe.run({
 ```
 Let's look at the graph of our Pipeline:
 
-![Double PromptBuilder pipeline](/posts/2023-10-27-haystack-series-rag/double-promptbuilder-pipeline-inv.png)
+![Double PromptBuilder pipeline](double-promptbuilder-pipeline-inv.png)
 
 The beauty of `PromptBuilder` lies in its flexibility. It allows users to chain instances together to assemble complex prompts from simpler schemas: for example, we used the output of the first `PromptBuilder` as the value of `question` in the second prompt.
 
@@ -208,7 +208,7 @@ pipe.run({
 # }
 ```
 
-![PromptBuilder with two inputs pipeline](/posts/2023-10-27-haystack-series-rag/double-variable-promptbuilder-pipeline-inv.png)
+![PromptBuilder with two inputs pipeline](double-variable-promptbuilder-pipeline-inv.png)
 
 
 ## Retrieving the context
@@ -329,7 +329,7 @@ pipe.run({
 # }
 ```
 
-![BM25 RAG Pipeline](/posts/2023-10-27-haystack-series-rag/bm25-rag-pipeline-inv.png)
+![BM25 RAG Pipeline](bm25-rag-pipeline-inv.png)
 
 Congratulations! We've just built our first, true-to-its-name RAG Pipeline. 
 
@@ -416,7 +416,7 @@ pipe.run({
 # }
 ```
 
-![Elasticsearch RAG Pipeline](/posts/2023-10-27-haystack-series-rag/elasticsearch-rag-pipeline-inv.png)
+![Elasticsearch RAG Pipeline](elasticsearch-rag-pipeline-inv.png)
 
 That's it! We're now running the same pipeline over a production-ready Elasticsearch instance.
 

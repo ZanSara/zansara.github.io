@@ -2,7 +2,7 @@
 title: "Embrace:AI // 2025.06 - Reasoning LLMs & Multimodal Architecture"
 date: 2025-11-06
 author: "ZanSara"
-featured-image: "/talks/2025-11-06-embrace-ai-meetup-reasoning-models/cover.png"
+featured-image: "cover.png"
 ---
 
 [Announcement](https://www.meetup.com/embrace-ai/events/311629934/), [slides](https://drive.google.com/file/d/1QoUVlA915-7UJqu9DkxKQUc3deJhsB8t/view?usp=sharing). All resources can also be found in [my archive](https://docs.google.com/presentation/d/1RzJOwSwaLcNFkkPuvpR9e9pRzf0mnz23l8H29X9UDSA/edit?usp=drive_link).
@@ -15,4 +15,4 @@ To answer these questions, I classified LLMs into a small "taxonomy" based on th
 
 I also covered the effect of increasing the reasoning effort of the model, clarifying when it's useful and when it can lead to overthinking.
 
-![](/talks/2025-11-06-embrace-ai-meetup-reasoning-models/room.jpeg)
+![](room.jpeg)

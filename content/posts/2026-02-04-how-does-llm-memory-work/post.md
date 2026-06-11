@@ -4,7 +4,7 @@ description: "All LLMs can keep track of a short conversation. But how do they r
 date: 2026-02-04
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2026-02-04-how-does-llm-memory-work/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 ---
@@ -29,7 +29,7 @@ When you're having a conversation with an LLM, the LLM does not remember what yo
 
 This means that the chat history is not part of the LLM, but it's **managed by the application built on top of it**. It's the app's responsibility to store the chat history across turns and send it back to the LLM each time the user adds a new message to it. 
 
-![](/posts/2026-02-04-how-does-llm-memory-work/naive-chat-history-inv.png)
+![](naive-chat-history-inv.png)
 
 The storage of the chat history is the simplest implementation of what "memory" means for an LLM. We can call it **short-term memory** and it allows the LLM to have a coherent conversation for many turns.
 
@@ -46,7 +46,7 @@ To prevent a hard system crash, various LLM applications handle context window o
 1. **Hard failure (common in APIs):** If you exceed the model’s context window, the request fails.
 2. **Truncation/sliding window (common in chat apps):** The application drops older parts of the conversation so the latest turns fit. This means that for each new token you or the LLM are adding to the chat, an older token disappears from the history, and the LLM "forgets" it. In practice, during a conversation this may look like the LLM forgetting older topics of conversation, or losing sight of its original goal, or forgetting the system prompt and other custom instruction you might have given at the start of the chat.
 
-![](/posts/2026-02-04-how-does-llm-memory-work/context-window-overflow-inv.png)
+![](context-window-overflow-inv.png)
 
 However, both of these are just patches over the fundamental problem that LLMs can't remember more than the content of their context window. How do we get around that to achieve long-term memory?
 
@@ -66,7 +66,7 @@ The main issue with summarization memory is that LLMs often don't know what deta
 
 In short, summarization memory achieves something very like human memory: infinitely compressible but likely to lose details in arbitrary ways. This works for role-playing chatbots for example, but not for personal assistants that are supposed to remember everything perfectly.
 
-![](/posts/2026-02-04-how-does-llm-memory-work/summarization-memory-inv.png)
+![](summarization-memory-inv.png)
 
 ### Scratchpad
 
@@ -81,7 +81,7 @@ In either case, the scratchpad content is then added to the conversation history
 
 This approach is far more controllable than summaries, because the LLM can be instructed carefully as of what it's critical to remember and how to save it into the scratchpad. Not only, but the users themselves can be allowed to read and edit the scratchpad to check what the LLM remembers, add more information, or even correct errors.
 
-![](/posts/2026-02-04-how-does-llm-memory-work/scratchpad-memory-inv.png)
+![](scratchpad-memory-inv.png)
 
 ### RAG Memory
 
@@ -97,7 +97,7 @@ In addition, you may run into an additional problem that's unique to RAG memory:
 
 While context stuffing can happen with malicious context snippets in regular RAG, it's also very likely to happen accidentally when implementing RAG-based memory that searches directly into the chat history. This happens because all the retrieved snippets were indeed user's prompts in the past! In this case, it's essential to make sure that the prompt identifies clearly the retrieved snippets as context and not prompts.
 
-![](/posts/2026-02-04-how-does-llm-memory-work/rag-memory-inv.png)
+![](rag-memory-inv.png)
 
 ## Conclusion
 

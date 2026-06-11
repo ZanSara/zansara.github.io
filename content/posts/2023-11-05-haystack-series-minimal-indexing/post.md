@@ -4,7 +4,7 @@ description: RAG apps need data to work. Let's see how to pre-process our data t
 date: 2023-11-05
 author: "ZanSara"
 series: ["Haystack 2.0 Series"]
-featured-image: "/posts/2023-11-05-haystack-series-minimal-indexing/cover.png"
+featured-image: "cover.png"
 ---
 
 *Last updated: 18/01/2024*
@@ -173,7 +173,7 @@ pipeline.draw("simple-indexing-pipeline.png")
 pipeline.run({"converter": {"sources": file_names}})
 ```
 
-![Indexing Pipeline](/posts/2023-11-05-haystack-series-minimal-indexing/simple-indexing-pipeline-inv.png)
+![Indexing Pipeline](simple-indexing-pipeline-inv.png)
 
 That's it! We now have a fully functional indexing pipeline that can take a list of web pages and convert them into Documents that our RAG pipeline can use. As long as the RAG pipeline reads from the same store we are writing the Documents to, we can add as many Documents as we need to keep the chatbot's answers up to date without having to touch the RAG pipeline.
 

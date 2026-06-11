@@ -3,7 +3,7 @@ title: "Explain me LLMs like I'm five: build a story to help anyone get the idea
 description: Let's explore a high-level way to tell clearly what LLMs are good for to the average pedestrian and help them reason about it.
 date: 2024-04-14
 author: "ZanSara"
-featured-image: "/posts/2024-04-14-eli5-llms/cover.png"
+featured-image: "cover.png"
 aliases:
 - /posts/eli5-llms
 ---

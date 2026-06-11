@@ -3,7 +3,7 @@ title: "Smarter Systems with Leaner Models"
 description: "Token prices keep falling with every new model release. So how come AI bills are only rising? Is it structural, or is there a way to address it?"
 author: "ZanSara"
 date: 2026-05-18
-featured-image: "/posts/2026-05-18-smarter-systems-with-leaner-models/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 ---
@@ -69,7 +69,7 @@ Flagship models such as GPT-5.5, Claude Opus 4.7, etc., are not always the right
 
 In fact, choosing a smaller model is not only a cost-saving technique. Smaller models occasionally display better stats at crucial skills, such as lower hallucination rates, than flagships.[^vectara-hallucination-blog][^vectara-hallucination-github] This is because flagships, being trained for the highest intelligence, tend to guess and infer from the data they have available, while smaller models are trained to admit ignorance. This makes them *better* suited for many industry applications while costing 5 to 10 times less than their smarter counterparts.[^openai-pricing-2026][^google-pricing-2026][^anthropic-pricing-2026]
 
-![Right-sizing economics: list-price token cost compared with Vectara hallucination rates.](/posts/2026-05-18-smarter-systems-with-leaner-models/right-sizing.png)
+![Right-sizing economics: list-price token cost compared with Vectara hallucination rates.](right-sizing-inv.png)
 
 _A comparison of the cost for a million tokens versus the hallucination rates of three popular flagship LLMs and their smaller counterparts._
 
@@ -95,7 +95,7 @@ When talking about inference engineering, it is always worth framing it as a bui
 
 For some of us, keeping inference in-house is not negotiable, and therefore the realm of inference engineering is highly relevant. In these cases, start from the most basic optimizations such as prompt caching and batching, then move up the complexity scale with cache and model quantization, up to cutting edge techniques such as speculative decoding and more, keeping a constant eye on the state of the art as it progresses.
 
-![Inference engineering quadrant: quick wins first, strategic bets second.](/posts/2026-05-18-smarter-systems-with-leaner-models/inference.png)
+![Inference engineering quadrant: quick wins first, strategic bets second.](inference-inv.png)
 
 _A simplified map of some inference optimization techniques that can help your organization get the most out of hardware, classified by their complexity versus their impact._
 
@@ -105,7 +105,7 @@ In short, provider choice, serving stack, and model choice are intertwined. The 
 
 More GPUs will only bring you so far, and the industry is actively looking for alternatives. Specialized inference hardware is still an immature but hot research area: new chips could change the economics of AI if they manage to move from prototype to production, especially for predictable workloads, but evidence quality varies widely. Some numbers are vendor-reported, some come from early demonstrations, and many compare different models, sequence lengths, or serving configurations.
 
-![Silicon throughput landscape using mixed vendor and benchmark sources.](/posts/2026-05-18-smarter-systems-with-leaner-models/silicon.png)
+![Silicon throughput landscape using mixed vendor and benchmark sources.](silicon-inv.png)
 
 _A simplified comparison of a crucial claim for custom LLM chips: tokens per second on selected LLMs (usually Llama models)._
 

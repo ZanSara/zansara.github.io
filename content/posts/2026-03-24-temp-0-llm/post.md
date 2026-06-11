@@ -4,7 +4,7 @@ description: "We all know LLMs don't always respond the same thing to slight cha
 date: 2026-03-24
 author: "ZanSara"
 series: ["Practical Questions"]
-featured-image: "/posts/2026-03-24-temp-0-llm/cover-inv.png"
+featured-image: "cover-inv.png"
 ---
 
 ---

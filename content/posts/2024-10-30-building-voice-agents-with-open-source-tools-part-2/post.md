@@ -3,7 +3,7 @@ title: "Building Reliable Voice Bots with Open Source Tools - Part 2"
 description: "A practical guide on the best techniques to build performant and cost effective voice bots."
 date: 2024-10-30
 author: "ZanSara"
-featured-image: "/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/cover-inv.png"
+featured-image: "cover-inv.png"
 aliases:
 - /posts/2024-09-05-voice-bots-2/
 ---
@@ -42,13 +42,13 @@ At this point we have a [comprehensive view](/posts/2024-09-05-building-voice-ag
 
 First of all, let's take a look at the structure we defined earlier and see how we can improve on it.
 
-![](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/structure-of-a-voice-bot-inv.png)
+![](structure-of-a-voice-bot-inv.png)
 
 ### Voice Activity Detection (VAD)
 
 One of the simplest improvements to this architecture is the addition of a robust Voice Activity Detection (VAD) model. VAD gives the bot the ability to hear interruptions from the user and react to them accordingly, helping to break the classic, rigid turn-based interactions of old-style bots.
 
-![](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/structure-of-a-voice-bot-vad-inv.png)
+![](structure-of-a-voice-bot-vad-inv.png)
 
 However, on its own VAD models are not enough. To make a bot truly interruptible we also need the rest of the pipeline to be aware of the possibility of an interruption and be ready to handle it: speech-to-text models need to start transcribing and the text-to-speech component needs to stop speaking as soon as the VAD picks up speech. 
 
@@ -62,7 +62,7 @@ Tools are often a major component of you bot's functionality. Modern and effecti
 
 Function calling is a feature of most of today's LLMs, so it's often a low-hanging fruit in terms of improvements to your bot. Simple actions like looking up the current time, or searching a knowledge base before replying (a technique called [Agentic RAG](/posts/2024-06-10-the-agent-compass/#agentic-rag)), may make a huge difference in terms of the quality of its responses.
 
-![](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/structure-of-a-voice-bot-tools-inv.png)
+![](structure-of-a-voice-bot-tools-inv.png)
 
 ### LLM-based intent detection
 
@@ -70,7 +70,7 @@ Despite the [distinction we made earlier](/posts/2024-09-05-building-voice-agent
 
 One of the most effective approaches is to use intent detection to help control the flow of an LLM conversation. Let's see how.
 
-![](/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/structure-of-a-voice-bot-intent-inv.png)
+![](structure-of-a-voice-bot-intent-inv.png)
 
 Suppose we're building a general purpose customer support bot.
 
@@ -187,7 +187,7 @@ Have fun!
 
 <div style="display: flex; align-content: center;">
   <video style="margin:auto;" width="100%" height="100%" controls>
-    <source src="/posts/2024-10-30-building-voice-agents-with-open-source-tools-part-2/notebook-presentation-clip.mp4" type="video/mp4">
+    <source src="notebook-presentation-clip.mp4" type="video/mp4">
   </video>
 </div>
 
