@@ -13,9 +13,9 @@ _This is episode 9 of a series of shorter blog posts answering questions I recei
 
 ---
 
-The term "agent harness", or even simply "harness", seemingly appeared out of nowhere at some point at the start of this year, and everybody immediately started using it as if it always had an obvious and commonly understood definition. If this caught you off-guard, you're not alone: the term existed since before LLMs, but it was a rather niche AI research term that only gained popularity in early 2026.
+The term "agent harness", or even simply "harness", seemingly appeared out of nowhere at some point at the start of this year, and everybody immediately started using it as if it always had an obvious and commonly understood definition. If this caught you off-guard, you're not alone: the term existed since before LLMs, but it was a rather niche AI research term that only went mainstream in early 2026.
 
-So, what's an agent harness exactly?
+## Definition
 
 In short, an agent harness is **all the software scaffolding that sits around an LLM**. The harness is the software that manages how the LLM uses tools, remembers context, stays within its guardrails, etc. To use a simple metaphor, the LLM is the brain of the AI agent (understands, reasons, takes decisions, etc...) while the harness is its body (takes actions, receives feedback from the environment, etc...). Without its harness, the LLM can talk about a solution, can explain it, but cannot put it in practice. That part is the harnesses' task. 
 
@@ -31,13 +31,17 @@ Some forms of **guardrails** are also implemented in the harness. One common and
 
 In addition, the harness is the perfect place to introduce **observability**: monitoring, logging, error handling and other scaffolding that's essential for production-grade systems.
 
+## Why a term for this?
+
 These sorts of scaffolds are not new. They've been around for a very long time: in fact, the term seems to come from 2020, long before LLMs, when researchers started to study the relationship that an AI system could develop with external software. However, the term definitely gained a ton of popularity and escaped the research domain some time at the end of 2025.
 
 Late 2025 was also the time when agentic coding started to really take off. Coincidence?
 
 It is now generally understood that coding agents require two parts to be effective: an excelent LLM that is able to invoke tools effectively, and an excelent harness that gives the LLM exactly what it needs to do its work, nothing more and nothing less. A state of the art LLM in a poor harness will perform well below its potential, while a rather poor LLM placed in a great harness can still be quite useful. And while agent harnesses are an essential part of every type of AI agents, they're usually called as such in the context of coding agents. For example Claude Code is an agent harness, and Claude its LLM. Cursor is also a form of harness, which can use severl different LLMs under the hood. But OpenClaw is also a harness, which can also be powered by different LLMs.
 
-To summarize, there are two situations where it's important to understand the concept of harness:
+## In conclusion
+
+There are two situations where it's important to understand the concept of harness:
 
 1. You use coding agents. Understanding the distinction between the LLM's own capabilities and the rols of the surrounding harness is very useful to debug situations where the agent performs unexpectedly poorly. The LLM has no idea whether it's running on a Windows, a Linux or a Mac: the harness has to tell the LLM this, so the LLM can issue the correct CLI commands.
 

@@ -59,7 +59,7 @@ intentional demo.yml
 
 You should see a UI such as this coming up (with the chat history empty):
 
-![](/talks/2024-12-03-pydata-global-voice-bots-demo-ui.png)
+![](/talks/2024-12-03-pydata-global-voice-bots/demo-ui.png)
 
 Just start speaking and the bot will quickly reply to you. 
 
