@@ -7,12 +7,6 @@ series: ["Practical Questions"]
 featured-image: "cover-inv.png"
 ---
 
----
-
-_This is episode 10 of a series of shorter blog posts answering questions I received during the course of my work. They discuss common misconceptions and doubts about various generative AI technologies. You can find the whole series here: [Practical Questions](/series/practical-questions)._
-
----
-
 LLM reasoning has a simple appeal: give the model more room to think, and the answer should improve. That intuition works well enough in domains like math, coding, and planning that it is tempting to apply it everywhere.
 
 Machine translation seems like an obvious candidate. Translation is not just word substitution: a good translator resolves ambiguity, preserves tone, chooses between literal and idiomatic phrasing, and revises awkward drafts. Surely a model that “reasons” before translating should do better.
