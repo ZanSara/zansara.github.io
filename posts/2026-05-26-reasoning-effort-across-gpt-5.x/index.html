@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Reasoning effort defaults across the GPT-5.x family · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Reasoning effort defaults across the GPT-5.x family · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2026-05-26-reasoning-effort-across-gpt-5.x/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Reasoning effort defaults across the GPT-5.x family">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-05-26-reasoning-effort-across-gpt-5.x/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-05-26-reasoning-effort-across-gpt-5.x/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-05-26-reasoning-effort-across-gpt-5.x/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2026-05-26-reasoning-effort-across-gpt-5.x/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Reasoning effort defaults across the GPT-5.x family</h1>
+      
+<span style="color: var(--muted-text);">If you never pinned the reasoning effort across model upgrades, you may have accidentally changed your reasoning effort dramatically.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-05-26T00:00:00Z">by <a href="/">Sara Zan</a>, May 26, 2026</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2026-05-26-reasoning-effort-across-gpt-5.x/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <p>GPT-5.x models are <a href="https://magazine.sebastianraschka.com/p/understanding-reasoning-llms" target="_blank" rel="noopener noreferrer">reasoning models</a>, and as such, you can set the reasoning effort that they should make when addressing your prompts.</p>
+<p>Reasoning is a big part of what makes LLMs smarter or faster, and the reasoning effort is a huge lever to improve benchmark results and latency figures. However, unless you've been monitoring your LLM applications closely, you may not have found a reason to play too much with the reasoning effort, trusting that the default would be good enough for now.</p>
+<p>Unfortunately, for some of us this is not a safe assumption to make.</p>
+<h2>The default keeps changing</h2>
+<p>The problem is that OpenAI is <strong>not keeping the default stable</strong>. Reasoning itself have been turned on and off a few times across gpt-5.x releases:</p>
+<ul>
+<li>GPT-5: <code>medium</code> (<a href="https://developers.openai.com/api/reference/java/resources/%24shared#(resource)%20%24shared%20%3E%20(model)%20reasoning_effort%20%3E%20(schema)" target="_blank" rel="noopener noreferrer">source</a>)</li>
+<li>GPT-5.1: <code>none</code> (<a href="https://developers.openai.com/api/docs/models/gpt-5.1" target="_blank" rel="noopener noreferrer">source</a>)</li>
+<li>GPT-5.2: <code>none</code>(<a href="https://developers.openai.com/api/docs/models/gpt-5.2" target="_blank" rel="noopener noreferrer">source</a>)</li>
+<li>GPT-5.4: <code>none</code> (<a href="https://developers.openai.com/api/docs/models/gpt-5.4" target="_blank" rel="noopener noreferrer">source</a>)</li>
+<li>GPT-5.5: <code>medium</code> (<a href="https://developers.openai.com/api/docs/models/gpt-5.5" target="_blank" rel="noopener noreferrer">source</a>)</li>
+</ul>
+<p>This means that, unless you manually set the reasoning effort, you lost reasoning when upgrading from GPT-5 to GPT-5.1, sacrificing some output quality for faster responses. On the opposite, when upgrading from GPT-5.4 to GPT-5.5, the opposite happened: you traded off latency for some additional intelligence. </p>
+<p>If you're building simple chatbots, this distinction may not matter at all; but if you're building voice applications and other apps that require low-latency responses, this upgrade might have thrown a wrench in your numbers unexpectedly. GPT-5.5 is not necessarily this slow: you can make it run as fast as its predecessor, and keep the improved intelligence, by setting back the reasoning to where you want it to be.</p>
+<h2>Picking the right reasoning effort</h2>
+<p>Choosing the right reasoning effort depends entirely on your preference for intelligence vs speed. This is what the official <a href="https://developers.openai.com/api/docs/guides/reasoning" target="_blank" rel="noopener noreferrer">OpenAI guidelines</a> report on the matter:</p>
+<table>
+<thead>
+<tr>
+<th>Reasoning effort</th>
+<th>Intended use</th>
+<th>Typical tradeoff</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code></td>
+<td>Latency-critical tasks that do not benefit from reasoning or multi-step tool calls. Examples: voice, fast retrieval, classification.</td>
+<td>Fastest, lowest reasoning overhead, weaker for planning/tool-heavy work.</td>
+</tr>
+<tr>
+<td><code>minimal</code></td>
+<td>Fast responses on GPT-5 models that support it.</td>
+<td>Very low reasoning overhead; availability is model-dependent.</td>
+</tr>
+<tr>
+<td><code>low</code></td>
+<td>Efficient reasoning for tool use, planning, search, multi-step decisions, drafting, data analysis, execution-oriented coding, support/chat workflows.</td>
+<td>Modest latency/token increase. Often a safer floor than <code>none</code>.</td>
+</tr>
+<tr>
+<td><code>medium</code></td>
+<td>General default for quality/reliability, planning, judgement, agentic coding, research, spreadsheets/slides, longer delegated tasks.</td>
+<td>Balanced quality, latency, and cost. <code>gpt-5.5</code> defaults to this.</td>
+</tr>
+<tr>
+<td><code>high</code></td>
+<td>Hard reasoning, complex debugging, deep planning, high-value agentic tasks.</td>
+<td>Better quality on difficult tasks, higher latency/cost.</td>
+</tr>
+<tr>
+<td><code>xhigh</code></td>
+<td>Deep research, long rollouts, challenging coding/security/code-review workflows where evals prove value.</td>
+<td>Highest latency/cost; should be justified by evals.</td>
+</tr>
+</tbody>
+</table>
+<p>In many cases the reasoning effort should be raised, at the expense of latency, on very tough tasks that require thinking. Agentic coding is a typical example. For all other scenarios you can save money and reduce latency by keeping the reasoning effort low, and setting up an eval framework to check whether your benchmarks are still healthy.</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

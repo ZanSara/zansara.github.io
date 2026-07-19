@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>What's an agent harness? · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What's an agent harness? · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2026-06-12-agent-harness/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="What's an agent harness?">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-06-12-agent-harness/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-06-12-agent-harness/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-06-12-agent-harness/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2026-06-12-agent-harness/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">What&#x27;s an agent harness?</h1>
+      
+<span style="color: var(--muted-text);">The intelligence of modern AI agents is due to the LLMs, but their practical capabilities only exist thanks to their harness.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-06-12T00:00:00Z">by <a href="/">Sara Zan</a>, June 12, 2026</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2026-06-12-agent-harness/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <hr />
+<p><em>This is episode 9 of a series of shorter blog posts answering questions I received during the course of my work. They discuss common misconceptions and doubts about various generative AI technologies. You can find the whole series here: <a href="/series/practical-questions">Practical Questions</a>.</em></p>
+<hr />
+<p>The term "agent harness", or even simply "harness", seemingly appeared out of nowhere at some point at the start of this year, and everybody immediately started using it as if it had always had an obvious and commonly understood definition. If this caught you off guard, you're not alone: the term has existed since before LLMs, but it was a rather niche AI research term that only went mainstream in early 2026.</p>
+<h2>Definition</h2>
+<p>In short, an agent harness is <strong>all the software scaffolding that sits around an LLM</strong>. The harness is the software that manages how the LLM uses tools, remembers context, stays within its guardrails, etc. To use a simple metaphor, the LLM is the brain of the AI agent: it understands, reasons, makes decisions, etc. The harness is its body: it takes actions, receives feedback from the environment, etc. Without its harness, the LLM can talk about a solution and explain it, but cannot put it into practice. That part is the harness's task.</p>
+<p>In fact, the LLM and its harness have such orthogonal roles that they are not tied to each other: nearly any LLM can be used with any harness, depending on the end goal. Harnesses are LLM-agnostic and can work with any LLM, which makes it easier to upgrade the LLM without rebuilding the harness, and vice versa.</p>
+<p><img alt="" src="/posts/2026-06-12-agent-harness/agent-harness-inv.png"  class="invertible" /></p>
+<p>In more practical terms, the primary component of an agent harness is <strong>tools</strong>. LLMs on their own are not able to run tools: they <em>request</em> a tool execution from their harness, the harness executes the tool, whether directly or through an MCP, collects the outputs, then invokes the LLM again with the outputs of the tool. This machinery is one of the most basic forms of harness.</p>
+<p>Another example is <strong>long-term memory</strong>. There are plenty of <a href="/posts/2026-02-04-how-does-llm-memory-work/">implementations of memory</a>, but none of them is a native capability of the LLM: they are all part of the harness, and must be implemented in the scaffolding around the model for the model to acquire this capability. For example, one simple form of memory is the "scratchpad" approach, where the LLM can take notes about what it should remember long-term. This scratchpad is external to the LLM, just like a notebook is external to your head: the LLM writes into its scratchpad using a tool, and the harness makes sure to register the edits, store its content, inject it into the chat history at every new chat, etc.</p>
+<p>Some forms of <strong>guardrails</strong> are also implemented in the harness. One common and simple implementation of a guardrail is to make each prompt go through two LLMs instead of one: the first to actually answer the question, and the second to review the answer, to make sure it addresses the prompt without breaking any guardrails in the process. Again, this workflow is not native to any LLM: it must be implemented around the LLM call.</p>
+<p>In addition, the harness is the perfect place to introduce <strong>observability</strong>: monitoring, logging, error handling, and other scaffolding that's essential for production-grade systems.</p>
+<h2>Why a term for this?</h2>
+<p>These sorts of scaffolds are not new. They've been around for a very long time: in fact, the term seems to come from 2020, long before LLMs, when researchers started to study the relationship that an AI system could develop with external software. However, the term definitely gained a ton of popularity and escaped the research domain some time at the end of 2025.</p>
+<p>Late 2025 was also the time when agentic coding started to really take off. Coincidence?</p>
+<p>It is now generally understood that coding agents require two parts to be effective: an excellent LLM that is able to invoke tools effectively, and an excellent harness that gives the LLM exactly what it needs to do its work, nothing more and nothing less. A state-of-the-art LLM in a poor harness will perform well below its potential, while a rather poor LLM placed in a great harness will punch above its weight. </p>
+<p>While agent harnesses are an essential part of every type of AI agent, they're usually called like this in the context of coding agents. For example, Claude Code is an agent harness, and Claude is its LLM. Cursor is a harness which can use several different LLMs under the hood. But OpenClaw is also a harness, which can also be powered by different LLMs.</p>
+<h2>In conclusion</h2>
+<p>There are two situations where it's important to understand the concept of harness:</p>
+<ol>
+<li>
+<p>You use coding agents. Understanding the distinction between the LLM's own capabilities and the role of the surrounding harness is very useful to debug situations where the agent performs unexpectedly poorly. For example, the LLM has no idea whether it's running on Windows, Linux, or a Mac: the harness has to tell the LLM this, so the LLM can issue the correct CLI commands.</p>
+</li>
+<li>
+<p>You are building AI agents. In this case, it's essential to know what kind of features and failure modes are due to the harness and what kind are due to the model. It's also crucial to be able to evaluate the LLM and the harness components in isolation and as a complete system, keeping in mind how the two parts influence each other's abilities.</p>
+</li>
+</ol>
+<p>Either way, as the word becomes more and more popular, it's now an essential term to keep in mind when reasoning about AI agents.</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

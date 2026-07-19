@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Pointer[183]: Haystack, creare LLM Applications in modo facile · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pointer[183]: Haystack, creare LLM Applications in modo facile · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Pointer[183]: Haystack, creare LLM Applications in modo facile">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/talks/2023-12-15-pointerpodcast-haystack/cover.png">
+  <meta name="og:image" content="/talks/2023-12-15-pointerpodcast-haystack/cover.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/cover.png">
+  <link rel="canonical" href="https://www.zansara.dev/talks/2023-12-15-pointerpodcast-haystack/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1>Pointer[183]: Haystack, creare LLM Applications in modo facile</h1>
+    </header>
+    <img style="width:100%; margin: 20px 0 0 0;" src="/talks/2023-12-15-pointerpodcast-haystack/cover.png" alt="Featured image" />
+    <p><a href="https://pointerpodcast.it/p/pointer183-haystack-creare-llm-applications-in-modo-facile-con-stefano-fiorucci-e-sara-zanzottera" target="_blank" rel="noopener noreferrer">Episode link</a>. Backup recording <a href="https://drive.google.com/file/d/1BOoAhfvWou_J4J7RstgKAHPs3Pre2YAw/view?usp=sharing" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<hr />
+<p><em>The podcast was recorded in Italian for <a href="https://pointerpodcast.it" target="_blank" rel="noopener noreferrer">PointerPodcast</a> with <a href="https://www.linkedin.com/in/luca-corbucci-b6156a123/" target="_blank" rel="noopener noreferrer">Luca Corbucci</a>, <a href="https://www.linkedin.com/in/eugenio-paluello-851b3280/" target="_blank" rel="noopener noreferrer">Eugenio Paluello</a> and <a href="https://www.linkedin.com/in/stefano-fiorucci/" target="_blank" rel="noopener noreferrer">Stefano Fiorucci</a>.</em></p>
+<hr />
+<div>
+<audio controls src="https://hosting.pointerpodcast.it/records/pointer183.mp3" style="width: 100%"></audio>
+</div>
+
+<p>Per concludere in grande stile il 2023, in questa puntata ci occupiamo delle LLM che sono state un argomento centrale della scena tech dell'anno che sta per terminare. Abbiamo invitato due esperti del settore, Sara Zanzottera e Stefano Fiorucci.</p>
+<p>Entrambi i nostri ospiti lavorano per deepset come NLP Engineer. Deepset è l'azienda produttrice di Haystack uno dei framework opensource per LLM più noti, che ha da poco raggiunto la versione 2.0 beta. Proprio Haystack è stato uno degli argomenti di cui ci siamo occupati con i nostri ospiti, cercando di capirne le potenzialità. </p>
+<p>Ma è possibile riuscire a lavorare ad un framework di questo tipo rimanendo anche aggiornati sulle novità di un mondo in costante evoluzione? Questa è una delle tante domande a cui Sara e Stefano hanno risposto. Vi interessa il mondo delle LLM? Non perdetevi questa puntata! </p>
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

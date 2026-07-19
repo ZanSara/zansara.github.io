@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Phishing AI Agents · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Phishing AI Agents · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2026-03-04-phishing-ai-agents/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Phishing AI Agents">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-03-04-phishing-ai-agents/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-03-04-phishing-ai-agents/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-03-04-phishing-ai-agents/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2026-03-04-phishing-ai-agents/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Phishing AI Agents</h1>
+      
+<span style="color: var(--muted-text);">Most LLMs are hardened against classic prompt injection attacks. But AI agents also behave like naive humans sometimes...</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-03-04T00:00:00Z">by <a href="/">Sara Zan</a>, March 04, 2026</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2026-03-04-phishing-ai-agents/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <hr />
+<p><em>This post is based on one of my talks, <a href="https://www.zansara.dev/talks/2026-02-25-mindstone-lisbon-meetup/">"Phishing AI Agents"</a>. Have a look at the <a href="https://community.mindstone.com/annotate/article_B3qZVBLeehDkqDzhj7" target="_blank" rel="noopener noreferrer">recording</a> of my presentation at Lisbon's <a href="https://community.mindstone.com/events/mindstone-lisbon-february-ai-meetup" target="_blank" rel="noopener noreferrer">Mindstone AI Meetup</a> in February 2026, and check out the <a href="https://www.zansara.dev/talks/2026-02-25-mindstone-lisbon-meetup/">talk page</a> for slides and demo code.</em></p>
+<hr />
+<p>Lately, everyone is talking about deploying AI agents, but not many ask themselves what happens once those agents are out in the world.</p>
+<p>We are used to thinking about phishing as a human problem: a person receives an unusual message, trusts it for some reason, and gives away something sensitive. But what happens when the target is not a person, but an AI agent? Can an agent be phished? And if so, what does that actually look like in practice?</p>
+<h2>Useful agents are trusted agents</h2>
+<p>AI agents are powerful precisely because they are trusted with access to many of our most private accounts. An agent may need to read email, access calendars, browse internal documentation, inspect private GitHub repositories, review tickets, or interact with SaaS tools and APIs. In other words, the agent must have both context and capability.</p>
+<p>That also means it becomes a <strong>security boundary</strong>.</p>
+<p>A common but weak assumption in many deployments is that if we tell the agent that some data is confidential, it will keep that data confidential. In practice, that is not a sufficient control. Once an agent is exposed to the wrong content under the wrong conditions, secrecy instructions alone do not reliably prevent leakage. But what is the wrong content and conditions? Is browsing the web the issue? Or the ability to interact with strangers? Is my air-gapped agents running on a dedicated Mac Mini secure?</p>
+<h2>The “lethal trifecta”</h2>
+<p>A useful way to think about this is through what <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/" target="_blank" rel="noopener noreferrer">some researchers</a> call the <strong>lethal trifecta</strong>. The term is not especially intuitive, but the idea is simple:</p>
+<p>If an agent has:</p>
+<ol>
+<li>access to private data,  </li>
+<li>the ability to communicate externally, and  </li>
+<li>exposure to untrusted content,  </li>
+</ol>
+<p>then you agent is <strong>vulnerable by design</strong>, and there is a path to data exfiltration.</p>
+<p><img alt="" src="/posts/2026-03-04-phishing-ai-agents/lethaltrifecta.jpg" /></p>
+<p><em>The original definition of the "lethal trifecta" comes from <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/" target="_blank" rel="noopener noreferrer">Simon Willison's blog</a>.</em></p>
+<p>The exact exploit path may be simple or more complicated. It may take one try or many. But if those three conditions are present, the question is often not <em>whether</em> a leak is possible, but <em>when</em> it will happen.</p>
+<p>This matters because many real agents satisfy these conditions almost by default. A very small agent that can read email, browse the web, and access a secret is already vulnerable.</p>
+<p>That does not mean every such agent will be compromised immediately. It does mean you should not assume that prompt instructions alone make it safe.</p>
+<h2>Demo setup</h2>
+<p>To make this concrete, I built a minimal demo in a controlled environment. You can find all the code I used to build this demo <a href="https://github.com/ZanSara/mindstone-lethal-trifecta-demo" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<p>The demo agent is implemented in <a href="https://n8n.io/" target="_blank" rel="noopener noreferrer">n8n</a> as a low-code workflow and it's intentionally very simple:</p>
+<ul>
+<li>it receives chat input formatted as if it were email,</li>
+<li>it's powered by a modern frontier model, specifically GPT 5.2,</li>
+<li>it has access to only one tool, HTTP GET, for web browsing,</li>
+<li>it operates in a small local environment with a fake search engine, fake documentation pages, and a fake SaaS product.</li>
+</ul>
+<p><img alt="" src="/posts/2026-03-04-phishing-ai-agents/agent.png" /></p>
+<p><em>The agent's achitecture in <a href="https://n8n.io/" target="_blank" rel="noopener noreferrer">n8n</a>.</em></p>
+<p>Somewhere in this environment I also placed an attacker's trap, and if the agent falls for it, we should receive the leaked credentials through a Telegram message.</p>
+<p>The agent’s system prompt contains instructions and a few secrets, including an API key for our imaginary SaaS product. The prompt explicitly told the agent not to share those credentials with anybody and indeed, if you directly ask the agent for the API key, it refuses.</p>
+<p>That is what many teams observe in testing, and it often creates false confidence. The agent appears aligned. It appears to understand that the credential is sensitive. But direct requests are the easy case: our demo is not about getting the model to share the credentials through an email, or some other form or prompt injection. We're gonna demonstrate an entirely different attack surface, something much more similar to regular phishing as conducted against human targets.</p>
+<h2>A plausible support request</h2>
+<p>The interesting failure mode appears when the attacker does not ask for the secret directly. Instead, they send something that looks like a normal support or troubleshooting request:</p>
+<blockquote>
+<p>I’m trying to call this endpoint on this SaaS API but I can’t get it to work. Can you send me a working example?</p>
+</blockquote>
+<p>This is exactly the kind of task a helpful agent is supposed to solve. So the agent does what a helpful agent would do:</p>
+<ol>
+<li>it searches for relevant documentation,  </li>
+<li>it follows documentation links,  </li>
+<li>it discovers API references or an OpenAPI spec,  </li>
+<li>it come across for a sandbox or example environment,  </li>
+<li>and it tries to produce a working example.</li>
+</ol>
+<p>And that is where the leak happens.</p>
+<iframe src="https://drive.google.com/file/d/1O6gynFHtquZQ4cEybfeqiMNP_Yob0fnK/preview" width="800" height="500"></iframe>
+
+<p>In the demo, the agent found documentation that pointed to a sandbox endpoint controlled by the attacker. The agent treated that documentation as legitimate, believed the sandbox was part of the normal workflow, and tested the integration using the real API key it had been given.</p>
+<p>The result: the attacker received the credential.</p>
+<p>Not because the agent was asked to disclose it, but because the agent was induced to <strong>use</strong> it in the wrong place.</p>
+<p>That distinction matters. Many defenses focus on preventing explicit disclosure. Real attacks often succeed by steering the agent into operational misuse instead.</p>
+<h2>How does the trick work?</h2>
+<p>The attack depends on a simple fact: the agent is willing to treat some external content as trustworthy enough to act on.</p>
+<p>If attacker-controlled documentation, examples, links, or sandboxes are interpreted as valid guidance, then the agent can be manipulated into doing work on the attacker’s infrastructure. Once that happens, any credential it uses may be exposed.</p>
+<p>Usually, a developer won't use a real API key on a sandbox system randomly found on the web, but an agent, being more naive, will try it out.</p>
+<p>Seen under this light, this is a phishing attack:</p>
+<ul>
+<li>The email to the agent is the lure.  </li>
+<li>The malicious documentation is the fake login page.  </li>
+<li>The sandbox is where the credential gets captured.</li>
+</ul>
+<p>And critically, a limited toolset does not save you. Restricting an agent to HTTP GET does <strong>not</strong> eliminate prompt-injection or phishing-style risk. If the agent can fetch attacker-controlled content and then use secrets in a way that causes outbound requests, that can be enough.</p>
+<h2>In the real world</h2>
+<p>A common reaction is that this sounds artificial: surely a fake documentation page will never outrank the real docs, and an agent will be able to tell the difference, right? Surely the agent will not fall for something that naive.</p>
+<p>That objection misses two things. First, <strong>attackers have time</strong>. They can try many variants, test against many products, and refine their lures, and with the help of modern LLMs, setting up a trap like this takes a hour at most, and can be automated to a large degree. Second, the search engine is not even necessary: an attacker can send the link directly by email, ticket, document, chat message, or issue comment. If the agent consumes the content and treats it as actionable, that may be enough.</p>
+<p>Also, the leak only needs to happen once.</p>
+<p>A stolen API key does not announce itself! If the attacker uses it quietly, the victim may not notice for some time. That makes one-time leakage operationally serious even if the exploit is intermittent.</p>
+<h2>What to do about it</h2>
+<p>The real problem is that there is no complete, simple fix today. If your architecture satisfies the lethal trifecta, you should assume residual exfiltration risk remains. That said, some mitigations are still worth applying to reduce your attack surface area.</p>
+<h3>1. Use disposable, low-privilege credentials</h3>
+<p>Do not give agents credentials you cannot afford to lose.</p>
+<p>Prefer:</p>
+<ul>
+<li>narrowly scoped API keys,</li>
+<li>short-lived credentials,</li>
+<li>credentials and keys that are easy to rotate,</li>
+<li>strong isolation between environments,</li>
+<li>permissions minimized to exactly what the agent needs.</li>
+</ul>
+<p>If a key leaks, recovery should be operationally manageable and should not bankrupt you.</p>
+<h3>2. Monitor and review credential use</h3>
+<p>If agents are using secrets, their activity should be observable. If your agent is exposed and has access to some sensitive credentials, you should consider setting up:</p>
+<ul>
+<li>usage logs,</li>
+<li>anomaly detection,</li>
+<li>per-agent attribution,</li>
+<li>alerts for unusual destinations or access patterns,</li>
+<li>rapid revocation workflows.</li>
+</ul>
+<p>This is not perfect, but it reduces dwell time after compromise.</p>
+<h3>3. Red-team the agent continuously</h3>
+<p>Static evaluation is not enough.</p>
+<p>When you discover a new attack pattern, test it against your own deployment. If your agent reads email, test adversarial email. If it reads docs, test malicious docs. If it uses APIs, test whether it can be tricked into authenticating to the wrong place. Then assess the damage and reinforce the prompt guardrails, tighten whitelists, but also improve your own process for recovery from the type of leak you observed, because no safeguard is 100% secure today.</p>
+<p>Treat agent security as an ongoing adversarial exercise, not a one-time review.</p>
+<h3>4. Improve prompts</h3>
+<p>Stronger system prompts can help. You can include examples of prompt injection, tool misuse, credential theft, malicious links, and suspicious documentation patterns. However, this should be treated as one layer, not as a primary guarantee. Prompting can reduce some classes of failure, but does not remove the inherent risk.</p>
+<h2>Architectural defenses</h2>
+<p>The more serious defenses are architectural.</p>
+<p>A promising direction is to <strong>separate the model that reads untrusted content from the model or system that has tool access and secrets</strong>. In other words, do not let the same component both interpret attacker-controlled input and directly act with privileged credentials. This kind of separation reduces the chance that malicious instructions flow directly from content ingestion into secret-bearing tool use.</p>
+<p>One example of this broader design direction is the <a href="https://simonwillison.net/2025/Apr/11/camel/" target="_blank" rel="noopener noreferrer">CaMeL</a> approach, where responsibilities are split across components with different trust assumptions. That area is still early, and there are not yet many mature production implementations, but it points toward a more defensible model than "one agent does everything."</p>
+<h2>Conclusion</h2>
+<p>State of the art is improving, but most current agent implementations still do not adequately account for these threats. If you are deploying agents into real workflows, especially workflows that combine private data, external communication, and untrusted content, then you need to be much more careful than most demos and product pages suggest.</p>
+<p>The problem is not just that an agent might say the wrong thing to the wrong person. The problem is that a capable agent can be manipulated into <strong>doing the wrong thing with your secrets</strong>.</p>
+<p>That is what phishing an AI agent looks like. If you are building or deploying agents today, assume they are vulnerable to this class of attack.</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

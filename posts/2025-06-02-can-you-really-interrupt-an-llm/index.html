@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Can you really interrupt an LLM? · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Can you really interrupt an LLM? · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2025-06-02-can-you-really-interrupt-an-llm/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Can you really interrupt an LLM?">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2025-06-02-can-you-really-interrupt-an-llm/cover-inv.png">
+  <meta name="og:image" content="/posts/2025-06-02-can-you-really-interrupt-an-llm/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2025-06-02-can-you-really-interrupt-an-llm/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2025-06-02-can-you-really-interrupt-an-llm/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Can you really interrupt an LLM?</h1>
+      
+<span style="color: var(--muted-text);">You never see that in the demos... why?</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2025-06-02T00:00:00Z">by <a href="/">Sara Zan</a>, June 02, 2025</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2025-06-02-can-you-really-interrupt-an-llm/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <p>With the recent release of <a href="https://support.anthropic.com/en/articles/11101966-using-voice-mode-on-claude-mobile-apps" target="_blank" rel="noopener noreferrer">Voice Mode</a> for <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener noreferrer">Claude</a>, it seems like Voice AI is a solved problem. Now that LLMs can speak natively, there's apparently no more need for any of the <a href="/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/">complex voice pipelines</a> that used to be necessary last year: no need to do voice activity detection, no need to pipe data from the speech-to-text model to the LLM and then back to the text-to-speech engine at blazing speed in order to achieve a natural conversation flow. Modern LLMs can <a href="https://vimeo.com/945587944" target="_blank" rel="noopener noreferrer">laugh and sing</a>: what else could we need?</p>
+<p>It turns out, a lot is still missing. Here is an example:</p>
+<div style="display: flex;">
+  <video style="margin:auto;" width="382" height="814" controls>
+    <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/claude.mp4" type="video/mp4">
+  </video>
+</div>
+
+<p>Is this an issue with Claude? Have a look at Gemini:</p>
+<div style="display: flex;">
+  <video style="margin:auto;" width="384" height="796" controls>
+    <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/gemini.mp4" type="video/mp4">
+  </video>
+</div>
+
+<p>or even at the venerable GPT-4o, the most mature Voice AI out there:</p>
+<div style="display: flex; align-content: center;">
+  <video style="margin:auto;" width="382" height="814" controls>
+    <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/gpt-4o.mp4" type="video/mp4">
+  </video>
+</div>
+
+<p>What's going on?</p>
+<p>This simple exercise highlights two core issues that are often overlooked when developing Voice AI agents. Let's see them.</p>
+<h2>Problem #1: LLMs don't perceive time</h2>
+<p>As algorithms trained to predict the most likely next word, LLMs don't have any concept of time. When dealing with text, this issue is not visible; however as soon as we cross over the domain of voice, their lack of understanding of time becomes a much bigger problem. LLMs still perceive the conversation as a series of tokens, with no concept of speed, pauses, or anything of that sort. They are often trained to control cadence, tone, to imitate pauses and adjust their talking speed, but they don't <em>perceive</em> these features as we do: they are just additional properties of the output tokens.</p>
+<p>This means that an LLM will have a very hard time understanding requests that involve altering the timing of the response unless there is additional, external tooling to help them. "Please wait three second before replying", for example, is a meaningless query to an LLM that doesn't have a timer tool of some sort.</p>
+<p>For example, here is what GPT-4o (the LLM that handles time best) can do when asked to wait for a few seconds:</p>
+<div style="display: flex; align-content: center;">
+  <video style="margin:auto;" width="382" height="814" controls>
+    <source src="/posts/2025-06-02-can-you-really-interrupt-an-llm/wait-before-replying.mp4" type="video/mp4">
+  </video>
+</div>
+
+<h2>Problem #2: Interruptions are not a native capability</h2>
+<p>Most Voice AIs out there feature the possibility to interrupt them. However, not having any innate concept of time, the ability to interrupt the model has to be implemented on the application end: and this is where it usually goes wrong.</p>
+<p>Voice LLMs are very fast: they generate the response in a fraction of the time needed to play it out. When you prompt an LLM, the model will start generate audio tokens and streaming them, but by the time the first one reaches the user, in most cases the majority of the response (if not the entirety of it) has already been generated and is queued in the audio buffer, waiting to be played.</p>
+<p>When a user interrupts the LLM, the app normally stops the playback as soon as possible and <strong>empties the audio buffer</strong>, regardless of its content. </p>
+<p>However, unless the app notifies the LLM of this action, <strong>the LLM has no way to know that only part of the response was played to the user.</strong> This is why most models believe they finished their countdown when in practice they were interrupted earlier.</p>
+<p><img alt="" src="/posts/2025-06-02-can-you-really-interrupt-an-llm/naive-interruption-inv.png"  class="invertible" /></p>
+<h2>Can it be solved?</h2>
+<p>If you paid close attention you may have noticed that GPT-4o, while it still stops at the wrong number, it does not believe it completed the countdown, but it understood that the counting was interrupted at some point before the end.</p>
+<p>This is possible because OpenAI's Realtime API provides the possibility to tell the model at which point it was interrupted. In the Realtime API documentation you can find this feature implemented with the event <code>conversation.item.truncate</code> (see the <a href="https://platform.openai.com/docs/api-reference/realtime-client-events/conversation/item/truncate" target="_blank" rel="noopener noreferrer">docs</a>):</p>
+<div class="codehilite"><pre><span></span><code>{
+    &quot;event_id&quot;: &quot;event_678&quot;,
+    &quot;type&quot;: &quot;conversation.item.truncate&quot;,
+    &quot;item_id&quot;: &quot;msg_002&quot;,
+    &quot;content_index&quot;: 0,
+    &quot;audio_end_ms&quot;: 1500
+}
+</code></pre></div>
+
+<p>In this event, the <code>audio_end_ms</code> is what signals the model that the audio was interrupted at a certain time, before its natural end. This event in turn also trims the transcript to make the LLM know what the user heard and was was never played out. Precision however is not trivial to accomplish, because it's very easy for the application to register the interruption later than when it actually occurred and, like in the case of the ChatGPT app, convince the LLM that the interruption happened in the wrong point.</p>
+<p><img alt="" src="/posts/2025-06-02-can-you-really-interrupt-an-llm/gpt-4o-interruption-inv.png"  class="invertible" /></p>
+<p>In the case of Gemini, there is a <a href="https://ai.google.dev/gemini-api/docs/live#interruptions" target="_blank" rel="noopener noreferrer">"Handling Interruptions"</a> section in its Live API documentation. However the feature seems incomplete, as they state:</p>
+<blockquote>
+<p>Users can interrupt the model's output at any time. When Voice activity detection (VAD) detects an interruption, the ongoing generation is canceled and discarded. <strong>Only the information already sent to the client is retained in the session history</strong>. </p>
+</blockquote>
+<p>As we've seen, this is not sufficient to handle interruptions correctly. It's likely that this issue is not currently fixable.</p>
+<p>In the case of Claude we don't know yet if that's an inherent limitation or a bug in the app, because at the time of writing there is no Live/Realtime API available for Claude.</p>
+<h2>Wrapping up</h2>
+<p>Voice Mode for LLMs is a huge step forward for voice AI, but it's not a silver bullet. LLMs are first and foremost text prediction algorithms, and even when adapted to work with voice, some of their limitations persists. In order to have complete control, building a <a href="/posts/2024-09-05-building-voice-agents-with-open-source-tools-part-1/">full pipeline for voice</a> may still be your best bet if you have the infrastructure to achieve a low enough latency; otherwise, always make sure to test the behavior of your LLMs in these corner cases and stick to more well-tested models (in this case, OpenAI's) for better handling of time.</p>
+<p class="fleuron"><a href="/posts/2024-05-06-teranoptia/">SDH</a></p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Smarter Systems with Leaner Models · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Smarter Systems with Leaner Models · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2026-05-18-smarter-systems-with-leaner-models/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Smarter Systems with Leaner Models">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-05-18-smarter-systems-with-leaner-models/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-05-18-smarter-systems-with-leaner-models/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-05-18-smarter-systems-with-leaner-models/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2026-05-18-smarter-systems-with-leaner-models/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Smarter Systems with Leaner Models</h1>
+      
+<span style="color: var(--muted-text);">Token prices keep falling with every new model release. So how come AI bills are only rising? Is it structural, or is there a way to address it?</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-05-18T00:00:00Z">by <a href="/">Sara Zan</a>, May 18, 2026</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2026-05-18-smarter-systems-with-leaner-models/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <hr />
+<p><em>This post is a write-up of my talk at <a href="https://events.economist.com/ai-compute/programme/#day1+cat-10+smarter-systems-leaner-models-reducing-compute-costs-without-sacrificing-quality" target="_blank" rel="noopener noreferrer">The Economist's Impact 2nd AI Compute Summit</a>. You can find the slides <a href="/talks/2026-05-19-ai-compute-summit">here</a>.</em></p>
+<hr />
+<p>LLMs keep getting smarter, month by month. But they also get bigger, more hardware- and resource-intensive, and more difficult to run efficiently, and even if token costs keep getting slashed, the AI bills of most companies just go up.</p>
+<p>Is it still possible to build state-of-the-art AI applications while keeping costs under control?</p>
+<p>Let's have a closer look at what's happening here, and dive deeper into a few approaches to limit your spending without affecting the performance of your AI applications.</p>
+<h2>The fundamental problem</h2>
+<p>AI economics have moved past the simple question of whether a model is "big enough." The more useful question is whether each workflow is buying the right amount of intelligence, context, latency, and reliability for the job. In other words: the relevant unit is no longer raw model size. It is <strong>cost per quality outcome</strong>.</p>
+<p>That distinction is becoming essential, because the two headline trends in AI economics now point in opposite directions. On one side, there's a famous figure: the Stanford AI Index reports that the inference cost for a system performing at GPT-3.5 level dropped more than <strong>280-fold</strong> between November 2022 and October 2024.<sup id="fnref:stanford-2025"><a class="footnote-ref" href="#fn:stanford-2025">1</a></sup> And while GPT-3.5 may seem a thing of the past, Gartner also forecasts that by 2030 the price of a 1T-sized model (what most flagship LLMs are estimated at) will fall by more than 90%<sup id="fnref:gartner-2030"><a class="footnote-ref" href="#fn:gartner-2030">4</a></sup>. On the other, Gartner forecasts worldwide GenAI spending of roughly $644 billion in 2025, up 76.4% from 2024<sup id="fnref:gartner-genai-spend-2025"><a class="footnote-ref" href="#fn:gartner-genai-spend-2025">3</a></sup>, and Stanford also reports corporate AI investment of $252.3 billion in 2024, with private investment up 44.5%.<sup id="fnref:stanford-2025-economy"><a class="footnote-ref" href="#fn:stanford-2025-economy">2</a></sup> The lesson here is that unit costs can fall while total usage expands even faster.</p>
+<p>That's only natural, once we zoom out a little: increased intelligence unlocks use cases that were not possible with earlier models, therefore increasing usage. GPT-3.5 could not be used for agentic coding; GPT-5.5 can do most of the coding that software engineers used to do just last year.</p>
+<p>This doesn't mean that we should let costs and resource utilization go out of control. A little architecture discipline and governance can keep broader deployment from outrunning token-price deflation.</p>
+<h2>AI overspending is a system design issue</h2>
+<p>Right now, overwhelmed by hype and FOMO, a lot of developer teams simply default to a set of common, safe assumptions, that are sure to work with all LLMs. That was understandable while teams were still learning what generative AI could do, but it is increasingly hard to justify at scale. The lack of understanding of the capabilities and requirements of modern LLMs is one of the key drivers of overspending on AI workflows.</p>
+<p>Spotting them is not always easy, but some are much easier to address than others. My recommendation is to look for them in this order:</p>
+<ol>
+<li><strong>Context Engineering</strong>: are you sending too many tokens to your LLM, when half or less would do?</li>
+<li><strong>Right-Sizing</strong>: are you using the smallest LLM that can carry out your specific workflow as well as a flagship model? </li>
+<li><strong>Inference Engineering</strong>: are you getting the most out of your hardware, or at least as much as a commercial provider would?</li>
+<li><strong>Silicon Strategy</strong>: are you really at a point where GPUs are not enough for your use case?</li>
+</ol>
+<p>Let's unpack them.</p>
+<h2>1. Context Engineering</h2>
+<p>Anthropic defines context engineering as the work of curating and maintaining the optimal set of tokens available to the model across system instructions, tools, external data, message history, and other context state.<sup id="fnref:anthropic-context-2025"><a class="footnote-ref" href="#fn:anthropic-context-2025">5</a></sup></p>
+<p>This is because no input is free when it comes to an LLM. </p>
+<p>This is often underestimated by AI builders. Every additional instruction and example, every additional corner case, every new document, image, or tool added to the LLM context raises the cost of <strong>each</strong> of the prompts and responses of your AI. When the LLM context is stuffed with thousands of PDFs, even a three-question answer will cause the LLM to reread everything, costing you several dollars, if not tens of dollars, for each back-and-forth.</p>
+<p>Unnecessary input is not only damaging your wallet. It also adds latency and cost, and dilutes the model's attention. In short, this means: try to identify the <strong>shortest context that preserves answer quality</strong>.</p>
+<p>This is where retrieval-augmented generation, prompt caching, and compression come in. </p>
+<p><strong>RAG</strong> is often essential to lead the LLM to the answer without dumping millions of tokens at it. Microsoft describes token constraints as a core RAG challenge: RAG pipelines should return concise, highly relevant chunks rather than exhaustive document dumps.<sup id="fnref:ms-rag-2026"><a class="footnote-ref" href="#fn:ms-rag-2026">7</a></sup> </p>
+<p><strong>Caching</strong> can also help noticeably. Anthropic's prompt-caching documentation positions caching as a way to reduce processing time and cost for repetitive prefixes, with cache-read tokens priced at 0.1x base input tokens in the cited Claude pricing table.<sup id="fnref:claude-prompt-caching-docs"><a class="footnote-ref" href="#fn:claude-prompt-caching-docs">6</a></sup></p>
+<p>Applications where there are lengthy back-and-forth interactions with users, such as agentic coding, also benefit from <strong>chat history compression</strong>, where older conversation turns, RAG snippets, tool outputs, etc., are summarized instead of stored verbatim to occupy less space in the context window.</p>
+<p>To leverage these context engineering techniques, every major AI workflow should have a context budget. Track input tokens, output tokens, cached tokens, retrieval hit rate, cache hit rate, against output quality. If a customer-service workflow needs a policy excerpt and the last three turns, do not send the whole knowledge base and the entire conversation every time.</p>
+<h2>2. Right-sizing</h2>
+<p>Right-sizing does not mean simply choosing the smallest model. It means choosing the cheapest model that meets the workflow's service-level agreement for quality, latency, risk, and trust. </p>
+<p>Flagship models such as GPT-5.5, Claude Opus 4.7, etc., are not always the right answer for your use case. They are increasingly benchmarked against problems that are not within the realm of what most businesses use them for, such as PhD-level math, complex algorithmic challenges, advanced physics, and scientific discovery, rather than simple question answering against a company's knowledge base, chatting in real time with a person on the phone, or planning a business trip. There are other, leaner models, much better suited for such tasks.</p>
+<p>In fact, choosing a smaller model is not only a cost-saving technique. Smaller models occasionally display better stats at crucial skills, such as lower hallucination rates, than flagships.<sup id="fnref:vectara-hallucination-blog"><a class="footnote-ref" href="#fn:vectara-hallucination-blog">17</a></sup><sup id="fnref:vectara-hallucination-github"><a class="footnote-ref" href="#fn:vectara-hallucination-github">18</a></sup> This is because flagships, being trained for the highest intelligence, tend to guess and infer from the data they have available, while smaller models are trained to admit ignorance. This makes them <em>better</em> suited for many industry applications while costing 5 to 10 times less than their smarter counterparts.<sup id="fnref:openai-pricing-2026"><a class="footnote-ref" href="#fn:openai-pricing-2026">8</a></sup><sup id="fnref:google-pricing-2026"><a class="footnote-ref" href="#fn:google-pricing-2026">9</a></sup><sup id="fnref:anthropic-pricing-2026"><a class="footnote-ref" href="#fn:anthropic-pricing-2026">10</a></sup></p>
+<p><img alt="Right-sizing economics: list-price token cost compared with Vectara hallucination rates." src="/posts/2026-05-18-smarter-systems-with-leaner-models/right-sizing-inv.png"  class="invertible" /></p>
+<p><em>A comparison of the cost for a million tokens versus the hallucination rates of three popular flagship LLMs and their smaller counterparts.</em></p>
+<p>That does not prove a small model is better for every workflow. It proves the opposite of the old default: you cannot infer the right model from size alone.</p>
+<p>The research trend supports this. For example, Microsoft Research reports that fine-tuned small language models can act as enterprise search relevance labelers with human-judgment agreement on par with or better than a teacher LLM, while improving throughput by 17x and cost-effectiveness by 19x in their experiment.<sup id="fnref:ms-slm-labelers-2026"><a class="footnote-ref" href="#fn:ms-slm-labelers-2026">11</a></sup></p>
+<p>To right-size your applications, you should benchmark one or two smaller candidates against your own business KPIs. Do not trust generic leaderboards: measure against your own, real usage patterns. Check containment, false positives, deflection quality, escalation rate, p95 latency, cost per successful task, customer satisfaction, and any other metric that might matter for your use case.</p>
+<h3>An example: flagships as managers of smaller workers</h3>
+<p>Routing and cascading can turn a rigid model selection choice into a more flexible, dynamic architecture that self-selects the best model for each task. </p>
+<p>A router (which may be an LLM as well) sends easy or known intents to cheap specialists, escalates uncertain work to stronger models, and reserves frontier models or humans for high-stakes cases. Research on routing and cascading shows that model-selection strategies can improve the cost-performance trade-off by choosing a single model per query or sequentially escalating until a satisfactory answer is found.<sup id="fnref:routing-cascading-2024"><a class="footnote-ref" href="#fn:routing-cascading-2024">12</a></sup></p>
+<p>The question is therefore not "AI or humans?" It is: <strong>What escalation tree gives the best unit economics without damaging trust?</strong> A good routing system should include explicit thresholds for uncertainty, regulatory sensitivity, customer emotion, financial impact, and human override. The router itself should be measured as a product: containment is not success if escalations arrive too late.</p>
+<h2>3. Inference engineering</h2>
+<p>Once context and routing are under control, the next savings come from inference engineering. This is an active research area that needs to be followed closely if competition is a threat, and it requires a non-negligible level of dedication to be done right. While most techniques are now available to everyone with limited effort, whoever manages to implement the latest, most complex optimizations will end up having an edge in terms of either cost or latency.</p>
+<p>When talking about inference engineering, it is always worth framing it as a build-or-buy decision. Is it better to invest in an inference stack, with dedicated hardware, a dedicated team, a dedicated budget, etc., or to buy compute from a commercial provider such as OpenRouter, Nebius, Fireworks, etc.? The choice is not always trivial and may be influenced by other factors, such as data protection constraints and governance rules. </p>
+<p>For some of us, keeping inference in-house is not negotiable, and therefore the realm of inference engineering is highly relevant. In these cases, start from the most basic optimizations such as prompt caching and batching, then move up the complexity scale with cache and model quantization, up to cutting edge techniques such as speculative decoding and more, keeping a constant eye on the state of the art as it progresses.</p>
+<p><img alt="Inference engineering quadrant: quick wins first, strategic bets second." src="/posts/2026-05-18-smarter-systems-with-leaner-models/inference-inv.png"  class="invertible" /></p>
+<p><em>A simplified map of some inference optimization techniques that can help your organization get the most out of hardware, classified by their complexity versus their impact.</em></p>
+<p>In short, provider choice, serving stack, and model choice are intertwined. The same open model can feel very different across inference providers and stacks because the serving path differs. That is why mature AI companies benchmark latency, cost, and quality together on different stacks before settling on an inference strategy.</p>
+<h2>4. Silicon Strategy</h2>
+<p>More GPUs will only bring you so far, and the industry is actively looking for alternatives. Specialized inference hardware is still an immature but hot research area: new chips could change the economics of AI if they manage to move from prototype to production, especially for predictable workloads, but evidence quality varies widely. Some numbers are vendor-reported, some come from early demonstrations, and many compare different models, sequence lengths, or serving configurations.</p>
+<p><img alt="Silicon throughput landscape using mixed vendor and benchmark sources." src="/posts/2026-05-18-smarter-systems-with-leaner-models/silicon-inv.png"  class="invertible" /></p>
+<p><em>A simplified comparison of a crucial claim for custom LLM chips: tokens per second on selected LLMs (usually Llama models).</em></p>
+<p>Taalas positions its approach as turning models into custom silicon and claims that its "Hardcore Models" are 1000x more efficient than software counterparts.<sup id="fnref:taalas-home"><a class="footnote-ref" href="#fn:taalas-home">13</a></sup> Its HC1 product page says the demonstrator runs Llama 3.1 8B and delivers 17k tokens per second per user, while also making clear that the comparison chart combines Taalas measurements with NVIDIA baseline and Artificial Analysis sources.<sup id="fnref:taalas-products"><a class="footnote-ref" href="#fn:taalas-products">14</a></sup> Forbes/Cambrian-AI coverage amplified the HC1 performance narrative, but this remains a case where procurement teams should treat claims as directional until they are independently reproduced on their own workloads.<sup id="fnref:forbes-taalas-2026"><a class="footnote-ref" href="#fn:forbes-taalas-2026">15</a></sup></p>
+<p>Cerebras provides a more concrete example of high-throughput inference at large scale: it reported Llama 3.1 405B running at 969 output tokens per second on Cerebras Inference, with 240 ms time to first token, in a result it says was measured by Artificial Analysis.<sup id="fnref:cerebras-405b-2025"><a class="footnote-ref" href="#fn:cerebras-405b-2025">16</a></sup> Etched's Sohu is another example of the specialization trade-off: The Register reported Etched's claim of 500,000 tokens per second for an eight-chip Sohu server running Llama 70B, while also noting that the chip had not taped out at the time of that report.<sup id="fnref:etched-register"><a class="footnote-ref" href="#fn:etched-register">19</a></sup></p>
+<p>This is why specialized silicon is still a rather hypothetical concern for most organizations. First, capture context, routing, and serving savings. Then use silicon options as negotiation leverage and roadmap planning. </p>
+<h2>Prototype fast, ship lean</h2>
+<p>The winning pattern is two-speed. Use frontier models for discovery, then industrialize with smaller, routed, cached, and optimized systems.</p>
+<p>In the <strong>exploratory</strong> stage, use frontier or generalist models to learn what the product should do. This de-risks interaction design, customer value, and task fit quickly. In the <strong>refinement</strong> stage, freeze the task taxonomy, right-size models, enforce context budgets, and deploy routing and caching. In the <strong>scale</strong> stage, reassess your inference options now that all other variables are under control and overall cost is more predictable. Evaluate specialized hardware only when the economics justify it.</p>
+<h2>Where to start?</h2>
+<p>Most organizations can start from these three simple actions.</p>
+<ol>
+<li><strong>Measure token usage.</strong> Instrument token telemetry; identify top cost drivers before changing models.</li>
+<li><strong>Benchmark small models.</strong> Don't rely on generic benchmarks, measure them against your business KPIs.</li>
+<li><strong>Optimize serving layer.</strong> Make sure you're getting the most out of your hardware or inference provider.</li>
+</ol>
+<p>Stop buying intelligence by habit. Stop treating the model as the system. Preserve user trust while lowering the cost of each successful outcome.</p>
+<p>The next phase of AI competition will not be won by the company that uses the largest model most often. It will be won by the company that knows where intelligence is truly needed and designs the system around that fact.</p>
+<h2>References</h2>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:stanford-2025">
+<p>Stanford HAI, "The 2025 AI Index Report" (2025). https://hai.stanford.edu/ai-index/2025-ai-index-report&#160;<a class="footnote-backref" href="#fnref:stanford-2025" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:stanford-2025-economy">
+<p>Stanford HAI, "Economy | The 2025 AI Index Report" (2025), including corporate investment, private investment growth, and organizational AI use figures. https://hai.stanford.edu/ai-index/2025-ai-index-report/economy&#160;<a class="footnote-backref" href="#fnref:stanford-2025-economy" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:gartner-genai-spend-2025">
+<p>Gartner, "Gartner Forecasts Worldwide GenAI Spending to Reach $644 Billion in 2025" (Mar. 31, 2025). https://www.gartner.com/en/newsroom/press-releases/2025-03-31-gartner-forecasts-worldwide-genai-spending-to-reach-644-billion-in-2025&#160;<a class="footnote-backref" href="#fnref:gartner-genai-spend-2025" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:gartner-2030">
+<p>Gartner, "Gartner Predicts That by 2030, Performing Inference on an LLM With 1 Trillion Parameters Will Cost GenAI Providers Over 90% Less Than in 2025" (Mar. 25, 2026). https://www.gartner.com/en/newsroom/press-releases/2026-03-25-gartner-predicts-that-by-2030-performing-inference-on-an-llm-with-1-trillion-parameters-will-cost-genai-providers-over-90-percent-less-than-in-2025&#160;<a class="footnote-backref" href="#fnref:gartner-2030" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:anthropic-context-2025">
+<p>Anthropic Engineering, "Effective context engineering for AI agents" (Sep. 29, 2025). https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents&#160;<a class="footnote-backref" href="#fnref:anthropic-context-2025" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:claude-prompt-caching-docs">
+<p>Anthropic Docs, "Prompt caching." https://docs.claude.com/en/docs/build-with-claude/prompt-caching&#160;<a class="footnote-backref" href="#fnref:claude-prompt-caching-docs" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ms-rag-2026">
+<p>Microsoft Learn, "Retrieval-augmented generation (RAG) in Azure AI Search." https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview&#160;<a class="footnote-backref" href="#fnref:ms-rag-2026" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+<li id="fn:openai-pricing-2026">
+<p>OpenAI, "API Pricing." https://openai.com/api/pricing/&#160;<a class="footnote-backref" href="#fnref:openai-pricing-2026" title="Jump back to footnote 8 in the text">&#8617;</a></p>
+</li>
+<li id="fn:google-pricing-2026">
+<p>Google AI for Developers, "Gemini API Pricing." https://ai.google.dev/gemini-api/docs/pricing&#160;<a class="footnote-backref" href="#fnref:google-pricing-2026" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+</li>
+<li id="fn:anthropic-pricing-2026">
+<p>Anthropic, "Plans &amp; Pricing." https://www.anthropic.com/pricing&#160;<a class="footnote-backref" href="#fnref:anthropic-pricing-2026" title="Jump back to footnote 10 in the text">&#8617;</a></p>
+</li>
+<li id="fn:ms-slm-labelers-2026">
+<p>Microsoft Research, "Fine-tuning Small Language Models as Efficient Enterprise Search Relevance Labelers" (arXiv abs/2601.03211, 2026). https://www.microsoft.com/en-us/research/publication/fine-tuning-small-language-models-as-efficient-enterprise-search-relevance-labelers/&#160;<a class="footnote-backref" href="#fnref:ms-slm-labelers-2026" title="Jump back to footnote 11 in the text">&#8617;</a></p>
+</li>
+<li id="fn:routing-cascading-2024">
+<p>arXiv, "A Unified Approach to Routing and Cascading for LLMs" (2024/2025). https://arxiv.org/abs/2410.10347&#160;<a class="footnote-backref" href="#fnref:routing-cascading-2024" title="Jump back to footnote 12 in the text">&#8617;</a></p>
+</li>
+<li id="fn:taalas-home">
+<p>Taalas, company site and product positioning. https://taalas.com/&#160;<a class="footnote-backref" href="#fnref:taalas-home" title="Jump back to footnote 13 in the text">&#8617;</a></p>
+</li>
+<li id="fn:taalas-products">
+<p>Taalas, "Products" / HC1 technology demonstrator. https://taalas.com/products/&#160;<a class="footnote-backref" href="#fnref:taalas-products" title="Jump back to footnote 14 in the text">&#8617;</a></p>
+</li>
+<li id="fn:forbes-taalas-2026">
+<p>Forbes / Cambrian-AI, Karl Freund, "Taalas Launches Hardcore Chip With 'Insane' AI Inference Performance" (Feb. 19, 2026). https://www.forbes.com/sites/karlfreund/2026/02/19/taalas-launches-hardcore-chip-with-insane-ai-inference-performance/&#160;<a class="footnote-backref" href="#fnref:forbes-taalas-2026" title="Jump back to footnote 15 in the text">&#8617;</a></p>
+</li>
+<li id="fn:cerebras-405b-2025">
+<p>Cerebras, "Llama 3.1 405B now runs at 969 tokens/s on Cerebras Inference." https://www.cerebras.ai/blog/llama-405b-inference&#160;<a class="footnote-backref" href="#fnref:cerebras-405b-2025" title="Jump back to footnote 16 in the text">&#8617;</a></p>
+</li>
+<li id="fn:vectara-hallucination-blog">
+<p>Vectara, "Introducing the Next Generation of Vectara's Hallucination Leaderboard." https://www.vectara.com/blog/introducing-the-next-generation-of-vectaras-hallucination-leaderboard&#160;<a class="footnote-backref" href="#fnref:vectara-hallucination-blog" title="Jump back to footnote 17 in the text">&#8617;</a></p>
+</li>
+<li id="fn:vectara-hallucination-github">
+<p>Vectara, "Hallucination Leaderboard" GitHub repository. https://github.com/vectara/hallucination-leaderboard/&#160;<a class="footnote-backref" href="#fnref:vectara-hallucination-github" title="Jump back to footnote 18 in the text">&#8617;</a></p>
+</li>
+<li id="fn:etched-register">
+<p>The Register, "Etched scores $120M for an ASIC built for transformer models" (Jun. 26, 2024). https://www.theregister.com/software/2024/06/26/etched-scores-120m-for-an-asic-built-for-transformer-models/679326&#160;<a class="footnote-backref" href="#fnref:etched-register" title="Jump back to footnote 19 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

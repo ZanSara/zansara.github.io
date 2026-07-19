@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Making sense of KV Cache optimizations, Ep. 4: System-level · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Making sense of KV Cache optimizations, Ep. 4: System-level · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2025-10-29-kv-caching-optimizations-system-level/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Making sense of KV Cache optimizations, Ep. 4: System-level">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2025-10-29-kv-caching-optimizations-system-level/cover-inv.png">
+  <meta name="og:image" content="/posts/2025-10-29-kv-caching-optimizations-system-level/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2025-10-29-kv-caching-optimizations-system-level/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2025-10-29-kv-caching-optimizations-system-level/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Making sense of KV Cache optimizations, Ep. 4: System-level</h1>
+      
+<span style="color: var(--muted-text);">Let&#x27;s make sense of the zoo of system-level techniques that exist out there.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2025-10-29T00:00:00Z">by <a href="/">Sara Zan</a>, October 29, 2025</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2025-10-29-kv-caching-optimizations-system-level/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <p>In the previous posts we've seen <a href="/posts/2025-10-23-kv-caching/">what the KV cache is</a> and what types of <a href="/posts/2025-10-26-kv-caching-optimizations-intro/">KV Cache management optimizations</a> exist according to a <a href="https://arxiv.org/abs/2412.19442" target="_blank" rel="noopener noreferrer">recent survey</a>. In this post we are going to focus on <strong>system-level</strong> KV cache optimizations.</p>
+<h2>What is a system-level optimization?</h2>
+<p>Real hardware is not only made of "memory" and "compute", but is made of several different hardware and OS level elements, each with its specific tradeoff between speed, throughput, latency, and so on. Optimizing the KV cache to leverages this differences is the core idea of the optimizazions we're going to see in this post.</p>
+<p>Here is an overview of the types of optimizations that exist today.</p>
+<p><img alt="" src="/posts/2025-10-29-kv-caching-optimizations-system-level/system-level-inv.png"  class="invertible" /></p>
+<p><em><a href="https://arxiv.org/pdf/2412.19442#figure.10" target="_blank" rel="noopener noreferrer">Source</a></em></p>
+<p>As you can see in the diagram, they can be broadly grouped into three categories: memory management, scheduling strategies, and hardware-aware designs. These approaches are complementary and can be often used together, each addressing different aspects of performance, efficiency, and resource utilization tradeoffs.</p>
+<p>Let's see what's the idea behind each of these categories. We won't go into the details of the implementations of each: to learn more about a specific approach follow the links to the relevant sections of the survey, where you can find summaries and references.</p>
+<h2>Memory Management</h2>
+<p>Memory management techniques focus on using the different types of memory and storage available to the system in the most efficient way. There are two main approaches to this problem:</p>
+<ul>
+<li><strong>Architectural designs</strong>, such as vLLM's <strong>PagedAttention</strong> and vTensor. These strategies adapt operating system memory management ideas to to create memory allocation systems that optimize the use of physical memory as much as possible. For example, PagedAttention adapts OS-inspired paging concepts by partitioning KV caches into fixed-size blocks with non-contiguous storage, and vLLM implements a virtual memory-like system that manages these blocks through a sophisticated mapping mechanism.</li>
+<li><strong>Prefix-aware designs</strong> like <strong>ChunkAttention</strong> and MemServe. These center around the design of datastructures optimized for maximising cache de-duplication and sharing of common prefixes. For example, ChunkAttention restructures KV cache management by breaking down traditional monolithic KV cache tensors into smaller, manageable chunks organized within a prefix tree structure, enabling efficient runtime detection and sharing of common prefixes across multiple requests.</li>
+</ul>
+<p>In general, there's a flurry of novel research focused on the way the KV cache is stored in memory. They bring classic OS memory management patterns and novel designs that leverage the properties of the KV cache at a memory layout level to increase the inference speed and memory consumption issues in a way that's transparent from the model's perspective. This makes these techniques widely applicable to many different LLMs and usually complementary to each other, which multiplies their effectiveness.</p>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.6.1" target="_blank" rel="noopener noreferrer">the survey</a>.</p>
+<h2>Scheduling</h2>
+<p>Scheduling techniques focus on maximizing cache hits and minimize cache lifetime by grouping and distributing requests appropriately. In this category we can find a few distinct approaches:</p>
+<ul>
+<li><strong>Prefix-aware</strong> scheduling strategies, such as BatchLLM and RadixAttention. For example, unlike traditional LRU caches, BatchLLM identifies global prefixes and coordinates the scheduling of requests sharing common KV cache content. This ensures optimal KV cache reuse while minimizing cache lifetime: requests with identical prefixes are deliberately scheduled together to maximize KV cache sharing efficiency.</li>
+<li><strong>Preemptive</strong> and <strong>fairness-oriented</strong> scheduling, such as FastServe and FastSwitch. For example, FastServe implements a proactive cache management strategy coordinates cache movement between GPU and host memory, overlapping data transmission with computation to minimize latency impact. The scheduler also prioritizes jobs based on input length.</li>
+<li><strong>Layer-specific</strong> and hierarchical scheduling approaches, such as LayerKV and CachedAttention. For example, LayerKV focuses on reducing time-to-first-token (TTFT) through a fine-grained, layer-specific KV cache block allocation and management strategy. It also includes an SLO-aware scheduler that optimizes cache allocation decisions based on service level objectives.</li>
+</ul>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.6.2" target="_blank" rel="noopener noreferrer">the survey</a>.</p>
+<h2>Hardware-aware Design</h2>
+<p>These techiques focus on leveraging specific characteristics of the hardware in order to accelerate inference and increase efficiency. In this class of optimizazions we can find a few shared ideas:</p>
+<ul>
+<li><strong>Single/Multi-GPU designs</strong> focus on optimizing memory access patterns, GPU kernel designs for efficient attention computation, and parallel processing with load balancing. For example, shared prefix optimization approaches like HydraGen and DeFT focus on efficient GPU memory utilization through batched prefix computations and tree-structured attention patterns. Another example is distributed processing frameworks such as vLLM, that optimize multi-GPU scenarios through sophisticated memory management and synchronization mechanisms. Other techniques are phase-aware, like DistServe, which means that they separate prefill and decoding phases across GPU resources to optimize their distinct memory access patterns.</li>
+<li><strong>IO-based designs</strong> optimize data movement across memory hierarchies through asynchronous I/O and intelligent prefetching mechanisms. <br />
+At the GPU level, approaches like FlashAttention optimize data movement between HBM and SRAM through tiling strategies and split attention computations. At the CPU-GPU boundary, systems like PartKVRec address tackles PCIe bandwidth bottlenecks.</li>
+<li><strong>Heterogeneous designs</strong> orchestrate computation and memory allocation across CPU-GPU tiers. Systems like NEO or FastDecode reditribute the workload by offloading to the CPU part of the attention computations, while others like FlexInfer introduce virtual memory abstractions.</li>
+<li><strong>SSD-based designs</strong> have evolved from basic offloading approaches to more sophisticated designs. For example, FlexGen extends the memory hierarchy across GPU, CPU memory, and disk storage, optimizing high-throughput LLM inference on resource-constrained hardware. InstInfer instead leverages computational storage drives (CSDs) to perform in-storage attention computation, effectively bypassing PCIe bandwidth limitations. These techniques demonstrate how storage devices can be integrated into LLM inference systems either as memory hierarchy extensions or as computational resources.</li>
+</ul>
+<p>For a more detailed description of each technique, check out <a href="https://arxiv.org/pdf/2412.19442#subsection.6.3" target="_blank" rel="noopener noreferrer">the survey</a>.</p>
+<h2>Conclusions</h2>
+<p>System-level KV cache optimizations show that working across the stack can bring impressive speedups and manage physical resources more efficiently than it could ever be done at the LLM's abstraction level. Operating systems and hardware layouts offer plenty of space for optimizations of workloads that have somewhat predictable patterns such as attention computations and KV caching show, and these are just a few examples of what could be done in the near future.</p>
+<p>This is the end of our review. The original paper includes an additional section on long-context benchmarks which we're not going to cover, so head to <a href="https://arxiv.org/pdf/2412.19442#section.7" target="_blank" rel="noopener noreferrer">the survey</a> if you're interested in the topic.</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

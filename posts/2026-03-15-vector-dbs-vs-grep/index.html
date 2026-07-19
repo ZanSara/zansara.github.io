@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Is grep really better than a vector DB? · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Is grep really better than a vector DB? · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2026-03-15-vector-dbs-vs-grep/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Is grep really better than a vector DB?">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-03-15-vector-dbs-vs-grep/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-03-15-vector-dbs-vs-grep/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-03-15-vector-dbs-vs-grep/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2026-03-15-vector-dbs-vs-grep/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Is grep really better than a vector DB?</h1>
+      
+<span style="color: var(--muted-text);">Some agentic applications don&#x27;t use vector DBs for search. Is it a good idea?</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-03-15T00:00:00Z">by <a href="/">Sara Zan</a>, March 15, 2026</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2026-03-15-vector-dbs-vs-grep/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <hr />
+<p><em>This is episode 7 of a series of shorter blog posts answering questions I received during the course of my work. They discuss common misconceptions and doubts about various generative AI technologies. You can find the whole series here: <a href="/series/practical-questions">Practical Questions</a>.</em></p>
+<hr />
+<p>For the past two years, the default architecture for giving LLMs access to a knowledge base has been <strong>RAG with vector databases</strong>. </p>
+<p>This architecture turned out to be very powerful, but it's far from cheap to setup and maintain: you need the system to chunk all the documents, embed all the chunks, store them in a vector DB, retrieve them, and feed them to the model. Every new document needs to go through this pipeline before it's usable, and changes to a document already processed means going through the vector DB and deleting all the affected chunks.</p>
+<p>So it may come as a big surprise for many of us to learn that, as some people claims, an agent equipped with <code>grep</code> can find the data it's looking for just as well.</p>
+<p>For example, <a href="https://youtu.be/99Kxkemj1g8?t=4308" target="_blank" rel="noopener noreferrer">one of the many comparisons</a> that have been done on this topic found roughly these figures when answering questions about a Django codebase:</p>
+<ol>
+<li><strong>Vector search</strong> over embedded chunks achieved ~60% accuracy.</li>
+<li><strong>Agentic search</strong> using tools like <code>grep</code>, <code>find</code>, and <code>cat</code>, where the model iteratively explores the repository, achieved ~68%.</li>
+</ol>
+<p>The same test on a TypeScript/Go codebase had the two approaches both reaching around ~70%.  </p>
+<p>The difference was <strong>cost and context</strong>: vector search consumed significantly more tokens. While it arguably provided more context to the agent, it's not clear whether the context retrieved this way was more useful, and it's easy to find contradicting results on the Internet.</p>
+<p>So, what's truly going on? </p>
+<p>If I had to summarize it in one sentence, it would be: retrieval quality depends heavily on the domain and the structure of the information.</p>
+<h2>Let's check our assumptions</h2>
+<p>Classic retrieval steps in the RAG architecture assumes the query <strong>must be correct on the first try</strong>. Because of this, most of the effort and breakthroughs in this field focused on getting decent results for all possible queries. </p>
+<p>Vector search shines at this. By getting the chunks of context that semantically come as close as possible to the query (or to an answer to it), embedding-based retrieval was crucial for the one-shot retrieval typical of RAG apps.</p>
+<p>However, agents remove that constraint. An agent can try an initial search with a surely subpar query, then inspect the results, refine the query, and search again.</p>
+<p>This iterative process dramatically reduces the weaknesses of keyword search and, in fact, leverages all its strengths: exact keyword retrieval is not an ideal task for a vector DB, because semantically similar keywords will also be included.</p>
+<p>This does not mean vector search is useless in the age of agents.</p>
+<h2>Domain Differences</h2>
+<p>Retrieval strategies behave very differently depending on the domain. Let's see a few examples to understand where one approach or the other shines.</p>
+<h3>Code Search</h3>
+<p>Code search is a perfect candidate for <strong>agentic keyword search</strong>, because identifiers are keywords that need exact matches in the results. </p>
+<p>Vector search, while possible, has always been difficult to perform effectively on code. On top of that, there are tons of tools and techniques made for human coders to navigate a codebase with keywords, and agents can take advantage of those. For example, agents can use <code>grep</code>, AST search, symbol indexing, repository graphs, and more.</p>
+<p>There's also a problem with <strong>context fragmentation</strong>. Vector search returns chunks, which in the case of code search are usually a fixed number of lines or symbols. Most of the time this context is useless for the agent, because it rarely includes a full logical unit, and when it does (such as when chunking on function boundaries), it becomes much harder to retrieve, because the chunks are larger.</p>
+<p>This means that not only is vector search less precise, but it also wastes a lot of context.</p>
+<h3>How-to Guides / Knowledge Bases / General Prose</h3>
+<p>This is the classic use case where <strong>vector search shines</strong> and keyword search is far less effective.</p>
+<p>When your corpus of text is made of conceptual explanations, natural language queries, inconsistent terminology, and so on, semantic similarity is the most likely to bring up relevant results.</p>
+<p>Even in this case, however, pure vector search usually gets beaten by hybrid approaches, such as running vector and keyword searches in parallel and then reranking the results.</p>
+<p>You can find more about hybrid retrieval in <a href="/posts/2025-11-04-hybrid-retrieval/">this other post of mine</a>.</p>
+<h3>Legal / Medical / Scientific Documents</h3>
+<p>These sit somewhere in between. In these documents, the terminology is specialized, wording matters, and citations and sections are important. Vector search can surface relevant passages, but precision matters more than in the previous scenario. There's more structure than in free-form prose, and you can't lose it during the retrieval phase.</p>
+<p>For these kinds of documents, hybrid approaches are necessary to avoid too many false positive matches.</p>
+<h2>What should I pick?</h2>
+<p>Choosing an approach usually depends on the use cases you foresee for your agent, but in practice it's often difficult to know beforehand what kind of documents your agent will need to sift through. Even coding agents need to search the web and read technical documentation, for example.</p>
+<p>In these situations, it's best to avoid flattening the decision into a "keyword vs embeddings" choice. Your agent can make use of both of them and more. For example, if your agent must be able to search anything, you may give it:</p>
+<ul>
+<li>A vector DB for static, shapeless prose, for example internal knowledge bases, static "ground truth" documents, foundational data, etc. Even searching through messages on Slack and Teams may be a good fit for a vector DB.</li>
+<li>Tools like <code>grep</code>, <code>cat</code>, <code>find</code>, etc. Let the agent leverage its coding skills for quick keyword searches across all the data. Don't forget to make the data that's available in the vector DB also accessible through these tools.</li>
+<li>A simple BM25 index that can be searched for keyword matches when the results from the command-line tools are overwhelming for the agent.</li>
+<li>A web search tool that the agent can use to complement its local search results, if applicable.</li>
+</ul>
+<p>... and so on. </p>
+<h2>Conclusion</h2>
+<p>Vector databases are not automatically the correct architecture. Neither is <code>grep</code>.</p>
+<p>Before choosing, it is worth asking:</p>
+<ul>
+<li>Is the information to search through <strong>structural</strong> or <strong>semantic</strong>?</li>
+<li>Do queries benefit from <strong>iteration</strong>? Will my agent be able to retry the search as many times as it wants?</li>
+<li>Would a simple keyword search index solve most cases, or do I need to search by meaning?</li>
+</ul>
+<p>Sometimes the correct system architecture is a sophisticated hybrid embedding retriever. And sometimes it is still just <code>grep -R "the keyword"</code>.</p>
+<p>The only way to know for sure is, as usual, a RAG evaluation pipeline. Don't forget to measure your outcomes!</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

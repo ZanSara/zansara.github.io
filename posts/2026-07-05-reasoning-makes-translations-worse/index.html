@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Reasoning makes translations worse · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Reasoning makes translations worse · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2026-07-05-reasoning-makes-translations-worse/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Reasoning makes translations worse">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-07-05-reasoning-makes-translations-worse/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-07-05-reasoning-makes-translations-worse/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-07-05-reasoning-makes-translations-worse/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2026-07-05-reasoning-makes-translations-worse/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Reasoning makes translations worse</h1>
+      
+<span style="color: var(--muted-text);">We tend to believe that making the LLM reason more can only improve its answer, regardless of the task. However, when translating from a language to another, the opposite happens.</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-07-05T00:00:00Z">by <a href="/">Sara Zan</a>, July 05, 2026</time>
+    </header>
+
+    <img style="width:100%; margin: 20px 0 0 0;" src="/posts/2026-07-05-reasoning-makes-translations-worse/cover-inv.png" alt="Featured image" class="invertible"/>
+
+    <p>LLM reasoning has a simple appeal: give the model more room to think, and the answer should improve. That intuition works well enough in domains like math, coding, and planning that it is tempting to apply it everywhere.</p>
+<p>Machine translation seems like an obvious candidate. Translation is not just word substitution: a good translator resolves ambiguity, preserves tone, chooses between literal and idiomatic phrasing, and revises awkward drafts. Surely a model that “reasons” before translating should do better.</p>
+<p>The recent evidence says that's not always the case.</p>
+<h2>Thinking damages the translation quality</h2>
+<p>The most evident proof of this effect comes from Rajaee et al., <a href="https://arxiv.org/pdf/2602.14763" target="_blank" rel="noopener noreferrer"><em>Unlocking Reasoning Capability on Machine Translation in Large Language Models</em></a>. They compare several reasoning-oriented LLMs on translation tasks with and without explicit reasoning.</p>
+<p>The result is counterintuitive: the models generally do <strong>better without reasoning</strong>. In their WMT24++ evaluation, every tested reasoning model has a higher average quality score when reasoning is disabled. DeepSeek-R1 shows the most dramatic gap: <strong>78.7 without reasoning</strong> versus <strong>74.9 with reasoning</strong>. Command-A-Reasoning, Claude-4-Opus, and Gemini-2.5-Flash show the same direction, although with smaller gaps.</p>
+<p><img alt="" src="/posts/2026-07-05-reasoning-makes-translations-worse/reasoning-noreasoning-scores-inv.png"  class="invertible" /></p>
+<p><em>Table 1 from Rajaee et al, showing the inverse gap between reasoning and non-reasoning translation quality.</em></p>
+<p>This is a useful counterpoint to a common assumption about LLMs. Reasoning doesn't always improve outcomes. Reasoning should be seen as a behavior, and it can be badly matched to the task while being a perfect fit for another.</p>
+<p>But why reasoning is unfit for this task? The problem is that generic LLM don't reason like a translator would. The authors find that the reasoning traces are mostly linear: the model walks through the sentence, translates pieces in order, and rarely revisits earlier decisions or considers alternatives. That is not how difficult translation usually works. A translator may try one phrasing, reject it as too literal, adjust the tone, change the sentence structure, then re-check whether the meaning survived. The important part is the constant revision of past translation choices, something that the LLM doesn't ever seem to do while reasoning about a piece. Their reasoning process was not trained for translation, so it doesn't not apply well to it.</p>
+<p><img alt="" src="/posts/2026-07-05-reasoning-makes-translations-worse/reasoning-paths-inv.png"  class="invertible" /></p>
+<p><em>Table 2 shows the number of reasoning paths taken, which is remarkably low in comparison to the process of a human translator.</em></p>
+<p>The same paper also tests whether stronger models can donate better reasoning traces to weaker ones. This sounds plausible: let a strong model think, then let another model use that reasoning to translate. However, the results are still inconsistent: better reasoning traces do not reliably produce better translations.</p>
+<p><img alt="" src="/posts/2026-07-05-reasoning-makes-translations-worse/trace-donation-inv.png"  class="invertible" /></p>
+<p><em>Figure 1 From Reajaee et al. shows the performance of open-weights models when their reasoning traces are generated and injected from other models. The dash-line represents the baseline performance of the receiving models, and the injecting models are presented at the top. This figure shows how the strength of the injecting model used to generate reasoning traces does not always correlate with final translation quality across different injecting and receiving models.</em></p>
+<p>That failure suggests that the issue is not merely the quality of the reasoning text. The issue is the <em>shape</em> of the reasoning process itself, regardless of the intelligence or size of the model in question.</p>
+<h2>The revision step</h2>
+<p>A second line of work points in the same direction from another angle. In <a href="https://aclanthology.org/2025.emnlp-main.1031.pdf" target="_blank" rel="noopener noreferrer"><em>Please Translate Again</em></a>, Wu et al. ask whether elaborate step-by-step translation prompts are really helping because of their human-like decomposition.</p>
+<p>Their answer is skeptical. Simple refinement (essentially just asking the model to translate again) can <strong>match or outperform more elaborate step-by-step prompting</strong>, but it's highly inconsistent across models. That does not mean the richer prompt is useless, but it weakens the idea that explicit pre-translation reasoning is the key ingredient.</p>
+<p><img alt="" src="/posts/2026-07-05-reasoning-makes-translations-worse/step-by-step-or-translate-again-inv.png"  class="invertible" /></p>
+<p>This is an important distinction for LLM users in general. A multi-step prompt may work not because the model has produced a faithful mental plan, but because the prompt gives it another chance to revise. In translation, that second pass is often more valuable than the explanation around it.</p>
+<p>Li et al make a related point in their work on test-time scaling for reasoning models in translation. Giving models more reasoning budget does not reliably improve first-pass translation. In some cases, forcing a model to keep reasoning after it would naturally stop makes the output worse. But extra compute is more useful for <strong>post-editing</strong>: give the model an existing translation to improve, and the token budget that would be otherwise wasted on aimless reasoning on the first draft can be used productively for review.</p>
+<p>Overall, it seems that LLM's translation quality is not helped by free-form thought, but by feedback loops: draft, inspect, revise.</p>
+<h2>Lesson learned</h2>
+<p>This lesson is not specific to machine translation.</p>
+<p>Many LLM workflows assume that adding chain-of-thought reasoning creates a better system. Translation is a useful counterexample because quality depends heavily on the final surface form and more intermediate text can introduce drift, overthinking, literalism, or unnecessary changes. A fluent final answer is much more important than a verbose internal explanation.</p>
+<p>This is especially important when applying LLMs to domains where assessing the quality of the final output is not cheap and would usually require a human. By letting the model review, or by structuring its thinking in a more explicit way to match human processes, the output quality should become much easier to interpret and trust, and therefore more valuable.</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
