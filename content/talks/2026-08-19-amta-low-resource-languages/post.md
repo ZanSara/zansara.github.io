@@ -6,4 +6,4 @@ featured-image: "cover.png"
 external-link: https://amtaweb.org/amta-2026/
 ---
 
-...l: 
+...
