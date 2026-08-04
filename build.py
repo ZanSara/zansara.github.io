@@ -366,6 +366,10 @@ class ContentFile:
         return self.front_matter.get('external-link', '')
 
     @property
+    def canonical_url(self):
+        return self.front_matter.get('canonical-url', '')
+
+    @property
     def aliases(self):
         a = self.front_matter.get('aliases', [])
         return a if isinstance(a, list) else [a] if a else []
@@ -383,7 +387,7 @@ class ContentFile:
         return self.external_link if self.external_link else self.url
 
 
-def base_template(content, title, meta_tags='', has_mermaid=False, page_url='/'):
+def base_template(content, title, meta_tags='', has_mermaid=False, page_url='/', canonical_url=None):
     """Generate the base HTML template"""
     mermaid_script = ''
     if has_mermaid:
@@ -392,6 +396,11 @@ def base_template(content, title, meta_tags='', has_mermaid=False, page_url='/')
             <script>
                 mermaid.initialize({ startOnLoad: true });
             </script>'''
+
+    if not canonical_url:
+        canonical_url = BASE_URL + page_url
+    elif not canonical_url.startswith(('http://', 'https://', '//')):
+        canonical_url = BASE_URL + canonical_url
 
     template = TemplateLoader.load('base.html')
     return template.format(
@@ -402,8 +411,8 @@ def base_template(content, title, meta_tags='', has_mermaid=False, page_url='/')
         description=DESCRIPTION,
         keywords=KEYWORDS,
         meta_tags=meta_tags,
-        base_url=BASE_URL,
         page_url=page_url,
+        canonical_url=canonical_url,
         favicon_svg=FAVICON_SVG,
         favicon_32=FAVICON_32,
         header=header_component(),
@@ -497,7 +506,7 @@ def post_template(page):
     )
 
     has_mermaid = '<div class="mermaid">' in page.html_content
-    return base_template(content_html, page.title, meta_tags, has_mermaid, page.url)
+    return base_template(content_html, page.title, meta_tags, has_mermaid, page.url, canonical_url=page.canonical_url)
 
 
 def list_template(section, pages):

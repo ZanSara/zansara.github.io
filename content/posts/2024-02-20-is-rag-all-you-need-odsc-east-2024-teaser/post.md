@@ -4,7 +4,7 @@ description: This blogpost is a teaser for my upcoming talk at ODSC East 2024 in
 date: 2024-02-21
 author: "ZanSara"
 featured-image: "cover.jpeg"
-canonicalUrl: https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/
+canonical-url: https://opendatascience.com/is-rag-all-you-need-a-look-at-the-limits-of-retrieval-augmentation/
 aliases:
 - /posts/is-rag-all-you-need
 ---
