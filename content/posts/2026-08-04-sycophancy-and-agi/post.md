@@ -8,7 +8,7 @@ featured-image: "cover-inv.png"
 
 ---
 
-_This is a piece I wrote for The Byte, the [AI Collective](https://www.aicollective.com/)'s Tuesday [newsletter](https://newsletter.aicollective.com/). You can find it [here](#)._
+_This is a piece I wrote for The Byte, the [AI Collective](https://www.aicollective.com/)'s Tuesday [newsletter](https://newsletter.aicollective.com/).
 
 ---
 
@@ -37,7 +37,6 @@ This process does not give the model any indication of what it should learn; rat
 This problem, however simple it may seem, appears everywhere in machine learning, and it occurs in LLMs as well. In RLHF-style training (Reinforcement Learning from Human Feedback) the LLM goes through a training phase in which its answers are scored by a preference model. This is a simpler neural network trained to simulate human feedback and score responses based on correctness, fluency, politeness, confidence, clarity, and other qualities.[2] If the preference model is not sophisticated enough, or if the users who trained it were not experts in the relevant field, the feedback the LLM receives is not “Give truthful, useful, and calibrated answers,” but rather “Produce answers that your evaluator rates highly.”[1][3]
 
 If users or preference models reward agreement, confidence, politeness, reassurance, or deference over correctness, a model will learn that agreeing with the user is a high-reward strategy and will stick with it. This is how an LLM becomes sycophantic. Sycophancy is one behavioural manifestation of reward hacking in preference-trained LLMs.[1][3][5]
-
 
 ![](learning-from-feedback-inv.png)
 
