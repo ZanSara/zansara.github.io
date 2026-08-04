@@ -4,6 +4,7 @@ description: "We won't ever manage to build an LLM that is smarter than us if we
 date: 2026-08-04
 author: "ZanSara"
 featured-image: "cover-inv.png"
+draft: true
 ---
 
 ---

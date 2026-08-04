@@ -3,7 +3,7 @@ title: "About"
 description: "A few words about me"
 ---
 
-I am a Python and GenAI software engineer based in Portugal. I regularly write and give [talks](/talks) on GenAI, LLMs and similar topics. Currently I'm Agentic AI Lead for [BGBx](https://bgbx.ai/) (part of [BGB Group](https://bgbgroup.com/)).
+I am a software engineer based in Portugal. I regularly write and give [talks](/talks) on GenAI, LLMs and similar topics. Currently I'm Agentic AI Lead at [BGBx](https://bgbx.com/).
 
 Earlier in my career I've been Senior Developer at BNP Paribas, working on several [internal AI tools](https://www.linkedin.com/posts/bnpparibascorporateandinstitutionalbanking_our-genai-assistant-is-now-available-to-everyone-activity-7370738071648067584-dzrh/) used by tens of thousands of employees. One of these tools won a highly competitive company-wide award.
 
