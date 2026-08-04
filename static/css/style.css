@@ -227,7 +227,7 @@ th, td {
 .home-card h2 {
   text-align: left; 
   margin-bottom: 0; 
-  line-height: 150%;
+  line-height: 100%;
 }
 
 .home-card p {
@@ -235,6 +235,10 @@ th, td {
   line-height: 150%; 
   text-align: justify; 
   margin: 10px 0;
+}
+
+.home-card .social-links p { 
+  margin: 5px 0;
 }
 
 @media (max-width: 600px) {
