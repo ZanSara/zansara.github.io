@@ -4,12 +4,12 @@ description: "We won't ever manage to build an LLM that is smarter than us if we
 date: 2026-08-04
 author: "ZanSara"
 featured-image: "cover-inv.png"
-draft: true
+canonical-url: https://newsletter.aicollective.com/p/a-sycophantic-model-can-t-be-agi
 ---
 
 ---
 
-_This is a piece I wrote for The Byte, the [AI Collective](https://www.aicollective.com/)'s Tuesday [newsletter](https://newsletter.aicollective.com/).
+_This is a piece I wrote for The Byte, the [AI Collective](https://www.aicollective.com/)'s Tuesday [newsletter](https://newsletter.aicollective.com/). You can read it [here](https://newsletter.aicollective.com/p/a-sycophantic-model-can-t-be-agi).
 
 ---
 
