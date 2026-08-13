@@ -9,7 +9,7 @@ canonical-url: https://newsletter.aicollective.com/p/a-sycophantic-model-can-t-b
 
 ---
 
-_This is a piece I wrote for The Byte, the [AI Collective](https://www.aicollective.com/)'s Tuesday [newsletter](https://newsletter.aicollective.com/). You can read it [here](https://newsletter.aicollective.com/p/a-sycophantic-model-can-t-be-agi).
+_This is a piece I wrote for The Byte, the [AI Collective](https://www.aicollective.com/)'s Tuesday [newsletter](https://newsletter.aicollective.com/). You can read it [here](https://newsletter.aicollective.com/p/a-sycophantic-model-can-t-be-agi)._
 
 ---
 
