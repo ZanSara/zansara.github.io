@@ -85,4 +85,3 @@ We do not yet know, but watch for breakthroughs.
 [7] Petrov, I., Dekoninck, J., and Vechev, M. “BrokenMath: A Benchmark for Sycophancy in Theorem Proving with LLMs.” 2025. [https://arxiv.org/abs/2510.04721](https://arxiv.org/abs/2510.04721)
 [8] Dahl, M., Magesh, V., Suzgun, M., and Ho, D. E. “Large Legal Fictions: Profiling Legal Hallucinations in Large Language Models.” Journal of Legal Analysis, 2024. [https://academic.oup.com/jla/article/16/1/64/7699227](https://academic.oup.com/jla/article/16/1/64/7699227)
 [9] Cheng, M., Lee, C., Khadpe, P., Yu, S., Han, D., and Jurafsky, D. “Sycophantic AI Decreases Prosocial Intentions and Promotes Dependence.” Science, 2026. [https://www.science.org/doi/10.1126/science.aec8352](https://www.science.org/doi/10.1126/science.aec8352)
-
