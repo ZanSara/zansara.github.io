@@ -77,6 +77,64 @@ def resolve_relative_path(value, base_url):
     return posixpath.normpath(posixpath.join(base_url, value))
 
 
+def is_external_url(value):
+    """True if value is an absolute URL with a scheme or protocol-relative."""
+    return bool(re.match(r'^[a-zA-Z][a-zA-Z0-9+.-]*:', value)) or value.startswith('//')
+
+
+def add_class_to_img_tag(img_tag, cls):
+    """Add a CSS class to an <img> tag, merging with an existing class attribute."""
+    if 'class="' in img_tag:
+        return re.sub(r'class="([^"]*)"', r'class="\1 ' + cls + '"', img_tag, count=1)
+    if img_tag.endswith('/>'):
+        return img_tag[:-2] + f' class="{cls}" />'
+    return img_tag[:-1] + f' class="{cls}">'
+
+
+def find_dark_variant(src):
+    """
+    Return the URL of the '<name>-dark<ext>' variant of src if it exists on disk, else None.
+
+    Content-bundle URLs (e.g. /posts/slug/name.png) mirror content/, while root-level
+    asset paths (e.g. /assets/name.png) live in static/. External URLs and sources that
+    already carry a theme suffix (-inv/-dark) never get a variant.
+    """
+    if not src or is_external_url(src):
+        return None
+    path = src.split('?', 1)[0].split('#', 1)[0]
+    if re.search(r'-(inv|dark)\.[^./]*$', path):
+        return None
+    stem, dot, ext = path.rpartition('.')
+    if not dot or ext.lower() not in ASSET_EXTENSIONS:
+        return None
+    dark_url = f'{stem}-dark.{ext}'
+    relative = dark_url.lstrip('/')
+    if (Path('content') / relative).exists() or (Path('static') / relative).exists():
+        return dark_url
+    return None
+
+
+def themed_img_tags(img_tag, src):
+    """
+    Apply theme suffix rules to an <img> tag:
+      - name-inv.png   -> shown as-is, inverted in dark mode ('invertible' class)
+      - name-dark.png  -> shown as-is in dark mode, inverted in light mode ('invertible-light')
+      - name.png with a name-dark.png sibling -> duplicated into a light/dark pair
+      - anything else  -> unchanged
+    """
+    if re.search(r'-inv\.[^/]*$', src):
+        return add_class_to_img_tag(img_tag, 'invertible')
+    if re.search(r'-dark\.[^/]*$', src):
+        return add_class_to_img_tag(img_tag, 'invertible-light')
+    dark_url = find_dark_variant(src)
+    if dark_url:
+        light_tag = add_class_to_img_tag(img_tag, 'theme-light-only')
+        dark_tag = re.sub(r'src="[^"]*"', f'src="{dark_url}"', img_tag, count=1)
+        dark_tag = add_class_to_img_tag(dark_tag, 'theme-dark-only')
+        return light_tag + dark_tag
+    return img_tag
+
+
 def create_markdown_renderer(use_nl2br=False):
     """Create a markdown renderer with consistent extensions."""
     extensions = list(MARKDOWN_EXTENSIONS)
@@ -220,36 +278,12 @@ class ContentFile:
 
         return re.sub(r'(src|href)=("|\')([^"\']+)\2', repl, html_content)
 
-    def add_invertible_class_to_images(self, html_content):
+    def apply_theme_classes_to_images(self, html_content):
         """
-        Add 'invertible' class to images whose filename ends with -inv
-
-        For example: image-inv.png -> <img ... class="invertible">
+        Apply theme suffix rules (-inv / -dark / -dark pairs) to all <img> tags.
         """
         def replace_img(match):
-            img_tag = match.group(0)
-            src = match.group(1)
-
-            # Check if the filename (before extension) ends with -inv
-            # Pattern: something-inv.ext
-            if re.search(r'-inv\.[^/]*$', src):
-                # Check if class attribute already exists
-                if 'class=' in img_tag:
-                    # Append to existing class attribute
-                    img_tag = re.sub(
-                        r'class="([^"]*)"',
-                        r'class="\1 invertible"',
-                        img_tag
-                    )
-                else:
-                    # Add class attribute before the closing /> or >
-                    # Handle both self-closing and regular tags
-                    if img_tag.endswith('/>'):
-                        img_tag = img_tag[:-2] + ' class="invertible" />'
-                    else:
-                        img_tag = img_tag[:-1] + ' class="invertible">'
-
-            return img_tag
+            return themed_img_tags(match.group(0), match.group(1))
 
         # Match <img> tags and capture the src attribute
         pattern = r'<img[^>]+src="([^"]+)"[^>]*/?>'
@@ -318,8 +352,8 @@ class ContentFile:
         # Resolve relative asset/link references against this page's URL
         html_content = self.resolve_relative_urls(html_content)
 
-        # Add invertible class to images with -inv suffix
-        html_content = self.add_invertible_class_to_images(html_content)
+        # Apply theme suffix rules (-inv / -dark / -dark pairs) to images
+        html_content = self.apply_theme_classes_to_images(html_content)
 
         # Add target="_blank" to external links
         self.html_content = self.add_target_blank_to_external_links(html_content)
@@ -449,11 +483,12 @@ def footer_component():
     )
 
 
-def get_invertible_class_attr(image_path):
-    """Check if image path ends with -inv and return class attribute string"""
-    if image_path and re.search(r'-inv\.[^/]*$', image_path):
-        return 'class="invertible"'
-    return ''
+def get_featured_image_html(image_path, attrs=''):
+    """Build themed <img> HTML for a featured image, applying the theme suffix rules."""
+    if not image_path:
+        return ''
+    img_tag = f'<img src="{image_path}" {attrs}/>' if attrs else f'<img src="{image_path}"/>'
+    return themed_img_tags(img_tag, image_path)
 
 def get_target_attr_for_url(url):
     """Check if URL is external and return target attribute string"""
@@ -470,8 +505,11 @@ def post_template(page):
     featured_image = ''
     if page.featured_image:
         img_template = TemplateLoader.load('featured-image.html')
-        class_attr = get_invertible_class_attr(page.featured_image)
-        featured_image = img_template.format(src=page.featured_image, class_attr=class_attr)
+        image_html = get_featured_image_html(
+            page.featured_image,
+            attrs='style="width:100%; margin: 20px 0 0 0;" alt="Featured image"'
+        )
+        featured_image = img_template.format(image_html=image_html)
 
     meta_tags = ''
     if page.featured_image:
@@ -514,12 +552,11 @@ def list_template(section, pages):
     item_template = TemplateLoader.load('list-item.html')
     items_html = '\n'.join([
         item_template.format(
-            featured_image=p.featured_image,
+            image_html=get_featured_image_html(p.featured_image),
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
-            class_attr=get_invertible_class_attr(p.featured_image),
             target_attr=get_target_attr_for_url(p.get_effective_url())
         )
         for p in sorted(pages, key=lambda x: x.date, reverse=True)
@@ -539,24 +576,22 @@ def home_template(recent_posts, recent_talks):
     item_template = TemplateLoader.load('list-item.html')
     recent_posts_html = '\n'.join([
         item_template.format(
-            featured_image=p.featured_image,
+            image_html=get_featured_image_html(p.featured_image),
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
-            class_attr=get_invertible_class_attr(p.featured_image),
             target_attr=get_target_attr_for_url(p.get_effective_url())
         )
         for p in recent_posts[:4]
     ])
     recent_talks_html = '\n'.join([
         item_template.format(
-            featured_image=p.featured_image,
+            image_html=get_featured_image_html(p.featured_image),
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
-            class_attr=get_invertible_class_attr(p.featured_image),
             target_attr=get_target_attr_for_url(p.get_effective_url())
         )
         for p in recent_talks[:4]
@@ -575,12 +610,11 @@ def series_template(series_name, pages):
     item_template = TemplateLoader.load('list-item.html')
     items_html = '\n'.join([
         item_template.format(
-            featured_image=p.featured_image,
+            image_html=get_featured_image_html(p.featured_image),
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
-            class_attr=get_invertible_class_attr(p.featured_image),
             target_attr=get_target_attr_for_url(p.get_effective_url())
         )
         for p in sorted(pages, key=lambda x: x.date, reverse=True)
@@ -637,7 +671,9 @@ class RSSGenerator:
             SubElement(item, 'link').text = link_url
             SubElement(item, 'pubDate').text = page.date.strftime('%a, %d %b %Y %H:%M:%S +0000')
             SubElement(item, 'guid').text = link_url
-            SubElement(item, 'description').text = page.html_content
+            # Strip dark-variant images: feed readers are light-themed by default
+            feed_content = re.sub(r'<img[^>]*class="[^"]*theme-dark-only[^"]*"[^>]*/?>', '', page.html_content)
+            SubElement(item, 'description').text = feed_content
 
         # Write to file
         output_path.parent.mkdir(parents=True, exist_ok=True)

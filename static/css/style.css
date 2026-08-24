@@ -32,6 +32,25 @@ body:has(#theme-toggle:checked) img.invertible {
   filter: brightness(90%) invert(1);
 }
 
+/* Invert dark-native images (-dark suffix) in light mode */
+img.invertible-light {
+  filter: brightness(90%) invert(1);
+}
+body:has(#theme-toggle:checked) img.invertible-light {
+  filter: none;
+}
+
+/* Theme-specific image variants (paired light/dark images) */
+img.theme-dark-only {
+  display: none;
+}
+body:has(#theme-toggle:checked) img.theme-dark-only {
+  display: inline-block;
+}
+body:has(#theme-toggle:checked) img.theme-light-only {
+  display: none;
+}
+
 /* Prevent flash of unstyled content */
 .preload-transitions * {
   transition: none !important;
