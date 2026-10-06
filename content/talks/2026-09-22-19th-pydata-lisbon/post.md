@@ -5,7 +5,7 @@ author: "ZanSara"
 featured-image: "cover.png"
 ---
 
-[Announcement](https://www.meetup.com/pydata-lisbon/events/316579913/).
+[Announcement](https://www.meetup.com/pydata-lisbon/events/316579913/), [event pictures](https://drive.google.com/drive/folders/1OrxwE3UjQet0-ge8Exz9oY6qmtEW8gvo?usp=drive_link).
 
 ---
 
