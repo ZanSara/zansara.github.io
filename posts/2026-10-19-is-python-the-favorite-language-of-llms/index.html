@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Is Python the favorite language of LLMs? · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Is Python the favorite language of LLMs? · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://www.zansara.dev/posts/2026-10-19-is-python-the-favorite-language-of-llms/">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="Is Python the favorite language of LLMs?">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-10-19-is-python-the-favorite-language-of-llms/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-10-19-is-python-the-favorite-language-of-llms/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-10-19-is-python-the-favorite-language-of-llms/cover-inv.png">
+  <link rel="canonical" href="https://www.zansara.dev/posts/2026-10-19-is-python-the-favorite-language-of-llms/">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">Is Python the favorite language of LLMs?</h1>
+      
+<span style="color: var(--muted-text);">Some people claims that LLMs prefer to use Python above every other language, all the times. Is it really the case?</span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-10-19T00:00:00Z">by <a href="/">Sara Zan</a>, October 19, 2026</time>
+    </header>
+
+    <img src="/posts/2026-10-19-is-python-the-favorite-language-of-llms/cover-inv.png" style="width:100%; margin: 20px 0 0 0;" alt="Featured image" class="invertible" />
+
+    <hr />
+<p><em>This a writeup of my talk at the <a href="https://pythonsummit.org/" target="_blank" rel="noopener noreferrer">Python Summit</a> on October 19th, 2026. See the talk recording <a href="/talks/2026-10-19-python-summit-is-python-the-favorite-language-of-llms/">here</a>.</em></p>
+<hr />
+<p>Do LLMs have preferences regarding programming languages? Why would they have any, and how would you notice it?</p>
+<p>Online, you might occasionally have come across the statement that LLMs are better with Python, or that they really prefer to use Python even when they shouldn't. Many of us are very skeptical about this: LLMs shouldn't have preferences regarding programming languages. Or do they?</p>
+<p>It turns out, this is a real research question, and some answers exist. In this post we will see what the research says about whether there is any preference from the LLM side regarding programming languages, what does that mean for your projects, and potentially for Python itself. Where might a bias like this be coming from? Was it just a thing of the past, or it's still a factor to keep in mind when starting a new project?</p>
+<h2>What does “favorite” mean?</h2>
+<p>I'm going to focus on two different interpretations of this term: <strong>preference</strong> and <strong>performance</strong>.</p>
+<p>On one side, let's try to understand whether LLMs are choosing a specific programming language above others, especially when you don't specify one. If you're asking an LLM to solve a programming task and you don't tell it which language to use, which one will it pick? Will it be Bash, TypeScript, or Python?</p>
+<p>On the other hand, there is the question of performance. Are LLMs actually better at using Python than at using other languages? Could an LLM, given a programming task, have an easier time solving that task in Python versus another language? Or maybe do they write better idiomatic Python than idiomatic Rust? Is there any measurable difference between their capabilities with one language or another in terms of actual coding performance?</p>
+<p>We're going to see both. But first, I want to understand a little bit about the history of this entire issue.</p>
+<h2>Some history</h2>
+<p>The whole thing starts very early in the history of LLMs. Early models, like GPT-2 and GPT-3, were not trained to code at all. The idea of LLMs originally was to make them able to write text.</p>
+<p>However, the researchers studying the emergent capabilities of these LLMs figured out that some code was included in the training set and, even without specific training for coding, if you give an LLM the name and the docstring of a function, the LLM was actually able to fill up the body of the function with some (usually) correct code. By learning how to speak, the LLMs somehow also learned how to do some basic programming, which was super exciting at the time (around 2020-2021).</p>
+<p><img alt="" src="/posts/2026-10-19-is-python-the-favorite-language-of-llms/autocompleting-python-inv.png"  class="invertible" /></p>
+<p><em>From "<a href="https://arxiv.org/pdf/2107.03374" target="_blank" rel="noopener noreferrer">Evaluating Large Language Models Trained on Code</a>", Chen et al., 2021</em></p>
+<p>One of the first papers that described these capabilities <strong>evaluated the LLMs on Python coding</strong>. We don't really know why the researchers picked Python. They just picked this language and decided to go with it. In the paper they don't tell us why, whether they considered any other language, or whether they tried anything else. They probably stumbled upon this capability and kept digging into it, choosing Python kind of as an accident. So the early focus of investigation into these capabilities was focused on Python for completely accidental reasons.</p>
+<p>Maybe the LLM was actually only able to write Python. Maybe the original researchers know about this, but we have no clue because this was just not part of the published paper. We are left wondering whether GPT-2 was able to do anything like this in any other language or not.</p>
+<p>But clearly the research started from the emerging capabilities of LLMs to write <em>Python</em> specifically, which may have had an impact later on.</p>
+<h2>The preference gap</h2>
+<p>Now let's go back to our first question. Do LLMs pick Python more frequently than they would pick another language?</p>
+<p>It definitely seems like this is the case, at least until quite recently. In a study of 2024–2025 models (GPT-3.5 Turbo, GPT-4, etc), the authors found that, when left unspecified, the programming language of choice of all (at the time) modern LLM was Python.</p>
+<p><img alt="" src="/posts/2026-10-19-is-python-the-favorite-language-of-llms/preference-gap-1-inv.png"  class="invertible" /></p>
+<p><em>From "<a href="https://arxiv.org/pdf/2503.17181v4" target="_blank" rel="noopener noreferrer">A Study of LLMs’ Preferences for Libraries and Programming Languages</a>", Twist et al., 2026</em></p>
+<p>The results are quite impressive because the preference for Python is <em>stark</em>. When not specified, more than 90% of the time, for all of the models in this list, it was Python. Even when this was probably not a good choice to make!</p>
+<p>In the paper, the researchers specify that in 58% of the projects where Python was clearly <em>not</em> the right choice, the LLM would still pick Python for the implementation. And even if the LLM, when asked verbally “What would you choose for this project?” would pick another language, when actually tasked to implement it, it would still switch back to Python.</p>
+<p>Again, it is not exactly clear where this came from. The paper offers no explanation apart from a few clues, and the conclusion is that this is just something that emerged accidentally. The LLM simply may have an easier time understanding Python code, maybe saw more Python in the training set. We don't really know. What we know is that the preference was there, and it was very strong.</p>
+<p>To track the issue, the same authors recently made an update to their paper with a specific benchmark meant to measure this sort of programming language preference. They figured out that even for models as recent as GPT-5.4 or DeepSeek V4 Pro, even if the benchmark was designed to <strong>contain only problems for which Python was clearly not the right choice</strong>, still, in 35% of the cases, the LLM just switched back to using Python for the implementation. Anything else would have fit better, but not Python.</p>
+<p><img alt="" src="/posts/2026-10-19-is-python-the-favorite-language-of-llms/preference-gap-2-inv.png"  class="invertible" /></p>
+<p><em>From "<a href="https://arxiv.org/pdf/2608.06041v1" target="_blank" rel="noopener noreferrer">LANGCHOICEBENCH: Measuring and Explaining Programming-Language Choice in LLMs</a>", Twist et al., 2026</em></p>
+<p>If the LLM would have no bias and would choose among all the languages available on their merits, this number should have been zero. However, a good third of the problems are still solved with Python!</p>
+<p>This clearly says that even though we don't know where this comes from, <strong>the preference is still there</strong>, and it's still strong. We can wait for the next paper to see if the preference is still there with the even more recent models, or you can try to replicate their results yourself, but all clues point to the fact that this bias is definitely not a thing of the past.</p>
+<h2>The performance gap</h2>
+<p>But how about performance? Do LLMs actually perform better with Python over other programming languages?</p>
+<p>There are benchmarks out there that measure the difference in capabilities for solving programming problems in different languages. The <strong>Multi-LCB benchmark</strong> for example specifically shows that most models not only prefer Python, but are also <strong>noticeably better at coding in Python</strong> than in any other language.</p>
+<p>The benchmark is composed of language-agnostic problems that the LLM is asked to solve several times in different languages: the once in Python, once in Java, once in C++, and so on. Then the researchers measured the success rate per language.</p>
+<p><img alt="" src="/posts/2026-10-19-is-python-the-favorite-language-of-llms/performance-gap-inv.png"  class="invertible" /></p>
+<p><em>From "<a href="https://arxiv.org/pdf/2608.06041v1" target="_blank" rel="noopener noreferrer">Multi-LCB: Extending LiveCodeBench to Multiple Programming Languages</a>", Ivanova et al., 2026</em></p>
+<p>You can see that there is a significant, although not huge, higher success rate with Python.</p>
+<p>The researchers called this phenomenon <strong>“Python overfitting”</strong> because it looks like the LLM is more capable of coding when it's writing Python than in other languages. It looks like the performance degrades significantly when you're using a language that the LLM, for some reason, seems to be less familiar or less proficient with. As if the LLM is overfitting around the syntax of Python or the way Python functions, and then tries to translate into other languages with varying success.</p>
+<p>However, an interesting caveat of this paper is that they noticed some possible <strong>test-data leakage</strong>. This would mean that some of the test data maybe was included in the training of the LLMs that were tested, which would also clearly explain the advantage of the LLMs solving Python problems. However, taking the result at face value, we still see an advantage here.</p>
+<p>In this paper the authors tested recent open-source models only, for example GPT-OSS-120B, Qwen Thinking, and DeepSeek R1. We don't know if this performance advantage translates to closed-source models, especially to more cutting-edge ones.</p>
+<h2>Why does this happen?</h2>
+<p>Why do LLMs clearly show both a preference and a performance advantage when writing in Python?</p>
+<p>There is not a clear explanation. Most of these properties are sort of emergent, and they were never designed to be this way. The teams who built the LLMs clearly never wanted it to be better at Python than Rust. This preference is somehow emergent from some other characteristic, either of the language or of the training data.</p>
+<p>Let's see some hypothesis.</p>
+<h3>Training data and Python's syntax</h3>
+<p>One of the strongest suspects here is the <strong>training data</strong>. Probably Python is just so overrepresented that LLMs learn better how to code in Python because they see so much more of it than anything else.</p>
+<p>Also, Python has the advantage of its <strong>syntax</strong>. Python is very easy to parse for LLMs that are optimized for natural language. LLMs are designed to be able to read natural-language text, and Python really looks like one. If you think about Java or C++, they don't really look like English, while Python more or less does. It's possible that one of the advantages comes from the specific pseudocode-like nature of the language.</p>
+<p>Another plus is that it's relatively easy for Python code to be right if it looks right. There is a relatively <strong>low number of footguns</strong>. If you think about C, it's much easier to write code look ok while still having very deep and complicated bugs. With Python, of course, it can happen as well, but it's less likely. It's designed to be a little bit more foolproof, which definitely helps the LLM learn to code in Python faster.</p>
+<p>For comparison let's think about <strong>Java</strong>, which is often second in these preference and performance benchmarks. That makes sense because it's very popular, so plenty of it in the training set. It's also relatively easy to code with, so there aren't that many footguns. But if you think about the way you write it, the syntax is not as natural-language-like. It's more verbose and less natural-looking. The LLM probably has more difficulty writing it and parsing it than it has with Python.</p>
+<p><strong>C and C++</strong> have kind of the same problem. Again, very popular, with a lot of examples on the internet, but it's much more difficult to write correct code, and the syntax is also quite weird with respect to natural language.</p>
+<p><strong>Go</strong> and other easy-to-write languages, for example Lua, Julia, or other languages like these, were simply not popular enough at the time when the training was happening.</p>
+<p>An interesting outlier, however, are <strong>JavaScript and TypeScript</strong>. It should have scored a bit better: it's hugely popular, probably even more popular even than Java and C++. There should be an incredible amount of examples on the internet, and the syntax is not dramatically more complex than Java. Why does it usually score so poorly? It's not clear. It should have been at least on par, if not more popular, and therefore easier for the LLM to learn. Somehow this lack of proficiency is even less explainable than the Python preference.</p>
+<h2>Can the gap be closed?</h2>
+<p>Given that these are the potential explanations, can the gap between Python and the other languages be closed?</p>
+<p>It seems like the answer is <strong>yes</strong>. Already in 2023 it was shown that if you train an LLM on a more balanced training set, the discrepancy kind of disappears.</p>
+<p><img alt="" src="/posts/2026-10-19-is-python-the-favorite-language-of-llms/balanced-training-inv.png"  class="invertible" /></p>
+<p><em>From "<a href="https://proceedings.mlr.press/v202/orlanski23a/orlanski23a.pdf" target="_blank" rel="noopener noreferrer">Measuring the Impact of Programming Language Distribution</a>", Orlanski et al., 2023</em></p>
+<p>In the paper detailing this result, the evaluation benchmark was run on an LLM that was trained on a <strong>balanced set</strong> of programming material. Instead of taking a natural distribution from the internet, where clearly some languages are overrepresented, these researchers trained an LLM by removing most of the Java, Python, and C++ examples and adding many more examples of lower-frequency languages, like Rust, C#, Julia, or Haskell.</p>
+<p>They could clearly see that, by rebalancing the training set, the advantage that LLMs had with Java, Python, and C++ was decreasing sharply, while the fluency of the LLMs in smaller and more niche languages increased dramatically. You can see this specifically for <strong>Julia</strong>, a niche programming language with a Python-like syntax. Just by adding a few more training samples, the performance in this language increased dramatically. Clearly, rebalancing datasets would help close the gap.</p>
+<h2>A look at the frontier</h2>
+<p>So, is the performance gap still there at all? We've seen that some of the models tested were pretty recent, but there are always more recent models we can look at. And maybe more modern, more advanced benchmarks that we can check out.</p>
+<h3>Cybersecurity</h3>
+<p><strong><a href="https://cwe-bench.com/" target="_blank" rel="noopener noreferrer">CWE-Bench</a></strong> is a benchmark focused on cybersecurity tasks which also provides programming language breakdowns. It's a live benchmark, so it's constantly updated with the very latest models that are available today.</p>
+<p><img alt="" src="/posts/2026-10-19-is-python-the-favorite-language-of-llms/cwe-bench-inv.png"  class="invertible" /></p>
+<p><em>From <a href="https://cwe-bench.com/" target="_blank" rel="noopener noreferrer">CWE-Bench</a>.</em></p>
+<p>You can see that the picture is flipping already. Python is not the first language here: the first one now is C++, then there is Go, then Java, then JavaScript, and only in fifth position is Python.</p>
+<p>This kind of makes sense: Python is not the most important language for cybersecurity, and most of the cybersecurity capabilities of LLMs are in languages that are more low-level, like C and C++, or compiled languages. So this performance gap is no longer such a clear-cut difference as we've seen before: in some niches, and definitely at the very cutting edge of the models available today, the advantage is not stark anymore.</p>
+<h3>Bug rate</h3>
+<p><strong><a href="">Cubic</a></strong>, the PR review tool, also publishes bug-rate statistics by language for the models that generate the code it's reviewing. Let's look at the stats for two cutting edge models, GPT-6 Astra and Claude Opus 5.5.</p>
+<p><img alt="" src="/posts/2026-10-19-is-python-the-favorite-language-of-llms/bug-rate-inv.png"  class="invertible" /></p>
+<p><em>From the Cubic bug rate stats of <a href="https://www.cubic.dev/bugbench/models/gpt-6-astra" target="_blank" rel="noopener noreferrer">GPT 6 Astra</a> and <a href="https://www.cubic.dev/bugbench/models/claude-opus-5-5" target="_blank" rel="noopener noreferrer">Claude Opus 5.5</a></em></p>
+<p>You can see that Python, interestingly, is in third position for both. The problem is that this is a benchmark where the <strong>lower score is better</strong>. Having Python in third position, just below JavaScript, means that this is <strong>the third-worst</strong> programming language, at least in terms of bug rate. Clearly it's not a good look for Python to be that high on this benchmark to begin with. It means that these newer models make a lot of mistakes with Python, more than they make, for example, with Go or Rust. </p>
+<p>This is another example of a benchmark where Python is not shining for models that are very modern. It seems like the difference is disappearing a bit.</p>
+<h2>Is the gap fully gone?</h2>
+<p>This is much harder to say, because the data is just not there yet.</p>
+<p>Most system cards simply <strong>don't publish coding performance statistics broken down by programming language</strong>. They just show general programming ability on benchmarks that are usually made of a balanced set of programming languages. This means that is really hard to tell whether these numbers are pushed up by string Python abilities or whether this gap is just not there anymore.</p>
+<p>In general it seems that <strong>the gap is decreasing</strong>, because it's not difficult now to find benchmarks where Python is not scoring great. But it's not necessarily a good idea to extrapolate general performance judgements on benchmarks like these, and there is simply not a lot of focused research on this specific question. To have our answer, we might just need to wait for some more research to be published.</p>
+<p>So, even today, it's always good to keep in mind that your LLM may be picking Python not exactly for its merits, but just because it really likes it.</p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>A Sycophantic Model Can't Be AGI · Sara Zan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="Sara Zan">
+  <meta name="description" content="Sara Zan's Blog">
+  <meta name="keywords" content="blog,developer,personal,python,llm,nlp,swe,software-engineering,open-source,ai,genai">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="A Sycophantic Model Can't Be AGI · Sara Zan">
+  <meta name="twitter:description" content="Sara Zan's Blog">
+  <meta property="og:url" content="https://newsletter.aicollective.com/p/a-sycophantic-model-can-t-be-agi">
+  <meta property="og:site_name" content="Sara Zan">
+  <meta property="og:title" content="A Sycophantic Model Can't Be AGI">
+  <meta property="og:description" content="Sara Zan's Blog">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta name="msvalidate.01" content="CD2BB9B57B16AF914327870432D856C1" />
+  <meta name="yandex-verification" content="a886d3d5d2b57cb5" />
+    <meta name="image" content="/posts/2026-08-04-sycophancy-and-agi/cover-inv.png">
+  <meta name="og:image" content="/posts/2026-08-04-sycophancy-and-agi/cover-inv.png">
+  <meta name="twitter:image" content="https://www.zansara.dev/posts/2026-08-04-sycophancy-and-agi/cover-inv.png">
+  <link rel="canonical" href="https://newsletter.aicollective.com/p/a-sycophantic-model-can-t-be-agi">
+  <link rel="stylesheet" href="/css/style.css" media="screen">
+  <link rel="icon" type="image/svg+xml" href="/assets/avatar/avatar.svg" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/avatar/avatar.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/avatar/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+Thai:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://zansaradev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+
+  <!-- Theme toggle -->
+  <input type="checkbox" id="theme-toggle" hidden>
+  <label for="theme-toggle">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.3"/>
+      <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
+    </svg>
+  </label>
+
+  <!-- Load theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+    })();
+  </script>
+
+  <main>
+
+    <nav style="padding: 20px 0 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border);">
+  <a href="/" style="color: var(--text); text-decoration: none; font-size: 25px; margin: 10px 0;">
+    <img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px; margin-bottom: -2px;">
+    Sara Zan's Blog
+  </a>
+  <div style="display: flex; flex-flow: wrap; gap: 0; justify-content: center;">
+    <a href="/about" style="color: var(--text); text-decoration: none; margin: 0 10px;">About</a>
+<a href="/posts/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Posts</a>
+<a href="/projects/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Projects</a>
+<a href="/publications/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Publications</a>
+<a href="/talks/" style="color: var(--text); text-decoration: none; margin: 0 10px;">Talks</a>
+  </div>
+</nav>
+
+
+    <section>
+  <article>
+    <header>
+      <h1 style="text-align: left;">A Sycophantic Model Can&#x27;t Be AGI</h1>
+      
+<span style="color: var(--muted-text);">We won&#x27;t ever manage to build an LLM that is smarter than us if we incentivize it to always agree with us. </span>
+<br>
+      <time style="font-style: italic; line-height: 0.8; font-size: medium; color: var(--muted-text);" datetime="2026-08-04T00:00:00Z">by <a href="/">Sara Zan</a>, August 04, 2026</time>
+    </header>
+
+    <img src="/posts/2026-08-04-sycophancy-and-agi/cover-inv.png" style="width:100%; margin: 20px 0 0 0;" alt="Featured image" class="invertible" />
+
+    <hr />
+<p><em>This is a piece I wrote for The Byte, the <a href="https://www.aicollective.com/" target="_blank" rel="noopener noreferrer">AI Collective</a>'s Tuesday <a href="https://newsletter.aicollective.com/" target="_blank" rel="noopener noreferrer">newsletter</a>. You can read it <a href="https://newsletter.aicollective.com/p/a-sycophantic-model-can-t-be-agi" target="_blank" rel="noopener noreferrer">here</a>.</em></p>
+<hr />
+<p>There is no generally accepted definition of AGI, but most of us can agree that, in broad strokes, AGI is a label for any LLM that is smarter than most (or all) humans in most (or all) fields. Sycophancy, by contrast, is the tendency of models to agree with, flatter, or defer to users even when doing so requires abandoning correctness.[1][4]<br />
+In some cases, sycophancy is not a significant problem and may even be useful: flattery can help LLMs be more persuasive and, in some cases, make them easier to talk to and open up to.[9] A bit of sycophancy may be the right tool for achieving specific goals.</p>
+<p>What we see in today’s models, however, is not intentional behaviour but a symptom of a deeper problem, and it is one of the main roadblocks that may prevent us from reaching true AGI.</p>
+<h2>Reward Hacking</h2>
+<p>Sycophancy is not an inherent feature of large language models. During pre-training, LLMs learn to communicate in all registers without any particular tendency to be flattering. In fact, they are not good conversation partners at all and do not have much control over their own tone.</p>
+<p>During post-training, LLMs are taught how to hold a conversation, and that is when this behaviour first appears. Instead of becoming smarter, they start finding subtler and subtler ways to agree with whoever is scoring them rather than giving the correct answer. They learn to read the subtext of a question to anticipate the answer, extract hints and clues from its structure, guess what the user wants to hear, and respond accordingly.[1][2][5] But why would they learn to do all of that instead of learning how to answer correctly?</p>
+<p>This problem is not new to LLMs. In machine learning, it is called reward hacking.[3] LLMs, like all other deep-learning systems, learn from feedback:</p>
+<ul>
+<li>They receive some input, such as a question.</li>
+<li>They generate some output, such as an answer, clarification, or follow-up.</li>
+<li>The output is scored against the expected result, which was usually written by a human.</li>
+<li>The score, which describes the differences between the model’s response and the expected result, is then given back to the model to learn from.</li>
+</ul>
+<p>The loop then continues until the difference between the model’s response and the expected response stops decreasing from one iteration to the next. This signals that the model has learned all it can from the feedback it is receiving.</p>
+<p>This process does not give the model any indication of what it should learn; rather, it assumes that the model should learn everything it possibly can. The problem is that some things are easier to learn than others. The model, whether it is a small neural network or a huge LLM, will naturally learn those simple things first. If the simpler rules have already enabled it to predict the output accurately enough, it will stop learning. For example: if you train it to spot something rare, like spelling mistakes in published books, the model may simply learn that replying “there are no typos in this text” is the easiest way to achieve 99% accuracy, and will not make any effort to actually try to spot the mistakes.[6]</p>
+<p>This problem, however simple it may seem, appears everywhere in machine learning, and it occurs in LLMs as well. In RLHF-style training (Reinforcement Learning from Human Feedback) the LLM goes through a training phase in which its answers are scored by a preference model. This is a simpler neural network trained to simulate human feedback and score responses based on correctness, fluency, politeness, confidence, clarity, and other qualities.[2] If the preference model is not sophisticated enough, or if the users who trained it were not experts in the relevant field, the feedback the LLM receives is not “Give truthful, useful, and calibrated answers,” but rather “Produce answers that your evaluator rates highly.”[1][3]</p>
+<p>If users or preference models reward agreement, confidence, politeness, reassurance, or deference over correctness, a model will learn that agreeing with the user is a high-reward strategy and will stick with it. This is how an LLM becomes sycophantic. Sycophancy is one behavioural manifestation of reward hacking in preference-trained LLMs.[1][3][5]</p>
+<p><img alt="" src="/posts/2026-08-04-sycophancy-and-agi/learning-from-feedback-inv.png"  class="invertible" /></p>
+<p><em>How LLMs and other deep neural networks learn from feedback</em></p>
+<h2>The Cost of Feedback</h2>
+<p>Seen in this light, reward hacking in LLMs does not appear insurmountable. Surely better reward models can be built, allowing us to counter this misaligned behaviour effectively.</p>
+<p>In some areas, that is definitely the case. Reward models can be made strictly deterministic in fields such as mathematics, coding, physics, and chemistry. In these fields, an answer is either correct or incorrect, with very little room for error or interpretation. Feedback on these questions can be provided at scale and with high quality, and in some cases it is relatively inexpensive to obtain. The results speak for themselves: in these fields, LLMs are improving rapidly, becoming better with every generation and advancing beyond many human experts.[7]</p>
+<p>The problem lies in every other field. An LLM can certainly draft legal briefs, interpret complex clinical presentations, or evaluate research proposals against one another, but how can we score its outputs reliably?[8] While some answers are obviously incorrect, many answers may be correct but may also not be. Different human evaluators could provide completely different or even opposing assessments, and both may be correct in some respects and wrong in others. How is an LLM supposed to be scored in such cases?</p>
+<p>Here lies the crux of the problem: we cannot teach an LLM to be smarter than us if we cannot agree among ourselves on what “smarter” even looks or sounds like. What sounds brilliant to one person may sound foolish and incorrect to another, even when both have the same level of expertise and similarly deep knowledge of the field. LLMs are therefore learning to compromise. They learn to read between the lines of a question, infer how the user is likely to respond from the way the question is written, and become increasingly effective at second-guessing the user’s intentions and answering in the expected way. Lacking consistent and predictable feedback, LLMs resort to sycophancy in an attempt to meet their targets.[1][5]</p>
+<p>As you can imagine, this quickly becomes a cat-and-mouse game. As soon as this behaviour is identified, researchers usually try to improve their preference models by making them more likely to penalize flattery, and more rigorous. However, the inherently subjective nature of the topic may just force the LLM to improve its second-guessing abilities. An actual AGI that stated its answer confidently, as a human expert would, might not score as highly as an LLM that simply agrees with the tester. Consequently, that is not what the LLM eventually becomes at the end of training.[1][3]</p>
+<p><img alt="" src="/posts/2026-08-04-sycophancy-and-agi/preferences-graph-inv.png"  class="invertible" /></p>
+<p><em>From Sharma, M., Tong, M., Korbak, T., et al. <a href="[https://arxiv.org/abs/2310.13548]">“Towards Understanding Sycophancy in Language Models”</a>, 2023. (Figure 5)</em></p>
+<h2>Loaded Questions</h2>
+<p>This behaviour appears particularly strongly when users are unaware of the sycophantic tendencies of LLMs and accidentally load their questions towards a specific answer, such as “Why is this true?”. LLMs, especially general-purpose ones such as GPT and Claude, will answer to a question like that by finding reasons to validate the user’s assumption rather than questioning the premise. They may struggle to do so even when explicitly asked.[1][4][7]</p>
+<p>Many of these problems can be addressed with lightweight guardrails, such as detailed system prompts that encourage the model to challenge assumptions actively, avoid flattering responses, answer rigorously, and so on.[5][7] However, developers who measure the impact of their AI systems based on the fluency and confidence of their answers rather than their actual correctness often overlook this issue. In some cases, this is completely acceptable – for example, for chatbots designed for sales or customer service. For more rigorous applications, however, it is essential to be aware of this trap and ensure that the LLM is clearly instructed not to behave this way. In many cases, it is also useful to teach users how to identify failures to follow these instructions (which are unavoidable given the current state of the art) and retry their requests with a different wording  to compare the responses.</p>
+<h2>The Future</h2>
+<p>Failing to acknowledge and address the problem of sycophancy in LLMs could become a major obstacle to improving LLM capabilities in fields where human feedback is expensive and unclear. It is becoming increasingly evident that preference-style reinforcement learning may be approaching its limits outside STEM.<br />
+LLMs may become as capable as human experts, but with the current state of the art, they cannot become any smarter—at least not yet. Until we find a scalable, inexpensive, and effective way around the bottleneck of human evaluation, we will continue to produce LLMs that are exceptionally good at second-guessing the answers users expect but not at producing answers rated at the same level as those of the best human experts.</p>
+<p>Progress in this field may involve using LLMs to improve themselves. Could a council of flagship LLMs provide unbiased feedback to the next generation of models if prompted correctly? Or would they simply transfer their tendency to flatter one another to the new model?</p>
+<p>We do not yet know, but watch for breakthroughs.</p>
+<h2>Sources</h2>
+<p>[1] Sharma, M., Tong, M., Korbak, T., et al. “Towards Understanding Sycophancy in Language Models.” 2023. <a href="https://arxiv.org/abs/2310.13548" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2310.13548</a><br />
+[2] Ouyang, L., Wu, J., Jiang, X., et al. “Training Language Models to Follow Instructions with Human Feedback.” Advances in Neural Information Processing Systems, 2022.<a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2203.02155</a><br />
+[3] Denison, C., MacDiarmid, M., Barez, F., et al. “Sycophancy to Subterfuge: Investigating Reward-Tampering in Large Language Models.” 2024. <a href="https://arxiv.org/abs/2406.10162" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2406.10162</a><br />
+[4] Fanous, A., Goldberg, J., Agarwal, A. A., et al. “SycEval: Evaluating LLM Sycophancy.” Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society, 2025. <a href="https://ojs.aaai.org/index.php/AIES/article/view/36598" target="_blank" rel="noopener noreferrer">https://ojs.aaai.org/index.php/AIES/article/view/36598</a><br />
+[5] OpenAI. “Expanding on What We Missed with Sycophancy.” 2025. <a href="https://openai.com/index/expanding-on-sycophancy/" target="_blank" rel="noopener noreferrer">https://openai.com/index/expanding-on-sycophancy/</a><br />
+[6] Kalai, A. T., Nachum, O., Vempala, S. S., and Zhang, E. “Why Language Models Hallucinate.” 2025. <a href="https://arxiv.org/abs/2509.04664" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2509.04664</a><br />
+[7] Petrov, I., Dekoninck, J., and Vechev, M. “BrokenMath: A Benchmark for Sycophancy in Theorem Proving with LLMs.” 2025. <a href="https://arxiv.org/abs/2510.04721" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2510.04721</a><br />
+[8] Dahl, M., Magesh, V., Suzgun, M., and Ho, D. E. “Large Legal Fictions: Profiling Legal Hallucinations in Large Language Models.” Journal of Legal Analysis, 2024. <a href="https://academic.oup.com/jla/article/16/1/64/7699227" target="_blank" rel="noopener noreferrer">https://academic.oup.com/jla/article/16/1/64/7699227</a><br />
+[9] Cheng, M., Lee, C., Khadpe, P., Yu, S., Han, D., and Jurafsky, D. “Sycophantic AI Decreases Prosocial Intentions and Promotes Dependence.” Science, 2026. <a href="https://www.science.org/doi/10.1126/science.aec8352" target="_blank" rel="noopener noreferrer">https://www.science.org/doi/10.1126/science.aec8352</a></p>
+
+  </article>
+</section>
+
+
+    <footer>
+  <section>
+    ©
+    2023 -
+    2026 by &MediumSpace; <a href="/"><img src="/assets/avatar/avatar.svg" style="width: 1em; height: 1em; margin-right: 5px;"> Sara Zan</a>
+  </section>
+</footer>
+
+
+  </main>
+
+  
+
+  <!-- Theme toggle persistence -->
+  <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // Load saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        themeToggle.checked = true;
+      }
+
+      // Save theme preference on change
+      themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
