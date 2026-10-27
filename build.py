@@ -14,6 +14,7 @@ from datetime import datetime
 from collections import defaultdict
 from xml.etree.ElementTree import Element, SubElement, tostring
 from html import escape
+from PIL import Image, ImageOps, UnidentifiedImageError
 
 
 # Site configuration
@@ -483,12 +484,46 @@ def footer_component():
     )
 
 
-def get_featured_image_html(image_path, attrs=''):
-    """Build themed <img> HTML for a featured image, applying the theme suffix rules."""
+def get_featured_image_html(image_path, attrs='', card=False, priority=False):
+    """Build themed images and responsive WebP variants for listing cards."""
     if not image_path:
         return ''
-    img_tag = f'<img src="{image_path}" {attrs}/>' if attrs else f'<img src="{image_path}"/>'
-    return themed_img_tags(img_tag, image_path)
+    if card:
+        attrs = 'alt="" decoding="async" ' + ('fetchpriority="high"' if priority else 'loading="lazy"')
+    img_tag = f'<img src="{escape(image_path, quote=True)}" {attrs}/>'
+    html = themed_img_tags(img_tag, image_path)
+    if not card:
+        return html
+
+    def optimize(match):
+        tag = match.group(0)
+        src = re.search(r'src="([^"]+)"', tag).group(1)
+        if is_external_url(src):
+            return tag
+        relative = src.split('?', 1)[0].lstrip('/')
+        source = next((root / relative for root in (Path('content'), Path('static')) if (root / relative).is_file()), None)
+        if source is None or source.suffix.lower() not in ('.png', '.jpg', '.jpeg', '.webp'):
+            return tag
+        try:
+            with Image.open(source) as original:
+                image = ImageOps.exif_transpose(original)
+                width, height = image.size
+                variants = []
+                for size in sorted({min(400, width), min(800, width)}):
+                    thumb = image.copy()
+                    thumb.thumbnail((size, 100000))
+                    target = Path('public') / relative
+                    target = target.with_name(target.name + f'.{thumb.width}w.webp')
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    if not target.exists():
+                        thumb.save(target, 'WEBP', quality=80, method=4)
+                    variants.append(('/' + target.relative_to('public').as_posix(), thumb.width))
+                srcset = ', '.join(f'{url} {w}w' for url, w in variants)
+                return tag.replace(f'src="{src}"', f'src="{variants[-1][0]}" srcset="{srcset}" sizes="(max-width: 600px) calc(100vw - 92px), 350px" width="{width}" height="{height}"')
+        except (OSError, UnidentifiedImageError):
+            return tag
+
+    return re.sub(r'<img\b[^>]*>', optimize, html)
 
 def get_target_attr_for_url(url):
     """Check if URL is external and return target attribute string"""
@@ -552,7 +587,7 @@ def list_template(section, pages):
     item_template = TemplateLoader.load('list-item.html')
     items_html = '\n'.join([
         item_template.format(
-            image_html=get_featured_image_html(p.featured_image),
+            image_html=get_featured_image_html(p.featured_image, card=True),
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
@@ -576,18 +611,18 @@ def home_template(recent_posts, recent_talks):
     item_template = TemplateLoader.load('list-item.html')
     recent_posts_html = '\n'.join([
         item_template.format(
-            image_html=get_featured_image_html(p.featured_image),
+            image_html=get_featured_image_html(p.featured_image, card=True, priority=i == 0),
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
             title=escape(p.title),
             target_attr=get_target_attr_for_url(p.get_effective_url())
         )
-        for p in recent_posts[:4]
+        for i, p in enumerate(recent_posts[:4])
     ])
     recent_talks_html = '\n'.join([
         item_template.format(
-            image_html=get_featured_image_html(p.featured_image),
+            image_html=get_featured_image_html(p.featured_image, card=True),
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),
@@ -610,7 +645,7 @@ def series_template(series_name, pages):
     item_template = TemplateLoader.load('list-item.html')
     items_html = '\n'.join([
         item_template.format(
-            image_html=get_featured_image_html(p.featured_image),
+            image_html=get_featured_image_html(p.featured_image, card=True),
             description=p.description,
             date=p.date.strftime('%B %d, %Y'),
             url=p.get_effective_url(),

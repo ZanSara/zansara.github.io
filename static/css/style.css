@@ -6,7 +6,7 @@
 /* CSS Variables - Light theme by default */
 :root {
   --text: #212121;
-  --muted-text: #777777;
+  --muted-text: #707070;
   --bg: #fff;
   --highlight: #ddd;
   --code: #212121;
@@ -18,7 +18,7 @@
 /* Dark theme when toggle is checked */
 body:has(#theme-toggle:checked) {
   --text: #dadada;
-  --muted-text: #777777;
+  --muted-text: #aaaaaa;
   --bg: #1a1a1a;
   --highlight: #444;
   --code: #dadada;
@@ -66,14 +66,14 @@ body:has(#theme-toggle:checked) img.theme-light-only {
 body {
   color: var(--text);
   background: var(--bg);
-  font-family: "Noto Serif", serif;
+  font-family: Georgia, "Noto Serif", serif;
   font-size: 18px;
   line-height: 1.7;
 }
 
 a {
   color: var(--link);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 a:hover {
@@ -319,6 +319,7 @@ th, td {
 }
 .list-entry img {
   width: 100%;
+  height: auto;
 }
 .list-entry .title {
   color: var(--text);
@@ -345,7 +346,17 @@ footer {
   text-align: center;
 }
 
-/* Theme toggle */
+/* Keep the toggle keyboard- and screen-reader-accessible. */
+#theme-toggle {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+#theme-toggle:focus-visible + label {
+  outline: 3px solid var(--link);
+  outline-offset: 3px;
+}
 label[for="theme-toggle"] {
   position: fixed;
   top: 20px;
